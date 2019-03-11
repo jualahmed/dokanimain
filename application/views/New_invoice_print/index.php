@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title> Dokani : IT Lab Solutions </title>
+	<title> Dokani : IT Lab Solution</title>
 	<meta lang="en">
 	<meta lang="bn">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
