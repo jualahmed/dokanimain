@@ -1618,8 +1618,9 @@
 			$purchase_amount = $this -> specific_date_purchase_amount_calculation( $query_date, $current_date );
 			$sale_amount = $this -> specific_date_buy_price_calculation( $query_date, $current_date );
 			$sale_return_amount = $this -> specific_date_sale_return_buy_price_calculation( $query_date, $current_date );
+			$purchase_return_amount = $this -> specific_date_purchase_return_buy_price_calculation( $query_date, $current_date );
 			//$transport_cost = $this -> specific_date_transport_cost_calculation( $query_date, $current_date );
-			$result = ( $present_stock_amount + $sale_amount ) -  $purchase_amount - $sale_return_amount;
+			$result = ( $present_stock_amount + $sale_amount + $purchase_return_amount) -  $purchase_amount - $sale_return_amount;
 			$result = round($result, 2);
 			if($result == round($result, 0))
 				$result = $result.'.00';
@@ -3081,6 +3082,22 @@
 								 -> from('sale_return_details_tbl')
 								 -> where('return_doc >= "'.$start.'"')
 								 -> where('return_doc <= "'.$end.'"')
+								 -> get();
+			
+		
+			$total_buy=0;
+			foreach($query -> result() as $result):
+					$total_buy = $result -> unit_buy_price * $result -> return_quantity + $total_buy;
+			endforeach;
+			return $total_buy;
+		
+		}
+		function specific_date_purchase_return_buy_price_calculation( $start, $end  )
+		{
+			$query = $this -> db -> select('unit_buy_price,return_quantity' )
+								 -> from('purchase_return_details_tbl')
+								 -> where('doc >= "'.$start.'"')
+								 -> where('doc <= "'.$end.'"')
 								 -> get();
 			
 		
