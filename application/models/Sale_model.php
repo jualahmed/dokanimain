@@ -389,7 +389,16 @@
             else return FALSE;
                         
         }
-		
+		public function get_current_sale_customer($current_sale){
+                        
+            $this->db->select('customer_info.customer_id,customer_info.customer_name,customer_info.customer_contact_no');
+            $this->db->from('customer_info,temp_sale_info');
+            $this->db->where('customer_info.customer_id=temp_sale_info.temp_customer_id');
+            $this->db->where('temp_sale_info.temp_sale_id',$current_sale);
+            $data =$this->db->get();            
+            return $data;
+                        
+        }
 		public function getAllCardInfo(){
                         
             $data = $this->db
@@ -403,7 +412,19 @@
             else return FALSE;
                         
         }
-                    
+        public function getAllProductInfo()
+		{
+                        
+            $data = $this->db
+                    ->select('*')
+                    ->order_by('product_name', 'ASC')
+                    ->get('product_info');
+                        
+            if($data->num_rows() > 0)return $data;
+                        
+            else return FALSE;
+                        
+        }            
         public function getAllTmpProduct($currrent_temp_sale_id){
                         
             $data = $this->db->select('temp_sale_details.*,product_info.product_size,product_info.product_model')
@@ -1281,6 +1302,45 @@
             else return FALSE;
 
         }
+		public function receipt_sale_total_amount($customer_id,$invoice_id)
+		{
+			
+			$this->db->select('transaction_info.transaction_id');
+			$this->db->from('transaction_info');
+			$this->db->where('transaction_info.transaction_purpose = "sale"');
+			$this->db->where('transaction_info.common_id',$invoice_id);
+			$query = $this->db->get();
+			$row = $query->row();
+			
+			$transaction_id = $row->transaction_id;
+
+			$this->db->select('SUM(transaction_info.amount) as total_sale_amount');
+			$this->db->from('transaction_info');			
+			$this->db->where('transaction_info.transaction_purpose = "sale"');
+			$this->db->where('transaction_info.transaction_id < "'.$transaction_id.'"');
+			$this->db->where('transaction_info.ledger_id',$customer_id);
+			$query_data = $this->db->get();
+			$row = $query_data->row();
+			$total_sale_amount = $row->total_sale_amount;
+			
+			$this->db->select('SUM(transaction_info.amount) as total_collection_amount');
+			$this->db->from('transaction_info');			
+			$this->db->where('(transaction_info.transaction_purpose = "collection" OR transaction_info.transaction_purpose = "credit_collection" OR transaction_info.transaction_purpose = "sale_return")');
+			$this->db->where('transaction_info.transaction_id < "'.$transaction_id.'"');
+			$this->db->where('transaction_info.ledger_id',$customer_id);
+			$query_data = $this->db->get();
+			$row = $query_data->row();
+			$total_collection_amount = $row->total_collection_amount;
+			
+			$this->db->select('SUM(customer_info.int_balance) as total_balance_amount');
+			$this->db->from('customer_info');			
+			$this->db->where('customer_info.customer_id',$customer_id);
+			$query_data = $this->db->get();
+			$row = $query_data->row();
+			$total_balance_amount = $row->total_balance_amount;
+
+			return $total_sale_amount + $total_balance_amount - $total_collection_amount;
+		}
 		public function getreturnProducts($return_invoice_id)
         {
 
@@ -1349,8 +1409,8 @@
         {
 
             $data = $this->db
-                            ->select('temp_sale_id')
-                            ->where('temp_sale_creator', $current_user)
+                            ->select('temp_sale_id,temp_sale_type')
+                            //->where('temp_sale_creator', $current_user)
                             ->where('temp_sale_shop_id', $current_shop)
                             ->order_by('temp_sale_id', "asc")
                             ->get('temp_sale_info');
@@ -1360,7 +1420,18 @@
             else return FALSE;
 
         }
+		public function get_current_sale_invoice_status($current_sale)
+        {
 
+            $data = $this->db
+                            ->select('*')
+                            ->where('temp_sale_id', $current_sale)
+                            ->where('pre_invoice_status = "pending"')
+                            ->get('temp_sale_info');
+
+            return $data;
+
+        }
         public function updateTmpProduct($product_id, $new_qnty, $actual_price, $stock)
         {
 
@@ -1543,6 +1614,21 @@
 			$this->db->where('product_info.product_id = sale_details.product_id');
 			$this->db->where('sale_details.product_id',$product_id);
 			$this->db->where('sale_details.invoice_id',$invoice_id);
+			
+			$query = $this->db->get();
+			
+			return $query->row();
+		}
+		function get_product_list2()
+		{
+			$product_id = $this->input->post('product_id');
+			//$invoice_id = $this->input->post('invoice_id');
+
+			$this->db->select('product_info.product_name,bulk_stock_info.product_id,bulk_stock_info.general_unit_sale_price,bulk_stock_info.stock_amount');
+			$this->db->from('bulk_stock_info,product_info');
+			$this->db->where('product_info.product_id = bulk_stock_info.product_id');
+			$this->db->where('bulk_stock_info.product_id',$product_id);
+			//$this->db->where('sale_details.invoice_id',$invoice_id);
 			
 			$query = $this->db->get();
 			

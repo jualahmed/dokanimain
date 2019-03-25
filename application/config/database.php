@@ -78,7 +78,6 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	//'database' => 'dok_medi_em',
 	//'database' => 'dokani_cosmetics',
 	'database' => 'dokani',
 	//'database' => 'dokani_medicine',

@@ -526,7 +526,7 @@
 			$barcode2= rawurlencode($barcode);
 			$barcode1 = rawurldecode($barcode2);
 
-			$this->db->select('product_name, company_name, catagory_name,product_size, unit_name,product_model, product_info.product_id, bulk_unit_sale_price,general_unit_sale_price, bulk_unit_buy_price, stock_amount, barcode, group_name, product_specification,product_type,product_size');
+			$this->db->select('product_name, company_name, catagory_name,product_size, unit_name,product_model, product_info.product_id, bulk_unit_sale_price,general_unit_sale_price, bulk_unit_buy_price, stock_amount, barcode, group_name, product_specification,product_type,product_size,image_ext');
 			$this->db->from('product_info');
 			$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id','left');
 			//$this->db->where('bulk_stock_info.stock_amount > 0'); 
@@ -546,14 +546,14 @@
 			$barcode1 = rawurldecode($barcode);
 			$category1 = rawurldecode($catagory_name);
 			$company1 = rawurldecode($company_name);
-			$this->db->select('product_info.product_name, product_info.company_name,product_model, product_info.product_size, product_info.catagory_name,product_info.unit_name, product_info.product_id,bulk_stock_info.bulk_unit_sale_price, bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.bulk_alarming_stock,bulk_stock_info.stock_amount,bulk_stock_info.general_unit_sale_price,product_info.barcode');
+			$this->db->select('product_info.product_name,product_info.product_name_bng, product_info.company_name,product_model, product_info.product_size, product_info.catagory_name,product_info.unit_name, product_info.product_id,bulk_stock_info.bulk_unit_sale_price, bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.bulk_alarming_stock,bulk_stock_info.stock_amount,bulk_stock_info.general_unit_sale_price,product_info.barcode,image_ext');
 			$this->db->from('product_info,bulk_stock_info');
 			$this->db->where('product_info.product_id = bulk_stock_info.product_id');
 			//$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id','left');
-			if($barcode1!=''){$this->db->where('product_info.barcode = "'.$barcode1.'" ');}
-			if($pro_id!=''){$this->db->where('product_info.product_id = "'.$pro_id.'" ');}
-			if($category1!=''){$this->db->where('product_info.catagory_name = "'.$category1.'" ');}
-			if($company1!=''){$this->db->where('product_info.company_name = "'.$company1.'" ');}
+			if($barcode1!='' && $barcode1!='null'){$this->db->where('product_info.barcode = "'.$barcode1.'" ');}
+			if($pro_id!='' && $pro_id!='null'){$this->db->where('product_info.product_id = "'.$pro_id.'" ');}
+			if($category1!='' && $category1!='null'){$this->db->where('product_info.catagory_name = "'.$category1.'" ');}
+			if($company1!='' && $company1!='null'){$this->db->where('product_info.company_name = "'.$company1.'" ');}
 			$query = $this->db->get();
 			
 			return $query;
@@ -561,7 +561,7 @@
 		}
 		function specific_product_new( $product_id )
 		 {
-			$this -> db -> select('product_info.product_name,product_info.company_name,product_info.product_model,product_info.product_size,product_info.catagory_name,product_info.barcode,product_info.unit_name,bulk_stock_info.product_id,bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.stock_amount');
+			$this -> db -> select('product_info.product_name,product_info.product_name_bng,product_info.company_name,product_info.product_model,product_info.product_size,product_info.catagory_name,product_info.barcode,product_info.unit_name,bulk_stock_info.product_id,bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.stock_amount');
 			$this -> db -> from('product_info,bulk_stock_info');
 			$this -> db -> where('product_info.product_id = bulk_stock_info.product_id');
 			$this -> db -> where('product_info.product_id = "'.$product_id.'"');
@@ -576,6 +576,7 @@
 			$bd_date = date('Y-m-d');
 			$new_update_data = array(		
 				'product_name' => $this -> input ->post('product'),
+				'product_name_bng' => $this -> input ->post('product_name_bng'),
 				'product_size' => $this -> input ->post('product_size'),
 				'product_model' => $this -> input ->post('product_model'),
 				'barcode' => $this -> input ->post('barcode'),
@@ -600,6 +601,210 @@
 			$this -> db -> update('bulk_stock_info', $new_update_data2);
 		
 			return true;
+		}
+		function save_product_image($hid)
+		{
+			$timezone = "Asia/Dhaka";
+			date_default_timezone_set($timezone);
+			$bd_date = date('Y-m-d');
+
+			$filetype = $_FILES['user_file_3']['type'];
+			$queryy1= $this->db->select('image_ext')
+								->from('product_info')
+								->where('product_id',$hid)
+								->get();
+			$field = $queryy1->row();
+			$image_ext = $field->image_ext;
+			$number = ceil($hid/200);
+
+
+			$dir = './images/product_image/main/'.$number.'/';
+			if(!is_dir($dir))
+			{
+				mkdir('./images/product_image/main/'.$number,0777, true);
+				
+				$image_id = $hid;
+				$this->upload_product_image($image_id);
+			}
+			else
+			{
+				$img_folder = $hid.$image_ext;
+				unlink("images/product_image/main/".$number.'/'.$img_folder);
+				$image_id = $hid;
+				$this->upload_product_image($image_id);
+			}
+
+			return true;
+		}
+		function upload_product_image($image_id)
+		{
+			$number = ceil($image_id/200);
+			$file_type2 = $this->get_file_type($_FILES['user_file_3']['type']);
+			$user_ext3 = $image_id.'.'.$file_type2;
+
+		
+			$_FILES['user_file_3']['name']=$user_ext3;
+			$path = $_FILES['user_file_3']['tmp_name'];
+			$width = 300;
+			$height = 300;
+			
+			$this->resize_new($width,$height,$path);
+			
+			$source_img = $path;
+			$destination_img = $path;
+			
+			$d = $this->compress($source_img, $destination_img, 80);
+			
+			
+			$config['upload_path'] 		='./images/product_image/main/'.$number;
+			$config['allowed_types'] 	='*';
+			
+			$this->load->library('upload', $config);
+			if($this->upload->do_upload('user_file_3'))
+			{
+				//echo 'OK';
+			}
+			else
+			{
+				//echo 'Not';
+				
+				//echo $this->upload->display_errors();
+			}
+			$queryy1= $this->db->select('image_ext')
+								->from('product_info')
+								->where('product_id',$image_id)
+								->get();
+			$field = $queryy1->row();
+			$image_ext = $field->image_ext;
+			$dir = './images/product_image/thumb/'.$number.'/';
+			if(!is_dir($dir))
+			{
+				mkdir('./images/product_image/thumb/'.$number,0777, true);
+				$this->thumb($user_ext3,$number);
+			}
+			else{
+				$img_folder = $hid.$image_ext;
+				unlink("images/product_image/thumb/".$number.'/'.$img_folder);
+				$this->thumb($user_ext3,$number);
+			}	
+			$image = array(
+					'image_ext' => '.'.$file_type2,
+					'image_url' => base_url()."images/product_image/main/".$number.'/'.$user_ext3,
+				);
+			$this->db->where('product_id',$image_id);
+			$this->db->update('product_info',$image);
+				
+		}
+		function thumb($filename,$number)
+		{
+
+			$config['image_library'] = 'gd2';
+			//$config['source_image'] = './uploads/'.$filename.'.jpg';  #no need to make it static as you are allowing multiple extensions in allowed_types.
+			$config['source_image'] = './images/product_image/main/'.$number.'/'.$filename;
+			$config['create_thumb'] = TRUE;
+			$config['maintain_ratio'] = TRUE;
+			$config['thumb_marker'] = '';
+			$config['width']    = 100;
+			$config['height']   = 100;
+			$config['new_image'] = './images/product_image/thumb/'.$number.'/'.$filename;
+			$this->load->library('image_lib', $config); 
+
+			$this->image_lib->initialize($config);
+
+			if(!$this->image_lib->resize()) {
+				echo $this->image_lib->display_errors();
+				return FALSE;
+			}
+			
+		}
+		function resize_new($width, $height,$path)
+		{
+		  /* Get original image x y*/
+			  list($w, $h) = getimagesize($_FILES['user_file_3']['tmp_name']);
+			  /* calculate new image size with ratio */
+			  $ratio = max($width/$w, $height/$h);
+			  $h = ceil($height / $ratio);
+			  $x = ($w - $width / $ratio) / 2;
+			  $w = ceil($width / $ratio);
+			  /* new file name */
+			  //$path = 'upload/'.$width.'x'.$height.'_'.$_FILES['fileToUpload']['name'];
+			  //$path = 'upload/'. basename($_FILES["user_avatar"]["name"]);
+			  /* read binary data from image file */
+			  $imgString = file_get_contents($_FILES['user_file_3']['tmp_name']);
+			  /* create image from string */
+			  $image = imagecreatefromstring($imgString);
+			  $tmp = imagecreatetruecolor($width, $height);
+			  imagecopyresampled($tmp, $image,
+				0, 0,
+				$x, 0,
+				$width, $height,
+				$w, $h);
+			  /* Save image */
+			  switch ($_FILES['user_file_3']['type']) 
+			  {
+				case 'image/jpeg':
+				  imagejpeg($tmp, $path, 100);
+				  break;
+				case 'image/png':
+				  imagepng($tmp, $path, 0);
+				  break;
+				case 'image/gif':
+				  imagegif($tmp, $path);
+				  break;
+				default:
+				  exit;
+				  break;
+			  }
+			  return $path;
+			  /* cleanup memory */
+			  imagedestroy($image);
+			  imagedestroy($tmp);
+		}
+
+		function compress($source, $destination, $quality) 
+		{
+			
+			  $file_size = filesize($source); // Get file size in bytes
+			$file_size = $file_size / 1024; // Get file size in KB
+			  if($file_size > 100){
+			  $info = getimagesize($source);
+
+			  if ($info['mime'] == 'image/jpeg') 
+				  $image = imagecreatefromjpeg($source);
+
+			  elseif ($info['mime'] == 'image/gif') 
+				  $image = imagecreatefromgif($source);
+
+			  elseif ($info['mime'] == 'image/png') 
+				  $image = imagecreatefrompng($source);
+
+			  imagejpeg($image, $destination, $quality);
+			}
+			return $destination;
+		}
+		function get_file_type($filetype)
+		{
+			if($filetype == "image/jpg")
+				$file_type='jpg';
+			else if ($filetype == "image/gif")
+				$file_type='gif';
+			else if($filetype == "image/JPEG")
+				$file_type='JPEG';
+			else if($filetype == "image/jpeg")
+				$file_type='jpeg';
+			else if($filetype == "image/pjpeg")
+				$file_type='pjpeg';
+			else if($filetype ==  "image/png")
+				$file_type='JPEG';
+			else if($filetype ==  "application/msword")
+				$file_type='doc';
+			else if($filetype ==  "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+				$file_type='docx';
+			else if($filetype ==  "application/pdf")
+				$file_type='pdf';
+			else if($filetype ==  "application/zip")
+				$file_type='zip';
+			return $file_type;
 		}
 		function delete_product($product_id)
 		{

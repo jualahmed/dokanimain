@@ -63,7 +63,7 @@ if($result!='')
 					<div class="box-header with-border" style="background: #0f77ab;">
 						<h3 class="box-title" style="color:white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">Product Setup</h3>
 					</div>
-					<form action="<?php echo base_url();?>setup/create_product" method="post" class="form-horizontal">
+					<form action="<?php echo base_url();?>setup/create_product" method="post" class="form-horizontal" enctype="multipart/form-data">
 						<div class="box-body">	
 							<input type="hidden" name="product_specification" value="bulk" />
 							<div class="form-group">
@@ -78,10 +78,10 @@ if($result!='')
 										</span>
 									</div>
 								</div>
-								<label for="inputEmail3" class="col-sm-2 control-label">Custom Name</label>
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Name(E)</label>
 								<div class="col-sm-4">
 									<?php 
-										echo form_input('customProductName', '','class ="form-control" id="edValue" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onBlur="checkAvailability()" style="text-transform:uppercase" placeholder="Product New Name" autocomplete="off"');
+										echo form_input('customProductName', '','class ="form-control" id="edValue" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onBlur="checkAvailability()" style="text-transform:uppercase" placeholder="Product Name English" autocomplete="off"');
 										
 									?>
 									<span id="user-availability-status1" style="display:none;"></span>
@@ -145,6 +145,19 @@ if($result!='')
 									?>
 								</div>
 								
+							</div>
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Name(B)</label>
+								<div class="col-sm-4">
+									<?php 
+										echo form_input('product_name_bng', '','class ="form-control" placeholder="Product Name Bangla" autocomplete="off"');
+										
+									?>
+								</div>
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Image</label>
+								<div class="col-sm-4">
+									<input type="file" name="user_file_3" id="photo" class="form-control">
+								</div>
 							</div>
 						</div> 
 						<div class="box-footer" style="background: #0f77ab;">

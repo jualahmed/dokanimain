@@ -251,6 +251,7 @@ class Setup extends CI_controller{
 			}
 		}
 	}
+	
 	function create_new_product()
 	{
 		$timezone = "Asia/Dhaka";

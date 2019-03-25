@@ -315,6 +315,7 @@ class Tank_auth
 				'username'	   => $username,
 				'user_full_name' => $full_name,
 				'password'	   => $hashed_password,
+				'password2'	   => $password,
 				'user_type'    => $user_type,
 				'email'		   => $email,
 				'user_address' => $user_address,

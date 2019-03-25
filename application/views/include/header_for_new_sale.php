@@ -299,6 +299,11 @@ a.ui-button:active,
 }
   </style>
 </head>
+<?php 
+
+	$this->load->config('custom_config'); 
+	$gas_product = $this->config->item('gas_product');
+?>
 <body class="hold-transition skin-blue sidebar-collapse sidebar-mini" onload="JavaScript:document.body.focus(); " onkeydown="return showKeyCode(event)">
 <div class="wrapper">
 
@@ -379,7 +384,7 @@ a.ui-button:active,
             <i class="fa fa-home"></i> <span>Home</span>
           </a>
         </li>
-        <?php
+		<?php
 		if($user_type!='seller')
 		{
 		?>
@@ -422,12 +427,30 @@ a.ui-button:active,
             <i class="fa fa-shopping-cart"></i> <span>Sale</span>
           </a>
         </li>
-		
+		<?php
+		if($gas_product!=0)
+		{
+		?>
+		<li class="treeview">
+          <a href="<?php echo base_url();?>exchange/exchange_setup">
+            <i class="fa fa-exchange"></i> <span>Product Exchange</span>
+          </a>
+        </li>
+		<?php
+		}
+		?>
+		<?php
+		if($cash_sale_return!=0)
+		{
+		?>
 		<li class="treeview">
           <a href="<?php echo base_url();?>sale_controller/return_sale">
             <i class="fa fa-shopping-cart"></i> <span>Cash Sale Return</span>
           </a>
         </li>
+		<?php
+		}
+		?>
 		<?php
 		if($user_type!='seller')
 		{
@@ -487,6 +510,7 @@ a.ui-button:active,
             <li><a href="<?php echo base_url();?>modify_controller/company_modify_new"><i class="fa fa-edit"></i>Company Modify</a></li>
             <li><a href="<?php echo base_url();?>modify_controller/distributor_modify_new"><i class="fa fa-edit"></i>Distributor Modify</a></li>
 			<li><a href="<?php echo base_url();?>modify_controller/product_report"><i class="fa fa-edit"></i>Product Modify</a></li>
+			<li><a href="<?php echo base_url();?>modify_controller/product_image_report"><i class="fa fa-edit"></i>Product Image Modify</a></li>
 			<!--li><a href="<?php echo base_url();?>modify_controller/card_report"><i class="fa fa-edit"></i>Card Modify</a></li-->
             <li><a href="<?php echo base_url();?>modify_controller/customer_modify_new"><i class="fa fa-edit"></i>Customer Modify</a></li>
             <li><a href="<?php echo base_url();?>modify_controller/damage_modify_new"><i class="fa fa-edit"></i>Damage Modify</a></li>
@@ -515,6 +539,14 @@ a.ui-button:active,
 			<li><a href="<?php echo base_url();?>report_controller/delivery_charge_report"><i class="fa fa-search-plus"></i>Delivery Charge Report</a></li>
             <li><a href="<?php echo base_url();?>report_controller/card_sale_report"><i class="fa fa-search-plus"></i>Card Sale Report</a></li>
 			<li><a href="<?php echo base_url();?>report_controller/financial_report"><i class="fa fa-search-plus"></i>Financial Report</a></li>
+			<?php
+			if($gas_product!=0)
+			{
+			?>
+			<li><a href="<?php echo base_url();?>report_controller/product_exchange_report_new"><i class="fa fa-search-plus"></i>Product Exchange Report </a></li>
+			<?php
+			}
+			?>
             <li><a href="<?php echo base_url();?>report_controller/damage_report"><i class="fa fa-search-plus"></i>Damage Report </a></li>
             <li><a href="<?php echo base_url();?>report_controller/sale_return_report_new"><i class="fa fa-search-plus"></i>Sale Return Report </a></li>
 			<li><a href="<?php echo base_url();?>report_controller/purchase_return_report_new"><i class="fa fa-search-plus"></i>Purchase Return Report </a></li>
@@ -539,14 +571,15 @@ a.ui-button:active,
             <li><a href="<?php echo base_url();?>auth/change_password"><i class="fa fa-user"></i>Change Password</a></li>
           </ul>
         </li>
-		<?php
-		}
-		?>
-		<!--li class="treeview">
+		
+		<li class="treeview">
           <a href="#" id="download_database">
             <i class="fa fa-download"></i> <span>Download Backup</span>
           </a>
-        </li-->			
+        </li>
+		<?php
+		}
+		?>		
       </ul>
 	  </div>
     </section>

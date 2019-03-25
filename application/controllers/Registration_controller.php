@@ -11,7 +11,7 @@
 			$this->is_logged_in();
 			
 			$data['user_type'] = $this->tank_auth->get_usertype();
-			
+			$this->ci =& get_instance();
 		}
 
 		public function is_logged_in()
@@ -669,8 +669,13 @@
 				
 				if ($this->form_validation->run(TRUE)) 
 				{
-					$this->tank_auth->change_password_special($this->form_validation->set_value('new_password'), $this->input->post('ch_id'));
-					$this -> registration_model -> update_user();
+					//$this->tank_auth->change_password_special($this->form_validation->set_value('new_password'), $this->input->post('ch_id'));
+					$new_password 	= $this -> input -> post('new_password');
+					$hasher = new PasswordHash(
+						$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
+						$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+					$hashed_password = $hasher->HashPassword($new_password);
+					$this -> registration_model -> update_user($hashed_password,$new_password);
 					$data['status'] = 'success';
 					$data['user_type'] = $this->tank_auth->get_usertype();
 					$data['user_name'] = $this->tank_auth->get_username();

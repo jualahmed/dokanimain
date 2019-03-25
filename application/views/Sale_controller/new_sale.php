@@ -119,6 +119,7 @@ table.head tr td {
 	$tp_price_purchase = $this->config->item('tp_price_purchase');
 	$tp_price_vat_purchase = $this->config->item('tp_price_vat_purchase');
 	$discount_limit = $this->config->item('discount_limit');
+	$product_sale_return = $this->config->item('product_sale_return');
 	//$value_added_tax = 0;
 
 ?>
@@ -141,12 +142,18 @@ table.head tr td {
 			        		<?php
             					$ind = 0; 
             					if($sales != FALSE) { 
+									$Tmp_name = '';
 	              					foreach($sales->result() as $tmp ){
-	            
+										if($tmp->temp_sale_type=='sale' || $tmp->temp_sale_type==''){
+											$Tmp_name = 'Sale';
+										}
+										else if($tmp->temp_sale_type=='cart'){
+											$Tmp_name = 'Cart';
+										}
 	                					if($current_sale == $tmp->temp_sale_id)
-	                  						echo "<button id=sale_new" . $tmp->temp_sale_id . " class=\"sale_selection btn btn-success \" onclick=\"getSaleId(this.id)\"> <i class=\"fa fa-spinner fa-spin\"> </i> <i class=\"fa fa-fw fa-cart-arrow-down\"> </i> Sale " . ++$ind . "</button>&nbsp;";
+	                  						echo "<button id=sale_new" . $tmp->temp_sale_id . " class=\"sale_selection btn btn-success \" onclick=\"getSaleId(this.id)\"> <i class=\"fa fa-spinner fa-spin\"> </i> <i class=\"fa fa-fw fa-cart-arrow-down\"> </i> ".$Tmp_name.' '. ++$ind . "</button>&nbsp;";
 
-	                					else echo "<button id=sale_new" . $tmp->temp_sale_id . " class=\"sale_selection btn btn-info\" onclick=\"getSaleId(this.id)\"> <i class=\"fa fa-fw fa-cart-arrow-down\"> </i> Sale " . ++$ind . "</button>&nbsp;";
+	                					else echo "<button id=sale_new" . $tmp->temp_sale_id . " class=\"sale_selection btn btn-info\" onclick=\"getSaleId(this.id)\"> <i class=\"fa fa-fw fa-cart-arrow-down\"> </i>" .$Tmp_name.' '. ++$ind . "</button>&nbsp;";
 	              					}
 
           						}
@@ -278,17 +285,50 @@ table.head tr td {
 			                  <td style="vertical-align: middle;">Customer: </td>
 			                  <td colspan="5">
 			                    <!--input type="text" class="form-control sale_input_custom_styl" id="select_customer" placeholder="Customer"-->
+								<?php 
+									
+									if($current_sale_customer->num_rows > 0)
+									{
+										$query = $current_sale_customer->row();
+										$customer_name=$query->customer_name;
+										$customer_id=$query->customer_id;
+										$customer_contact_no=$query->customer_contact_no;
+								?>
+								 <input type="hidden" id="selected_customer_id" value="<?php echo $customer_id;?>">
+								<select id="select_customer" class="form-control select2 customer_name" style="width:92%;">
+									<option>Select Customer</option>
+									<option value="<?php echo $customer_id;?>" selected><?php echo $customer_id;?>. <?php echo $customer_name;?> (<?php echo $customer_contact_no;?>)</option>
+									<?php
+									foreach ($customer_info->result_array() as $tmp)
+									{
+									?>
+										<option value="<?php echo $tmp['customer_id'];?>"><?php echo $tmp['customer_id'];?>. <?php echo $tmp['customer_name'];?> (<?php echo $tmp['customer_contact_no'];?>)</option>
+									<?php
+									}
+									
+									?>
+								</select>
+								<?php
+									}
+									else
+									{
+								?>
+								 <input type="hidden" id="selected_customer_id">
 								<select id="select_customer" class="form-control select2 customer_name" style="width:92%;">
 									<option>Select Customer</option>
 									<?php
 									foreach ($customer_info->result_array() as $tmp)
 									{
 									?>
-										<option value="<?php echo $tmp['customer_id'];?>"><?php echo $tmp['customer_name'];?></option>
+										<option value="<?php echo $tmp['customer_id'];?>"><?php echo $tmp['customer_id'];?>. <?php echo $tmp['customer_name'];?> (<?php echo $tmp['customer_contact_no'];?>)</option>
 									<?php
 									}
+									
 									?>
 								</select>
+								<?php
+									}
+								?>
 								<button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#show_add_client_modal">+</button>
 			                  </td>
 			                </tr>
@@ -320,7 +360,14 @@ table.head tr td {
 								<center>
 								<button type="button" class="btn btn-primary btn_for_sale style" id="quotation">Quotation </button>
 								<button type="button" class="btn btn-danger btn_for_sale style" id="cancel">Cancel <br><span>(Shortcut : Alt+X)</span></button>
+								<?php
+								if($product_sale_return!=0)
+								{
+								?>
 								<button type="button" class="btn btn-primary btn_for_sale style" id="sale_return">Sale Return</button>
+								<?php
+								}
+								?>
 								<?php
 									foreach($card_info->result() as $field){
 								?>
@@ -1092,7 +1139,7 @@ table.head tr td {
         </div>
         <!--/.Modal-->
 
-        <input type="hidden" id="selected_customer_id">
+       
 
 	</section>
 </div>

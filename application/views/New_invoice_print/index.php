@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title> Dokani : IT Lab Solution</title>
+	<title> Dokani : IT Lab Solutions </title>
 	<meta lang="en">
 	<meta lang="bn">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -64,7 +64,8 @@
 			</div>
 			<div id ="pos_top_header">
 				<a href="<?php echo base_url();?>sale_controller/new_sale" autofocus style="text-decoration: none;">
-					<!--center><img src="<?php echo base_url();?>images/autograph.jpg" class="img-circle" style="width:60%; height:80px;" alt="User Image"></center-->
+					<a href="<?php echo base_url();?>sale_controller/new_sale" autofocus style="text-decoration: none;">
+					<center><img src="<?php echo base_url();?>images/common_logo_invoice.png" class="img-circle" style="width:60%; height:80px;" alt="User Image"></center>
 				<div id ="" style="background: #fff;text-decoration: none;"> 
 					<h6 style="font-size:14px;line-height: 12px;text-align:center;margin: 5px 5px;background: #fff;text-decoration: none;color:#000;"><?php echo $this->tank_auth->get_shopname();?></h6>
 					<h6 style="font-size:12px;line-height: 12px;text-align:center;margin: 0px 5px;background: #fff;text-decoration: none;color:#000;"><?php echo $this->tank_auth->get_shopaddress();?></h6>

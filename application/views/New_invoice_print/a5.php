@@ -51,14 +51,19 @@
 	</style>
 </head>
 </head>
+	<?php 
+
+		$this->load->config('custom_config'); 
+		$pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
+	?>
 	<body onload="window.print()"> 
 	 	<div id ="main_invoice" style="width: 700px;">
 			<div id = "invoice"  style="width: 698px;">
 				<div id="shop_title_box"  style="width: 698px;">			
-						<div id = "shop_title_test"> <?php echo $this->tank_auth->get_shopname(); ?>  </div>
+						<!--div id = "shop_title_test"> <?php echo $this->tank_auth->get_shopname(); ?>  </div>
 						<div id = "shop_address_test">  <?php echo $this->tank_auth->get_shopaddress(); ?></div>	
-							<div id = "shop_address_test"> Contact: <?php echo $this->tank_auth->get_shopcontact(); ?> </div>
-							<!--img style="width: 698px;" src="<?php echo base_url();?>images/Hadid.jpg"-->
+						<div id = "shop_address_test"> Contact: <?php echo $this->tank_auth->get_shopcontact(); ?> </div-->
+						<img style="width: 698px;" src="<?php echo base_url();?>images/common.jpg">
 						<div id = "shop_title_test"> Invoice # <?php echo $invoice_id; ?></div>
 				</div> <!--end of shop_title_box-->
 				<div id = "invoice_details_header" style="width: 699px;">	
@@ -149,39 +154,49 @@
 					}
 				?>
 				<div id = "transaction_details">
-					<!--div id ="t_left" style="width: 40%;float: left;border: 1px solid black;padding:5px;">
-						<?php
-								$pre_balance =$receipt_sale_total_amount;
+					<?php
+					if($pre_blance_show_invoice!=0)
+					{
+						if($row_data->customer_id!=1)
+						{
 						?>
-							<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: left;"> Pre Balance </div>
-							<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: right;"> <?php echo sprintf('%0.2f',$pre_balance);?></div>
-							<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: left;"> Invoice Total </div>
-							<div style="width: 50%;text-align: right;margin: 5px 0 0 0;float: right;"> 
-								<?php 
-									$sale_return = $row_data->sale_return_amount;
-									$total_price = $row_data->total_price;
-								?>
-								<?php 
-								$tot_grand = 0;
-								$total_paid = 0;
-								if($sale_return > 0)
-								{ 
-								?>
-									<?php echo $tot_grand = sprintf('%0.2f',$row_data->total_price - $sale_return - $row_data->discount_amount);?>
-								
-								<?php 
-								} 
-								else 
-								{
-								?>
-								<?php echo $tot_grand = sprintf('%0.2f',$row_data->grand_total); ?>
-								<?php }?>
-							</div>
-							<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: left;"> Paid Amount </div>
-							<div style="width: 50%;text-align: right;margin: 5px 0 0 0;float: right;"> <?php echo $total_paid = sprintf('%0.2f',$row_data->total_paid - $row_data->return_money);?></div>
-							<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: left;font-weight:bold;"> Outstanding </div>
-							<div style="width: 50%;text-align: right;margin: 5px 0 0 0;float: right;font-weight:bold;"> <?php echo sprintf('%0.2f',$pre_balance + $tot_grand - $total_paid);?></div>
-					</div-->
+						<div id ="t_left" style="width: 40%;float: left;border: 1px solid black;padding:5px;">
+							<?php
+									$pre_balance =$receipt_sale_total_amount;
+							?>
+								<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: left;"> Pre Balance </div>
+								<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: right;"> <?php echo sprintf('%0.2f',$pre_balance);?></div>
+								<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: left;"> Invoice Total </div>
+								<div style="width: 50%;text-align: right;margin: 5px 0 0 0;float: right;"> 
+									<?php 
+										$sale_return = $row_data->sale_return_amount;
+										$total_price = $row_data->total_price;
+									?>
+									<?php 
+									$tot_grand = 0;
+									$total_paid = 0;
+									if($sale_return > 0)
+									{ 
+									?>
+										<?php echo $tot_grand = sprintf('%0.2f',$row_data->total_price - $sale_return - $row_data->discount_amount);?>
+									
+									<?php 
+									} 
+									else 
+									{
+									?>
+									<?php echo $tot_grand = sprintf('%0.2f',$row_data->grand_total); ?>
+									<?php }?>
+								</div>
+								<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: left;"> Paid Amount </div>
+								<div style="width: 50%;text-align: right;margin: 5px 0 0 0;float: right;"> <?php echo $total_paid = sprintf('%0.2f',$row_data->total_paid - $row_data->return_money);?></div>
+								<div style="width: 50%; float: left;margin:5px 0 0 0;text-align: left;font-weight:bold;"> Outstanding </div>
+								<div style="width: 50%;text-align: right;margin: 5px 0 0 0;float: right;font-weight:bold;"> <?php echo sprintf('%0.2f',$pre_balance + $tot_grand - $total_paid);?></div>
+						</div>
+						<?php
+						}
+					}
+					?>
 					<div id ="pos_top_header_fourth" style="width: 48%; float: right;">
 						<div class ="pos_top_header_fourth_left" style="width: 50%; float: left;margin:5px 0 0 0;"> Total MRP </div>
 						<div class ="dot">:</div>

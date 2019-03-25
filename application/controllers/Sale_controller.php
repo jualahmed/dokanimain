@@ -851,6 +851,12 @@
 			$product = $this -> sale_model -> get_product_list();
 			echo json_encode($product);
 		}
+		function get_product_list2() 
+		{
+			
+			$product = $this -> sale_model -> get_product_list2();
+			echo json_encode($product);
+		}
         /* Starting: addToSaleReturn*/
         public function addToSaleReturn()
         {
@@ -899,7 +905,9 @@
 			$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
 			$value_added_tax 		= $this->config->item('VAT');
 			
-			$tmp_customer_info 		= "";                
+			$tmp_customer_info 		= "";  
+			$data['current_sale_customer'] 	= $this->sale_model->get_current_sale_customer($data['current_sale']);
+	        $data['sale_invoice_status'] 	= $this->sale_model->get_current_sale_invoice_status($data['current_sale']);
 	        $data['customer_info'] 	= $this->sale_model->getAllCustomerInfo();
 	        $data['card_info'] 	= $this->sale_model->getAllCardInfo();
 	                        

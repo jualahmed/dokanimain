@@ -903,6 +903,71 @@
 			ob_end_flush();
 			exit;
 		}
+		function product_exchange_report_new()
+		{
+		   $data['user_type'] = $this->tank_auth->get_usertype();
+			if($this -> access_control_model -> my_access($data['user_type'], 'product_controller', 'product_entry'))
+			{
+				$timezone = "Asia/Dhaka";
+				date_default_timezone_set($timezone);
+				$bd_date = date('Y-m-d');
+				$data['bd_date'] = $bd_date;
+				$data['sale_status'] = '';
+				$data['alarming_level'] = FALSE;
+				$data['last_id'] = $this->product_model->getLastInserted();
+				$data['user_name'] = $this->tank_auth->get_username();
+				$data['status'] = '';
+				$data['purchase_receipt_info'] = $this ->product_model-> fatch_all_purchase_receipt_id();
+				$data['distributor_info'] = $this -> product_model -> distributor_info();
+				$data['company_name'] = $this -> product_model -> company_name();
+				$data['catagory_name'] = $this -> product_model -> catagory_name();
+				$data['distributor_name'] = $this -> product_model -> distributor_name();
+				$data['product_specification'] = $this -> product_model -> product_specification();
+				$this->load->model('product_model');
+				$data['product_type'] = $this -> product_model -> product_type();
+				$data['purchase_receipt'] = $this -> product_model -> purchase_receipt();
+				$data['seller'] = $this -> product_model -> seller();
+				
+				$data['unit_name'] = $this -> product_model -> unit_name();
+				$this -> load -> view('Report/product_exchange_report_new', $data);
+			}
+			else redirect('product_controller/product/noaccess');
+		}
+		function all_product_exchange_report_find()
+		{
+			$temp3 = $this->report_model->get_product_exchange_info_by_multi();
+
+			echo json_encode($temp3->result());
+					
+
+		}
+		function download_product_exchange()
+		{
+			date_default_timezone_set("Asia/Dhaka");
+			$bd_date = date('Y-m-d',time());
+			$data['download_product_exchange'] = $this -> report_model -> print_product_exchange();
+			$html=$this->load->view('Download/download_product_exchange',$data, true); 
+
+			$this->load->library('m_pdf');
+			ob_start();
+			$this->m_pdf->pdf 	= new mPDF('utf-8', 'A4');
+			$this->m_pdf->pdf->SetProtection(array('print'));
+			$this->m_pdf->pdf->SetTitle("Purchase Return Report");
+			$this->m_pdf->pdf->SetAuthor("Dokani");
+			$this->m_pdf->pdf->SetDisplayMode('fullpage');
+			
+			$this->m_pdf->pdf->AddPageByArray(array(
+			'orientation' => '',
+			'mgl' => '10','mgr' => '10','mgt' => '35','mgb' => '20','mgh' => '10','mgf' => '5',
+			//margin left,margin right,margin top,margin bottom,margin header,margin footer
+			));
+			//$this->m_pdf->pdf->SetColumns(2);
+			$this->m_pdf->pdf->WriteHTML($html);
+			ob_clean();
+			$this->m_pdf->pdf->Output();
+			ob_end_flush();
+			exit;
+		}
 		function expense_report_new()
 		{
 		   $data['user_type'] = $this->tank_auth->get_usertype();

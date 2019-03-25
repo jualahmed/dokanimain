@@ -12,6 +12,7 @@ class Auth extends CI_Controller
 		$this->load->helper('security');
 		$this->load->library('tank_auth');
 		$this->lang->load('tank_auth');
+		$this->ci =& get_instance();
 	}
 
 	function index()
@@ -30,8 +31,18 @@ class Auth extends CI_Controller
 	 */
 	function login()
 	{
-		if ($this->tank_auth->is_logged_in()) {									// logged in
-			redirect('');
+		if ($this->tank_auth->is_logged_in()) 
+		{
+			$data['user_type'] = $this->tank_auth->get_usertype();
+			
+			if($data['user_type']!='customer')
+			{
+				redirect('site_controller/main_site');
+			}
+			else
+			{
+				redirect('auth/logout2');
+			}
 
 		} elseif ($this->tank_auth->is_logged_in(FALSE)) {						// logged in, not activated
 			redirect('/auth/send_again/');
@@ -70,8 +81,18 @@ class Auth extends CI_Controller
 						$this->form_validation->set_value('password'),
 						$this->form_validation->set_value('remember'),
 						$data['login_by_username'],
-						$data['login_by_email'])) {								// success
-					redirect('');
+						$data['login_by_email'])) 
+						{								// success
+					$data['user_type'] = $this->tank_auth->get_usertype();
+			
+					if($data['user_type']!='customer')
+					{
+						redirect('site_controller/main_site');
+					}
+					else
+					{
+						redirect('auth/logout');
+					}
 
 				} else {
 					$errors = $this->tank_auth->get_error_message();
@@ -174,21 +195,13 @@ class Auth extends CI_Controller
 	
 	function logout()
 	{
-		$this -> load -> model('sale_model');
-		//if( $this->tank_auth->get_user_id() )
-		//{
-			/* Canceling Sale Status */
-			//$this -> sale_model -> individual_stock_status_update($this -> sale_model -> by_product_code_result_fatch_individual());
-			//$this -> sale_model -> for_update_stock_status_bulk( $this -> sale_model -> by_product_code_result_bulk() );
-			//$this -> sale_model -> unset_sale_running_mode();
-		//}
-		/* Backup Data Base*/
-		//$this -> load -> model('registration_model');
-		//if(!$this -> registration_model -> backup_database())
-			//redirect('report_controller/system_error');
-		/*Performing Logout*/
 		$this->tank_auth->logout();
 		$this->_show_message($this->lang->line('auth_message_logged_out')); 
+	}
+	function logout2()
+	{
+		$this->tank_auth->logout();
+		redirect('web/index');
 	}
 
 
@@ -461,7 +474,7 @@ class Auth extends CI_Controller
 			$data['status']='';
 			if ($this->form_validation->run()) 
 			{								// validation ok
-				if ($this->tank_auth->change_password(
+				/* if ($this->tank_auth->change_password(
 						$this->form_validation->set_value('old_password'),
 						$this->form_validation->set_value('new_password'))) {	// success
 						$data['status']='successful';
@@ -470,7 +483,28 @@ class Auth extends CI_Controller
 				{														// fail
 					$errors = $this->tank_auth->get_error_message();
 					foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
+				} */
+				$new_password 	= $this -> input -> post('new_password');
+				$hasher = new PasswordHash(
+				$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
+				$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+				
+				$hashed_password = $hasher->HashPassword($new_password);
+				$user_id = $this->ci->session->userdata('user_id');
+				$user_up = array(
+				'password'        	=> $hashed_password,
+				'password2'        	=> $new_password
+				);
+				
+				$this->db->where('id', $user_id);
+				if ($this->db->update('users', $user_up)){
+					$data['status']='successful';
 				}
+				else 
+				{														// fail
+					$errors = $this->tank_auth->get_error_message();
+					foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
+				} 
 			}
 			
 			$data['user_type'] = $this->tank_auth->get_usertype();

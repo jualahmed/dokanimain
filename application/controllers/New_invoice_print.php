@@ -23,6 +23,7 @@ class New_invoice_print extends CI_controller{
 			if($data['sale_info'] != false)
 			{
 				$number 			= $data['sale_info']->row();
+				$data['receipt_sale_total_amount'] = $this->sale_model->receipt_sale_total_amount($number->customer_id,$data['invoice_id']);
 				$data['in_word'] 	= $this->convert_number_to_words($number->grand_total);
 
 				$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);

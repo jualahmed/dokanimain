@@ -395,6 +395,23 @@
 			$data['status'] = '';
 			$this -> load -> view('Modify/all_product_report_new', $data);
 		}
+		function product_image_report()
+		{
+			$data['user_type'] = $this->tank_auth->get_usertype();
+			$data['status'] = '';
+			$data['temp'] = '';
+			$timezone = "Asia/Dhaka";
+			date_default_timezone_set($timezone);
+			$bd_date = date('Y-m-d');
+			$data['bd_date'] = $bd_date;
+			$data['sale_status'] = '';
+			$data['alarming_level'] = FALSE;
+			$data['company_name'] = $this -> product_model -> company_name();
+			$data['catagory_name'] = $this -> product_model -> catagory_name();
+			$data['user_name'] = $this->tank_auth->get_username();
+			$data['status'] = '';
+			$this -> load -> view('Modify/all_product_image_report_new', $data);
+		}
 		 public function search_product()
 		 {
     		
@@ -479,7 +496,7 @@
 			//print_r($data_temp);
 			if($data_temp->num_rows== 0)
 			{
-				$this->db->select('product_info.product_name,product_info.unit_name, product_info.company_name, product_info.catagory_name, product_info.product_id,bulk_stock_info.bulk_unit_sale_price, bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.bulk_alarming_stock,bulk_stock_info.stock_amount,bulk_stock_info.general_unit_sale_price,product_info.barcode,product_info.product_size,product_info.product_model');
+				$this->db->select('product_info.product_name,product_info.product_name_bng,product_info.unit_name, product_info.company_name, product_info.catagory_name, product_info.product_id,bulk_stock_info.bulk_unit_sale_price, bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.bulk_alarming_stock,bulk_stock_info.stock_amount,bulk_stock_info.general_unit_sale_price,product_info.barcode,product_info.product_size,product_info.product_model,image_ext');
 				$this->db->from('product_info,bulk_stock_info');
 				$this->db->where('product_info.product_id = bulk_stock_info.product_id');
 				$this->db->where('product_info.product_id',$product_id);
@@ -490,7 +507,7 @@
 			} 
 			else
 			{
-				$pre = 'Pre Listed';
+				$pre = 'Pre_Listed';
 				echo json_encode($pre);
 			}
 		} 
@@ -500,13 +517,16 @@
 			$product = $this->input->post('product');
 			$catagory = $this->input->post('catagory');
 			$company = $this->input->post('company');
-			$this->db->select('product_info.product_name,product_info.unit_name, product_info.company_name, product_info.catagory_name, product_info.product_id,bulk_stock_info.bulk_unit_sale_price, bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.bulk_alarming_stock,bulk_stock_info.stock_amount,bulk_stock_info.general_unit_sale_price,product_info.barcode,product_info.product_size,product_info.product_model');
+			$barcode1 = rawurldecode($barcode);
+			$category1 = rawurldecode($catagory);
+			$company1 = rawurldecode($company);
+			$this->db->select('product_info.product_name,product_info.product_name_bng,product_info.unit_name, product_info.company_name, product_info.catagory_name, product_info.product_id,bulk_stock_info.bulk_unit_sale_price, bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.bulk_alarming_stock,bulk_stock_info.stock_amount,bulk_stock_info.general_unit_sale_price,product_info.barcode,product_info.product_size,product_info.product_model');
 			$this->db->from('product_info,bulk_stock_info');
 			$this->db->where('product_info.product_id = bulk_stock_info.product_id');
 			if($product!='' && $product!='null'){$this->db->where('product_info.product_id',$product);}
-			if($barcode!='' && $barcode!='null'){$this->db->where('product_info.barcode',$barcode);}
-			if($catagory!='' && $catagory!='null'){$this->db->where('product_info.catagory_name',$catagory);}
-			if($company!='' && $company!='null'){$this->db->where('product_info.company_name',$company);}
+			if($barcode1!='' && $barcode1!='null'){$this->db->where('product_info.barcode',$barcode1);}
+			if($category1!='' && $category1!='null'){$this->db->where('product_info.catagory_name',$category1);}
+			if($company1!='' && $company1!='null'){$this->db->where('product_info.company_name',$company1);}
 			$query = $this->db->get();
 			echo json_encode($query->result());
 		} 
@@ -560,6 +580,14 @@
 			$hid = $this->input->post('hid');
 			
 			$this->modify_model->save_product_info_edit($hid);
+			//$d = $this -> modify_model -> specific_product_new($hid);
+			echo true;
+		}
+		function save_product_image()
+		{
+			$hid = $this->input->post('hid');
+			
+			$this->modify_model->save_product_image($hid);
 			//$d = $this -> modify_model -> specific_product_new($hid);
 			echo true;
 		}

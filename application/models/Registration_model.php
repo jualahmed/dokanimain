@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 	class Registration_model extends CI_model{
-			
-			
+
 			/***************************
 			 * Shop Setup
 			 * 22-11-2013
@@ -411,7 +410,7 @@
 				return $query;
 		    }
 
-			function update_user()
+			function update_user($hashed_password,$new_password)
 			{
 				$username 		= $this -> input -> post('username');
 				$u_id 			= $this -> input -> post('ch_id');
@@ -419,9 +418,12 @@
 				$contact 			= $this -> input -> post('email');
 				$user_add 			= $this -> input -> post('user_address');
 				$user_full_name 	= $this -> input -> post('user_full_name');
+				
 				$user_up = array(
 					'username'     	=> $username,
 					'user_type'    	=> $new_type,
+					'password'        	=> $hashed_password,
+					'password2'        	=> $new_password,
 					'email'        	=> $contact,
 					'user_address' 	=> $user_add,
 					'user_full_name' => $user_full_name
