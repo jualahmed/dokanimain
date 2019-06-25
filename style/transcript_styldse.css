@@ -1,0 +1,455 @@
+body{
+	margin:0;
+	color:#000;
+	font-size222:14px;
+	font-size:12px;
+	font-family:arial;
+	background-color:#FFF;
+}
+	#main{
+	margin:0px auto;
+	width:1000px;
+	height:auto;
+	}
+	
+	#main100{
+	margin:0px auto;
+	width:100%;
+	height:auto;
+	}
+		#controller{
+		float:left;
+		width:1000px;
+		height:auto;
+		}
+		
+		#controller100{
+		float:left;
+		width:100%;
+		height:auto;
+		}
+		
+			#header{
+			float:left;
+			width:100%;
+			}
+				.headerLeft{
+				float:left;
+				width:750px;
+				}
+					.headerLeft img{
+					float:left;
+					width:80px;
+					margin:0 5px 0 0;
+					}
+					
+					.headerLeft h1{
+					float: left;
+					width: 665px;
+					margin: 0;
+					color:#1B73CB;
+					line-height: 80px;
+					text-transform: uppercase;
+					font-size: 24px;
+					}
+					
+					.schoolLogoHeader{
+					float:left;
+					width:80px;
+					margin:5px 8px 0 0;
+					}	
+					
+					.schoolLogoHeaderSmall{
+					float:left;
+					width:35px;
+					margin:0px 8px 0 0;
+					}
+					
+					.schoolNameHeader{
+					float: left;
+					width: 665px;
+					margin: 0;
+					color: #000;
+					line-height: 80px;
+					font-family: "georgia", Times New Roman;
+					/* text-transform: uppercase; */
+					font-size: 28px;
+					font-variant: small-caps;
+					}
+					
+					.schoolNameHeaderSmall{
+					float: left;
+					width: auto;
+					margin:0;
+					color: #000;
+					line-height: normal;
+					font-family:"georgia", Times New Roman;					
+					font-weight:bold;
+					font-size: 24px;
+					font-variant: small-caps;
+					}
+					
+					.schoolNameCenter{
+					float: left;
+					width: 100%;
+					margin:0 0 10px 0;
+					color: #000;
+					line-height: normal;
+					font-family: "georgia", Times New Roman;									
+					font-weight:bold;
+					font-size: 18px;
+					text-align:center;
+					}
+					
+					.schoolNameSmall{
+					float:left;
+					color: #000;
+					font-family: "georgia", Times New Roman;
+					line-height: 28px;
+					font-weight:bold;
+					font-size: 24px;
+					font-variant: small-caps;
+					}
+					
+					.schoolLogoHeaderPDF{
+					float:left;
+					width:80px;
+					}	
+					
+					.FullDivPart{
+					width:100%;
+					}
+					
+				.headerRight{
+				float:right;
+				width:250px;
+				}
+
+			.row{
+			float:left;
+			width:100%;
+			min-height:10px;
+			}
+				.pageTitle{
+				float:left;
+				width:100%;
+				font-size:18px;
+				text-align:center;
+				text-decoration:underline;
+				}
+				
+				
+				.pageTitleSmall{
+				float:left;
+				width:100%;
+				margin:0;
+				font-size:14px;
+				text-align:center;
+				text-decoration:underline;
+				}
+				
+				.pageTitleSmallCenter{
+				float:left;
+				width:100%;
+				margin:0;
+				font-size:14px;
+				text-align:center;
+				font-weight:normal;
+				}
+				
+				.examTitle{
+				float:left;
+				width:100%;
+				margin:0;
+				font-size:13px;
+				text-align:center;
+				}
+				
+				
+				.examTitle2{
+				float:left;
+				width:100%;
+				font-size:13px;
+				margin:0px;
+				font-weight:normal;
+				line-height:18px;
+				text-align:center;
+				}
+				
+				.examTitle3{
+				float:left;
+				width:100%;
+				font-size:15px;
+				margin:0px;
+				font-weight:normal;
+				line-height:18px;
+				text-align:center;
+				}
+				
+				.examTitle4{
+				float:left;
+				width:100%;
+				font-size:12px;
+				margin:0px;
+				font-weight:normal;
+				line-height:18px;
+				text-align:center;
+				}
+				
+				
+				.simpleTable{
+				float:left;
+				width:100%;
+				font-size:12px;
+				font-weight:normal;
+				background:#FFF;
+				}
+				
+				
+				.markTable{
+				float:left;
+				width:100%;
+				margin:5px 0;
+				font-size:11px;
+				font-weight:normal;
+				background:#FFF;
+				border-radius:15px;
+				}
+				
+				
+				table, th, td {
+				border:1px solid #888;
+				border-collapse: collapse;
+				}
+				
+				.simpleTable th, .simpleTable td {
+				padding:4px;
+				}
+				
+				.simpleTable tr{
+				line-height:4px;
+				}
+
+				.markTable th, .markTable td {
+				padding:3px;
+				text-align:center;
+				}
+
+				.align_center{
+				text-align: center;
+				width: 100%;
+				float: left;
+				}
+				
+				.font_size18{
+				font-size:18px;
+				font-weight:bold;
+				}
+
+				.tableRowBG{
+				background:#EEE;
+				}
+
+				.partFour{
+				float:left;
+				width:25%;
+				}
+				
+				.partThree{
+				float:left;
+				width:30%;
+				}
+
+				.partTwo{
+				float:left;
+				width:50%;
+				}
+					
+				
+				.part70P{
+				float:left;
+				width:70%;
+				}
+				
+				.part30P{
+				float:left;
+				width:30%;
+				}
+				
+
+					.signaturePart{
+					float:left;
+					width:50%;
+					margin:70px 0px 10px 0px;
+					font-size:14px;
+					padding-top:5px;
+					border-top:1px solid #222;
+					}
+					
+					#signaturePart2{
+					width:50%;
+					margin:70px 0px 10px 0px;
+					font-size:14px;
+					padding-top:5px;
+					border-top:1px solid #222;
+					}
+					
+					
+					.signaturePart3{
+					float:left;
+					width:100%;
+					margin:70px 0px 10px 0px;
+					font-size:12px;
+					padding-top:5px;
+					border-top:1px solid #222;
+					}
+					
+					.floatLeft{
+					float:left;
+					}
+					
+					.floatRight{
+					float:right;
+					}
+					
+					
+					.textAlginRight{
+					text-align:right;
+					}
+					
+		
+			#bottomPart{
+			float:left;
+			width:100%;
+			}
+
+			#printFooter{
+			float:left;
+			width:100%;
+			margin:50px 0 0 0;
+			}
+				.companyLogo{
+				float:left;
+				width:35px;
+				margin:2px 5px 5px 0;
+				}
+
+				.developPart{
+				float:left;
+				margin:20px 0;
+				width:100%;
+				}
+					.developPart p{
+					float:left;
+					margin:5px 0 0 0;
+					font-size:11px;
+					}
+
+				.developPartSmall{
+				float:left;
+				margin:20px 0;
+				width:100%;
+				}
+					.developPartSmall p{
+					float:left;
+					margin:5px 0 0 0;
+					font-size:10px;
+					}
+					
+				.orgNameBottom{
+				float:right;
+				margin:20px 0;
+				width:430px;
+				}
+					.orgNameBottom p{
+					float:left;
+					margin:0;
+					width:100%;
+					font-size:11px;
+					}
+					
+					
+				.paraRight{
+				float:right; 
+				margin:0;
+				text-align:right; 
+				width:100%; 
+				font-size:13px;
+				}
+
+		
+	.footerPageNumber{
+	width:100%; border-top:1px solid #666; font-size: 5pt; text-align:center; padding-top: 0.5mm;
+	}
+	
+	#header_pdf_table{
+	float:left; width:100%; border:none;
+	}
+		#header_pdf_table tr{
+			border:1px solid #FFF;
+		}
+			#header_pdf_table tr td{
+				float:left;
+				text-align:left;
+				border:1px solid #FFF;
+			}	
+	
+	.admitProfile{
+	float:right;
+	border: 1px solid #888;
+    padding: 5px;	
+	border-radius:5px;
+	height:100px;
+	width:100px;
+	}
+	
+		.admitProfile img{
+		float:left;
+		height:100%;
+		width:100%;
+		border-radius:5px;
+		}
+		
+		#admitProfilePic{
+		float:left;
+		height:100%;
+		width:100%;
+		border-radius:5px;
+		}
+		
+	.textUnderline{
+	float22:left;
+	font-weight:bold;
+	/*
+	text-decoration22:underline;
+	border-bottom:3px dotted #333;
+	*/
+	}
+	
+	.certificatePara{
+	float:left;
+	font-size22:22px;
+	font-size:25px;
+	/*
+	font-size:16px;
+	font-family22:times new roman;
+	font-style22:italic;
+	*/
+	font-family:Aegyptus;
+	line-height:25px;
+	text-align:justify;
+	}
+
+	.tableHeader{
+	width:70px;
+	}
+	
+	.reportBackground{
+	float: left;
+	padding: 0px 10px;
+	border-radius:15px;
+	color: #FFF;
+	min-width:40px;
+	text-align:center;
+	}
+	
