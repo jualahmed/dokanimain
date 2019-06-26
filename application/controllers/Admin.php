@@ -3,7 +3,7 @@
 	class admin extends CI_controller{
 		public function __construct()
 		{
-	    parent::__construct();
+	    	parent::__construct();
 			$this->output->set_header("Expires: Thu, 19 Nov 1981 08:52:00 GMT");
 			$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate");
 			$this->is_logged_in();
@@ -29,11 +29,10 @@
 				redirect('auth/login');
 			}
 		}
-		// controlling home page
+
 		function index()
 		{
 			$data['user_type'] = $this ->tank_auth->get_usertype();
-			//if($data['user_type']!='seller'){
 			$timezone = "Asia/Dhaka";
 			date_default_timezone_set($timezone);
 			$data['bd_date'] = date ('Y-m-d');
@@ -60,31 +59,24 @@
 			$data[ 'todays_cash_out' ] = $this -> report_model -> todays_cash_out(  $data['bd_date']  ,  $data['bd_date']  );
 			$data[ 'todays_bank_book' ] = $this -> report_model -> todays_bank_book(  $data['bd_date']  ,  $data['bd_date']  );
 			$data[ 'todays_sale_return' ] = $this -> report_model -> todays_sale_return(  $data['bd_date']  ,  $data['bd_date']  );
-			
 			$data[ 'total_sale_all' ] = $this -> report_model -> total_sale_all();
 			$data[ 'total_receivable_all' ] = $this -> report_model -> total_receivable_all();
 			$data[ 'total_purchase_all' ] = $this -> report_model -> total_purchase_all();
 			$data[ 'total_payment_all' ] = $this -> report_model -> total_payment_all();
-
 			$data['total_stock_price'] = $this -> site_model -> total_stock_price();
 			$data['total_stock_sale_price'] = $this -> site_model -> total_stock_sale_price();
 			$data['total_stock_quantity'] = $this -> site_model -> total_stock_quantity();
-			
-			
 			$data['user_name'] = $this -> tank_auth -> get_username();	
 			$this -> load -> view('include/home', $data);
-	/* 		}
-			else{
-				redirect('sale_controller/my_sale');
-			} */
 		}
+
 		function check_barcode()
 		{
 			$data['user_type'] = $this -> tank_auth -> get_usertype();
 			$data['user_name'] = $this -> tank_auth -> get_username();	
 			$this -> load -> view('check_barcode',$data);
-			
 		}
+
 		function all_payable_report_find()
 		{
 			$temp = array();
@@ -114,6 +106,7 @@
 			}
 			echo json_encode(array("payable"=>$temp));
 		}
+
 		function all_receive_report_find()
 		{
 			$temp2 = array();
@@ -169,67 +162,14 @@
 			$this -> load -> view('include/home2', $data);
 		}
 		
-		// controlling search options view
 		function search_option()
 		{
-			//* for sale Running Status */
 			$data['sale_status'] = '';
 			$data['number_of_products'] = 0;
 			$data ['total_buy_price'] = 0;
 			$data ['total_sale_price'] = 0;
 			$data ['total_profit'] = 0;
 			$data['discount_on'] = false;
-			/*
-			$data['sale_stock'] = $this -> sale_model -> by_product_code_result();
-			if($data['sale_stock'] ->  num_rows() > 0)
-			{
-				
-				$data['sale_status'] = 'running';
-				$data['number_of_products'] += $data['sale_stock'] ->  num_rows();
-				$buy_amount = 0;
-				foreach($data['sale_stock'] -> result() as $field):
-					$buy_amount = $buy_amount + $field -> unit_buy_price;
-				endforeach;
-				$data ['total_buy_price'] += $buy_amount;
-				$sale_amount = 0;
-				foreach($data['sale_stock'] -> result() as $field):
-					$sale_amount = $sale_amount + $field -> unit_sale_price;
-				endforeach;
-				$data ['total_sale_price'] += $sale_amount;
-				$data ['total_profit'] += $sale_amount - $buy_amount;
-				if( $data ['total_buy_price'] )
-					$temp_buy_price = $data ['total_buy_price'];
-				else $temp_buy_price = 1;
-				$data['total_profit_percentage'] =  floor((( $data ['total_sale_price'] - $data ['total_buy_price'] ) * 100.00 ) / $temp_buy_price);
-			}
-			$data['sale_bulk'] = $this -> sale_model -> by_product_code_result_bulk();
-			if($data['sale_bulk'] ->  num_rows() > 0)
-			{ 
-				$data['sale_status'] = 'running';
-				$quantity = 0; // bulk product amount
-				foreach($data['sale_bulk'] -> result() as $field):
-					$quantity = $quantity + $field -> bulk_sale_quantity;
-				endforeach;
-				$data['number_of_products'] += $quantity;
-				$buy_amount = 0; // bulk buy price
-				foreach($data['sale_bulk'] -> result() as $field):
-					$buy_amount = $buy_amount + ( $field -> unit_buy_price *  $field -> bulk_sale_quantity );
-				endforeach;
-				//$data ['total_buy_price'] += ( $buy_amount * $quantity);
-				$data ['total_buy_price'] += ( $buy_amount );
-				$sale_amount = 0;
-				foreach($data['sale_bulk'] -> result() as $field):
-					$sale_amount = $sale_amount + ( $field -> unit_sale_price  *  $field -> bulk_sale_quantity );				
-				endforeach;
-				//$data ['total_sale_price'] += ( $sale_amount * $quantity );
-				$data ['total_sale_price'] += ( $sale_amount  );
-				$data ['total_profit'] += ( $sale_amount - $buy_amount);
-				if( $data ['total_buy_price'] )
-					$temp_buy_price = $data ['total_buy_price'];
-				else $temp_buy_price = 1;
-				$data['total_profit_percentage'] =  floor((( $data ['total_sale_price'] - $data ['total_buy_price'] ) * 100.00 ) / $temp_buy_price);
-			}
-			/* end of Sale running Status*/
 			$data['user_type'] = $this->tank_auth->get_usertype();
 			$data['user_name'] = $this -> tank_auth -> get_username();
 			$data['alarming_level'] = FALSE;
@@ -238,19 +178,11 @@
 			$this -> load -> view('include/template',$data);
 		}
 		
-		/* to show all available stocks */
 		function all_stock()
 		{
-			//* for sale Running Status */
 			$data['sale_status'] = '';
 			$data['number_of_products'] = 0;
-			
-			/* end of Sale running Status*/
-			
-			//$this -> table -> set_heading('Serial','Stock ID','Purchase Date');
-				
 			$config['base_url'] = base_url().'index.php/admin/all_stock/';
-			
 			$config['total_rows'] = $this -> site_model -> all_stock_no_of_rows();
 	        $config['per_page'] = 15;
 	        $config['num_links'] = 5;
@@ -278,7 +210,6 @@
 			$this -> load -> view('include/template',$data);	
 		}
 		
-		/* to show all available stocks */
 		function all_stock_details()
 		{
 			$timezone = "Asia/Dhaka";
@@ -351,35 +282,27 @@
 			$this -> load -> view('include/template',$data);	
 		}
 		
-		/******************************
-		 *  Print All Available Stock     *
-		 ******************************/
-		 function print_all_stock_details()
-		 {
-			 $timezone = "Asia/Dhaka";
-			 date_default_timezone_set($timezone);
-			 $data['bd_date'] = date ('Y-m-d');
-			 $data['start_date'] = $this->uri->segment(3);
-			 $data['end_date'] = $this->uri->segment(4);
-			 $data['all_stock'] = $this -> report_model -> get_all_stock_report();
-			 $data['all_stock'] = $data['all_stock']->result();
-			 $i=0;
-			 foreach($data['all_stock'] as $fild){
+		function print_all_stock_details()
+		{
+			$timezone = "Asia/Dhaka";
+			date_default_timezone_set($timezone);
+			$data['bd_date'] = date ('Y-m-d');
+			$data['start_date'] = $this->uri->segment(3);
+			$data['end_date'] = $this->uri->segment(4);
+			$data['all_stock'] = $this -> report_model -> get_all_stock_report();
+			$data['all_stock'] = $data['all_stock']->result();
+			$i=0;
+			foreach($data['all_stock'] as $fild){
 				$data['all_stock'][$i]->total_buy_quantity = $this -> site_model -> total_buy_quantity($data['start_date'],$data['end_date'],$fild->product_id,1);
 				$data['all_stock'][$i]->avg_buy_price = $this -> site_model -> total_buy_quantity($data['start_date'],$data['end_date'],$fild->product_id,2);
 				$data['all_stock'][$i]->total_sale_quantity = $this -> site_model -> total_sale_quantity($data['start_date'],$data['end_date'],$fild->product_id,1);
-				/* $data['all_stock'][$i]->avg_sale_price =  */
 				$i++;
 			}
-			 $this -> load -> view('all_stock_print_details_view', $data);
-		 }
+			$this -> load -> view('all_stock_print_details_view', $data);
+		}
 		
-		/*****************************************
-		 *  Search By Catagory Name                        *
-		 * ***************************************/
 		function by_catagory()
 		{
-			//* for sale Running Status */
 			$data['sale_status'] = '';
 			$data['number_of_products'] = 0;
 			$data ['total_buy_price'] = 0;
@@ -457,13 +380,9 @@
 			$data['tricker_content'] = 'tricker_search_option_view';
 			$this -> load -> view('include/template',$data);
 		}
-		 
-		 
 	
-		/* Search by name */
 		function by_name()
 		{
-			//* for sale Running Status */
 			$data['sale_status'] = '';
 			$data['number_of_products'] = 0;
 			$data ['total_buy_price'] = 0;
@@ -539,10 +458,8 @@
 			$this -> load -> view('include/template',$data);
 		}
 		
-		/** Stocked list of a specific product */
         function by_name_result()
 		{
-			//* for sale Running Status */
 			$data['sale_status'] = '';
 			$data['number_of_products'] = 0;
 			$data ['total_buy_price'] = 0;
@@ -659,7 +576,6 @@
 				$data['tricker_content'] = 'tricker_search_option_view';
 				$this -> load -> view('include/template',$data);
 			}
-		    
 		}
 		
 		/* Search By Serial number */
@@ -942,7 +858,6 @@
 			$this -> load -> view('include/template',$data);
 		}
 		
-		
 		function fatch_product_id( $records)
 		{
 			foreach ($records->result() as $field):
@@ -951,7 +866,6 @@
 			return $data;
 		}
 		
-		/* By Stock ID Result */
 		function by_stock_id_result()
 		{
 			//* for sale Running Status */
@@ -1035,7 +949,6 @@
 			return $data;	
 		}
 		
-		/* Advance Search */
 		function advance_search()
 		{
 			//* for sale Running Status */
@@ -1121,7 +1034,6 @@
 			$this -> load -> view('include/template',$data);
 		}
 		
-		/* Advance Search Result */
 		function advance_search_result()
 		{
 			
@@ -1193,15 +1105,7 @@
 			$data['tricker_content'] = 'tricker_search_option_view';
 			$this -> load -> view('include/template',$data);
 		}
-        /* for edit  product_name & update product_info,catagory_info,company_info */
-     /*   function edit_product_name()
-		{
-					// have controlled in MODIFY CONTROLLER
-		}*/
-		
-		/****************************
-		 * Show All Distributor List
-		 ****************************/
+     
 		function all_distributor()
 		{
 			$data['sale_status'] = '';

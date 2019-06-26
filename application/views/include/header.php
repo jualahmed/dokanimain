@@ -280,8 +280,8 @@ document.onkeypress = stopRKey;
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu common">
-            <li><a href="<?php echo base_url();?>setup/catagory_setup"><i class="fa fa-gear"></i>Category Setup</a></li>
+          <ul class="treeview-menu common active">
+            <li><a href="<?php echo base_url();?>category"><i class="fa fa-gear"></i>Category Setup</a></li>
             <li><a href="<?php echo base_url();?>setup/company_setup"><i class="fa fa-gear"></i>Company Setup</a></li>
             <li><a href="<?php echo base_url();?>setup/distributor_setup"><i class="fa fa-gear"></i>Distributor Setup</a></li>
             <li><a href="<?php echo base_url();?>setup/product_setup"><i class="fa fa-gear"></i>Product Setup</a></li>
