@@ -1,9 +1,16 @@
 //v.3.0 build 110707
 
+<<<<<<< HEAD
 /*
 Copyright DHTMLX LTD. http://www.dhtmlx.com
 You allowed to use this component or parts of it under GPL terms
 To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
+=======
+/*
+Copyright DHTMLX LTD. http://www.dhtmlx.com
+You allowed to use this component or parts of it under GPL terms
+To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 */
 dhtmlx=function(a){for(var b in a)dhtmlx[b]=a[b];return dhtmlx};dhtmlx.extend_api=function(a,b,c){var d=window[a];if(d)window[a]=function(a){if(a&&typeof a=="object"&&!a.tagName){var c=d.apply(this,b._init?b._init(a):arguments),f;for(f in dhtmlx)if(b[f])this[b[f]](dhtmlx[f]);for(f in a)if(b[f])this[b[f]](a[f]);else f.indexOf("on")==0&&this.attachEvent(f,a[f])}else c=d.apply(this,arguments);b._patch&&b._patch(this);return c||this},window[a].prototype=d.prototype,c&&dhtmlXHeir(window[a].prototype,c)};
 dhtmlxAjax={get:function(a,b){var c=new dtmlXMLLoaderObject(!0);c.async=arguments.length<3;c.waitCall=b;c.loadXML(a);return c},post:function(a,b,c){var d=new dtmlXMLLoaderObject(!0);d.async=arguments.length<4;d.waitCall=c;d.loadXML(a,!0,b);return d},getSync:function(a){return this.get(a,null,!0)},postSync:function(a,b){return this.post(a,b,null,!0)}};
@@ -51,8 +58,15 @@ delete a.pull[b])}})();
 
 //v.3.0 build 110707
 
+<<<<<<< HEAD
 /*
 Copyright DHTMLX LTD. http://www.dhtmlx.com
 You allowed to use this component or parts of it under GPL terms
 To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
+=======
+/*
+Copyright DHTMLX LTD. http://www.dhtmlx.com
+You allowed to use this component or parts of it under GPL terms
+To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 */

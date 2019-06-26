@@ -473,7 +473,11 @@
 		public function search_product($requested_item, $field)
 		{
 			$data 	= $this->db
+<<<<<<< HEAD
 					->select('product_info.product_id,product_info.product_specification as new_specification, product_name,product_size,product_model, catagory_name, company_name, group_name, bulk_stock_info.*')
+=======
+					->select('product_info.product_id, product_name,product_size,product_model, catagory_name, company_name, group_name, bulk_stock_info.*')
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 					->from('product_info, bulk_stock_info')
 					->where('product_info.product_id = bulk_stock_info.product_id')
 					->like($field, $requested_item, 'after')
@@ -499,6 +503,7 @@
 			else return FALSE;
 
 		}
+<<<<<<< HEAD
 		public function search_warranty_productt2($requested_item, $field)
 		{
 			$data 	= $this->db
@@ -514,6 +519,8 @@
 			else return FALSE;
 
 		}
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		
 		function get_latest_unit_buy_price($product)
 		{
@@ -1373,6 +1380,7 @@
 			
 		}
 		/* Ending: removeProductFromPurchase() */
+<<<<<<< HEAD
 		public function removeProductFromPurchase_warranty($purchase_receipt_id, $ip_id, $unit_buy_price, $product_id)
 		{
 			
@@ -1541,6 +1549,9 @@
 			
 		}
 		/* Ending: removeProductFromPurchase() */
+=======
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		/* Starting: editPruchaseProduct() (Added by Arun)*/
 		public function	editPruchaseProduct($purchase_receipt_id, $product_id, $qnty, $unit_buy_price, $shop_id)
 		{	
@@ -2177,7 +2188,11 @@
 		public function search_product_by_barcode($barcode)
 		{
 			$this->db
+<<<<<<< HEAD
 			->select('product_info.product_id, product_info.product_specification as new_spec, product_name, catagory_name, company_name, group_name, bulk_stock_info.*')
+=======
+			->select('product_info.product_id, product_name, catagory_name, company_name, group_name, bulk_stock_info.*')
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			->from('product_info, bulk_stock_info')
 			->where('product_info.product_id = bulk_stock_info.product_id')
 			->where('barcode', $barcode)

@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 .sidebar-toggle-1 {
     background-color: transparent;
     background-image: none;
     float: left;
     font-family: fontAwesome;
     padding: 1px;
+=======
+.sidebar-toggle-1 {
+    background-color: transparent;
+    background-image: none;
+    float: left;
+    font-family: fontAwesome;
+    padding: 1px;
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 }

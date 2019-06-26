@@ -220,7 +220,37 @@
 			$this -> load -> view('include/template', $data);
 		}
 		
+<<<<<<< HEAD
 		
+=======
+		/* Starting: specific_purchase_receipt()*/
+		  public function specificPurchaseReceipt()
+		  {
+		  	$purchase_receipt_id 				= (int)$this->input->post('purchase_receipt_id');
+
+		  	$data['receipt_general_details'] 	= $this->report_model->specific_purchase_receipt_general( $purchase_receipt_id);
+			// $data['purchase_receipt_details'] 	= $this->report_model->specific_purchase_receipt( $purchase_receipt_id);
+		  	$tmp_row 							= $data['receipt_general_details']->row();
+		  	$tmp_data['grand_total'] 			= $tmp_row->grand_total;
+		  	$tmp_data['purchase_amount'] 		= $tmp_row->purchase_amount;
+		  	$tmp_data['total_purchase_amount'] 	= $this->report_model->get_total_purchase_amount($purchase_receipt_id);
+			$tmp_data['basic_info'] 			= $this->load->view(__CLASS__ . '/' . __FUNCTION__, $data, true);
+
+			echo json_encode($tmp_data);
+
+		  }
+		  /* Ending: specific_purchase_receipt()*/
+		
+		/* Starting: getSpecificPurchaseReceiptProduct()*/
+		public function getSpecificPurchaseReceiptProduct()
+		{
+			$purchase_receipt_id 				= (int)$this->input->post('purchase_receipt_id');
+			$data['purchase_receipt_details'] 	= $this->report_model->specific_purchase_receipt( $purchase_receipt_id);
+
+			$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
+		}
+		/* Ending: getSpecificPurchaseReceiptProduct()*/
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		/************************
 		 *  See All Sale Return Details *
 		 * *************************/
@@ -412,6 +442,7 @@
 				
 				
 		}
+<<<<<<< HEAD
 		function warranty_stock_report()
 		{
 		   $data['user_type'] = $this->tank_auth->get_usertype();
@@ -462,6 +493,8 @@
 			echo json_encode(array("pro_list"=>$temp));
 
 		}
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		function  purchase_report()
 		{
 		   $data['user_type'] = $this->tank_auth->get_usertype();
@@ -862,6 +895,7 @@
 			ob_end_flush();
 			exit;
 		}
+<<<<<<< HEAD
 		function purchase_return_report_new()
 		{
 			$data['user_type'] = $this->tank_auth->get_usertype();
@@ -891,10 +925,51 @@
 			$this -> load -> view('Report/all_purchase_return_report_new', $data);
 		}
 
+=======
+		function  purchase_return_report_new()
+		{
+		   $data['user_type'] = $this->tank_auth->get_usertype();
+			if($this -> access_control_model -> my_access($data['user_type'], 'product_controller', 'product_entry'))
+			{
+				$timezone = "Asia/Dhaka";
+				date_default_timezone_set($timezone);
+				$bd_date = date('Y-m-d');
+				$data['bd_date'] = $bd_date;
+				$data['sale_status'] = '';
+				$data['alarming_level'] = FALSE;
+				$data['last_id'] = $this->product_model->getLastInserted();
+				$data['user_name'] = $this->tank_auth->get_username();
+				$data['status'] = '';
+				$data['purchase_receipt_info'] = $this ->product_model-> fatch_all_purchase_receipt_id();
+				$data['distributor_info'] = $this -> product_model -> distributor_info();
+				$data['company_name'] = $this -> product_model -> company_name();
+				$data['catagory_name'] = $this -> product_model -> catagory_name();
+				$data['distributor_name'] = $this -> product_model -> distributor_name();
+				$data['product_specification'] = $this -> product_model -> product_specification();
+				$this->load->model('product_model');
+				$data['product_type'] = $this -> product_model -> product_type();
+				$data['purchase_receipt'] = $this -> product_model -> purchase_receipt();
+				$data['seller'] = $this -> product_model -> seller();
+				
+				$data['unit_name'] = $this -> product_model -> unit_name();
+				$this -> load -> view('Report/all_purchase_return_report_new', $data);
+			}
+			else redirect('product_controller/product/noaccess');
+		}
+		function all_purchase_return_report_find()
+		{
+			$temp3 = $this->report_model->get_purchase_return_info_by_multi();
+
+			echo json_encode($temp3->result());
+					
+
+		}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		function download_data_purchase_return()
 		{
 			date_default_timezone_set("Asia/Dhaka");
 			$bd_date = date('Y-m-d',time());
+<<<<<<< HEAD
 
 			$distributor_id= $this->uri->segment(3);
 			$start_date=$this->uri->segment(4);
@@ -909,13 +984,20 @@
 					$i++;
 				}
 			}
+=======
+			$data['download_data_purchase_return'] = $this -> report_model -> print_data_purchase_return();
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			$html=$this->load->view('Download/download_data_purchase_return',$data, true); 
 
 			$this->load->library('m_pdf');
 			ob_start();
 			$this->m_pdf->pdf 	= new mPDF('utf-8', 'A4');
 			$this->m_pdf->pdf->SetProtection(array('print'));
+<<<<<<< HEAD
 			$this->m_pdf->pdf->SetTitle("Sale Return Report");
+=======
+			$this->m_pdf->pdf->SetTitle("Purchase Return Report");
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			$this->m_pdf->pdf->SetAuthor("Dokani");
 			$this->m_pdf->pdf->SetDisplayMode('fullpage');
 			
@@ -1437,6 +1519,7 @@
 			exit;
 		}
 
+<<<<<<< HEAD
 		function scb_report()
 		{
 			$timezone = "Asia/Dhaka";
@@ -1633,6 +1716,9 @@
 			ob_end_flush();
 			exit;
 		}
+=======
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		/*------end of financial_report-----*/
 		
 		

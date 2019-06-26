@@ -1,9 +1,16 @@
 //v.3.0 build 110707
 
+<<<<<<< HEAD
 /*
 Copyright DHTMLX LTD. http://www.dhtmlx.com
 You allowed to use this component or parts of it under GPL terms
 To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
+=======
+/*
+Copyright DHTMLX LTD. http://www.dhtmlx.com
+You allowed to use this component or parts of it under GPL terms
+To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 */
 function dhtmlXComboFromSelect(a,b){typeof a=="string"&&(a=document.getElementById(a));b=b||a.getAttribute("width")||(window.getComputedStyle?window.getComputedStyle(a,null).width:a.currentStyle?a.currentStyle.width:0);if(!b||b=="auto")b=a.offsetWidth||100;var c=document.createElement("SPAN");a.parentNode.insertBefore(c,a);a.style.display="none";for(var e=a.getAttribute("opt_type"),d=new dhtmlXCombo(c,a.name,b,e,a.tabIndex),f=[],h=-1,g=0;g<a.options.length;g++){a.options[g].selected&&(h=g);var j=
 a.options[g].innerHTML,i=a.options[g].getAttribute("value");if(typeof i=="undefined"||i===null)i=j;f[g]={value:i,text:j,img_src:a.options[g].getAttribute("img_src")}}f.length&&d.addOption(f);a.parentNode.removeChild(a);h>=0&&d.selectOption(h,null,!0);a.onchange&&d.attachEvent("onChange",a.onchange);a.style.direction=="rtl"&&d.setRTL&&d.setRTL(!0);return d}var dhtmlXCombo_optionTypes=[];
@@ -59,8 +66,15 @@ dhtmlXCombo.prototype.dhx_Event=function(){this.dhx_SeverCatcherPath="";this.att
 
 //v.3.0 build 110707
 
+<<<<<<< HEAD
 /*
 Copyright DHTMLX LTD. http://www.dhtmlx.com
 You allowed to use this component or parts of it under GPL terms
 To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
+=======
+/*
+Copyright DHTMLX LTD. http://www.dhtmlx.com
+You allowed to use this component or parts of it under GPL terms
+To use it on other terms or get Professional edition of the component please contact us at sales@dhtmlx.com
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 */

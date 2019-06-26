@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .reate_setup_room_type{
     width: 250px;
     position: absolute;
@@ -178,4 +179,186 @@
 }
 #calBorder{
 	z-index: 999999;
+=======
+.reate_setup_room_type{
+    width: 250px;
+    position: absolute;
+    left: 0px;
+    margin: 0px;
+}
+
+.reate_setup_room_class{
+    height: 48px;
+    position: absolute;
+    left: 249px;
+    margin: 0px;
+    display: inline-block !important;
+    white-space: nowrap;
+}
+
+.fill_gap{
+    width: 250px;
+    height: 47px;
+    margin: 0px;
+    border: 1px silver solid;
+    text-align: center;
+    line-height: 47px;
+}
+
+.main_content_rate{
+    position: absolute;
+    padding: 0px;
+    left: 249px;
+    top: 47px;
+    
+}
+
+.room_typ_list{
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    list-style-type: none;
+}
+
+.room_typ_list_div{
+    width: 249px;
+    height: 47px;
+    text-align: center;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+.room_cls_list_div{
+    width: 249px;
+    height: 47px;
+    text-align: center;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+
+.rate_list_div{
+    width: 249px;
+    height: 47px;
+    text-align: center;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.main_content_rate_seassion{
+    position: absolute;
+    padding: 0px;
+    left: 249px;
+    top: 47px;
+}
+
+.main_content_rate_corporate{
+    position: absolute;
+    padding: 0px;
+    left: 249px;
+    top: 47px;
+}
+
+
+
+
+
+
+.button_font{
+    font-size: 12px;
+    font-weight: bold;
+    height: 47px;
+}
+
+
+.margin0{
+    margin: 0px !important;
+}
+.radious_no{
+    border-radius: 0px !important;
+}
+
+.modal-backdrop
+{
+    opacity:0.0 !important;
+}
+
+.ui-datepicker { 
+    position: relative; 
+    z-index: 10000 !important; 
+}
+
+.over_flow{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.over_flow_auto{
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.separation1{
+   width:100%;
+   height:1px;
+}
+
+.separation1{
+   width:100%;
+   height:1px;
+}
+
+.separation1{
+   width:100%;
+   height:1px;
+}
+
+.separation2{
+   width:100%;
+   height:2px;
+}
+
+.separation3{
+   width:100%;
+   height:3px;
+}
+
+.separation5{
+   width:100%;
+   height:5px;
+}
+
+.separation10{
+   width:100%;
+   height:10px;
+}
+
+.separation12{
+   width:100%;
+   height:12px;
+}
+
+.separation15{
+   width:100%;
+   height:15px;
+}
+
+.separation20{
+   width:100%;
+   height:20px;
+}
+
+.bootstrap-tagsinput{
+    width: 100%;
+}
+
+
+/*********************    Kawsar Ahmed        //////////////////////*****************/
+
+.separator10{
+	margin-top: 10px;
+}
+#calBorder{
+	z-index: 999999;
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 }

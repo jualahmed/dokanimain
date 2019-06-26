@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" ?>
 <ldml>
 	<identity>
@@ -14,3 +15,21 @@
 		<exemplarCharacters type="auxiliary">[a á à ă â å ä ā æ b c ç d e é è ĕ ê ë ē f-i í ì ĭ î ï ī j-n ñ o ó ò ŏ ô ö ø ō œ p-s ß t u ú ù ŭ û ü ū v-y ÿ z]</exemplarCharacters>
 	</characters>
 </ldml>
+=======
+<?xml version="1.0" encoding="UTF-8" ?>
+<ldml>
+	<identity>
+		<version number="$Revision: 1.4 $"/>
+		<generation date="$Date: 2009/05/05 23:06:38 $"/>
+		<language type="mn"/>
+		<script type="Mong"/>
+	</identity>
+	<layout>
+		<orientation lines="left-to-right" characters="top-to-bottom"/>
+	</layout>
+	<characters>
+		<exemplarCharacters>[᠐-᠙ ᠠ-ᡂ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[a á à ă â å ä ā æ b c ç d e é è ĕ ê ë ē f-i í ì ĭ î ï ī j-n ñ o ó ò ŏ ô ö ø ō œ p-s ß t u ú ù ŭ û ü ū v-y ÿ z]</exemplarCharacters>
+	</characters>
+</ldml>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

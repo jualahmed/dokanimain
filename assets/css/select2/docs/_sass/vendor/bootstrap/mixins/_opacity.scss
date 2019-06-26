@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Opacity
 
 @mixin opacity($opacity) {
@@ -6,3 +7,13 @@
   $opacity-ie: ($opacity * 100);
   filter: alpha(opacity=$opacity-ie);
 }
+=======
+// Opacity
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  // IE8 filter
+  $opacity-ie: ($opacity * 100);
+  filter: alpha(opacity=$opacity-ie);
+}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

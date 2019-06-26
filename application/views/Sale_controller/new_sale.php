@@ -21,6 +21,7 @@
 	
 		 height:150px;
 	}
+<<<<<<< HEAD
 	.wrap 
 	{
 	    width: 100%;
@@ -109,6 +110,97 @@
 	   background-image: -webkit-linear-gradient(45deg,rgba(255, 255, 255, .2) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, .2) 50%,rgba(255, 255, 255, .2) 75%,transparent 75%,transparent)
 
 	}
+=======
+.wrap 
+{
+    width: 100%;
+	margin:0px 0px 0px 0px;
+}
+.wrap table {
+    width: 100%;
+    table-layout: fixed;
+}
+.wrap-1 {
+	margin:-8px 0px 0px 0px;
+    width: 100%;
+}
+.wrap-1 table {
+    width: 100%;
+    table-layout: fixed;
+}
+table .new_data tr td {
+    border: 1.5px solid #e1e1e1;
+	background: white;
+}
+.new_data_2 {
+    width: 100%;
+}
+table tr td {
+    padding: 5px;
+    border: 1.5px solid #e1e1e1;
+    ~width: 100%;
+    word-wrap: break-word;
+	background: white;
+}
+table.head tr td {
+    color:white;
+	background: #00c0ef;
+	font-size:14px;
+	font-family:Sans Pro; 
+	font-weight:bold;
+}
+
+.new_data_2 tr:nth-child(even) td {
+    background-color: #f4f4f4;
+}
+.new_data_2 tr:nth-child(odd) td {
+    background-color: #fff;
+}
+.inner_table {
+	color:#666768;
+    height: 410px;
+	width: 100%;
+	font-size:12px;
+	font-family:Sans Pro; 
+	font-weight:bold;
+    overflow-y: auto !important;
+}
+
+.inner_table22 {
+	color:#666768;
+    height: 280px;
+	width: 100%;
+	font-size:12px;
+	font-family:Sans Pro; 
+	font-weight:bold;
+    overflow-y: auto !important;
+}
+.inner_table_2 {
+	color:#403e3e;
+    height: 33px;
+	width: 100%;
+	font-size:12px;
+	font-family:Sans Pro; 
+	font-weight:bold;
+    overflow-y: auto !important;
+}
+.inner_table::-webkit-scrollbar {
+    width: 1px;
+	background-color: #00c0ef;
+}
+
+.inner_table::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: white;
+}
+
+.inner_table::-webkit-scrollbar-thumb {
+   background-color: #00c0ef;
+   background-image: -webkit-linear-gradient(45deg,rgba(255, 255, 255, .2) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, .2) 50%,rgba(255, 255, 255, .2) 75%,transparent 75%,transparent)
+
+}
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 </style>
 <?php 
 
@@ -133,12 +225,18 @@
 </style>
 <div class="content-wrapper">
 	<section class="content2">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
 			        <div class="box-body">
+<<<<<<< HEAD
 						<input type="hidden" value="<?php echo $currrent_temp_sale_id = $this->session->userdata('currrent_temp_sale_id');?>" id="new_temp_sale_id">
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			        	<div id='num_of_sale'>
 			        		<?php
             					$ind = 0; 
@@ -169,7 +267,10 @@
 			    </div>
 		    </div>
 		</div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		<div class="col-md-6" style="padding-right: 0px;padding-left: 0px;">
 			<div class="col-md-12" style="padding-right: 2px;padding-left: 5px;">
 				<div class="box box-info" style="margin-bottom: 0px;">
@@ -182,12 +283,18 @@
 									<td width="20%" style="padding: 0px 2px 0px 0px;">
 		                 				<input type="text" class="form-control search" id="search_by_barcode" placeholder="Barcode" autofocus="on">
 		                 			</td-->
+<<<<<<< HEAD
 		                 			<td width="50%" style="padding: 0px 2px;">
 		                 				<input type="text" class="form-control search" id="search_by_product_name" placeholder="Search Product" autofocus="on">
 		                 			</td>
 									<td width="40%" style="padding: 0px 2px;">
 		                 				<input type="text" class="form-control search" id="search_by_warran_product_model" placeholder="Search Warranty Product">
 		                 			</td>
+=======
+		                 			<td width="55%" style="padding: 0px 2px;">
+		                 				<input type="text" class="form-control search" id="search_by_product_name" placeholder="Search Product" autofocus="on">
+		                 			</td>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 									<!--td width="15%" style="padding: 0px 2px;">
 		                 				<input type="text" class="form-control quantity" id="buy_price_check" placeholder="Buy Price">
 		                 			</td-->
@@ -195,12 +302,19 @@
 									<!--td width="15%" style="padding: 0px 2px;">
 		                 				<input type="text" class="form-control quantity" id="new_mrp_price" placeholder="Sale Price" -->
 		                 			</td>
+<<<<<<< HEAD
 									<td width="10%" style="padding: 0px 2px;">
+=======
+									<td width="15%" style="padding: 0px 2px;">
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		                 				<input type="text" class="form-control quantity" id="product_quantity" placeholder="Quantity" >
 		                 			</td>
 		                 		</tr>
 		                 	</table>
+<<<<<<< HEAD
 							<input type="hidden" name="temp_pro_id" id="temp_pro_id" />
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		                 	<input type="hidden" name="temp_pro_data" id="temp_pro_data" />
 			            	<input type="hidden" name="temp_pro_qty" id="temp_pro_qty" />
 			                <input type="hidden" name="pro_name" id="pro_name" />
@@ -209,7 +323,10 @@
 			            	<input type="hidden" id="new_mrp_price" />
 							<input type="hidden" name="mrp_price" id="mrp_price" />
 			            	<input type="hidden" id="buy_price" />
+<<<<<<< HEAD
 							<input type="hidden" id="product_specification" >
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
               			<hr style="margin-top: 4px;margin-bottom: 3px;border: 0;border-top: 1px solid #eee;">
   						<table class="table table-bordered sale_table_custom_styl">
 			                <tr>
@@ -301,7 +418,11 @@
 										$customer_id=$query->customer_id;
 										$customer_contact_no=$query->customer_contact_no;
 								?>
+<<<<<<< HEAD
 								<input type="hidden" id="selected_customer_id" value="<?php echo $customer_id;?>">
+=======
+								 <input type="hidden" id="selected_customer_id" value="<?php echo $customer_id;?>">
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 								<select id="select_customer" class="form-control select2 customer_name" style="width:92%;">
 									<option>Select Customer</option>
 									<option value="<?php echo $customer_id;?>" selected><?php echo $customer_id;?>. <?php echo $customer_name;?> (<?php echo $customer_contact_no;?>)</option>
@@ -355,7 +476,10 @@
               		</div>
 		        </div>
 			</div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			<div class="col-md-12 col-md-offset-" style="padding-right: 2px;padding-left: 5px;">
 				<div class="box" style="margin-bottom: 0px;">
 		           	<div class="box-body" style="padding: 4px;">
@@ -377,6 +501,7 @@
 								}
 								?>
 								<?php
+<<<<<<< HEAD
 									if(!empty($card_info)){
 										foreach($card_info->result() as $field){
 										?>
@@ -404,6 +529,33 @@
 											}
 										}
 									}
+=======
+									foreach($card_info->result() as $field){
+								?>
+								<?php 
+									if($field->card_name =='MASTER')
+									{
+								?>
+									<button type="button" class="btn btn-info btn_for_sale style" style="margin-top: 8px;" id="master_id" value="<?php echo $field->card_id;?>"><img src="<?php echo base_url();?>assets/assets2/dist/img/credit/mastercard.png" alt="Mastercard"><br>(Shortcut : Alt+M)</button>
+									<input type="hidden" id="bank_id" value="<?php echo $field->bank_id;?>">
+								<?php
+									}
+									else if($field->card_name =='VISA')
+									{
+								?>
+									<button type="button" class="btn btn-info btn_for_sale style" style="margin-top: 8px;" id="visa_id" value="<?php echo $field->card_id;?>"><img src="<?php echo base_url();?>assets/assets2/dist/img/credit/visa.png" alt="Visa"><br>(Shortcut : Alt+V)</button>
+									<input type="hidden" id="bank_id" value="<?php echo $field->bank_id;?>">
+								<?php
+									}
+									else if($field->card_name =='AMERICAN EXPRESS')
+									{
+								?>
+									<button type="button" class="btn btn-info btn_for_sale style" style="margin-top: 8px;" id="american_express_id" value="<?php echo $field->card_id;?>"><img src="<?php echo base_url();?>assets/assets2/dist/img/credit/american-express.png" alt="American Express"><br>(Shortcut : Alt+A)</button>
+									<input type="hidden" id="bank_id" value="<?php echo $field->bank_id;?>">
+								<?php
+									}
+								}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 								?>
 								</center>
 							</div>
@@ -414,6 +566,7 @@
               		</div>
 		        </div>
 			</div>
+<<<<<<< HEAD
 
 		</div>
 		
@@ -516,6 +669,105 @@
 			</div>
 		</div>
 
+=======
+		</div>
+		<div class="row">
+		<div class="col-md-6" style="padding-right: 0px;padding-left: 0px;">
+			<div class="col-md-12" style="padding-right: 10px;padding-left: 10px;">
+				<div class="box box-info"> 
+					<div class="box-body">
+		        	<div class="wrap">
+						<table class="head" id="selected_product_list_tbl">
+		              		<tr class="bg-aqua color-palette">
+		              			<td style="width: 7%;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-weight: 500;">
+		              				SL No
+		              			</td>
+								<td style="width: 40%;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-weight: 500;">
+		              				Name
+		              			</td>
+		              			<td style="text-align: center;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-weight: 500;">
+		              				Stock
+		              			</td>
+		              			<td style="text-align: center;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-weight: 500;">
+		              				QTY
+		              			</td>
+								<!--td style="text-align: center;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-weight: 500;">
+		              				MRP
+		              			</td-->
+								<td style="text-align: center;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-weight: 500;">
+		              				Sale
+		              			</td>
+		              			<td style="text-align: center;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-weight: 500;">
+		              				Total
+		              			</td>
+		              			<td style="text-align: center;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-weight: 500;">
+		              				 <i class="fa fa-fw fa-wrench"></i>
+		              			</td>
+		              		</tr>
+						</table>
+						
+		              	<!--/thead-->
+		              	<div class="inner_table">
+							<table class="new_data_2" id="search_data">
+		              		<?php $qnty = 0;$total_sale = 0;$total_buy_price = 0;$total_profit = 0;$total_sale_price = 0;$final_profit_percent = 0; $buy_price = 0;$sale_price = 0;$profit = 0;$profit_percent = 0; $total_qnty = 0; $sub_to = 0; $vat = 0; $ind = 1; ?>
+                			<?php 
+                				if($tmp_item != FALSE)
+                				{ 
+                					$i_num = 1;
+									foreach($tmp_item->result() as $tmp)
+                					{
+                			?>
+										<tr style="background-color: white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;    font-weight: 500;">
+											<td style="text-align: left; width: 7%;" id="pro_name"><?php echo $i_num; ?></td>
+											<td style="text-align: left; width: 40%;" id="pro_name"><?php echo $tmp->item_name.' '.$tmp->product_size; ?></td>
+											<td style="text-align: center;"><?php echo $tmp->stock; ?></td>
+											<td style="text-align: center;"> <?php echo $qnty = $tmp->sale_quantity; ?></td>
+											<!--td style="text-align: right;"><?php echo $mrp_price = $tmp->unit_sale_price; ?></td-->
+											<td style="text-align: right;"><?php echo $sale_price = $tmp->general_unit_sale_price; ?></td>
+											<td style="text-align: right;"><?php echo $tmp->sale_quantity * $tmp->general_unit_sale_price; ?></td>
+											<td style="text-align: center; ">
+												<i id="delete<?php echo $i_num;?>" class="fa fa-fw fa-remove delete_product" style="color: red;cursor:pointer;" ></i>      <!-- id="delete" -->
+												<i id="edit<?php echo $i_num;?>" class="fa fa-edit edit_quantty" style="color: green;cursor:pointer;" ></i>      <!-- id="edit" -->
+											</td>
+											
+											<input type="hidden" id="pro_duct_id" value="<?php echo $tmp->product_id; ?>">
+											<input type="hidden" id="pro_duct_idd<?php echo $i_num;?>" value="<?php echo $tmp->product_id; ?>">
+											<input type="hidden" id="sale_stock_id" value="<?php echo $tmp->sale_quantity; ?>">
+											<input type="hidden" id="stock_id<?php echo $i_num;?>" value="<?php echo $tmp->stock; ?>">
+											<input type="hidden" id="sale_id<?php echo $i_num;?>" value="<?php echo $tmp->general_unit_sale_price; ?>">
+											<input type="hidden" id="buy_id<?php echo $i_num;?>" value="<?php echo $tmp->unit_buy_price; ?>">
+											<input type="hidden" id="quantti_id<?php echo $i_num;?>" value="<?php echo $tmp->sale_quantity; ?>">
+											<input type="hidden" id="temp_details_modal<?php echo $i_num;?>" value="<?php echo $tmp -> temp_sale_details_id; ?>">
+											<td style="display: none;"><?php echo $tmp->product_id . "<>" . $qnty ."<>". $sale_price; ?></td>
+										</tr>
+
+			                <?php 
+					                	$i_num++; 
+					                    $total_qnty += $qnty;
+					                    $sub_to     = ($sub_to + ($qnty * $sale_price));
+					                    //$vat        = ($vat + ((($qnty * $price) * $value_added_tax) / 100));
+					                    $vat        = 0;
+			                 		}
+			                 		$sub_to  = round($sub_to);
+			                 		$vat     = round($vat);
+			                 ?>
+					                <input type="hidden" value="<?php echo $total_qnty; 	?>"     id="hid_qty" >
+					                <input type="hidden" value="<?php echo $sub_to;     	?>"     id="hid_sub_to" >
+					                <input type="hidden" value="<?php echo $vat;         	?>"     id="hid_vat" >
+			               <?php 
+			           			}
+			               ?>
+			               		<input type="hidden" value="<?php echo $return_adjust; ?>" 	id="hid_return_adjust" >
+			               		<input type="hidden" value="<?php echo $return_id; ?>" 	id="hid_return_id" >
+							</table>
+						</div>
+		              </div>
+		            </div>
+		        </div>
+			</div>
+		</div>
+		</div>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		<div class="modal fade" id="show_add_client_modal" >
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -553,7 +805,10 @@
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
 		</div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		<div class="modal fade" id="show_quantty_modal" >
 		  <div class="modal-dialog">
 			<div class="modal-content">
@@ -587,6 +842,7 @@
 		  </div><!-- /.modal-dialog -->
 		</div>
 
+<<<<<<< HEAD
 		<div class="modal fade" id="show_product_individual_add_modal" >
 			<div class="modal-dialog" style="width:600px;">
 				<div class="modal-content">
@@ -612,6 +868,8 @@
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
 		</div>
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 
 		<!-- Modal -->
 		<div id="sale_return_modal" class="modal">
@@ -1180,7 +1438,16 @@
         </div>
         <!--/.Modal-->
 
+<<<<<<< HEAD
 	</section>
 </div>
 
 <?php $this->load->view('include/footer_for_new_sale'); ?>
+=======
+       
+
+	</section>
+</div>
+
+<?php $this -> load -> view('include/footer_for_new_sale'); ?>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

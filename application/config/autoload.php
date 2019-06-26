@@ -64,7 +64,11 @@ $autoload['libraries'] = array('database', 'session','javascript', 'form_validat
 |	$autoload['helper'] = array('url', 'file');
 */
 
+<<<<<<< HEAD
 $autoload['helper'] = array('url','form','html','date', 'security', 'captcha', 'recaptcha','viewload');
+=======
+$autoload['helper'] = array('url','form','html','date', 'security', 'captcha', 'recaptcha');
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 
 
 /*
@@ -109,7 +113,11 @@ $autoload['language'] = array();
 |
 */
 
+<<<<<<< HEAD
 $autoload['model'] = array('account_model', 'product_model', 'report_model', 'my_variables_model', 'expense_invoice_model', 'access_control_model', 'registration_model', 'site_model', 'sale_model', 'login_model', 'joy_model', 'modify_model', 'setup_model', 'purchase_model','direct_model','web_model','exchange_model','salereturn_model');
+=======
+$autoload['model'] = array('account_model', 'product_model', 'report_model', 'my_variables_model', 'expense_invoice_model', 'access_control_model', 'registration_model', 'site_model', 'sale_model', 'login_model', 'joy_model', 'modify_model', 'setup_model', 'purchase_model','direct_model','web_model','exchange_model');
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 
 
 

@@ -14,13 +14,20 @@ class New_invoice_print extends CI_controller{
 
     public function index()
     {
+<<<<<<< HEAD
     	$this->load->config('custom_config'); 
 		$invoice_type = $this->config->item('invoice_type');
+=======
+    	
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
     	if(is_numeric($data['invoice_id'] = $this->uri->segment(3)))
     	{	
 	    	$data['invoice_id'] = abs($data['invoice_id']);		
 	    	$data['sale_info'] 	= $this->sale_model->getSoldProducts($data['invoice_id']);
+<<<<<<< HEAD
 			$data['sale_warranty_info'] 	= $this->sale_model->getSoldProducts_warranty($data['invoice_id']);
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			
 			if($data['sale_info'] != false)
 			{
@@ -28,6 +35,7 @@ class New_invoice_print extends CI_controller{
 				$data['receipt_sale_total_amount'] = $this->sale_model->receipt_sale_total_amount($number->customer_id,$data['invoice_id']);
 				$data['in_word'] 	= $this->convert_number_to_words($number->grand_total);
 
+<<<<<<< HEAD
 				if($invoice_type==1){
 					$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
 				}
@@ -35,6 +43,10 @@ class New_invoice_print extends CI_controller{
 					$this->load->view('New_invoice_print/a5', $data);
 				}
 				
+=======
+				$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
+				//$this->load->view('New_invoice_print/a5', $data);
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			}
 			else{
 				echo 'NOTHING FOUND!!!';

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 /**
  * Zend Framework
@@ -36,3 +37,43 @@ require_once 'Zend/ProgressBar/Exception.php';
 class Zend_ProgressBar_Adapter_Exception extends Zend_ProgressBar_Exception
 {
 }
+=======
+<?php
+/**
+ * Zend Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
+ *
+ * @category  Zend
+ * @package   Zend_ProgressBar
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd     New BSD License
+ * @version   $Id: Exception.php 24593 2012-01-05 20:35:02Z matthew $
+ */
+
+/**
+ * @see Zend_ProgressBar_Exception
+ */
+require_once 'Zend/ProgressBar/Exception.php';
+
+/**
+ * Exception class for Zend_ProgressBar_Adapter
+ *
+ * @category  Zend
+ * @package   Zend_ProgressBar
+ * @uses      Zend_ProgressBar_Exception
+ * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd     New BSD License
+ */
+class Zend_ProgressBar_Adapter_Exception extends Zend_ProgressBar_Exception
+{
+}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

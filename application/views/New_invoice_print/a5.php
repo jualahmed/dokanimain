@@ -101,7 +101,10 @@
 						</tr>
 						<?php
 							$i = 1;
+<<<<<<< HEAD
 							$j = 1;
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 							$save1 = 0;
 							
 							foreach ($sale_info -> result() as $field):
@@ -113,6 +116,7 @@
 								?>
 							</td>
 							<td style="text-align:left;">
+<<<<<<< HEAD
 								<?php
 									
 									if(isset($sale_warranty_info[$j]) && $field->product_specification == 2)
@@ -128,6 +132,10 @@
 									{
 										echo '<p style="font-family:arial;font-size:12px;font-weight:normal;">'.$field -> product_name.'</p>';
 									}
+=======
+								<?php 
+									echo '<p style="min-height:13px;font-size:12px;font-weight:normal;margin:0px;">'.$field -> product_name.'</p>';
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 								?>
 							</td>
 							<td style="width:12%;text-align:center;">

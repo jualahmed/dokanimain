@@ -1,4 +1,21 @@
+<<<<<<< HEAD
 
+=======
+				
+<style>
+	.lead {
+		font-size: 18px;
+	}
+	
+	#companyTitle {
+		color: #1479B8;
+		font-size: 13px;
+		transition: 0.6s;
+		font-weight: bold;
+		text-decoration: none;
+	}
+</style>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
   <footer class="main-footer" style="padding:1px;height:35px;">
 	<input name="ret_and_sel" type="hidden" id="ret_and_sel" value="<?php echo base_url();?>extra_controller/retrive_and_select" />
 	<input name="ret_and_sel_with_id" type="hidden" id="ret_and_sel_with_id" value="<?php echo base_url();?>extra_controller/retrive_and_select_with_id" />
@@ -193,7 +210,11 @@
           select        : function (event, ui) {
             var stock   = ui.item.stock;
             var product_idddd   = ui.item.id;
+<<<<<<< HEAD
             var submiturl   = "<?php echo base_url();?>admin/searchBarcode";
+=======
+            var submiturl   = "<?php echo base_url();?>site_controller/searchBarcode";
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             if(stock == 0){
                 $('#lock333').val("");
                 alert("Stock unavailable");
@@ -228,7 +249,11 @@
 		  cancelButtonText    : 'No'
 		}).then(function () {
 			 $.ajax({
+<<<<<<< HEAD
 				url: '<?php echo base_url()?>admin/download_database',
+=======
+				url: '<?php echo base_url()?>site_controller/download_database',
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				type: "POST",
 				cache: false,
 				data: { },
@@ -281,9 +306,15 @@
 <script src="<?php echo base_url();?>assets/assets2/plugins/iCheck/icheck.min.js"></script>
 <!-- FastClick -->
 <script src="<?php echo base_url();?>assets/assets2/plugins/fastclick/fastclick.js"></script>
+<<<<<<< HEAD
 <!-- adminLTE App -->
 <script src="<?php echo base_url();?>assets/assets2/dist/js/app.min.js"></script>
 <!-- adminLTE for demo purposes -->
+=======
+<!-- AdminLTE App -->
+<script src="<?php echo base_url();?>assets/assets2/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 <script src="<?php echo base_url();?>assets/assets2/dist/js/demo.js"></script>
 <script src="<?php echo base_url();?>assets/assets2/date.js"></script>
 <!-- Page script -->

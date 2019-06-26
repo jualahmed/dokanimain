@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php $this -> load -> view('include/header_web2'); ?>
 <center><h2>Order Status</h2>
 <p class="ord-succ">Your order has been placed successfully.</p>
@@ -6,4 +7,14 @@
 
 <br>
 <br>
+=======
+<?php $this -> load -> view('include/header_web2'); ?>
+<center><h2>Order Status</h2>
+<p class="ord-succ">Your order has been placed successfully.</p>
+<a href="<?php echo base_url();?>web/index">Back to Home</a>
+</center>
+
+<br>
+<br>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 <?php $this -> load -> view('include/footer_web'); ?>

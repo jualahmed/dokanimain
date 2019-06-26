@@ -1,5 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 	class Sale_model extends CI_model{
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		private $shop_id;
 		private $currentUser;
 			
@@ -15,6 +19,7 @@
 		* 25-11-2013
 		* Arafat Mamun
 		**********************************/
+<<<<<<< HEAD
 		function add_new_my_sale($current_user, $current_shop)
 		{
             $data = array(
@@ -22,6 +27,19 @@
 				'temp_sale_shop_id' => $current_shop,
 				'temp_sale_status' => 1,
 			);
+=======
+                
+                
+                
+		function add_new_my_sale($current_user, $current_shop)
+		{
+               
+                        $data = array(
+					'temp_sale_creator' => $current_user,
+					'temp_sale_shop_id' => $current_shop,
+					'temp_sale_status' => 1,
+				);
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			$this -> db -> insert('temp_sale_info', $data);
 			return $this -> db -> insert_id();
 		}
@@ -29,8 +47,14 @@
         /************************************
         * Starting (functions added by Arun) 
         *************************************/
+<<<<<<< HEAD
         function search_and_get_product($key, $field_name)
         {
+=======
+        public function search_and_get_product($key, $field_name)
+        {
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data = $this->db
             ->select('product_name, company_name, catagory_name, product_info.product_id, bulk_unit_sale_price, general_unit_sale_price, bulk_unit_buy_price, stock_amount, barcode, group_name, product_specification')
             ->like($field_name, $key)
@@ -42,12 +66,22 @@
             
             if($data->num_rows() > 0)return $data;
             else return false;
+<<<<<<< HEAD
         }
 
 		public function search_and_get_product_2($key, $field_name)
         {
             $data = $this->db
             ->select('product_name, company_name, catagory_name,product_size,product_model, product_info.product_id, bulk_unit_sale_price, general_unit_sale_price, bulk_unit_buy_price, stock_amount, barcode, group_name, product_info.product_specification')
+=======
+
+        }
+		public function search_and_get_product_2($key, $field_name)
+        {
+
+            $data = $this->db
+            ->select('product_name, company_name, catagory_name,product_size,product_model, product_info.product_id, bulk_unit_sale_price, general_unit_sale_price, bulk_unit_buy_price, stock_amount, barcode, group_name, product_specification')
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             ->like($field_name, $key, 'after')
             //->like($field_name, $key)
             ->order_by($field_name, 'asc')
@@ -60,6 +94,7 @@
             
             if($data->num_rows() > 0)return $data;
             else return false;
+<<<<<<< HEAD
         }
 
         public function search_and_get_product_2_test($key, $field_name)
@@ -74,6 +109,12 @@
         }
         
         function search_product_and_add_to_my_list($barcode)
+=======
+
+        }
+        
+        public function search_product_and_add_to_my_list($barcode)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $currrent_temp_sale_id = $this->session->userdata('currrent_temp_sale_id');
             $this->db->select('product_info.*, bulk_stock_info.bulk_unit_buy_price, bulk_stock_info.general_unit_sale_price, bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.stock_amount')
@@ -145,6 +186,7 @@
             return false;
         }
 
+<<<<<<< HEAD
 		function search_warranty_product_and_add_to_my_list($barcode)
         {
 			$timezone = "Asia/Dhaka";
@@ -242,6 +284,9 @@
         }
 
         function get_product_by_barcode_for_sale_return($barcode)
+=======
+        public function get_product_by_barcode_for_sale_return($barcode)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $barcode;
             $this->db->select('product_info.*, bulk_stock_info.*')
@@ -260,7 +305,12 @@
             return false;
         }
 
+<<<<<<< HEAD
         function getProductList(){
+=======
+        public function getProductList(){
+    
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $query = $this->db
                     ->select('product_name, company_name, catagory_name, product_info.product_id, bulk_unit_sale_price, bulk_unit_buy_price, stock_amount, barcode, product_specification')
                     ->from('product_info')
@@ -271,6 +321,10 @@
             if($query->num_rows() > 0){ return $query; }
 
             else return FALSE;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         }
         
         function add_new_arun_sale($current_user, $current_shop)
@@ -279,6 +333,7 @@
                             ->where('temp_sale_creator', $current_user)
                             ->where('temp_sale_shop_id', $current_shop)
                             ->get('temp_sale_info');
+<<<<<<< HEAD
                     if($flg->num_rows() == 0){
                         $data = array(
                             'temp_sale_shop_id' => $current_shop,
@@ -295,6 +350,28 @@
                 
         function get_temp_sale_id()
         {
+=======
+		
+                    if($flg->num_rows() == 0){
+                        $data = array(
+                                    'temp_sale_shop_id' => $current_shop,
+				'temp_sale_creator' => $current_user,
+				'temp_sale_status'  => 1,
+			);
+                        $this ->db->insert('temp_sale_info', $data);
+                        return $this->db->insert_id();
+                    }
+                    
+                    else {
+                        return FALSE;
+                    }
+                    
+        }
+                
+        public function get_temp_sale_id()
+        {
+            
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data   = $this->db
                     ->select('temp_sale_id')
                     ->limit(1)
@@ -305,6 +382,7 @@
                 
         function check_stock($product_id)
         {
+<<<<<<< HEAD
             $is_available = $this->db
                             ->where('product_id', $product_id)
                             ->where('stock_amount >', 0)
@@ -318,6 +396,24 @@
             $this->db->update('bulk_stock_info', array('stock_amount' => $updated_stock));
         }
 
+=======
+            
+            $is_available = $this->db
+                            ->where('product_id', $product_id)
+                            ->where('stock_amount >', 0)
+                            ->get('bulk_stock_info');
+            
+            if($is_available->num_rows() > 0) return true;
+            
+            else return false;
+            
+        }
+                
+        public function updateStock($pro_id, $updated_stock){
+            $this->db->where('product_id', $pro_id);
+            $this->db->update('bulk_stock_info', array('stock_amount' => $updated_stock));
+        }
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         function change_sale_quantity1()
 		{
 			$timezone = "Asia/Dhaka";
@@ -326,6 +422,10 @@
 			$creator = $this->tank_auth->get_user_id();
 			$service_provider_name = $this -> input ->post('service_provider_name');
 			$temp_name = rtrim($service_provider_name, ";");
+<<<<<<< HEAD
+=======
+			
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			$new_service_provider_insert_data = array(
 				'service_provider_name' => $temp_name,
 				'service_provider_address' => $this -> input -> post('service_provider_address'),
@@ -340,6 +440,7 @@
 			$insert = $this -> db -> insert('service_provider_info', $new_service_provider_insert_data);
 			return $insert;
 		}
+<<<<<<< HEAD
 
 		function change_sale_quantity2(){
 			$temp_sale_details_id = $this->input->post('temp_details_id');
@@ -351,10 +452,33 @@
 			$prevListInfo = $this->db->get('temp_sale_details');
 			if($prevListInfo -> num_rows() > 0){
 				 foreach($prevListInfo -> result() as $field):
+=======
+		function change_sale_quantity2(){
+			
+			$temp_sale_details_id = $this->input->post('temp_details_id');
+			$new_sale_quantity = $this->input->post('sale_quantity');
+			//$prevServingQuantity = $this->input->post('stock_quantity');
+			$sale_price = $this->input->post('sale_price');
+			$buy_price = $this->input->post('buy_price');
+			$currrent_temp_sale_id = $this -> tank_auth -> get_current_temp_sale();
+			
+			//$prevListInfo = $this -> my_sale_listed_products($currrent_temp_sale_id, TRUE, $productId);
+			
+			$this->db->where('temp_sale_details_id',$temp_sale_details_id);
+			$prevListInfo = $this->db->get('temp_sale_details');
+			if($prevListInfo -> num_rows() > 0){
+				
+				 foreach($prevListInfo -> result() as $field):
+					//$tempSaleDetialsId = $field -> temp_sale_details_id;
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 					$prevServingQuantity = $field-> sale_quantity;
 					$saleType = $field-> sale_type;
 					$productId = $field-> product_id;
 				endforeach;
+<<<<<<< HEAD
+=======
+				
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				$this -> db -> query("UPDATE bulk_stock_info
 									  SET stock_amount = stock_amount + ".$prevServingQuantity."
 									  WHERE product_id = ".$productId."
@@ -379,8 +503,13 @@
 			}
 			return true;
 		}
+<<<<<<< HEAD
 
         function add_arun_sale_details($product_id, $product_name, $sale_price, $buy_price, $product_specification, $sale_quantity,$product_stock, $currrent_temp_sale_id){
+=======
+        public function add_arun_sale_details($product_id, $product_name, $sale_price, $buy_price, $product_specification, $sale_quantity,$product_stock, $currrent_temp_sale_id){
+            
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data = array(
                 'temp_sale_id'              => $currrent_temp_sale_id,
                 'product_id'                => $product_id,
@@ -400,9 +529,16 @@
                 'stock'                     => $product_stock
             );
             $this->db->insert('temp_sale_details', $data);
+<<<<<<< HEAD
         }
 
         function addProductToSale($product_id, $product_name, $sale_price, $mrp_price, $buy_price, $product_specification, $sale_quantity,$product_stock, $currrent_temp_sale_id)
+=======
+            
+            
+        }
+        public function addProductToSale($product_id, $product_name, $sale_price, $mrp_price, $buy_price, $product_specification, $sale_quantity,$product_stock, $currrent_temp_sale_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		{
 			$this->db->select('temp_sale_details.*')
                 ->from('temp_sale_details')
@@ -410,6 +546,10 @@
                 ->where('temp_sale_id', $currrent_temp_sale_id)
                 ->limit(1);
                 $is_exists = $this->db->get();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
                 if($is_exists->num_rows() == 0)
                 {
 					$data = array(
@@ -455,52 +595,101 @@
 
                     return true;
 				}
+<<<<<<< HEAD
         }
 
         function getAllCustomerInfo(){
+=======
+            
+        }
+        public function getAllCustomerInfo(){
+                        
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data = $this->db
                     ->select('customer_name, customer_id, customer_contact_no')
                     ->order_by('customer_name', 'ASC')
                     ->get('customer_info');
+<<<<<<< HEAD
             if($data->num_rows() > 0)return $data;
             else return FALSE;
         }
 
 		function get_current_sale_customer($current_sale){
+=======
+                        
+            if($data->num_rows() > 0)return $data;
+                        
+            else return FALSE;
+                        
+        }
+		public function get_current_sale_customer($current_sale){
+                        
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $this->db->select('customer_info.customer_id,customer_info.customer_name,customer_info.customer_contact_no');
             $this->db->from('customer_info,temp_sale_info');
             $this->db->where('customer_info.customer_id=temp_sale_info.temp_customer_id');
             $this->db->where('temp_sale_info.temp_sale_id',$current_sale);
             $data =$this->db->get();            
             return $data;
+<<<<<<< HEAD
         }
 
 		function getAllCardInfo(){
+=======
+                        
+        }
+		public function getAllCardInfo(){
+                        
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data = $this->db
                     ->select('card_name, card_id, bank_id')
                     ->where('status="active"')
                     ->order_by('card_id', 'ASC')
                     ->get('bank_card_info');
+<<<<<<< HEAD
             if($data->num_rows() > 0)return $data;
             else return FALSE;
         }
 
         function getAllProductInfo()
 		{
+=======
+                        
+            if($data->num_rows() > 0)return $data;
+                        
+            else return FALSE;
+                        
+        }
+        public function getAllProductInfo()
+		{
+                        
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data = $this->db
                     ->select('*')
                     ->order_by('product_name', 'ASC')
                     ->get('product_info');
+<<<<<<< HEAD
             if($data->num_rows() > 0)return $data;
             else return FALSE;
         }  
 
         function getAllTmpProduct($currrent_temp_sale_id){
+=======
+                        
+            if($data->num_rows() > 0)return $data;
+                        
+            else return FALSE;
+                        
+        }            
+        public function getAllTmpProduct($currrent_temp_sale_id){
+                        
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data = $this->db->select('temp_sale_details.*,product_info.product_size,product_info.product_model')
                             ->from('temp_sale_details,product_info')
                             ->where('temp_sale_details.product_id = product_info.product_id')
                             ->where('temp_sale_id', $currrent_temp_sale_id)
                             ->get();
+<<<<<<< HEAD
             if($data->num_rows() > 0)return $data;
             else return FALSE;
         }
@@ -515,6 +704,14 @@
         }
 
         function getReturnId($tmp_sale_id)
+=======
+
+            if($data->num_rows() > 0)return $data;
+            else return FALSE;
+                        
+        }
+        public function getReturnId($tmp_sale_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $data = $this->db->select('return_id')->where('temp_sale_id', $tmp_sale_id)->get('temp_sale_info');
             if($data->num_rows() > 0)
@@ -523,9 +720,14 @@
                 return $row_data->return_id;
             }
             else return 0;
+<<<<<<< HEAD
         }  
 
 		function getReturnAdjustAmount($tmp_sale_id)
+=======
+        }   
+		public function getReturnAdjustAmount($tmp_sale_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $data = $this->db->select('return_adjust_amount')->where('temp_sale_id', $tmp_sale_id)->get('temp_sale_info');
             if($data->num_rows() > 0)
@@ -535,8 +737,14 @@
             }
             else return 0;
         }  
+<<<<<<< HEAD
         //************************************* Quick Sale Start **********************************************\\	
         function doInvoiceInfoTask($customer_id,$sub_total,$cash_commision,$disc_amt,$disc_type,$grand_total,$total_paid,$return_money, $return_adjust,$payable,$delivery_charge)
+=======
+//************************************* Quick Sale Start **********************************************\\	
+	
+        public function doInvoiceInfoTask($customer_id,$sub_total,$cash_commision,$disc_amt,$disc_type,$grand_total,$total_paid,$return_money, $return_adjust,$payable,$delivery_charge)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
 			if($return_adjust!='')
 			{
@@ -615,7 +823,11 @@
 			}
         } 
 		
+<<<<<<< HEAD
 		function doInvoiceInfoTask_credit($customer_id,$sub_total,$cash_commision,$disc_amt,$disc_type,$grand_total,$total_paid,$return_money, $return_adjust,$payable,$delivery_charge)
+=======
+		public function doInvoiceInfoTask_credit($customer_id,$sub_total,$cash_commision,$disc_amt,$disc_type,$grand_total,$total_paid,$return_money, $return_adjust,$payable,$delivery_charge)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
 			if($return_adjust!='')
 			{
@@ -672,9 +884,15 @@
                         
 			}
         }
+<<<<<<< HEAD
 
 		function doSaleDetailsTask($invoice_id,$products,$cash_commision,$disc_amount, $discount_type)
 		{
+=======
+		public function doSaleDetailsTask($invoice_id,$products,$cash_commision,$disc_amount, $discount_type)
+		{
+            
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $this->db->where('invoice_id',$invoice_id);
 			$que = $this->db->get('invoice_info');
 			$inv = $que->row();
@@ -711,6 +929,7 @@
                 );
                 $this->db->insert('sale_details', $data);
             }
+<<<<<<< HEAD
         }
 
 		function doWarrantyUpdateTask($invoice_id, $products,$products_warranty, $cash_commision,$disc_amount, $discount_type)
@@ -760,6 +979,13 @@
 
 		function transactioninfo_cashbook($invoice_id,$customer_id, $grand_total, $total_paid,$return_adjust,$payable,$return_id,$delivery_charge)
         {
+=======
+            
+        }
+		public function transactioninfo_cashbook($invoice_id,$customer_id, $grand_total, $total_paid,$return_adjust,$payable,$return_id,$delivery_charge)
+        {
+			/*for sale*/
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $sale_info = array
 			(
                'transaction_id'         			=> '',
@@ -997,10 +1223,20 @@
             return $insert_id;
         }		
 		
+<<<<<<< HEAD
         //************************************* Quick Sale End **********************************************\\	
         //************************************* Credit Sale Start **********************************************\\	
 		function transactioninfo_creditsale($invoice_id,$customer_id, $grand_total,$return_adjust,$return_id,$delivery_charge)
         {
+=======
+		
+		
+//************************************* Quick Sale End **********************************************\\	
+//************************************* Credit Sale Start **********************************************\\	
+		public function transactioninfo_creditsale($invoice_id,$customer_id, $grand_total,$return_adjust,$return_id,$delivery_charge)
+        {
+			/*for sale*/
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $sale_info = array
 			(
                'transaction_id'         			=> '',
@@ -1074,9 +1310,15 @@
 			}	
 			 return $insert_id;
         }	
+<<<<<<< HEAD
         //************************************* Credit Sale End **********************************************\\	
         //************************************* Card Sale Start **********************************************\\	
 		function doInvoiceInfoTask_card($customer_id,$sub_total,$cash_commision,$disc_amt,$disc_type,$grand_total,$total_paid,$return_money, $return_adjust,$payable)
+=======
+//************************************* Credit Sale End **********************************************\\	
+//************************************* Card Sale Start **********************************************\\	
+		public function doInvoiceInfoTask_card($customer_id,$sub_total,$cash_commision,$disc_amt,$disc_type,$grand_total,$total_paid,$return_money, $return_adjust,$payable)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
 			if($return_adjust!='')
 			{
@@ -1146,11 +1388,21 @@
 							
 				if($this->db->insert('invoice_info', $data))
 						return $this->db->insert_id();
+<<<<<<< HEAD
 				else return FALSE;
 			}
         }
 
 		function transactioninfo_cardsale($invoice_id,$customer_id, $grand_total,$total_paid, $bank_id,$card_id,$return_adjust,$payable,$return_id,$delivery_charge)
+=======
+							
+				else return FALSE;
+                        
+			}
+                        
+        }
+		public function transactioninfo_cardsale($invoice_id,$customer_id, $grand_total,$total_paid, $bank_id,$card_id,$return_adjust,$payable,$return_id,$delivery_charge)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
 			/*for sale*/
             $sale_info = array
@@ -1167,8 +1419,15 @@
                'doc'   								=> date('Y-m-d'),
                'dom'    							=> date('Y-m-d')
             );
+<<<<<<< HEAD
             $this->db->insert('transaction_info', $sale_info);
 			if($delivery_charge!=0){
+=======
+            
+            $this->db->insert('transaction_info', $sale_info);
+			if($delivery_charge!=0)
+			{
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				$delivery_info = array
 				(
 				   'transaction_id'         			=> '',
@@ -1185,7 +1444,12 @@
 				);
 				$this->db->insert('transaction_info', $delivery_info);
 			}
+<<<<<<< HEAD
 			if($return_adjust!=''){
+=======
+			if($return_adjust!='')
+			{
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				$sale_return = array
 				(
 				   'transaction_id'         			=> '',
@@ -1203,6 +1467,24 @@
 				);
 				$this->db->insert('transaction_info', $sale_return);
 				$insert_id1 = $this->db->insert_id();
+<<<<<<< HEAD
+=======
+				/* $bank_book = array(
+				   'bb_id'         						=> '',
+				   'transaction_id'                     => $insert_id1,
+				   'bank_id'                     		=> $bank_id,
+				   'card_id'                     		=> $card_id,
+				   'transaction_type'                	=> 'out',
+				   'amount'                 			=> $return_adjust,
+				   'date'         						=> date('Y-m-d'),
+				   'status'    	 						=> 'active',
+				   'creator'                   			=> $this->currentUser,
+				   'doc'        						=> date('Y-m-d'),
+				   'dom'       							=> date('Y-m-d')
+				);
+				$this->db->insert('bank_book', $bank_book); */
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				$collection_info3 = array
 				(
 				   'transaction_id'         			=> '',
@@ -1233,8 +1515,15 @@
 				   'dom'       							=> date('Y-m-d')
 				);
 				$this->db->insert('bank_book', $bank_book3);
+<<<<<<< HEAD
 			}
 			else{
+=======
+
+			}
+			else
+			{
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				/*for collection on sale*/
 				$collection_info = array
 				(
@@ -1268,6 +1557,7 @@
 				$this->db->insert('bank_book', $bank_book);
 				return $insert_id;	
 			}	
+<<<<<<< HEAD
         }		
                     
         //************************************* Card Sale End **********************************************\\	 
@@ -1277,6 +1567,22 @@
             $this->db->delete('temp_sale_details');
             $this->db->where('temp_sale_id', $currrent_temp_sale_id);
             $this->db->delete('temp_sale_info');
+=======
+					
+        }		
+                    
+//************************************* Card Sale End **********************************************\\	 
+                
+        public function deleteDataFromTmpSaleInfoAndTmpSaleDetails($currrent_temp_sale_id, $current_sale_return_id, $creator)
+        {
+            
+            $this->db->where('temp_sale_id', $currrent_temp_sale_id);
+            $this->db->delete('temp_sale_details');
+            
+            $this->db->where('temp_sale_id', $currrent_temp_sale_id);
+            $this->db->delete('temp_sale_info');
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             if($current_sale_return_id != '')
             {
                 $this->db->where('tmp_sale_return_id', $current_sale_return_id)
@@ -1286,9 +1592,16 @@
 
                 $this->db->where('tmp_sale_return_id', $current_sale_return_id)->delete('tmp_sale_return_details_tbl');
             }
+<<<<<<< HEAD
         }
         
         function cancelSale($currrent_temp_sale_id, $current_sale_return_id, $creator)
+=======
+
+        }
+        
+        public function cancelSale($currrent_temp_sale_id, $current_sale_return_id, $creator)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $data = $this->db
                     ->where('temp_sale_id', $currrent_temp_sale_id)
@@ -1308,6 +1621,7 @@
 
             $this->db->where('temp_sale_id', $currrent_temp_sale_id);
             $this->db->delete('temp_sale_info');
+<<<<<<< HEAD
 			
 			$data = array
 			(
@@ -1319,12 +1633,16 @@
 			$this->db->where('status', 2);
 			$this->db->update('warranty_product_list',$data); 
 			
+=======
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             if($current_sale_return_id != '')
             {
                 $this->db->where('tmp_sale_return_id', $current_sale_return_id)
                 ->where('tmp_sale_id', $currrent_temp_sale_id)
                 ->where('tmp_sale_return_creator', $creator)
                 ->delete('tmp_sale_return_tbl');
+<<<<<<< HEAD
 				
 				$this->db->where('tmp_sale_return_id', $current_sale_return_id)
                 ->where('temp_sale_id', $currrent_temp_sale_id)
@@ -1335,11 +1653,20 @@
         }
 
 		function cancelcashSalereturn()
+=======
+
+                $this->db->where('tmp_sale_return_id', $current_sale_return_id)->delete('tmp_sale_return_details_tbl');
+            }
+
+        }
+		public function cancelcashSalereturn()
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
 			$this->db->select('tmp_cash_sale_return_id');
 			$this->db->from('tmp_cash_sale_return_tbl');
 			$this->db->where('status ="direct"');
 			$query = $this->db->get();
+<<<<<<< HEAD
 			$tmp = $query->row();
 			$this->db->where('tmp_cash_sale_return_id',$tmp->tmp_cash_sale_return_id);
 			$this->db->delete('tmp_cash_sale_return_details_tbl');
@@ -1350,6 +1677,22 @@
         }
 
         function insertNewCustomer($customer_name, $customer_phn, $customer_dob)
+=======
+			
+			$tmp = $query->row();
+			$this->db->where('tmp_cash_sale_return_id',$tmp->tmp_cash_sale_return_id);
+			$this->db->delete('tmp_cash_sale_return_details_tbl');
+			
+			$this->db->where('tmp_cash_sale_return_id',$tmp->tmp_cash_sale_return_id);
+			$this->db->where('status ="direct"');
+			$this->db->delete('tmp_cash_sale_return_tbl');
+			
+			return true;
+
+        }
+
+        public function insertNewCustomer($customer_name, $customer_phn, $customer_dob)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $data = array(
                 'customer_name'         => $customer_name,
@@ -1364,6 +1707,7 @@
                 'customer_creator'      => $this->currentUser,
                 'customer_doc'          => date('Y-m-d'),
                 'customer_dom'          => date('Y-m-d')
+<<<<<<< HEAD
             );
             $this->db->insert('customer_info', $data);
             return $this->db->insert_id();
@@ -1371,18 +1715,41 @@
         
         function restoreProduct($products)
         {
+=======
+                
+            );
+            $this->db->insert('customer_info', $data);
+            
+            return $this->db->insert_id();
+        }
+        
+        public function restoreProduct($products)
+        {
+            
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             foreach ($products->result() as $tmp)
             {
                 $this->db->set('stock_amount', 'stock_amount+' . $tmp->sale_quantity, FALSE);
                 $this->db->where('product_id', $tmp->product_id);
                 $this->db->update('bulk_stock_info');
             }
+<<<<<<< HEAD
         }
 
         function getSoldProducts($invoice_id)
         {
              $data   =  $this->db
                     ->select('product_info.product_name,product_info.product_specification,product_info.unit_name,product_info.product_size,product_info.product_model,product_info.product_warranty, sale_details.sale_quantity, sale_details.general_sale_price,sale_details.actual_sale_price,sale_details.unit_sale_price,sale_details.exact_sale_price,sale_details.unit_buy_price, invoice_info.total_price, invoice_info.delivery_charge,invoice_info.discount_amount, invoice_info.discount_type, invoice_info.total_paid, invoice_info.cash_commision, invoice_info.grand_total, invoice_info.sale_return_amount, invoice_info.return_money, invoice_info.invoice_doc, 
+=======
+             
+        }
+
+        public function getSoldProducts($invoice_id)
+        {
+
+             $data   =  $this->db
+                    ->select('product_info.product_name,product_info.unit_name,product_info.product_size,product_info.product_model, sale_details.sale_quantity, sale_details.general_sale_price,sale_details.actual_sale_price,sale_details.unit_sale_price,sale_details.exact_sale_price,sale_details.unit_buy_price, invoice_info.total_price, invoice_info.delivery_charge,invoice_info.discount_amount, invoice_info.discount_type, invoice_info.total_paid, invoice_info.cash_commision, invoice_info.grand_total, invoice_info.sale_return_amount, invoice_info.return_money, invoice_info.invoice_doc, 
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
                         invoice_info.invoice_creator, username,invoice_info.date_time, invoice_info.customer_id, customer_name, customer_address,customer_contact_no, invoice_info.discount_type, invoice_info.discount')
                     ->from('product_info, sale_details, invoice_info,users,customer_info')
                     ->where('product_info.product_id = sale_details.product_id')
@@ -1391,6 +1758,7 @@
                     ->where('invoice_info.invoice_creator = users.id')
                     ->where('sale_details.invoice_id', $invoice_id)
                     ->where('invoice_info.invoice_id', $invoice_id)
+<<<<<<< HEAD
 					->order_by('sale_details.product_id','asc')
                     ->get();
             if($data->num_rows() > 0)return $data;
@@ -1432,13 +1800,30 @@
 
 		function receipt_sale_total_amount($customer_id,$invoice_id)
 		{
+=======
+                    ->get();
+
+            if($data->num_rows() > 0)return $data;
+            else return FALSE;
+
+        }
+		public function receipt_sale_total_amount($customer_id,$invoice_id)
+		{
+			
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			$this->db->select('transaction_info.transaction_id');
 			$this->db->from('transaction_info');
 			$this->db->where('transaction_info.transaction_purpose = "sale"');
 			$this->db->where('transaction_info.common_id',$invoice_id);
 			$query = $this->db->get();
 			$row = $query->row();
+<<<<<<< HEAD
 			$transaction_id = $row->transaction_id;
+=======
+			
+			$transaction_id = $row->transaction_id;
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			$this->db->select('SUM(transaction_info.amount) as total_sale_amount');
 			$this->db->from('transaction_info');			
 			$this->db->where('transaction_info.transaction_purpose = "sale"');
@@ -1447,6 +1832,10 @@
 			$query_data = $this->db->get();
 			$row = $query_data->row();
 			$total_sale_amount = $row->total_sale_amount;
+<<<<<<< HEAD
+=======
+			
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			$this->db->select('SUM(transaction_info.amount) as total_collection_amount');
 			$this->db->from('transaction_info');			
 			$this->db->where('(transaction_info.transaction_purpose = "collection" OR transaction_info.transaction_purpose = "credit_collection" OR transaction_info.transaction_purpose = "sale_return")');
@@ -1465,9 +1854,15 @@
 
 			return $total_sale_amount + $total_balance_amount - $total_collection_amount;
 		}
+<<<<<<< HEAD
 
 		function getreturnProducts($return_invoice_id)
         {
+=======
+		public function getreturnProducts($return_invoice_id)
+        {
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data   =  $this->db
                     ->select('product_info.product_name, sale_return_details_tbl.return_quantity,sale_return_details_tbl.unit_sale_price,sale_return_details_tbl.total_price, sale_return_receipt_tbl.sale_return_id,sale_return_receipt_tbl.total_return_amount,sale_return_receipt_tbl.sale_return_doc, username')
                     ->from('product_info, sale_return_details_tbl,users,sale_return_receipt_tbl')
@@ -1476,11 +1871,37 @@
                     ->where('sale_return_receipt_tbl.creator = users.id')
                     ->where('sale_return_receipt_tbl.sale_return_id', $return_invoice_id)
                     ->get();
+<<<<<<< HEAD
             if($data->num_rows() > 0)return $data;
             else return FALSE;
         }
 
         function createNewSale($current_user, $current_shop)
+=======
+
+            if($data->num_rows() > 0)return $data;
+            else return FALSE;
+
+        }
+		/* public function getSoldProducts_card($card_id,$invoice_id)
+        {
+
+            $data   =  $this->db
+                    ->select('bank_card_info.card_name')
+                    ->from('bank_card_info, bank_book')
+                    ->where('bank_book_info.bank_card_name = bank_card_info.card_id')
+                    ->where('bank_book_info.reference_id = invoice_info.invoice_id')
+                    ->where('bank_card_info.card_id', $card_id)
+                    ->where('invoice_info.invoice_id', $invoice_id)
+                    ->get();
+
+            if($data->num_rows() > 0)return $data;
+            else return FALSE;
+
+        } */
+
+        public function createNewSale($current_user, $current_shop)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $data = array(
                     'temp_sale_id'          => '',
@@ -1501,11 +1922,27 @@
                 $this ->db->insert('temp_sale_info', $data);
                 return $this->db->insert_id();
             }
+<<<<<<< HEAD
             else return false;
         }
 
         function getAllSale($current_user, $current_shop)
         {
+=======
+
+            else return false;
+
+            // $sale_ids = $this->db->select('temp_sale_id')->get('temp_sale_info');
+
+            // if($sale_ids->num_rows() > 0)return $sale_ids;
+            // else return FALSE;
+
+        }
+
+        public function getAllSale($current_user, $current_shop)
+        {
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data = $this->db
                             ->select('temp_sale_id,temp_sale_type')
                             //->where('temp_sale_creator', $current_user)
@@ -1516,19 +1953,35 @@
             if($data->num_rows() > 0) return $data;
 
             else return FALSE;
+<<<<<<< HEAD
         }
 
 		function get_current_sale_invoice_status($current_sale)
         {
+=======
+
+        }
+		public function get_current_sale_invoice_status($current_sale)
+        {
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $data = $this->db
                             ->select('*')
                             ->where('temp_sale_id', $current_sale)
                             ->where('pre_invoice_status = "pending"')
                             ->get('temp_sale_info');
+<<<<<<< HEAD
             return $data;
         }
         
         function updateTmpProduct($product_id, $new_qnty, $actual_price, $stock)
+=======
+
+            return $data;
+
+        }
+        public function updateTmpProduct($product_id, $new_qnty, $actual_price, $stock)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
 
             $data = array(
@@ -1540,7 +1993,11 @@
             $this->db->update('temp_sale_details', $data);
 
         }
+<<<<<<< HEAD
         function createSaleReturn($tmp_sale_id, $creator, $shop_id, $bd_date)
+=======
+        public function createSaleReturn($tmp_sale_id, $creator, $shop_id, $bd_date)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $is_exists =    $this->db
                             ->select('tmp_sale_return_id')
@@ -1568,7 +2025,11 @@
 
         }
 		
+<<<<<<< HEAD
 		function createSaleReturn_direct($tmp_sale_id, $creator, $shop_id, $bd_date)
+=======
+		public function createSaleReturn_direct($tmp_sale_id, $creator, $shop_id, $bd_date)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
 			$is_exists =    $this->db
                             ->select('*')
@@ -1591,7 +2052,11 @@
                 return $tmp->tmp_cash_sale_return_id;
             }
         }
+<<<<<<< HEAD
 		function get_direct_sale_return_id()
+=======
+		public function get_direct_sale_return_id()
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
 			$is_exists =    $this->db
                             ->select('tmp_cash_sale_return_id')
@@ -1730,6 +2195,7 @@
 			
 			return $query->row();
 		}
+<<<<<<< HEAD
 		function removeProduct($product_id, $currrent_temp_sale_id, $quantity)
         {
             $this->db->select('product_specification');
@@ -1780,6 +2246,25 @@
 
         }
 		function select_active_sale()
+=======
+		public function removeProduct($product_id, $currrent_temp_sale_id, $quantity)
+        {
+            $this->db
+                    ->set('stock_amount', 'stock_amount+' . $quantity, FALSE)
+                    ->where('product_id', $product_id)
+                    ->update('bulk_stock_info');
+
+			$this->db->where('temp_sale_id', $currrent_temp_sale_id);
+			$this->db->where('product_id', $product_id);
+			$this->db->delete('temp_sale_details'); 
+			
+			
+			return true;
+
+
+        }
+		public function select_active_sale()
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $this->db->select('temp_sale_id');
 			$this->db->from('temp_sale_info');
@@ -1814,6 +2299,7 @@
 			{
 				return $temp_sale_id;
 			}
+<<<<<<< HEAD
         }
 		function new_active_sale_with_salereturn($return_amount)
         {
@@ -1839,6 +2325,14 @@
 		
         }
         function addToSaleReturn($pro_id, $product_name, $unit_price,$buy_pric, $qnty, $invoice,$sale_return_id)
+=======
+            
+            
+
+
+        }
+        public function addToSaleReturn($pro_id, $product_name, $unit_price,$buy_pric, $qnty, $invoice,$sale_return_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {   
             $total_price = round(($unit_price * $qnty), 2);
 			$current_sale_return_id 	= $this->sale_model->get_direct_sale_return_id();
@@ -1879,7 +2373,11 @@
 						->update('tmp_sale_return_tbl');
 			}
         }
+<<<<<<< HEAD
 		function addToCashSaleReturn($pro_id, $product_name, $unit_price,$buy_pric, $qnty, $invoice,$sale_return_id)
+=======
+		public function addToCashSaleReturn($pro_id, $product_name, $unit_price,$buy_pric, $qnty, $invoice,$sale_return_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {   
             $total_price = round(($unit_price * $qnty), 2);
 
@@ -1901,7 +2399,11 @@
 				->update('tmp_cash_sale_return_tbl');
 				return true;
         }
+<<<<<<< HEAD
         function getAllSaleReturnProduct($sale_return_id, $tmp_sale_id)
+=======
+        public function getAllSaleReturnProduct($sale_return_id, $tmp_sale_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
            $this->db->select('product_id, product_name, return_quantity, unit_price, total_price');
            $this->db->from('tmp_sale_return_tbl, tmp_sale_return_details_tbl');
@@ -1914,7 +2416,11 @@
             else return false;
 
         }
+<<<<<<< HEAD
 		function getAllSaleReturnProduct_direct($sale_return_id)
+=======
+		public function getAllSaleReturnProduct_direct($sale_return_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
            $this->db->select('product_id, product_name, return_quantity, unit_price, total_price');
            $this->db->from('tmp_cash_sale_return_tbl, tmp_cash_sale_return_details_tbl');
@@ -1927,7 +2433,11 @@
             else return false;
 
         }
+<<<<<<< HEAD
         function getSaleReturnId($tmp_current_sale_id)
+=======
+        public function getSaleReturnId($tmp_current_sale_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {
             $sql = $this->db->select('tmp_sale_return_id')->where('tmp_sale_id', $tmp_current_sale_id)->limit(1)->get('tmp_sale_return_tbl');
 
@@ -1937,7 +2447,11 @@
             }
             else return false;
         }
+<<<<<<< HEAD
         function doSaleReturnTask($current_sale_id, $current_sale_return_id, $creator, $bd_date,$return_adjustment_amount,$customer_id_ledger,$invoice_ledger_id)
+=======
+        public function doSaleReturnTask($current_sale_id, $current_sale_return_id, $creator, $bd_date,$return_adjustment_amount,$customer_id_ledger,$invoice_ledger_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {   
            // $lsat_Id = $this->db->insert_id('sale_return_receipt_tbl') + 1;
             $sql = $this->db
@@ -2045,7 +2559,11 @@
             }
         } 
 		
+<<<<<<< HEAD
 		function doSaleReturn_direct($current_sale_return_id, $creator, $bd_date)
+=======
+		public function doSaleReturn_direct($current_sale_return_id, $creator, $bd_date)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         {   
             //$lsat_Id = $this->db->insert_id('sale_return_receipt_tbl') + 1;
 			
@@ -2178,7 +2696,11 @@
                 return false;
             }
         }
+<<<<<<< HEAD
     function cancelSaleReturn($current_sale_id, $current_sale_return_id, $creator)
+=======
+    public function cancelSaleReturn($current_sale_id, $current_sale_return_id, $creator)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
     {   
         $this->db->set('return_adjust_amount', 0, FALSE)->where('temp_sale_id', $current_sale_id)->update('temp_sale_info');
         $this->db->where('tmp_sale_return_id', $current_sale_return_id)->delete('tmp_sale_return_details_tbl');
@@ -2188,7 +2710,11 @@
                 ->delete('tmp_sale_return_tbl');
 
     }
+<<<<<<< HEAD
     function deleteProductFromSaleReturn($sale_return_id, $product_id)
+=======
+    public function deleteProductFromSaleReturn($sale_return_id, $product_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
     {
         $this->db->select('tmp_sale_return_details_tbl.total_price,tmp_sale_return_tbl.total_amount');
         $this->db->from('tmp_sale_return_details_tbl,tmp_sale_return_tbl');
@@ -2217,7 +2743,11 @@
         ->where('product_id', $product_id)
         ->delete('tmp_sale_return_details_tbl');
     }
+<<<<<<< HEAD
 	function deleteProductFromCashSaleReturn($sale_return_id, $product_id)
+=======
+	public function deleteProductFromCashSaleReturn($sale_return_id, $product_id)
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
     {
         $this->db->select('tmp_cash_sale_return_details_tbl.total_price,tmp_cash_sale_return_tbl.total_amount');
         $this->db->from('tmp_cash_sale_return_details_tbl,tmp_cash_sale_return_tbl');
@@ -2669,7 +3199,11 @@
 		 * 09-07-2014
 		 * Arafat Mamun
 		****************************************/
+<<<<<<< HEAD
 		function discountInfo($productId){
+=======
+		public function discountInfo($productId){
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			
 			$timezone = "Asia/Dhaka";
 			date_default_timezone_set($timezone);
@@ -3287,7 +3821,11 @@
 		if($check_availability -> num_rows() >0)
 		{
 			foreach($check_availability -> result() as $field):
+<<<<<<< HEAD
 			   $quanitiy = $field->bulk_sale_quantity;
+=======
+			   $quanitiy = $field -> bulk_sale_quantity;
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			endforeach;		
 			$product_quantity += $quanitiy;
 			
@@ -3606,6 +4144,10 @@
 	    $insert = $this -> db -> insert('transaction_details',$new_transaction_details_insert_data);
 		return $ref_id;
 	}
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 	/***********************************
 	 *  Create Sale Details Of  an Invoice
 	 * *********************************/
@@ -3715,7 +4257,13 @@
 	 * 
 	 * Section : Registration
 	 *********************************************************** */
+<<<<<<< HEAD
 	function create_new_customer_sale_isrunning($customer_name,$customer_contact_no,$customer_address){
+=======
+	function create_new_customer_sale_isrunning($customer_name,$customer_contact_no,$customer_address)
+	{
+		
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		$timezone = "Asia/Dhaka";
 		date_default_timezone_set($timezone);
 		$bd_date = date('Y-m-d');
@@ -3735,13 +4283,23 @@
 		$insert = $this -> db -> insert('customer_info', $new_customer_insert_data);
 		return $this -> db -> insert_id();
 	}
+<<<<<<< HEAD
+=======
+													
+	 
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 	/****************************
 	 * Sale System for Cash Carry
 	 * Cancle A My Sale 
 	 * 30-06-2014
 	 * Arafat Mamun
 	*****************************/
+<<<<<<< HEAD
 	function stockProductDetails($stockId){
+=======
+	public function stockProductDetails($stockId){
+		
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		$this -> db -> select('*');			   
 		$this -> db -> from('stock_info,product_info,bulk_stock_info');
 		$this -> db -> where('stock_info.product_id = product_info.product_id');
@@ -3750,22 +4308,38 @@
 		$this -> db -> where('bulk_stock_info.shop_id', $this -> shop_id);
 		return $this -> db -> get();
 	}
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 	/****************************
 	 * Sale System for Cash Carry
 	 * Cancle A My Sale 
 	 * 30-06-2014
 	 * Arafat Mamun
 	*****************************/
+<<<<<<< HEAD
 	function individualProductStock($productId){
+=======
+	public function individualProductStock($productId){
+		
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		return $this -> db -> query("SELECT *
 									FROM stock_info
 									WHERE product_id = ".$productId."
 									AND  shop_id = ".$this -> shop_id."
 									AND (stock_status = 'returned'
 										 OR stock_status = 'stocked')");
+<<<<<<< HEAD
 	}
 
 	function individualProductStock_barcode($barcode){
+=======
+	
+	}
+	public function individualProductStock_barcode($barcode){
+		
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		return $this -> db -> query("SELECT *
 									FROM stock_info , product_info
 									WHERE product_info.barcode = '".$barcode."'
@@ -3773,6 +4347,7 @@
 									AND product_info.product_id=stock_info.product_id
 									AND (stock_status = 'returned'
 										 OR stock_status = 'stocked')");
+<<<<<<< HEAD
 	}
 
 	function point_equal(){
@@ -3829,4 +4404,71 @@
     	}
     	else return 0;
     }
+=======
+	
+	}
+	public function point_equal(){
+			$shop_id=$this->tank_auth->get_shop_id();
+			$this->db->select('one_point_equal,one_taka_equal');
+			$this->db->from('shop_setup');
+			$this->db->where('shop_id',$shop_id);
+			$query=$this->db->get();
+			$row=$query->row_array();
+			return $row;
+	}
+	
+	
+	public function add_point($customer_id){
+	        $this->db->select('*');
+			$this->db->from('point_info');
+			$this->db->where('customer_id',$customer_id);
+			$query=$this->db->get();
+			
+	if($query->num_rows>0){
+		$row=$query->row_array();
+		//$total_point=$row['total_point']+$this->input->post('total_point');
+		$total_point=$this->input->post('total_point');
+		//$withdraw_point=$row['withdraw_point']+$this->input->post('final_point');
+		$withdraw_point=$this->input->post('final_point');
+		$remain_point = $total_point - $withdraw_point;
+		$data=array('total_point' =>$total_point,
+					'withdraw_point' =>$withdraw_point,
+					'remain_point' => $remain_point);
+		$this->db->where('customer_id',$customer_id);
+		$this->db->update('point_info',$data);
+		
+		return $row['point_id'];
+		
+		}
+	else {
+	
+	
+	
+	$remain_point=$this->input->post('total_point')-$this->input->post('final_point');
+	$data=array(
+				'customer_id'=>$this->input->post('customer_id'),
+				'total_point'=>$this->input->post('total_point'),
+				'withdraw_point'=>$this->input->post('final_point'),
+				'remain_point'=>$remain_point
+				);
+		$this->db->insert('point_info',$data);
+		return $this -> db -> insert_id();
+	 
+}
+
+}
+  public function remain_point($customer_id){
+  
+	         $this->db->select('*');
+			$this->db->from('point_info');
+			$this->db->where('customer_id',$customer_id);
+			$query=$this->db->get();
+	if($query->num_rows >0){
+		$row=$query->row_array();
+		return $row;
+	}
+	else return 0;
+
+}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 }

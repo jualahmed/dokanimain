@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 table.KeyTable th.focus,
@@ -5,3 +6,12 @@ table.KeyTable td.focus {
 	outline: 3px solid #3366FF;
 	outline-offset: -3px;
 }
+=======
+
+
+table.KeyTable th.focus,
+table.KeyTable td.focus {
+	outline: 3px solid #3366FF;
+	outline-offset: -3px;
+}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 #main_invoice {
     margin: 0 auto;
@@ -374,3 +375,381 @@ margin:0px  auto;
 	      width: 72px;
 	}	
 .clear{clear:both;~background:black;height:1px;}
+=======
+
+#main_invoice {
+    margin: 0 auto;
+    width: 800px;
+}
+#invoice {
+   /*background: url("../images/invoice_back.jpg") no-repeat scroll 0 0 transparent;*/
+    margin: 0 auto;
+    ~min-height: 1100px;
+    width: 743px;
+}
+
+
+#shop_title_box {
+    background-color: lightgray;
+    float: left;
+    height: auto;
+    margin-bottom: 0;
+    margin-left: 0px;
+    margin-right: 0;
+    margin-top: 0;
+    text-align: right;
+    width: 100%;
+}
+
+#shop_title_test {
+    background:#C0C4C0;
+    color: black;
+    float: left;
+    font-family: 'Times New Roman';
+    font-size: 24px;
+    font-weight: normal;
+    height: 50%;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-top: 0;
+    text-align: center;
+    width: 100%;
+}
+
+#shop_address_test{
+    color: black;
+    float: left;
+    font-family: arial;
+    font-size: 13px;
+    font-weight: normal;
+    height: 16px;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-top: 0;
+    text-align: center;
+    width: 100%;
+}
+
+#invoice_details_header {
+    border-bottom: 1px dashed #959595;
+    float: left;
+    margin: 0 0 5px;
+    min-height: 74px;
+    width: 740px;
+}
+#inv_details_one {
+    float: left;
+    margin: 0 0 0 0px;
+    min-height: 70px;
+    width: 406px;
+}
+#left_div {
+    float: left;
+    margin: 0;
+    min-height: 20px;
+    padding: 2px;
+    width: 100%;
+}
+#left_div h2 {
+    float: left;
+    font-family: arial;
+    font-size: 13px;
+    margin: 0;
+    min-height: 20px;
+    padding: 1px;
+    width: 125px;
+}
+#left_div p {
+    float: left;
+    font-family: arial;
+    font-size: 12px;
+    margin: 0;
+    min-height: 22px;
+    text-align: left;
+    width: 66%;
+    line-height: 22px;
+}
+#inv_details_two {
+    float: left;
+    margin-left: 49px;
+    min-height: 66px;
+    padding: 2px;
+    width: 281px;
+
+}
+#right_div {
+    float: left;
+    margin: 0;
+    min-height: 20px;
+    width: 326px;
+    margin-left: 28px;
+}
+#right_div h2 {
+    float: left;
+    font-family: arial;
+    font-size: 13px;
+    margin: 0;
+    min-height: 20px;
+    padding: 1px;
+    width: 125px;
+}
+#right_div p {
+    float: left;
+    font-family: arial;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 0;
+    min-height: 20px;
+    text-align: left;
+    text-indent: 5px;
+    width: 145px;
+}
+#show_result_head {
+    background: none repeat scroll 0 0 #63ADD9;
+    border-bottom: 1px solid #A4A4A4;
+    border-left: 1px solid #A4A4A4;
+    border-right: 1px solid #A4A4A4;
+    border-top: 1px solid #A4A4A4;
+    !color: white;
+    float: left;
+    font-family: arial;
+    min-height: 20px;
+    width: 741px;
+}
+#result_view2 {
+    border-bottom: 1px solid #A4A4A4;
+    border-left: 1px solid #A4A4A4;
+    border-right: 1px solid #A4A4A4;
+    float: left;
+    font-family: arial;
+    height: auto;
+    width: 741px;
+}
+#result_view2:hover {
+    font-weight: bold;
+}
+.product_no {
+    float: left;
+    font-family: arial;
+    font-size: 11px;
+    line-height: 20px;
+    margin: auto;
+    min-height: 20px;
+    text-align: center;
+    width: 68px;
+}
+.product_code {
+    float: left;
+    font-family: arial;
+    font-size: 11px;
+    line-height: 20px;
+    margin: 0 auto;
+    min-height: 20px;
+    text-align: center;
+    width: 90px;
+}
+#product_name {
+    float: left;
+    font-family: arial;
+    font-size: 10px;
+    line-height: 20px;
+    margin: 0 auto;
+    min-height: 20px;
+    text-align: center;
+    width: 275px;
+}
+#product_name p {
+    font-family: Verdana;
+    font-size: 8px;
+    line-height: 12px;
+    margin:-5px auto 0px;
+    min-height: 9px;
+    text-align: center;
+    width: 275px;
+}
+.waranty_box {
+    float: left;
+    font-family: arial;
+    font-size: 11px;
+    line-height: 20px;
+    margin: auto;
+    min-height: 20px;
+    text-align: right;
+    width: 80px;
+}
+#transaction_details {
+    float: left;
+    margin-top: 5px;
+    min-height: 110px;
+    width: 743px;
+    min-height:170px;
+}
+#t_left {
+    float: left;
+    min-height: 105px;
+    width: 452px;
+}
+	#for_text_view
+	{
+		float: left;
+	    min-height: 20px;
+	    width: 452px;
+	    margin-top:5px;
+	    ~background: none repeat scroll 0 0 white;
+	}
+	#for_text_view,#show_result_head  h2 
+	{
+		float: left;
+	    font-family: arial;
+	    font-size: 12px;
+	    line-height: 18px;
+	    margin: 0;
+	    min-height: 20px;
+	    padding: 1px;
+	    width: 52px;
+	    text-indent: 5px;
+		~background:yellow;
+	}
+	#for_text_view,#show_result_head  p 
+	{
+		~background:pink;
+	    float: left;
+	    font-family: arial;
+	    font-size: 9px;
+	    margin: 0px auto;
+	    min-height: 20px;
+	    text-align: left;
+	    min-width: 350px;
+	    line-height:21px;
+	    
+	}
+
+#t_right {
+    ~background: none repeat scroll 0 0 green;
+    float: left;
+    min-height: 105px;
+    width: 291px;
+}
+#left_portion {
+    ~background: none repeat scroll 0 0 white;
+    float: left;
+    min-height: 105px;
+    width: 138px;
+}
+.title_name {
+    ~background: none repeat scroll 0 0 yellow;
+    float: left;
+    font-family: arial;
+    font-size: 13px;
+    line-height: 20px;
+    margin: 5px 0 0;
+    min-height: 20px;
+    text-indent: 5px;
+    width: 132px;
+}
+#ri8_portion {
+    ~background: none repeat scroll 0 0 brown;
+    float: left;
+    min-height: 100px;
+    width: 102px;
+}
+.title_result {
+    ~background: none repeat scroll 0 0 red;
+    float: left;
+    font-family: arial;
+    font-size: 13px;
+    line-height: 20px;
+    margin: 5px 0 0;
+    min-height: 20px;
+    text-align: right;
+    text-indent: 5px;
+    width: 101px;
+}
+.dot {
+    color: black;
+    float: left;
+    font-size: 14px;
+    margin: 5px 0 0;
+    min-height: 20px;
+    width: 5px;
+}
+.dot2 {
+    color: black;
+    float: left;
+    font-size: 14px;
+    margin: 0;
+    min-height: 20px;
+    width:7px;
+}
+
+#main_body_invoice
+{
+	min-height:600px;
+	width:743px;
+	background:green;
+}
+#signature_area
+{
+height:55px;
+float:left;
+margin:0px  auto;
+	
+}
+	#signature_one
+	{
+		float: left;
+	    height: 25px;
+	    width: 371px;	
+	}
+    .customer_signature
+    {
+    	line-height:25px;
+    	width:350 px;
+    	height:25px;
+    	font-size:13px;
+    	border-bottom:1px solid  gray;
+    	!background:white;
+    	text-align:center;
+    	width:190px;
+    	
+    }
+	.customer_signature2
+    {
+    	line-height:25px;
+    	~width:350 px;
+    	height:25px;
+    	font-size:13px;
+    	margin-left:165px;
+    	border-bottom:1px solid  gray;
+    	!background:white;
+    	text-align:center;
+    	min-width:190px;
+    	
+    }				
+.print_link img
+{
+	  height: 60px;
+      margin-left: 300px;
+      width: 72px;
+}
+	.print_link img:hover
+	{
+		 height: 60px;
+     	 margin-left: 300px;
+         width: 72px;
+	}
+	
+.goback_link img
+{
+	  height: 60px;
+      margin-left: 30px;
+      width: 72px;
+}
+	.goback_link img:hover
+	{
+		  height: 60px;
+	      margin-left: 30px;
+	      width: 72px;
+	}	
+.clear{clear:both;~background:black;height:1px;}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

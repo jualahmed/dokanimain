@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <?php $this -> load -> view('include/header_for_new_sale'); ?>
+=======
+<?php $this -> load -> view('include/header'); ?>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 <!--script  src="<?php echo base_url(); ?>assets/js/jquery-2.1.3.min.js"></script-->
 <script type='text/javascript' charset='utf-8' src='<?php echo base_url();?>js/jquery-1.10.2.js'></script>
 <div class="content-wrapper">

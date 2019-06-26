@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Sizing shortcuts
 
 @mixin size($width, $height) {
@@ -8,3 +9,15 @@
 @mixin square($size) {
   @include size($size, $size);
 }
+=======
+// Sizing shortcuts
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin square($size) {
+  @include size($size, $size);
+}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

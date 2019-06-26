@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 /* Block out what is behind the fixed column's header and footer */
@@ -23,3 +24,30 @@ div.DTFC_LeftWrapper table.dataTable.no-footer,
 div.DTFC_RightWrapper table.dataTable.no-footer {
 	border-bottom: none;
 }
+=======
+
+
+/* Block out what is behind the fixed column's header and footer */
+table.DTFC_Cloned thead,
+table.DTFC_Cloned tfoot {
+	background-color: white;
+}
+
+/* Block out the gap above the scrollbar on the right, when there is a fixed
+ * right column
+ */
+div.DTFC_Blocker {
+	background-color: white;
+}
+
+div.DTFC_LeftWrapper table.dataTable,
+div.DTFC_RightWrapper table.dataTable {
+	margin-bottom: 0;
+	z-index: 2;
+}
+
+div.DTFC_LeftWrapper table.dataTable.no-footer,
+div.DTFC_RightWrapper table.dataTable.no-footer {
+	border-bottom: none;
+}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

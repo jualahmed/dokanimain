@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "select2",
   "repo": "select/select2",
@@ -17,3 +18,24 @@
   ],
   "license": "MIT"
 }
+=======
+{
+  "name": "select2",
+  "repo": "select/select2",
+  "description": "Select2 is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results.",
+  "version": "4.0.2",
+  "demo": "https://select2.github.io/",
+  "keywords": [
+    "jquery"
+  ],
+  "main": "dist/js/select2.js",
+  "styles": [
+    "dist/css/select2.css"
+  ],
+  "scripts": [
+    "dist/js/select2.js",
+    "dist/js/i18n/*.js"
+  ],
+  "license": "MIT"
+}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

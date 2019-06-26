@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <style>
+=======
+	<style>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 	.lead {
 		font-size: 18px;
 	}
@@ -38,6 +42,7 @@
 
 
 <script type="text/javascript">
+<<<<<<< HEAD
 
 	$(document).ready(function()
 	{
@@ -100,6 +105,72 @@
 			  );
 		}
 	  	var value = $(this).val();
+=======
+$(document).ready(function()
+{
+	var is_sale_active   = $('#is_sale_active').val();
+	if(is_sale_active =='')
+	{
+		$.ajax({
+			url     : '<?php echo base_url()?>sale_controller/select_active_sale',
+			type    : "POST",
+			success : function(result)
+			{
+				$('#sale_new'+result).trigger('click');
+			}
+
+		});
+	}
+});
+
+    /* Start: Script for sale. */
+
+    $(function(){
+        var i = $('#hid_qty').val();
+        var j = $('#hid_sub_to').val();
+        var k = $('#hid_vat').val();
+           
+        if(i != '' && j != '' && k != ''){
+            $('#number_of_products').val(i);
+            $('#sub_total').val(j);
+            $('#vat').val(k);
+            var re_ajd = $('#hid_return_adjust').val();
+            var tmp = Math.round((parseFloat(j) + parseFloat(k)));
+
+            if(re_ajd != 0){
+              re_ajd    = Math.round(re_ajd);
+              var pybl  = Math.round(tmp - re_ajd);
+
+              $('#return_adjust').val(re_ajd);
+              if(pybl > 0)$('#payable').val(pybl);
+              else $('#payable').val(0);
+            }
+
+            if(!isNaN(tmp)){
+                $('#total').val(tmp);
+                var txt     = convert_number_to_words(tmp) + ' (TK)';
+                $('#inword').val(txt);
+            }
+        }
+    });
+
+    /* Start: script for Search by product name. */
+    
+    $('#search_by_product_name').on('keyup', function(ev)
+	{
+	var is_sale_active   = $('#is_sale_active').val();
+	var allow_negative_stock   = $('#allow_negative_stock').val();
+	if(!is_sale_active && $(this).val().length > 2)
+	{
+		$('#search_by_product_name').val('');
+		swal(
+		  'Oops...!',
+		  'Please select a sale!',
+		  'info'
+		  );
+	}
+	  var value = $(this).val();
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		if(is_sale_active)
 		{
 			if(ev.which === 13 && value!='')
@@ -126,6 +197,7 @@
 			else
 			{
 				$("#search_by_product_name").autocomplete({
+<<<<<<< HEAD
 
 				   source    : function( request, response ) {
 						$.ajax({
@@ -158,6 +230,37 @@
 
 				   minLength     : 1,
 				   select        : function (event, ui) {
+=======
+				  source    : function( request, response ) {
+					$.ajax( {
+					  url       : "<?php echo base_url();?>sale_controller/search_product2",
+					  dataType  : "json",
+					  type      : "POST",
+					  cache     : false,
+					  data      : { term: request.term, flag: 1},
+					  success   : function( result ) { 
+							  response( $.map(result, function(item){
+								return{
+								  id              : item.id,
+								  label           : item.product_name,
+								  company_name    : item.company_name,
+								  catagory_name   : item.catagory_name,
+								  product_size    : item.product_size,
+								  product_model   : item.product_model,
+								  sale_price      : item.sale_price,
+								  mrp_price       : item.mrp_price,
+								  buy_price       : item.buy_price,
+								  stock           : item.stock,
+								  generic_name    : item.generic_name,
+								  temp_pro_data   : item.temp_pro_data
+								}
+							  }));
+							}
+						  });
+					  },
+					  minLength     : 1,
+					  select        : function (event, ui) {
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 						var stock   = ui.item.stock;
 						if(stock == 0 && allow_negative_stock == 0)
 						{
@@ -169,8 +272,13 @@
 							var new_sale_price = parseFloat (ui.item.sale_price);
 							var new_mrp_price = parseFloat(ui.item.mrp_price);
 							var new_buy_price = parseFloat(ui.item.buy_price);
+<<<<<<< HEAD
 						   $('#price').val(new_sale_price);
 						   $('#mrp_price').val(new_mrp_price);
+=======
+						  $('#price').val(new_sale_price);
+						  $('#mrp_price').val(new_mrp_price);
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 							var sale_price_check = parseFloat(ui.item.mrp_price);
 							var stock_check      = parseFloat(ui.item.stock);
 							if(sale_price_check==0 && stock_check ==0)
@@ -185,6 +293,7 @@
 								$("#new_mrp_price").prop("disabled", true);
 								$("#product_quantity").focus();
 							}
+<<<<<<< HEAD
 						   $('#buy_price_check').val(new_buy_price);
 						   $('#new_mrp_price').val(new_sale_price);
 						   $("#pro_name").val(ui.item.label);
@@ -196,6 +305,19 @@
 					},
 
 				});
+=======
+						  $('#buy_price_check').val(new_buy_price);
+						  $('#new_mrp_price').val(new_sale_price);
+						  $("#pro_name").val(ui.item.label);
+						  $("#temp_pro_data").val(ui.item.temp_pro_data);
+						  $("#temp_pro_qty").val(ui.item.stock);
+						  
+						}
+							   
+						},
+
+					  });
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 					  
 				$( "#search_by_product_name" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
 				  return $( "<li style=\"border-bottom: 2px solid gray; hover: red;\">" )
@@ -207,6 +329,7 @@
 			$(this).val('');
 			alert('Plz select or create a sale');
 		}
+<<<<<<< HEAD
    });
 
 	$('#search_by_warran_product_model').on('keyup', function(ev)
@@ -251,6 +374,10 @@
 			alert('Plz select or create a sale');
 		}
     });
+=======
+    });
+
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
     /* End: Script for search_by_barcode*/
 	 /* Start    : delete */
     $('.delete_product').click(function(){
@@ -332,8 +459,11 @@
 				var str_total_vat   = $('#vat').val();                  var total_vat       = parseFloat(str_total_vat);
 				var str_num_of_pro  = $('#number_of_products').val();   var num_of_pro      = parseInt(str_num_of_pro);
 				var return_adjust   = $('#return_adjust').val();
+<<<<<<< HEAD
 				var product_specification   = $('#product_specification').val();
 				var pro_id   = $("#temp_pro_id").val();
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				var value_added_tax = parseFloat($('#value_added_tax').val());
 				
 				if(qnty != '' && !isNaN(qnty) && qnty > 0 && $("#temp_pro_data").val() != '')
@@ -387,6 +517,7 @@
 
 						}
 					});
+<<<<<<< HEAD
 					if(product_specification==2)
 					{
 						$("#indi_pro_name").html('Serial setup for '+selected_producted);
@@ -458,6 +589,64 @@
 					}
 					else
 					{
+=======
+					/* 		
+					if(rstock > cstock)
+					{
+							//$('#product_quantity').css('color', 'red');
+							//alert("Stock unavailable " + cstock);
+							alert('1');
+					} 
+					else if(flg)
+					{
+						alert('2');
+							
+							var temp_data   = $("#temp_pro_data").val();
+							var qnty        = $('#product_quantity').val();
+							
+							$.ajax({
+								url       : '<?php echo base_url()?>sale_controller/updateTmpProduct',
+								type      : "POST",
+								cache     : false,
+								data      : {
+											tmp_data    : temp_data, 
+											quty        : new_qnty, 
+											price       : new_price, 
+											stock       : new_stock, 
+											pro_qnty    : qnty
+										},
+								success   :function(result){
+									$('#search_by_product_name').val("");
+									$('#product_quantity').val("");
+									$('#search_by_product_name').focus();
+
+									selected_row.find("td:nth-child(2)").html(result);
+									selected_row.find("td:nth-child(3)").html(new_qnty);
+									selected_row.find("td:nth-child(5)").html(new_price);
+
+									$('#sub_total').val(temp_amount);
+									$('#vat').val(vat);
+									$('#total').val(total_2);
+									$('#number_of_products').val();
+
+									if(return_adjust != '' && !isNaN(return_adjust)){
+									  return_adjust   = parseFloat(return_adjust);
+									  var pybl        = Math.round(total_2 - return_adjust)
+									  if(pybl > 0)$('#payable').val(pybl);
+									  else $('#payable').val(0);
+									}
+
+									$('#temp_pro_data').val("");
+									var in_words = convert_number_to_words(total_2);        
+									$('#inword').val(in_words + " (TK)");
+								}
+
+							});
+					}
+					else 
+					{ */
+						//alert('3');
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 						var temp_data   = $("#temp_pro_data").val();
 						
 						num_of_tr += 1;
@@ -506,13 +695,21 @@
 								location.reload();
 							}
 						});
+<<<<<<< HEAD
 					}         
+=======
+					//}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				}         
 			}      
     });
 
     $('#product_quantity').on('keyup', function(e)
+<<<<<<< HEAD
 	 {
+=======
+	{
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         var stock           = $("#temp_pro_qty").val();         var cstock          = parseFloat(stock);
         var qnty            = $('#product_quantity').val();     var rstock          = parseFloat(qnty);
 
@@ -748,12 +945,17 @@
 		
 		var edit_id = $(this).attr('id');
 		
+<<<<<<< HEAD
 		var kval = edit_id.substring(4, 10000000000);
+=======
+		var kval = edit_id.substring(4, 50);
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		var quantity = $('#quantti_id'+kval).val();
 		var stock = $('#stock_id'+kval).val();
 		var sale = $('#sale_id'+kval).val();
 		var buy = $('#buy_id'+kval).val();
 		var temp_details_id = $('#temp_details_modal'+kval).val();
+<<<<<<< HEAD
 		var specification_id = $('#specification_id'+kval).val();
 		var temp_sale_id = $('#new_temp_sale_id').val();
 		var product_id = $('#pro_duct_idd'+kval).val();
@@ -893,6 +1095,15 @@
 			$('.temp_sale_id_details_id').val(temp_sale_id);
 			$('.pro_details_id').val(kval);
 		}
+=======
+		//alert(quantity+'//'+temp_details_id);
+		$('.quantityy').val(quantity);
+		$('.stockk').val(stock);
+		$('.salee').val(sale);
+		$('.buyy').val(buy);
+		$('.temp_details_id').val(temp_details_id);
+		$('#show_quantty_modal').modal('show');
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 	});
 	$('#change_quanttyy_form').on('submit', function(uxchomp)
 	{
@@ -992,9 +1203,16 @@
 
     $('#quick_sale').on('click', function(e)
 	{
+<<<<<<< HEAD
 		quick(e);
 	});
 
+=======
+		//e.defaultPrevented;
+
+		quick(e);
+	});
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
     function quick(e)
 	{
 		//e.defaultPrevented;
@@ -1036,7 +1254,11 @@
 				var change          = parseFloat($('#change').val());
 				var payable         = parseFloat($('#payable').val());
 				var return_id       = $('#hid_return_id').val();
+<<<<<<< HEAD
 				var discount_limit  = $('#discount_limit').val();
+=======
+				var discount_limit       = $('#discount_limit').val();
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				
 				if(disc_amount > total && discount_limit==0)
 				{
@@ -3035,9 +3257,15 @@
 <script src="<?php echo base_url();?>assets/assets2/plugins/iCheck/icheck.min.js"></script>
 <!-- FastClick -->
 <script src="<?php echo base_url();?>assets/assets2/plugins/fastclick/fastclick.js"></script>
+<<<<<<< HEAD
 <!-- adminLTE App -->
 <script src="<?php echo base_url();?>assets/assets2/dist/js/app.min.js"></script>
 <!-- adminLTE for demo purposes -->
+=======
+<!-- AdminLTE App -->
+<script src="<?php echo base_url();?>assets/assets2/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 <script src="<?php echo base_url();?>assets/assets2/dist/js/demo.js"></script>
 <script src="<?php echo base_url();?>assets/assets2/date.js"></script>
 <!-- Page script -->
@@ -3130,7 +3358,11 @@
 		  cancelButtonText    : 'No'
 		}).then(function () {
 			 $.ajax({
+<<<<<<< HEAD
 				url: '<?php echo base_url()?>admin/download_database',
+=======
+				url: '<?php echo base_url()?>site_controller/download_database',
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				type: "POST",
 				cache: false,
 				data: { },

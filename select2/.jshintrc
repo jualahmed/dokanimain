@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "bitwise": true,
   "camelcase": true,
@@ -23,3 +24,30 @@
   "quotmark": "single",
   "undef": true
 }
+=======
+{
+  "bitwise": true,
+  "camelcase": true,
+  "curly": true,
+  "es3": true,
+  "eqnull": true,
+  "freeze": true,
+  "globals": {
+    "console": false,
+    "define": false,
+    "document": false,
+    "expect": false,
+    "MockContainer": false,
+    "module": false,
+    "require": false,
+    "test": false,
+    "window": false
+  },
+  "indent": 2,
+  "maxlen": 80,
+  "noarg": true,
+  "nonew": true,
+  "quotmark": "single",
+  "undef": true
+}
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7

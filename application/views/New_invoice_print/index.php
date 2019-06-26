@@ -111,13 +111,17 @@
 						</tr>
 						<?php
 							$save1 = 0;
+<<<<<<< HEAD
 							$j = 1;
 							$i = 1;
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 							foreach ($sale_info -> result() as $field):
 						?>
 						
 						<tr>
 							<td style="text-align:left;font-size: 12px;">
+<<<<<<< HEAD
 								<?php
 									
 									if(isset($sale_warranty_info[$j]) && $field->product_specification == 2)
@@ -135,6 +139,13 @@
 									}
 								?>
 								
+=======
+								<?php 
+									echo '<p style="min-height:13px;font-size:11px;font-weight:normal;margin:0px;">'.$field -> product_name.'</p>';
+									//if($field -> product_specification == 'individual')
+									//echo '<h1 style="height:10px;font-size:9px;font-weight:normal;margin:0px;text-indent:15px;">'.$individual_product_stock_id[ $field -> product_id ].'</h1>';
+								?>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 							</td>
 							<td style="width:10%;font-size: 12px;text-align:center;">
 								<?php 
@@ -163,7 +174,10 @@
 							</td>
 						</tr>
 						<?php
+<<<<<<< HEAD
 							$i++;
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 							endforeach;
 						?>
 						

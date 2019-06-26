@@ -12,16 +12,28 @@
 			
 			$data['user_type'] = $this->tank_auth->get_usertype();
 			
+<<<<<<< HEAD
 			if(!$this->access_control_model->my_access($data['user_type'], 'sale_controller', ''))
 			{
 				redirect('admin/noaccess');
+=======
+			if(!$this -> access_control_model -> my_access($data['user_type'], 'sale_controller', ''))
+			{
+			redirect('site_controller/main_site/noaccess');
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			}
 		}
 
 		public function is_logged_in() {
+<<<<<<< HEAD
             if(!$this->tank_auth->is_logged_in()) {
                 redirect('auth/login');
             }
+=======
+                    if(!$this->tank_auth->is_logged_in()) {
+                        redirect('auth/login');
+                    }
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		}
 		
                 
@@ -194,6 +206,7 @@
             $invoice_id = $this->sale_model->doInvoiceInfoTask($customer_id, $sub_total, $cash_commision, $disc_amount, $discount_type, $grand_total, $total_paid, $return_money,$return_adjust,$payable,$delivery_charge);
 			
             $products = $this->sale_model->getAllTmpProduct($this->tank_auth->get_current_temp_sale());
+<<<<<<< HEAD
 			$products_warranty = $this->sale_model->getAllTmpProduct_warranty($this->tank_auth->get_current_temp_sale());
 
             if($products != FALSE)
@@ -202,6 +215,11 @@
 				{
 					$this->sale_model->doWarrantyUpdateTask($invoice_id, $products,$products_warranty, $cash_commision,$disc_amount, $discount_type);  
 				}
+=======
+
+            if($products != FALSE)
+            {
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
                 $this->sale_model->doSaleDetailsTask($invoice_id, $products, $cash_commision,$disc_amount, $discount_type);         
                 $this->sale_model->transactioninfo_cashbook($invoice_id,$customer_id, $grand_total, $total_paid,$return_adjust,$payable,$return_id,$delivery_charge);
                 $this->sale_model->deleteDataFromTmpSaleInfoAndTmpSaleDetails($current_sale_id, $current_sale_return_id, $creator);
@@ -214,6 +232,7 @@
                 echo 'Nothing Found';
             }
         }
+<<<<<<< HEAD
         
 		public function removeProduct()
         {
@@ -227,12 +246,26 @@
 			echo $pro_id . "  " . $qnty . " " . $currrent_temp_sale_id;
         }
 
+=======
+		public function removeProduct()
+        {
+				$pro_id 				= $this->input->post('product_id');
+				$qnty 					= $this->input->post('Quantity');
+				$currrent_temp_sale_id 	= $this->tank_auth->get_current_temp_sale();
+
+				
+				$d = $this->sale_model->removeProduct($pro_id, $currrent_temp_sale_id, $qnty);
+				echo json_encode($d);
+				echo $pro_id . "  " . $qnty . " " . $currrent_temp_sale_id;
+        }
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		public function select_active_sale()
         {
 			$d = $this->sale_model->select_active_sale();
 			$this->tank_auth->set_current_temp_sale( $d);
 			echo $d;
         }
+<<<<<<< HEAD
 
 		public function new_active_sale_with_salereturn()
         {
@@ -244,6 +277,11 @@
 
 		public function doSale_credit()
         {
+=======
+		public function doSale_credit()
+        {
+			
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $current_sale_id 	   		= $this->tank_auth->get_current_temp_sale();
 			$current_sale_return_id 	= $this->tank_auth->get_current_sale_return_id();
 			$creator 			   		= $this->tank_auth->get_user_id(); 
@@ -585,6 +623,7 @@
 			}
 
         }
+<<<<<<< HEAD
 		public function search_product_warranty()
         {
     		
@@ -634,6 +673,9 @@
 			}
 
         }
+=======
+		
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		public function search_product2()
         {
     		
@@ -762,7 +804,11 @@
 	            else if ($flag == 3) {
 	            	$field_name 	= 'barcode';
 	            }
+<<<<<<< HEAD
 				$data 	= $this->sale_model->search_and_get_product_2_test($key, $field_name);
+=======
+				$data 	= $this->sale_model->search_and_get_product($key, $field_name);
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 				
 				$info 	= array();
 				$stock 	= 0;
@@ -810,6 +856,7 @@
 				echo json_encode($info);
 			}
         }
+<<<<<<< HEAD
 		public function search_product22()
 		{
 			$requested_item 	= $this->input->post('term');
@@ -900,6 +947,52 @@
 			}
 			echo json_encode($info);
 		}
+=======
+		public function search_product22(){
+    	$requested_item 	= $this->input->post('term');
+    	$flag 				= (int)$this->input->post('flag');
+    	$field_name 		= "";
+    	
+    	if($flag == 1)$field_name 		= "product_name";
+		
+    	$data = $this->product_model->search_productt2($requested_item, $field_name);
+
+    	$info = array();
+
+    	if($data != FALSE){
+    		foreach($data->result() as $tmp){
+				
+				$unit_buy_price = $this->product_model->get_latest_unit_buy_price($tmp->product_id);
+				
+				
+    			$info[] = array(
+    				'id' 						=> $tmp->product_id,
+    				'name' 						=> $tmp->product_name,
+    				'catagory_name' 			=> $tmp->catagory_name,
+    				'stock'						=> $tmp->stock_amount,
+    				'bulk_unit_buy_price'		=> $tmp->bulk_unit_buy_price,
+    				'unit_buy_price'			=> $unit_buy_price,
+    				'bulk_unit_sale_price'		=> $tmp->bulk_unit_sale_price,
+    				'general_unit_sale_price'	=> $tmp->general_unit_sale_price
+					
+    				);
+    		}
+    	}
+    	else{
+    		$info[] = array(
+    				'id' 				=> '',
+    				'name' 				=> 'Nothing Found...',
+    				'catagory_name' 	=> '',
+    				'stock' 	=> '',
+					'bulk_unit_buy_price'		=> '',
+					'unit_buy_price'			=> '',
+    				'bulk_unit_sale_price'		=> '',
+    				'general_unit_sale_price'		=> ''
+    				);
+    	}
+    	echo json_encode($info);
+    }
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
         /* Ending: searchProductForSaleReturn() */
 		function get_invoice_product_list() 
 		{
@@ -1063,7 +1156,10 @@
 
 	        $data['sale_return_info'] = $this->sale_model->getAllSaleReturnProduct($tmp_sale_return_id, $tmp_current_sale_id);
 			
+<<<<<<< HEAD
 			
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 			$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
 
 		}
@@ -1088,10 +1184,15 @@
             $view_array                          	= array();
             $view_array['product_id']            	= $stripped_data[0];
             $view_array['product_name']          	= $stripped_data[1];
+<<<<<<< HEAD
             //$view_array['pro_mrp_price']            = $this->input->post('pro_mrp_price');
             //$view_array['sale_price']            	= $this->input->post('mrp_price');
 			$view_array['pro_mrp_price']            = round($stripped_data[3]);
             $view_array['sale_price']            	= round($stripped_data[3]);
+=======
+            $view_array['pro_mrp_price']            = $this->input->post('pro_mrp_price');
+            $view_array['sale_price']            	= $this->input->post('mrp_price');
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
             $view_array['buy_price']             	= $stripped_data[4];
             $view_array['product_specification'] 	= $stripped_data[5];
             $view_array['product_stock']         	= $stripped_data[2] - $this->input->post('pro_quantity');
@@ -1124,6 +1225,7 @@
 				echo 'error';
 			}
 		}
+<<<<<<< HEAD
 		function getIndiVidualProduct_warranty_new()
 		{
 			$pro_id = $this->input->post('product_id');
@@ -1170,6 +1272,8 @@
 			$query = $this->db->get();
 			echo json_encode($query->result());
 		}
+=======
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
 		public function deleteProductFromSaleReturn()
 		{
 			$product_id 		= $this->input->post('pro_id');

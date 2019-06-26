@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" ?>
 <ldml>
 	<identity>
@@ -7,3 +8,14 @@
 		<territory type="SN"/>
 	</identity>
 </ldml>
+=======
+<?xml version="1.0" encoding="UTF-8" ?>
+<ldml>
+	<identity>
+		<version number="$Revision: 1.17 $"/>
+		<generation date="$Date: 2009/05/05 23:06:41 $"/>
+		<language type="wo"/>
+		<territory type="SN"/>
+	</identity>
+</ldml>
+>>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
