@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="<?php echo base_url();?>assets/assets2/dist/css/adminLTE.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/assets2/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/font-awesome.min.css">
-
 </head>
 <?php 
   $this->load->config('custom_config'); 
@@ -50,8 +49,8 @@
                 </p>
               </li>
               <li class="user-footer">
-                <div class="pull-left" style="margin:0px 0px 0px 90px;">
-          <a href="<?php echo base_url();?>auth/logout" class="btn btn-default btn-flat">Sign out</a>
+                <div class="pull-left">
+                  <a href="<?php echo base_url();?>auth/logout" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
