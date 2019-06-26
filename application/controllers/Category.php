@@ -29,12 +29,50 @@ class Category extends MY_Controller {
 		$data['alarming_level'] = FALSE;
 		$data['status'] = '';
 		$data['user_name'] = $this->tank_auth->get_username();
-		$this->__renderview('Setup/catagory_entry_form_view',$data);
+		$this->__renderview('Setup/catagory',$data);
 	}
 
+	/* create catagory */
 	public function create()
 	{
-		# code...
+		$data['user_type'] = $this->tank_auth->get_usertype();
+		$data['status'] = '';
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('catagory_name', 'Catagory Name','required');
+		$this->form_validation->set_rules('catagory_description', 'Catagory Description');
+		$data['user_name'] = $this->tank_auth->get_username();
+		
+		if($this -> form_validation -> run() ==  FALSE)
+		{
+			$data['status'] = 'error';
+			redirect('category/error');
+		}
+		else
+		{
+			$catagory_name = $this -> input ->post('catagory_name');
+			$exists = $this -> setup_model -> redundancy_check('catagory_info', 'catagory_name', $catagory_name);
+			if($exists == true)
+			{
+				$data['status'] = 'exist';
+				redirect('category/exist');
+			}
+			else
+			{
+			
+				$catagory_id = $this -> setup_model -> create_catagory();
+				
+				if($catagory_id!='')
+				{
+					$data['status'] = 'success';
+					redirect('category/success');
+				}
+				else
+				{
+					$data['status'] = 'failed';
+					redirect('category/failed');
+				}
+			}
+		}
 	}
 
 	public function store()

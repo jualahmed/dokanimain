@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="<?php echo base_url();?>assets/assets2/dist/css/adminLTE.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/assets2/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/assets2/sweetalert2/sweetalert2.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css?v=1.0.0">
 </head>
 <?php 
   $this->load->config('custom_config'); 
@@ -20,17 +22,15 @@
 <div class="wrapper">
   <header class="main-header">
     <a href="<?php echo base_url();?>admin" class="logo">
-    <span class="logo-mini"><img src="<?php echo base_url(); ?>images/dokani_small.png" style="max-width:40px;"></span>
-      <span class="logo-lg"><img src="<?php echo base_url(); ?>images/top_logo2.png" style="width:190px;height:50px;"></span>
+      <span class="logo-lg"><img src="<?php echo base_url(); ?>images/top_logo2.png"></span>
     </a>
-    <nav class="navbar navbar-static-top" style="height: 38px;line-height: 25px;">
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" style="text-decoration:none;font-size:20px;">
-        <span class="sr-only">Toggle navigation</span>
-    <span style="margin:0px 0px 0px 10px; color:white; font-size:30px; font-weight:bold;Helvetica Neue,Helvetica,Arial,sans-serif"><?php echo $this->tank_auth->get_shopname(); ?></span>
-    <?php
-      $this->load->config('custom_config'); 
-    ?>
-    </a>
+    <nav class="navbar navbar-static-top">
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span><?php echo $this->tank_auth->get_shopname(); ?></span>
+        <?php
+          $this->load->config('custom_config'); 
+        ?>
+      </a>
       <div class="navbar-custom-menu">    
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu">
@@ -68,7 +68,7 @@
       </div>
     <div id="scrollbar">
       <ul class="sidebar-menu">
-        <li class="active treeview">
+        <li class="treeview">
           <a href="<?php echo base_url();?>admin">
             <i class="fa fa-home"></i> <span>Home</span>
           </a>
@@ -77,7 +77,7 @@
     if($user_type!='seller')
     {
     ?>
-        <li class="treeview" id="setup">
+        <li class="active treeview" id="setup">
           <a href="#">
             <i class="fa fa-gear"></i>
             <span>Setup</span>
@@ -86,7 +86,7 @@
             </span>
           </a>
           <ul class="treeview-menu common">
-            <li><a href="<?php echo base_url();?>setup/catagory_setup"><i class="fa fa-gear"></i>Category Setup</a></li>
+            <li class="active"><a href="<?php echo base_url();?>category"><i class="fa fa-gear"></i>Category Setup</a></li>
             <li><a href="<?php echo base_url();?>setup/company_setup"><i class="fa fa-gear"></i>Company Setup</a></li>
             <li><a href="<?php echo base_url();?>setup/distributor_setup"><i class="fa fa-gear"></i>Distributor Setup</a></li>
             <li><a href="<?php echo base_url();?>setup/product_setup"><i class="fa fa-gear"></i>Product Setup</a></li>

@@ -1,17 +1,4 @@
-				
-<style>
-	.lead {
-		font-size: 18px;
-	}
-	
-	#companyTitle {
-		color: #1479B8;
-		font-size: 13px;
-		transition: 0.6s;
-		font-weight: bold;
-		text-decoration: none;
-	}
-</style>
+
   <footer class="main-footer" style="padding:1px;height:35px;">
 	<input name="ret_and_sel" type="hidden" id="ret_and_sel" value="<?php echo base_url();?>extra_controller/retrive_and_select" />
 	<input name="ret_and_sel_with_id" type="hidden" id="ret_and_sel_with_id" value="<?php echo base_url();?>extra_controller/retrive_and_select_with_id" />
