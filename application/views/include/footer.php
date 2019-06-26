@@ -1,7 +1,10 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> parent of f3080fb0... cleen
 =======
 >>>>>>> parent of f3080fb0... cleen
 				
@@ -19,7 +22,10 @@
 	}
 </style>
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
+=======
+>>>>>>> parent of f3080fb0... cleen
 =======
 >>>>>>> parent of f3080fb0... cleen
   <footer class="main-footer" style="padding:1px;height:35px;">

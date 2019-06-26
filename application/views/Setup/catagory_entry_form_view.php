@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <?php $this -> load -> view('include/header'); ?>
 <script type='text/javascript' charset='utf-8' src='<?php echo base_url();?>js/jquery-1.10.2.js'></script>
 <div class="content-wrapper">
@@ -105,6 +106,8 @@ $(document).ready(function()
 </script>
 <?php $this -> load -> view('include/footer'); ?>
 =======
+=======
+>>>>>>> parent of f3080fb0... cleen
 
 <script type='text/javascript' charset='utf-8' src='<?php echo base_url();?>js/jquery-1.10.2.js'></script>
 <div class="content-wrapper">
@@ -196,4 +199,7 @@ $(document).ready(function()
 	</section>
 </div>
 
+<<<<<<< HEAD
+>>>>>>> parent of f3080fb0... cleen
+=======
 >>>>>>> parent of f3080fb0... cleen
