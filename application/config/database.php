@@ -82,6 +82,7 @@ $db['default'] = array(
 	'username' => 'root',
 	'password' => '',
 <<<<<<< HEAD
+<<<<<<< HEAD
 	'database' => 'dokani',
 =======
 	//'database' => 'dokani_cosmetics',
@@ -89,6 +90,9 @@ $db['default'] = array(
 	//'database' => 'dokani_medicine',
 	//'database' => 'fiza_shop',
 >>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
+=======
+	'database' => 'dokani_combo',
+>>>>>>> parent of f3080fb0... cleen
 	'dbdriver' => 'mysql',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

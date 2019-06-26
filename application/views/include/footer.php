@@ -1,6 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> parent of f3080fb0... cleen
 				
 <style>
 	.lead {
@@ -15,7 +18,10 @@
 		text-decoration: none;
 	}
 </style>
+<<<<<<< HEAD
 >>>>>>> 126491c5b956413b4ebc35a0628acbc4d375a4e7
+=======
+>>>>>>> parent of f3080fb0... cleen
   <footer class="main-footer" style="padding:1px;height:35px;">
 	<input name="ret_and_sel" type="hidden" id="ret_and_sel" value="<?php echo base_url();?>extra_controller/retrive_and_select" />
 	<input name="ret_and_sel_with_id" type="hidden" id="ret_and_sel_with_id" value="<?php echo base_url();?>extra_controller/retrive_and_select_with_id" />

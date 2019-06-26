@@ -25,6 +25,61 @@ class Setup extends CI_controller{
 	 * 2018-01-06
 	 * Prasanta Bhattacharjee
 	******************************/
+
+	function catagory_setup()
+	{
+		$data['user_type'] = $this->tank_auth->get_usertype();
+		$data['sale_status'] = '';
+		$data['alarming_level'] = FALSE;
+		$data['status'] = '';
+		$data['user_name'] = $this->tank_auth->get_username();
+		$this->load->view('Setup/catagory_entry_form_view', $data);
+	}
+	
+	/* create catagory */
+	function create_catagory()
+	{
+		$data['user_type'] = $this->tank_auth->get_usertype();
+		$data['status'] = '';
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('catagory_name', 'Catagory Name','required');
+		$this->form_validation->set_rules('catagory_description', 'Catagory Description');
+		$data['user_name'] = $this->tank_auth->get_username();
+		
+		if($this -> form_validation -> run() ==  FALSE)
+		{
+			$data['status'] = 'error';
+			redirect('Setup/catagory_setup/error');
+		}
+		else
+		{
+			$catagory_name = $this -> input ->post('catagory_name');
+																// table_name   ,  field name,      element
+			$exists = $this -> setup_model -> redundancy_check('catagory_info', 'catagory_name', $catagory_name);
+			if($exists == true)
+			{
+				$data['status'] = 'exist';
+				redirect('Setup/catagory_setup/exist');
+			}
+			else
+			{
+			
+				$catagory_id = $this -> setup_model -> create_catagory();
+				
+				if($catagory_id!='')
+				{
+					$data['status'] = 'success';
+					redirect('Setup/catagory_setup/success');
+				}
+				else
+				{
+					$data['status'] = 'failed';
+					redirect('Setup/catagory_setup/failed');
+				}
+			}
+		}
+	}
+	
 	/* Company Setup Form */
 		function company_setup()
 		{
