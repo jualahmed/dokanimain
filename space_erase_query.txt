@@ -1,1 +1,0 @@
-UPDATE `product_info` SET `product_name` = REPLACE(LTRIM(RTRIM(`product_name`)), '  ', ' ')
