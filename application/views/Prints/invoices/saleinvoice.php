@@ -56,14 +56,24 @@
 		$this->load->config('custom_config'); 
 		$pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 	?>
-	<body onload="window.print()"> 
+	<body > 
 	 	<div id ="main_invoice" style="width: 700px;">
 			<div id = "invoice"  style="width: 698px;">
-				<div id="shop_title_box"  style="width: 698px;">			
-						<!--div id = "shop_title_test"> <?php echo $this->tank_auth->get_shopname(); ?>  </div>
+				<div id="shop_title_box"  style="width: 698px;text-align: center;">			
+						<div id = "shop_title_test"> <?php echo $this->tank_auth->get_shopname(); ?>  </div>
 						<div id = "shop_address_test">  <?php echo $this->tank_auth->get_shopaddress(); ?></div>	
-						<div id = "shop_address_test"> Contact: <?php echo $this->tank_auth->get_shopcontact(); ?> </div-->
-						<img style="width: 698px;" src="<?php echo base_url();?>images/common.jpg">
+						<div id = "shop_address_test"> Contact: <?php echo $this->tank_auth->get_shopcontact(); ?> </div>
+						<?php
+							$shop_id=$this->tank_auth->get_shop_id();
+							$this->db->where('shop_id',$shop_id);
+							$shop_info=$this->db->get('shop_setup')->row();
+						?>
+						<?php if ($shop_info->invoicelogo): ?>
+							<img style="width: 100%;" src="<?php echo base_url();?>assets/img/shop/<?php echo $shop_info->invoicelogo ?>">
+						<?php else: ?>
+							<img style="width: 50%;height: 100px" src="<?php echo base_url();?>assets/img/top_logo2.png">
+
+						<?php endif ?> 
 						<div id = "shop_title_test"> Invoice # <?php echo $invoice_id; ?></div>
 				</div> <!--end of shop_title_box-->
 				<div id = "invoice_details_header" style="width: 699px;">	

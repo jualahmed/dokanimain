@@ -259,6 +259,7 @@ class Report extends MY_controller
 		 $type = $this->uri->segment(6);
 		 $product_amount='';
 		 $data['temp'] = $this->report_model->get_stock_info_by_multi($category_id,$product_id,$company_id,$type,$product_amount);
+		 $data['reportname']="Stock Report";
 		 $this->__renderviewprint('Prints/report/stock_report', $data);
 	}
 
@@ -283,6 +284,7 @@ class Report extends MY_controller
 	public function stock_details_print()
 	{
 		$data['reportdata']=$this->report_model->stock_details();
+		$data['reportname']="Stock Details Report";
 		$this->__renderviewprint('Prints/report/stock_details', $data);
 	}
 
@@ -336,7 +338,8 @@ class Report extends MY_controller
 		$start_date = $this->uri->segment(8);
 		$end_date = $this->uri->segment(9);
 		$data['purchase_data'] = $this->report_model->get_purchase_info_by_multi($receipt,$product,$distributor_id,$start_date,$end_date,$category,$company);
-		$this->__renderviewprint('Prints/accountreport/purchase_print',$data); 
+		$data['reportname'] = "Purchase Print";
+		$this->__renderviewprint('Prints/report/purchase_print',$data); 
 	}
 
 	public function sale_report()

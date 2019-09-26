@@ -1,3 +1,6 @@
+.table td, .table th{
+  padding: 0px!important;
+}
 .page-header, .page-header-space {
   height: 100px;
 }
@@ -22,7 +25,6 @@
   position: fixed;
   top: 0mm;
   width: 100%;
-  border-bottom: 2px solid #dee2e6;
 }
 
 .page {

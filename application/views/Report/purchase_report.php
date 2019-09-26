@@ -82,7 +82,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive" v-if="alldata.length>0">
-					<table class="table table-primary">
+					<table class="table w-100">
 						<tr>
 						  <td>No</td>
 						  <td>Date</td>
@@ -104,7 +104,7 @@
 						  <td>{{ a.purchase_price }}</td>
 						</tr>
 						<tr>
-							<td colspan="11"><b></b></td>
+							<td colspan="6"><b></b></td>
 							<td colspan="1"><b>Total Quantity: {{ stockqty }}</b> </td>
 							<td colspan="1"><b>Total Stock Amount: {{ samount }}</b></td>
 						</tr>

@@ -16,11 +16,15 @@
       <?php if ($data->logo): ?>
         <img style="width:90px;" class="schoolLogoHeaderSmall" src="<?php echo base_url().'assets/img/'.$data->logo;?>"/>
       <?php else: ?>
-        <img style="width:90px;" src="<?php echo base_url();?>assets/img/top_logo.png"/>
+        <img style="width:90px;" src="<?php echo base_url();?>assets/img/top_logo2.png"/>
       <?php endif ?>
     </div>
-  	<h4 class="text-center"> 
-  		<b><?php echo $this->tank_auth->get_shopname().' ( '. $this->tank_auth->get_shopaddress().' ) '; ?></b>
+  	<h4> 
+  		<?php echo $this->tank_auth->get_shopname().' ( '. $this->tank_auth->get_shopaddress().' ) '; ?>
   	</h4>
-   
+    <h4>
+      <?php if (isset($reportname)): ?>
+        <?php echo $reportname; ?>
+      <?php endif ?>
+    </h4>
   </div>
