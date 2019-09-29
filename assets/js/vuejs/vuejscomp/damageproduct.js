@@ -146,7 +146,7 @@ jQuery(document).ready(function($) {
  $("#lockk3").autocomplete({
   source    : function( request, response ) {
     $.ajax( {
-      url       : base_url+"damageproduct/search_product",
+      url       : base_url+"product/search_product",
       dataType  : "json",
       type      : "POST",
       data      : { term: request.term},

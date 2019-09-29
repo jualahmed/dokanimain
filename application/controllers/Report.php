@@ -3,7 +3,6 @@ class Report extends MY_controller
 {
 	private $shop_id;
 	private $data_2;
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -399,65 +398,6 @@ class Report extends MY_controller
 		$this->__renderviewprint('Prints/report/sale_print', $data);
 	}
 
-	public function installment_report($value='')
-	{
-		$data['user_type'] = $this->tank_auth->get_usertype();
-		if($this->access_control_model->my_access($data['user_type'], 'Product', 'product_entry'))
-		{
-			$bd_date = date('Y-m-d');
-			$data['bd_date'] = $bd_date;
-			$data['sale_status'] = '';
-			$data['alarming_level'] = FALSE;
-			$data['last_id'] = $this->product_model->getLastInserted();
-			$data['user_name'] = $this->tank_auth->get_username();
-			$data['status'] = '';
-			$data['product_specification'] = $this->product_model->product_specification();
-			$data['vuejscomp'] = 'installment_report.js';
-			$this->__renderview('Report/installment_report', $data);
-		}
-		else redirect('Product/product/noaccess');
-	}
-
-	public function installment_report_response()
-	{
-		$start_date=$this->input->post('start_date');
-		$end_date=$this->input->post('end_date');
-		$temp2 = $this->report_model->installment_report_response($start_date,$end_date);
-		echo json_encode($temp2);
-	}
-
-	public function installment_report_print($value='')
-	{	
-		$start_date= $this->uri->segment(3);
-		 $end_date=$this->uri->segment(4);
-		$data['temp2'] = $this->report_model->installment_report_response($start_date,$end_date);
-		$this->__renderviewprint('Prints/report/installment_report', $data);
-	}
-
-	public function overdueinstallment()
-	{
-		$date=date("Y-m-d");
-		$result=$this->report_model->overdueinstallment($date);
-		echo json_encode($result);
-	}
-
-	// old report code not clean yet
-	public function  all_warranty_stock_report_find()
-	{
-		$temp = array();
-		$temp = $this->report_model->get_warranty_stock_info_by_multi();
-		$temp = $temp->result_array();
-		$i=0;
-		foreach($temp as $tmp)
-		{
-			$product_id = $tmp['product_id'];
-			$warranty_name = $this->report_model->get_warranty_stock($product_id);
-			$temp[$i]['warranty_name'] = $warranty_name->result_array();
-			$i++;
-		}
-		echo json_encode(array("pro_list"=>$temp));
-	}
-
 	public function  delivery_charge_report()
 	{
 	   $data['user_type'] = $this->tank_auth->get_usertype();
@@ -489,37 +429,7 @@ class Report extends MY_controller
 		$temp3 = $this->report_model->get_delivery_charge_info_by_multi();
 		echo json_encode($temp3->result());
 	}
-
-
-	public function product_exchange_report_new()
-	{
-	   $data['user_type'] = $this->tank_auth->get_usertype();
-		if($this->access_control_model->my_access($data['user_type'], 'Product', 'product_entry'))
-		{
-			$bd_date = date('Y-m-d');
-			$data['bd_date'] = $bd_date;
-			$data['sale_status'] = '';
-			$data['alarming_level'] = FALSE;
-			$data['last_id'] = $this->product_model->getLastInserted();
-			$data['user_name'] = $this->tank_auth->get_username();
-			$data['status'] = '';
-			$data['purchase_receipt_info'] = $this->product_model->fatch_all_purchase_receipt_id();
-			$data['distributor_info'] = $this->product_model->distributor_info();
-			$data['company_name'] = $this->product_model->company_name();
-			$data['catagory_name'] = $this->product_model->catagory_name();
-			$data['distributor_name'] = $this->product_model->distributor_name();
-			$data['product_specification'] = $this->product_model->product_specification();
-			$this->load->model('product_model');
-			$data['product_type'] = $this->product_model->product_type();
-			$data['purchase_receipt'] = $this->product_model->purchase_receipt();
-			$data['seller'] = $this->product_model->seller();
-			$data['unit_name'] = $this->product_model->unit_name();
-			$data['vuejscomp'] = 'product_exchange_report_new.js';
-			$this->__renderview('Report/product_exchange_report_new', $data);
-		}
-		else redirect('Product/product/noaccess');
-	}
-
+	
 	public function  damage_report()
 	{
 	    $data['user_type'] = $this->tank_auth->get_usertype();
@@ -529,20 +439,8 @@ class Report extends MY_controller
 			$data['bd_date'] = $bd_date;
 			$data['sale_status'] = '';
 			$data['alarming_level'] = FALSE;
-			$data['last_id'] = $this->product_model->getLastInserted();
 			$data['user_name'] = $this->tank_auth->get_username();
 			$data['status'] = '';
-			$data['purchase_receipt_info'] = $this->product_model->fatch_all_purchase_receipt_id();
-			$data['distributor_info'] = $this->product_model->distributor_info();
-			$data['company_name'] = $this->product_model->company_name();
-			$data['catagory_name'] = $this->product_model->catagory_name();
-			$data['distributor_name'] = $this->product_model->distributor_name();
-			$data['product_specification'] = $this->product_model->product_specification();
-			$this->load->model('product_model');
-			$data['product_type'] = $this->product_model->product_type();
-			$data['purchase_receipt'] = $this->product_model->purchase_receipt();
-			$data['seller'] = $this->product_model->seller();
-			$data['unit_name'] = $this->product_model->unit_name();
 			$data['vuejscomp'] = 'all_damage_report_new.js';
 			$this->__renderview('Report/all_damage_report_new', $data);
 		}
@@ -559,29 +457,8 @@ class Report extends MY_controller
 	{
 		date_default_timezone_set("Asia/Dhaka");
 		$bd_date = date('Y-m-d',time());
-			
-		$data['download_data_damage'] = $this -> report_model -> print_data_damage();
-		$html=$this->load->view('Download/download_data_damage',$data, true); 
-
-		$this->load->library('m_pdf');
-		ob_start();
-		$this->m_pdf->pdf 	= new mPDF('utf-8', 'A4');
-		$this->m_pdf->pdf->SetProtection(array('print'));
-		$this->m_pdf->pdf->SetTitle("Damage Report");
-		$this->m_pdf->pdf->SetAuthor("Dokani");
-		$this->m_pdf->pdf->SetDisplayMode('fullpage');
-		
-		$this->m_pdf->pdf->AddPageByArray(array(
-		'orientation' => '',
-		'mgl' => '10','mgr' => '10','mgt' => '35','mgb' => '20','mgh' => '10','mgf' => '5',
-		//margin left,margin right,margin top,margin bottom,margin header,margin footer
-		));
-		//$this->m_pdf->pdf->SetColumns(2);
-		$this->m_pdf->pdf->WriteHTML($html);
-		ob_clean();
-		$this->m_pdf->pdf->Output();
-		ob_end_flush();
-		exit;
+		$data['download_data_damage'] = $this->report_model->print_data_damage();
+		$this->__renderviewprint('Prints/report/data_damage',$data); 
 	}
 
 	public function  sale_return_report_new()
@@ -593,20 +470,8 @@ class Report extends MY_controller
 			$data['bd_date'] = $bd_date;
 			$data['sale_status'] = '';
 			$data['alarming_level'] = FALSE;
-			$data['last_id'] = $this->product_model->getLastInserted();
 			$data['user_name'] = $this->tank_auth->get_username();
 			$data['status'] = '';
-			$data['purchase_receipt_info'] = $this->product_model->fatch_all_purchase_receipt_id();
-			$data['distributor_info'] = $this->product_model->distributor_info();
-			$data['company_name'] = $this->product_model->company_name();
-			$data['catagory_name'] = $this->product_model->catagory_name();
-			$data['distributor_name'] = $this->product_model->distributor_name();
-			$data['product_specification'] = $this->product_model->product_specification();
-			$this->load->model('product_model');
-			$data['product_type'] = $this->product_model->product_type();
-			$data['purchase_receipt'] = $this->product_model->purchase_receipt();
-			$data['seller'] = $this->product_model->seller();
-			$data['unit_name'] = $this->product_model->unit_name();
 			$data['vuejscomp'] = 'all_sale_return_report_new.js';
 			$this->__renderview('Report/all_sale_return_report_new', $data);
 		}
@@ -619,18 +484,23 @@ class Report extends MY_controller
 		echo json_encode($temp3->result());
 	}
 
+
+
+
+
+
+
+	// old report code not clean yet will delete
 	public function purchase_return_report_new()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		$timezone = "Asia/Dhaka";
-		date_default_timezone_set($timezone);
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['alarming_level'] = FALSE;
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['status'] = '';
 		$data['return_main_product'] = '';
-		$data['distributor_info'] = $this->product_model->distributor_info();
+		$data['distributor_info'] = $this->distributor_model->all();
 		$distributor_id= $this->uri->segment(3);
 		$start_date=$this->uri->segment(4);
 		$end_date=$this->uri->segment(5);

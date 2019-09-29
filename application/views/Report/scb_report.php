@@ -1,13 +1,11 @@
 <div class="content-wrapper">
-
 <?php
 	$purchase_total_amount = 0;
 	foreach($payable_receivable_financial_statement['updated_purchase'] -> result() as $field):	
-		 $temp_payable_1 = $field -> unpaid_grand_total - $field -> total_paid_amount;
-		 $purchase_total_amount = $field -> total_purchase_amount;
+		 $temp_payable_1 = $field->unpaid_grand_total-$field->total_paid_amount;
+		 $purchase_total_amount = $field->total_purchase_amount;
 	endforeach;
 ?>
-
 	<section class="content">
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
@@ -330,4 +328,3 @@
       <!-- /.row -->
     </section>	
 </div>
->

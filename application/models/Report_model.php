@@ -79,12 +79,12 @@ class Report_model extends CI_model{
 	}
 
 	public function get_purchase_info_by_multi($receipt_id='',$product_id='',$distributor_id='',$start_date='',$end_date='',$category1='',$company1='')
-	{
+	{	
+		$this->db->join('product_info', 'product_info.product_id = purchase_info.product_id', 'left');
 		$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id','left');
 		$this->db->join('catagory_info','catagory_info.catagory_id = product_info.catagory_id','left');	
 		$this->db->join('company_info','company_info.company_id = product_info.company_id','left');	
-		$this->db->join('warranty_product_list','warranty_product_list.product_id = product_info.product_id');
-		$this->db->join('purchase_receipt_info','purchase_receipt_info.receipt_id = warranty_product_list.purchase_receipt_id');
+		$this->db->join('purchase_receipt_info','purchase_receipt_info.receipt_id = purchase_info.purchase_receipt_id','left');
 		$this->db->join('distributor_info','distributor_info.distributor_id = purchase_receipt_info.distributor_id');
 		if($receipt_id!=0){$this->db->where('purchase_receipt_info.receipt_id',$receipt_id);} 
 		if($product_id!=0){$this->db->where('product_info.product_id',$product_id);}
@@ -94,7 +94,7 @@ class Report_model extends CI_model{
 		if($start_date!=0){$this->db->where('purchase_receipt_info.receipt_date >= "'.$start_date.'"');}
 		if($end_date!=0){$this->db->where('purchase_receipt_info.receipt_date <= "'.$end_date.'"');}
 		if($start_date!=''){$this->db->where('purchase_receipt_info.receipt_date <= "'.$start_date.'"');}
-		$query = $this->db->get('product_info');
+		$query = $this->db->get('purchase_info');
 		return $query;	
 	} 
 
@@ -577,29 +577,22 @@ class Report_model extends CI_model{
 		return $query;
 	} 
 	
-
 	public function get_damage_info_by_multi()
 	{
 		$pro_id= $this->input->post('pro_id');
-		$catagory_name= $this->input->post('catagory_name');
-		$company_name=$this->input->post('company_name');
+		$catagory_id= $this->input->post('catagory_id');
+		$company_id=$this->input->post('company_id');
 		$start_date=$this->input->post('start_date');
 		$end_date=$this->input->post('end_date');
-		$category1 = rawurldecode($catagory_name);
-		$company1 = rawurldecode($company_name);
+		$end_date=date("Y-m-d",strtotime($end_date.'+1 day'));
 		$this->db->select('product_info.product_id,product_info.product_name, product_info.company_id, product_info.catagory_id,damage_product.damage_id,damage_product.damage_quantity,damage_product.doc,damage_product.unit_buy_price');
 		$this->db->from('damage_product,product_info');
 		$this->db->where('product_info.product_id = damage_product.product_id');
-		
 		if($pro_id!=''){$this->db->where('product_info.product_id',$pro_id);}
-		if($category1!=''){$this->db->where('product_info.catagory_id',$category1);}
-		if($company1!=''){$this->db->where('product_info.company_id',$company1);}
+		if($catagory_id!=''){$this->db->where('product_info.catagory_id',$catagory_id);}
+		if($company_id!=''){$this->db->where('product_info.company_id',$company_id);}
 		if($start_date!=''){$this->db->where('damage_product.doc >= "'.$start_date.'"');}
 		if($end_date!=''){$this->db->where('damage_product.doc <= "'.$end_date.'"');}
-		else if($start_date!=''){$this->db->where('damage_product.doc <= "'.$start_date.'"');}
-		$this->db->group_by('damage_product.damage_id');
-		$this->db->order_by('damage_product.damage_id','asc'); 
-		$this->db->order_by('damage_product.doc','asc'); 
 		$query = $this->db->get();
 		return $query;	
 	} 	
@@ -611,14 +604,15 @@ class Report_model extends CI_model{
 		$company_name = $this->uri->segment(5);
 		$start_date = $this->uri->segment(6);
 		$end_date = $this->uri->segment(7);
+		$end_date=date("Y-m-d",strtotime($end_date."+1 day"));
 		$category1 = rawurldecode($catagory_name);
 		$company1 = rawurldecode($company_name);
-		$this->db->select('product_info.product_id,product_info.product_name, product_info.company_name, product_info.catagory_name,damage_product.damage_id,damage_product.damage_quantity,damage_product.doc,damage_product.unit_buy_price');
+		$this->db->select('product_info.product_id,product_info.product_name, product_info.company_id, product_info.catagory_id,damage_product.damage_id,damage_product.damage_quantity,damage_product.doc,damage_product.unit_buy_price');
 		$this->db->from('damage_product,product_info');
 		$this->db->where('product_info.product_id = damage_product.product_id');
 		if($pro_id!='' && $pro_id!= 'null'){$this->db->where('product_info.product_id',$pro_id);}
-		if($category1!='' && $category1!= 'null'){$this->db->where('product_info.catagory_name',$category1);}
-		if($company1!='' && $company1!= 'null'){$this->db->where('product_info.company_name',$company1);}
+		if($category1!='' && $category1!= 'null'){$this->db->where('product_info.catagory_id',$category1);}
+		if($company1!='' && $company1!= 'null'){$this->db->where('product_info.company_id',$company1);}
 		if($start_date!='' && $start_date!= 'null'){$this->db->where('damage_product.doc >= "'.$start_date.'"');}
 		if($end_date!='' && $end_date!= 'null'){$this->db->where('damage_product.doc <= "'.$end_date.'"');}
 		else if($start_date!='' && $start_date!= 'null'){$this->db->where('damage_product.doc <= "'.$start_date.'"');}
@@ -707,14 +701,11 @@ class Report_model extends CI_model{
 			if($start_date!=''){$this -> db -> where('sale_return_details_tbl.return_doc >= "'.$start_date.'"');}
 			if($end_date!=''){$this -> db -> where('sale_return_details_tbl.return_doc <= "'.$end_date.'"');}
 			else if($start_date!=''){$this -> db -> where('sale_return_details_tbl.return_doc <= "'.$start_date.'"');}
-
 			$this->db->group_by('sale_return_details_tbl.id');
 			$this->db->order_by('sale_return_details_tbl.id','asc'); 
 			$this->db->order_by('sale_return_details_tbl.return_doc','asc'); 
 			$query = $this->db->get();
-			
 			return $query;	
-		
 		} 	
 	} 	
 	

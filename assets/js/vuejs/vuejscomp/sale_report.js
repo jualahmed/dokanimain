@@ -14,6 +14,7 @@ new Vue({
     category_id:0,
     saletype:2,
     isinvoice:0,
+    quantity:0,
   },
   methods:{
     result(){
@@ -31,8 +32,9 @@ new Vue({
       success: function(result) { 
         self.alldata=result;
           result.forEach( function(element, index) {
-           self.amount=parseInt(self.amount)+parseInt(element.unit_buy_price);  
-           self.samount=parseInt(self.samount)+parseInt((element.actual_sale_price));
+           self.amount=parseInt(self.amount)+parseInt(element.unit_buy_price*element.sale_quantity);  
+           self.samount=parseInt(self.samount)+parseInt((element.actual_sale_price*element.sale_quantity));
+           self.quantity=parseInt(self.quantity)+parseInt((element.sale_quantity));
           });
 
           if(self.saletype==1){

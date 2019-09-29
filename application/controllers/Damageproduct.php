@@ -50,7 +50,7 @@ class Damageproduct extends MY_Controller {
 	      ),array(
 	        'field' => 'buy_price',
 	        'label' => 'buy_price',
-	        'rules' => 'required|integer'
+	        'rules' => 'required'
 	      )
 	    );
 
@@ -192,55 +192,6 @@ class Damageproduct extends MY_Controller {
 			redirect('damageproduct','refresh');
 		}
 	}
-
-	public function search_product(){
-        $product_name			= $this->input->post('term');
-		$data 	= true;
-		$data 	= $this->damageproduct_model->search_and_get_product($product_name);
-		$info 	= array();
-		$stock 	= 0;
-		if($data != false){
-			foreach($data->result() as $tmp){
-				if($tmp->stock_amount == '')$stock = 0;
-				else $stock = $tmp->stock_amount;
-
-				$info[] = array(
-					'id' 						=> $tmp->product_id,
-					'product_name' 				=> $tmp->product_name,
-					'company_name' 				=> $tmp->company_name,
-					'catagory_name' 			=> $tmp->catagory_name,
-					'sale_price' 				=> $tmp->bulk_unit_sale_price,
-					'buy_price' 				=> $tmp->bulk_unit_buy_price,
-					'stock' 					=> $stock,
-					'barcode' 					=> $tmp->barcode,
-					'product_specification' 	=> $tmp->product_specification,
-					'temp_pro_data' 			=> 	$tmp->product_id . '<>' . 
-													$tmp->product_name . '<>' .
-													$tmp->stock_amount . '<>' .
-													$tmp->bulk_unit_sale_price . '<>' .
-													$tmp->bulk_unit_buy_price . '<>' .
-													$tmp->product_specification
-					);
-			}
-		}
-		else{
-			$info[] = array(
-					'id' 						=> '',
-					'product_name' 				=> 'Nothing Found',
-					'company_name' 				=> '',
-					'catagory_name' 			=> '',
-					'sale_price' 				=> '',
-					'buy_price' 				=> '',
-					'stock' 					=> '',
-					'generic_name' 				=> '',
-					'barcode' 					=> '',
-					'product_specification' 	=> '',
-					'temp_pro_data' 			=> ''
-					);
-		}
-		echo json_encode($info);
-	}
-
 }
 
 /* End of file Damageproduct.php */

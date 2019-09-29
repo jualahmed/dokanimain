@@ -98,8 +98,8 @@
 	</section>
 	<section class="content" style="padding-top: 0px;">
 		<div id="table-scroll" class="table-scroll table-secondary" v-if="alldata.length">          
-			<table id="main-table" class="main-table table table-secondary">
-				<thead class="table-hf">
+			<table id="main-table" class="main-table table table-secondary" style="width: 100%;">
+				<thead class="table-hf" style="line-height: 0px;">
 					<tr>
 						<th>NO</th>
 						<th>Invoice ID</th>
@@ -107,7 +107,7 @@
 						<th v-if="isinvoice!=1">Product Model</th>
 						<th v-if="isinvoice!=1">Company</th>
 						<th v-if="isinvoice!=1">Catagory</th>
-						<th>Customer Name</th>
+						<th>Customer</th>
 						<th>Mobile No</th>
 						<th v-if="isinvoice==1">Sale</th>
 						<th v-if="isinvoice==1">Discount</th>
@@ -116,6 +116,7 @@
 						<th v-if="isinvoice==1">Grand</th>
 						<th v-if="isinvoice==1">Paid</th>
 						<th v-if="isinvoice==1">Due</th>
+						<th v-if="isinvoice!=1">Qunatity</th>
 						<th v-if="isinvoice!=1" >BP</th>
 						<th v-if="isinvoice!=1" >SP</th>
 						<th>Seller</th>
@@ -139,6 +140,7 @@
 						<td align="right" v-if="isinvoice==1">{{ i.grand_total }}</td>
 						<td align="right" v-if="isinvoice==1">{{ i.total_paid }}</td>
 						<td align="right" v-if="isinvoice==1">{{ i.grand_total-i.total_paid }}</td>
+						<th v-if="isinvoice!=1">{{ i.sale_quantity }}</th>
 						<td align="right" v-if="isinvoice!=1">{{ parseInt(i.unit_buy_price) }}</td>
 						<td align="right" v-if="isinvoice!=1">{{ parseInt(i.actual_sale_price) }}</td>
 						<td>{{ i.username }}</td>
@@ -146,6 +148,7 @@
 					</tr>
 					<tr>
 						<td colspan="8"></td>
+						<td><b>Total Quantity: {{ quantity }}</b></td>
 						<td><b>Total BP: {{ amount }}</b></td>
 						<td><b>Total SP:{{ samount }}</b></td>
 					</tr>

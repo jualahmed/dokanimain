@@ -206,6 +206,20 @@ class Product_model extends CI_model{
 		$this->db->join('product_info', 'product_info.product_id = warranty_product_list.product_id');
 		return $this->db->get('warranty_product_list')->result();
 	}
+
+	public function search_and_get_product($product_name=false)
+    {
+        $data = $this->db
+        ->select('*')
+        ->like('product_name', $product_name)
+        ->from('product_info')
+        ->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id','left')
+        ->join('catagory_info','catagory_info.catagory_id = product_info.catagory_id')
+        ->join('company_info','company_info.company_id = product_info.company_id')
+        ->get();
+        if($data->num_rows() > 0)return $data;
+        else return false;
+    }
 	
 
 	

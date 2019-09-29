@@ -16,15 +16,15 @@
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label">Catagory</label>
 								<div class="col-sm-3">
-									<?php 
-										echo form_dropdown('catagory_name', $catagory_name,'','class="form-control three select9" id="lock3" tabindex="-1" aria-hidden="true"');
-									?>
+									<select id="category" class="form-control" name="catagory_id">
+										<option value="">Select a Catagory</option>
+									</select>
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label">Company</label>
 								<div class="col-sm-3">
-									<?php 
-										echo form_dropdown('company_name', $company_name,'','class="form-control company_name select10 four" id="lock4" tabindex="-1" aria-hidden="true"');
-									?>
+									<select id="company" class="form-control" name="company_id">
+										<option value="">Select a Company</option>
+									</select>
 								</div>
 							</div>
 							<br>
@@ -51,7 +51,7 @@
 	</section>
 	<div class="modal preload" style="display: none">
 		<div class="center">
-			<img src="<?php echo base_url();?>assets/img/spin.gif" id="loaderIcon"/>
+			<img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
 		</div>
 	</div>
 	<input type="hidden" id="product">
@@ -65,19 +65,20 @@
 				<div class="box">	 
 					<div class="box-body">
 						<div class="wrap">
-							<table class="head">
+							<table class="table">
+								<thead>
 								<tr>
-								  <td style="width:3%;">No</td>
-								  <td style="width:4%;">Date</td>
-								  <td style="width:4%;">Product ID</td>
-								  <td style="width: 20%;">Product</td>
+								  <td >No</td>
+								  <td>Date</td>
+								  <td>Product</td>
 								  <td>Company</td>
 								  <td>Category</td>
 								  <td style="text-align:center;">Quantity</td>
 								  <td style="text-align:right;">Buy Price</td>
 								</tr>
+								</thead>
+								<tbody class="inner_table" id="search_data"></tbody>
 							</table>
-							<div class="inner_table" id="search_data"></div>
 						</div>
 					</div>
 				</div>

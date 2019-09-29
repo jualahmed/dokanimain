@@ -281,22 +281,6 @@
             <li class="<?php echo active_link_function('Report','delivery_charge_report'); ?>">
               <a href="<?php echo base_url();?>Report/delivery_charge_report"><i class="fa fa-search-plus"></i>Delivery Charge Report</a>
             </li>
-            <li class="<?php echo active_link_function('Report','card_sale_report'); ?>">
-              <a href="<?php echo base_url();?>Report/card_sale_report"><i class="fa fa-search-plus"></i>Card Sale Report</a>
-            </li>
-            <li class="<?php echo active_link_function('Report','financial_report'); ?>">
-              <a href="<?php echo base_url();?>Report/financial_report"><i class="fa fa-search-plus"></i>Financial Report</a>
-            </li>
-      <?php
-      if($gas_product!=1)
-      {
-      ?>
-            <li class="<?php echo active_link_function('Report','product_exchange_report_new'); ?>">
-              <a href="<?php echo base_url();?>Report/product_exchange_report_new"><i class="fa fa-search-plus"></i>Product Exchange Report </a>
-            </li>
-      <?php
-      }
-      ?>
             <li class="<?php echo active_link_function('Report','damage_report'); ?>">
               <a href="<?php echo base_url();?>Report/damage_report"><i class="fa fa-search-plus"></i>Damage Report </a>
             </li>

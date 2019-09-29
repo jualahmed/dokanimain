@@ -12,9 +12,12 @@
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-1 control-label">Distributor</label>
 								<div class="col-sm-3">
-									<?php 
-										echo form_dropdown('distributor_id',$distributor_info, '','class="form-control select8" id="distributor_id" tabindex="-1" aria-hidden="true"');
-									?>
+									<select class="form-control">
+										<option>Select a Distributor</option>
+										<?php foreach ($distributor_info as $key => $var): ?>
+											<option value="<?php echo $var->distributor_id ?>"><?php echo $var->distributor_name ?></option>
+										<?php endforeach ?>
+									</select>
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label">Start</label>
 								<div class="col-sm-2">

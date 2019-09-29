@@ -1,8 +1,8 @@
 <div class="content-wrapper" id="vuejsapp">
 	<section class="content">
-			<div class="row">
-				<div class="col-md-12">
-				  <div class="box">
+		<div class="row">
+			<div class="col-md-12">
+				 <div class="box">
 					<div class="box-header with-border">
 						<h3 class="box-title">Purchase Report</h3>
 					</div>
@@ -14,7 +14,7 @@
 									<select name="catagory_id" class="form-control" v-model="receipt">
 										<option value="0">Select a purchase receipt</option>
 										<?php foreach ($purchase_receipt as $key => $value): ?>
-											<option value="<?php echo $value->receipt_id ?>"><?php echo $value->distributor_name ?>( <?php echo $value->purchase_receipt_id ?> )</option>
+											<option value="<?php echo $value->receipt_id ?>"><?php echo $value->distributor_name ?></option>
 										<?php endforeach ?>
 									</select>
 								</div>
@@ -73,41 +73,40 @@
 			</div>
 		</div>
 	</section>
-	<div class="modal preload" style="display: none">
-		<div class="center">
-			<img src="<?php echo base_url();?>assets/img/spin.gif" id="loaderIcon"/>
-		</div>
-	</div>
 	<section class="content-3" id="infomsg">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="table-responsive" v-if="alldata.length>0">
-					<table class="table w-100">
-						<tr>
-						  <td>No</td>
-						  <td>Date</td>
-						  <td title="Receipt ID">R.ID</td>
-						  <td>Company</td>
-						  <td>Category</td>
-						  <td>Product</td>
-						  <td title="Purchase Quantity">Quantity</td>
-						  <td>BP</td>
-						</tr>
-						<tr v-for="(a,index) in alldata">
-						  <td>{{index+1}}</td>
-						  <td>{{formatDate(a.receipt_date)}}</td>
-						  <td title="Receipt ID">{{ a.receipt_id }}</td>
-						  <td>{{ a.company_name }}</td>
-						  <td>{{ a.catagory_name }}</td>
-						  <td>{{ a.product_name }}</td>
-						  <td title="Purchase Quantity">1</td>
-						  <td>{{ a.purchase_price }}</td>
-						</tr>
-						<tr>
-							<td colspan="6"><b></b></td>
-							<td colspan="1"><b>Total Quantity: {{ stockqty }}</b> </td>
-							<td colspan="1"><b>Total Stock Amount: {{ samount }}</b></td>
-						</tr>
+				<div id="table-scroll" class="table-scroll table-secondary table-responsive" v-if="alldata.length>0">
+					<table id="main-table" class="main-table table table-secondary" style="width: 100%;">
+						<thead class="table-hf" style="line-height: 0px;">
+							<tr>
+							  <th>No</th>
+							  <th>Date</th>
+							  <th title="Receipt ID">R.ID</th>
+							  <th>Company</th>
+							  <th>Category</th>
+							  <th>Product</th>
+							  <th title="Purchase Quantity">Quantity</th>
+							  <th>BP</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(a,index) in alldata">
+							  <td>{{index+1}}</td>
+							  <td>{{formatDate(a.receipt_date)}}</td>
+							  <td title="Receipt ID">{{ a.receipt_id }}</td>
+							  <td>{{ a.company_name }}</td>
+							  <td>{{ a.catagory_name }}</td>
+							  <td>{{ a.product_name }}</td>
+							  <td title="Purchase Quantity">{{ a.purchase_quantity }}</td>
+							  <td>{{ a.unit_buy_price }}</td>
+							</tr>
+							<tr>
+								<td colspan="6"><b></b></td>
+								<td colspan="1"><b>Total Quantity: {{ stockqty }}</b> </td>
+								<td colspan="1"><b>Total Stock Amount: {{ samount }}</b></td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 				<h2 v-else class="text-danger text-center">Result Empty</h2>

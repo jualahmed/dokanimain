@@ -90,7 +90,7 @@ class Purchaselisting extends MY_Controller {
 	    );
 	    $id=$this->purchaselisting_model->createlisting($data);
 
-	    if(count($allworrantyproduct)>0){
+	    if(!empty($allworrantyproduct)){
 		    foreach ($allworrantyproduct as $key => $value) {
 				$datass = array(
 			        'product_id' => $product_id,
@@ -98,6 +98,7 @@ class Purchaselisting extends MY_Controller {
 			        'sl_no'=>$value,
 			        'purchase_date' => date("Y-m-d"),
 			        'purchase_price' => $unit_buy_price_purchase,
+			        'sale_price' => $general_sale_price,
 			        'creator' => $creator,
 		    	);
 		    	$this->db->insert('warranty_product_list', $datass);

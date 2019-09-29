@@ -31,7 +31,7 @@
 	</section>
 <div class="modal preload" style="display: none">
 	<div class="center">
-		<img src="<?php echo base_url();?>assets/img/spin.gif" id="loaderIcon"/>
+		<img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
 	</div>
 </div>
 <input type="hidden" id="barcode">

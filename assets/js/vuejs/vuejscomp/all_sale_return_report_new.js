@@ -1,7 +1,7 @@
   $("#lock22").autocomplete({
       source    : function( request, response ) {
         $.ajax( {
-          url       : "<?php echo base_url();?>Report/search_product",
+          url       : base_url+"product/search_product",
           dataType  : "json",
           type      : "POST",
           data      : { term: request.term, flag: 1},
