@@ -45,7 +45,6 @@ class Purchaselisting extends MY_Controller {
 		$allworrantyproduct=$this->input->post('allworrantyproduct');
 		$creator = $this->tank_auth->get_user_id();
 		// Bulk stoke info table
-		
 		$this->db->where('product_id', $product_id);
 		$alddata=$this->db->get('bulk_stock_info')->result();
 

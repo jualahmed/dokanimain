@@ -60,7 +60,7 @@
 				<div class="box">	 
 					<div class="box-body">
 						<div class="wrap">
-							<table class="head">
+							<table class="table">
 								<tr>
 								  <td>No</td>
 								  <td>Date</td>
@@ -72,9 +72,10 @@
 								  <td style="text-align:right;">Total</td>
 								  <td style="text-align:center;">Status</td>
 								</tr>
+								<tbody class="inner_table" id="search_data">
+								</tbody>
 							</table>
-							<div class="inner_table" id="search_data">
-							</div>
+							
 						</div>
 					</div>
 				</div>

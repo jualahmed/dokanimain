@@ -30,7 +30,7 @@ class Salereturn extends MY_controller
 		$i=1;
 		foreach($data['return_main_product']->result() as $tmp)
 		{
-			$data['return_warranty_product'][$i] 	= $this->salereturn_model->return_warranty_product($tmp->produ_id);
+			$data['return_warranty_product'][$i] = $this->salereturn_model->return_warranty_product($tmp->produ_id);
 			$i++;
 		}
 		$return_type = $this->uri->segment(3);

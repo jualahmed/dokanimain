@@ -171,7 +171,7 @@
 											<select class="form-control select2 sel_dist" name="product_id" id="product_id" style="width: 100%;" required>
 												<option value="">Select Product</option>
 												<?php
-												if($product_info->num_rows > 0)
+												if($product_info->num_rows() > 0)
 												{
 													foreach($product_info-> result() as $field)
 													{ 
@@ -196,7 +196,7 @@
 								<?php
 								if($this->uri->segment(6)!='' && $this->uri->segment(6)!='null')
 								{
-									if($product_info_warranty_details->num_rows > 0)
+									if($product_info_warranty_details->num_rows() > 0)
 									{
 									?>
 									<table class="table table-bordered reduce_space" >
@@ -290,7 +290,7 @@
 									{
 									?>
 										<?php
-										if($product_info_details->num_rows > 0)
+										if($product_info_details->num_rows() > 0)
 										{
 										?>
 										<table class="table table-bordered reduce_space" >
@@ -396,7 +396,7 @@
 			</div>
 			<?php
 			}
-			if($return_main_product->num_rows > 0)
+			if($return_main_product->num_rows() > 0)
 			{
 			?>
 			<div class="col-md-6">

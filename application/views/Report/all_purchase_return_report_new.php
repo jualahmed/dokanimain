@@ -8,12 +8,12 @@
 						<h3 class="box-title">Purchase Return Report</h3>
 					</div>
 					<div class="box-body">
-						<form aclass="form-horizontal" autocomplete="off" enctype="multipart/form-data">
+						<form aclass="form-horizontal" action="<?php echo base_url()."Report/purchase_return_report_new" ?>" utocomplete="off">
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-1 control-label">Distributor</label>
 								<div class="col-sm-3">
-									<select class="form-control">
-										<option>Select a Distributor</option>
+									<select class="form-control" name="distributor_info">
+										<option value="">Select a Distributor</option>
 										<?php foreach ($distributor_info as $key => $var): ?>
 											<option value="<?php echo $var->distributor_id ?>"><?php echo $var->distributor_name ?></option>
 										<?php endforeach ?>
@@ -27,7 +27,7 @@
 									<?php echo form_input(array('type' => 'text','placeholder' => $bd_date , 'name' => "end_date",'class' => "form-control",'id' => "datepickerr", 'value' => $bd_date, 'tabindex' => 3, 'title' => "End Date" ));?>
 								</div>
 								<div class="col-sm-3 mt-2">
-									<button type="button" class="btn btn-success btn-sm" name="search_random" id="search_random" style="width:100px;"><i class="fa fa-fw fa-search"></i> Search</button>
+									<button type="submit" class="btn btn-success btn-sm"  style="width:100px;"><i class="fa fa-fw fa-search"></i> Search</button>
 								</div>
 							</div>
 						</form>
@@ -37,9 +37,9 @@
 		</div>
 	</section>
 	<?php
-	$distributor_id= $this->uri->segment(3);
-	$start_date=$this->uri->segment(4);
-	$end_date=$this->uri->segment(5);
+	$distributor_id= $this->input->get("distributor_info");
+	$start_date=$this->input->get("start_date");
+	$end_date=$this->input->get("end_date");
 	if($distributor_id!='' || $start_date!='' || $end_date!='')
 	{
 	?>

@@ -183,8 +183,10 @@ class Purchase extends MY_Controller
 		$dis_id 		= $this->input->post('dis_id');
 		$buy_price 		= $this->input->post('buy_price');
 		$return_amount 	= $this->input->post('return_amount');
+		
 		if($ip_id!='')
 		{
+			
 			$main_data = array(
 				'distri_id' => $dis_id,
 				'produ_id' => $pro_id,
@@ -199,7 +201,15 @@ class Purchase extends MY_Controller
 			$insert_id = $this->db->insert_id();
 			$i=1;
 			foreach($ip_id as $ip)
-			{
+			{	
+				$this->db->set('stock_amount', 'stock_amount-'. 1, FALSE);
+				$this->db->where('product_id', $pro_id);
+				$this->db->update('bulk_stock_info');
+
+				$this->db->set('status',0);
+				$this->db->where('ip_id',$ip);
+				$this->db->update('warranty_product_list');
+
 				$this->db->select('sl_no');
 				$this->db->from('warranty_product_list');
 				$this->db->where('ip_id',$ip);
@@ -227,6 +237,9 @@ class Purchase extends MY_Controller
 		}
 		else
 		{
+			$this->db->set('stock_amount', 'stock_amount-' . $return_amount, FALSE);
+			$this->db->where('product_id', $pro_id);
+			$this->db->update('bulk_stock_info');
 			$main_data = array(
 				'distri_id' => $dis_id,
 				'produ_id' => $pro_id,
@@ -245,6 +258,31 @@ class Purchase extends MY_Controller
 	public function removeProduct()
 	{
 		$prmp_id = $this->input->post('prmp_id');
+		$this->db->where('prmp_id', $prmp_id);
+		$data=$this->db->get('purchase_return_main_product')->row(); 
+
+		$this->db->set('stock_amount', 'stock_amount+' . $data->return_quantity, FALSE);
+		$this->db->where('product_id', $data->produ_id);
+		$this->db->update('bulk_stock_info');
+
+		$this->db->select('*');
+		$this->db->from('purchase_return_warranty_product');
+		$this->db->where('purchase_return_warranty_product.status="'.$zero.'"');
+		$query2 = $this->db->get();
+
+		if($query2->num_rows() > 0)
+		{
+			foreach($query2->result() as $tmp2)
+			{
+				$this->db->where('ip_id', $tmp2->ip_id);
+				$this->db->where('product_id', $tmp2->product_id);
+				$this->db->set('status',1);
+				$this->db->update('warranty_product_list');
+			}
+			
+		}
+
+
 		$this->db->where('prmp_id', $prmp_id);
 		$this->db->delete('purchase_return_main_product'); 
 		$this->db->where('prmp_id', $prmp_id);
@@ -282,11 +320,9 @@ class Purchase extends MY_Controller
 		$this->db->where('purchase_return_main_product.status="0"');
 		$query1 = $this->db->get();
 		$i=1;
+		$data['alll']=$query1;
 		foreach($query1->result() as $tmp1)
 		{
-			$this->db->set('stock_amount', 'stock_amount-' . $tmp1->return_quantity, FALSE);
-			$this->db->where('product_id', $tmp1->produ_id);
-			$this->db->update('bulk_stock_info');
 			$this->db->set('status', 'status+' . 1, FALSE);
 			$this->db->where('status="'.$zero.'"');
 			$this->db->where('prmp_id', $tmp1->prmp_id);
@@ -301,7 +337,7 @@ class Purchase extends MY_Controller
 		$query2 = $this->db->get();
 		
 		
-		if($query2->num_rows > 0)
+		if($query2->num_rows() > 0)
 		{
 			$ii=1;
 			foreach($query2->result() as $tmp2)
@@ -321,6 +357,6 @@ class Purchase extends MY_Controller
 			}
 			
 		}
-		redirect('purchase/purchase_return/success');
+		$this->__renderviewprint('Prints/invoices/purchase_return_invoice', $data);
 	}
 }

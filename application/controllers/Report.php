@@ -455,7 +455,6 @@ class Report extends MY_controller
 	
 	public function download_data_damage()
 	{
-		date_default_timezone_set("Asia/Dhaka");
 		$bd_date = date('Y-m-d',time());
 		$data['download_data_damage'] = $this->report_model->print_data_damage();
 		$this->__renderviewprint('Prints/report/data_damage',$data); 
@@ -484,13 +483,6 @@ class Report extends MY_controller
 		echo json_encode($temp3->result());
 	}
 
-
-
-
-
-
-
-	// old report code not clean yet will delete
 	public function purchase_return_report_new()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
@@ -501,9 +493,9 @@ class Report extends MY_controller
 		$data['status'] = '';
 		$data['return_main_product'] = '';
 		$data['distributor_info'] = $this->distributor_model->all();
-		$distributor_id= $this->uri->segment(3);
-		$start_date=$this->uri->segment(4);
-		$end_date=$this->uri->segment(5);
+		$distributor_id= $this->input->get("distributor_info");
+		$start_date= $this->input->get("start_date");
+		$end_date= $this->input->get("end_date");
 		if($distributor_id!='' || $start_date!='' || $end_date!='')
 		{
 			$data['return_main_product'] = $this->report_model->get_purchase_return_info_by_multi($distributor_id,$start_date,$end_date);
@@ -518,6 +510,17 @@ class Report extends MY_controller
 		$this->__renderview('Report/all_purchase_return_report_new', $data);
 	}
 
+
+
+
+
+
+
+
+
+
+	// old report code not clean yet will delete
+	
 	public function credit_collection_report_new()
 	{
 	    $data['user_type'] = $this->tank_auth->get_usertype();

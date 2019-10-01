@@ -711,15 +711,15 @@ class Report_model extends CI_model{
 	
 	public function get_purchase_return_info_by_multi($distributor_id,$start_date,$end_date)
 	{
-		$this -> db -> select("product_info.product_id,product_info.product_name,distributor_info.distributor_name,purchase_return_main_product.*");
-		$this -> db -> from("distributor_info,product_info,purchase_return_main_product");
-		$this -> db -> where("purchase_return_main_product.produ_id=product_info.product_id");
-		$this -> db -> where("purchase_return_main_product.distri_id=distributor_info.distributor_id");
+		$this->db->select("product_info.product_id,product_info.product_name,distributor_info.distributor_name,purchase_return_main_product.*");
+		$this->db->from("distributor_info,product_info,purchase_return_main_product");
+		$this->db->where("purchase_return_main_product.produ_id=product_info.product_id");
+		$this->db->where("purchase_return_main_product.distri_id=distributor_info.distributor_id");
 
 		if($distributor_id!='' && $distributor_id!='null'){$this->db->where('purchase_return_main_product.distri_id',$distributor_id);}
-		if($start_date!='' && $start_date!='null'){$this -> db -> where('purchase_return_main_product.doc >= "'.$start_date.'"');}
-		if($end_date!='' && $end_date!='null'){$this -> db -> where('purchase_return_main_product.doc <= "'.$end_date.'"');}
-		else if($start_date!='' && $start_date!='null'){$this -> db -> where('purchase_return_main_product.doc <= "'.$start_date.'"');}
+		if($start_date!='' && $start_date!='null'){$this->db->where('purchase_return_main_product.doc >= "'.$start_date.'"');}
+		if($end_date!='' && $end_date!='null'){$this->db->where('purchase_return_main_product.doc <= "'.$end_date.'"');}
+		else if($start_date!='' && $start_date!='null'){$this->db->where('purchase_return_main_product.doc <= "'.$start_date.'"');}
 
 		$this->db->group_by('purchase_return_main_product.prmp_id');
 		$this->db->order_by('purchase_return_main_product.prmp_id','asc'); 
@@ -731,12 +731,12 @@ class Report_model extends CI_model{
 
 	public function return_warranty_product($produ_id,$prmp_id)
 	{
-		$this -> db -> select("*");
-		$this -> db -> from("purchase_return_warranty_product");
-		$this -> db -> where("purchase_return_warranty_product.prmp_id",$prmp_id);
-		$this -> db -> where("purchase_return_warranty_product.product_id",$produ_id);
+		$this->db->select("*");
+		$this->db->from("purchase_return_warranty_product");
+		$this->db->where("purchase_return_warranty_product.prmp_id",$prmp_id);
+		$this->db->where("purchase_return_warranty_product.product_id",$produ_id);
 		$this->db->group_by('purchase_return_warranty_product.prwp_id');
-		$query = $this -> db -> get();
+		$query = $this->db->get();
 		return $query;
 	}
 

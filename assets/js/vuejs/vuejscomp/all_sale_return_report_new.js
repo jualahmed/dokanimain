@@ -6,20 +6,20 @@
           type      : "POST",
           data      : { term: request.term, flag: 1},
           success   : function( result ) { 
-                  response( $.map(result, function(item){
-                    return{
-                      id              : item.id,
-                      label           : item.product_name ,
-                      company_name    : item.company_name,
-                      catagory_name   : item.catagory_name,
-                      sale_price      : item.sale_price,
-                      stock           : item.stock,
-                      generic_name    : item.generic_name,
-                      temp_pro_data   : item.temp_pro_data
-                    }
-                  }));
-                }
-              });
+              response( $.map(result, function(item){
+                  return{
+                    id              : item.id,
+                    label           : item.product_name ,
+                    company_name    : item.company_name,
+                    catagory_name   : item.catagory_name,
+                    sale_price      : item.sale_price,
+                    stock           : item.stock,
+                    generic_name    : item.generic_name,
+                    temp_pro_data   : item.temp_pro_data
+                  }
+                }));
+              }
+            });
           },
           minLength     : 2,
           select        : function (event, ui) {
@@ -38,28 +38,22 @@
               $("#product_quantity").focus();
             }
                    
-            },
-
+          },
           });
-		  /* $( "#lock22" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      return $( "<li style=\"border-bottom: 1px solid gray;\">" )
-      .append( "<div><span class=\"label_style\">" + item.label + "</span><br>" + item.generic_name + "    " +item.catagory_name + "    "+ item.stock + "<br>" + item.company_name + "</div>" ).appendTo( ul );
-    }; */
 
-
-     $(document).ready(function() {
-  $("#lock22").keyup(function(){
-    var length=$('#lock22').val().length;
-     if(length>=1){
-       $("#lock3").prop("disabled", true);
-       $("#lock4").prop("disabled", true);
-     }
-      else{
-       $("#lock3").prop("disabled", false);
-       $("#lock4").prop("disabled", false);
-      }
-  });
-});
+          $(document).ready(function() {
+            $("#lock22").keyup(function(){
+              var length=$('#lock22').val().length;
+               if(length>=1){
+                 $("#lock3").prop("disabled", true);
+                 $("#lock4").prop("disabled", true);
+               }
+                else{
+                 $("#lock3").prop("disabled", false);
+                 $("#lock4").prop("disabled", false);
+                }
+            });
+          });
 
 
      $(document).ready(function() {
@@ -108,7 +102,6 @@
             if(result[i].status=='direct')
             {
               var status_name='Cash Return';
-              
             }
             else if(result[i].status=='indirect')
             {

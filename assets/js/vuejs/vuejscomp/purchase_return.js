@@ -62,3 +62,32 @@ $(document).ready(function()
     })
 	});
 });
+// purchase return 
+var stock_amount=$("#stock_amount").val();
+jQuery(document).ready(function($) {
+	$("#return_amount").keyup(function(event) {
+		if(parseInt(event.target.value) > parseInt(stock_amount)){
+			$("#d-block").css({
+				display: 'none',
+			});
+			$("#d-nodedsd").css({
+				display: 'block',
+			});
+		}else{
+			$("#d-block").css({
+				display: 'block',
+			});
+			$("#d-nodedsd").css({
+				display: 'none',
+			});
+		}
+	});
+});
+
+jQuery(document).ready(function($) {
+	$("#dddddddddddddddddddd").submit(function(event) {
+		setTimeout(function() {
+			location.reload();
+		}, 1000);
+	});
+});

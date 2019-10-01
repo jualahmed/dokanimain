@@ -12,11 +12,9 @@
        		<div class="col-md-6">
         		<div class="box">
             		<div class="box-header with-border" style="background: #0f77ab;">
-              			<h3 class="box-title" style="color:white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">Purchase Return</h3>
+              			<h3 class="box-title" style="color: #fff;">Purchase Return</h3>
             		</div>
             		<?php $stock_amount=0; ?>
-		            <!-- /.box-header -->
-		            <!-- form start -->
              		<div class="box-body">
                 		<div class="col-md-12">
 							<table class="table table-bordered reduce_space" >
@@ -26,7 +24,11 @@
 										<select name="distributor_id" id="distributor_id" class="form-control">
 											<option value="">Select a Distributor</option>
 											<?php foreach ($distributor_info as $key => $var): ?>
+												<?php if ($this->uri->segment(3)==$var->distributor_id): ?>
+													<option selected value="<?php echo $var->distributor_id ?>"><?php echo $var->distributor_name ?></option>
+												<?php else: ?>												
 												<option value="<?php echo $var->distributor_id ?>"><?php echo $var->distributor_name ?></option>
+												<?php endif ?>
 											<?php endforeach ?>
 										</select>
 									</td>
@@ -41,8 +43,12 @@
 											{
 												foreach($product_info as $field)
 												{ 
-											?>
-												<option value="<?php echo $field->product_id;?>"><?php echo $field->product_name;?></option>
+											?>	
+												<?php if ($this->uri->segment(4)==$field->product_id): ?>
+													<option selected value="<?php echo $field->product_id;?>"><?php echo $field->product_name;?></option>
+												<?php else: ?>
+													<option value="<?php echo $field->product_id;?>"><?php echo $field->product_name;?></option>
+												<?php endif ?>
 											<?php 
 												}
 											}
@@ -57,7 +63,7 @@
 								<?php
 								if($this->uri->segment(4)!='')
 								{
-									if($product_info_warranty_details->num_rows > 0)
+									if($product_info_warranty_details->num_rows()>0)
 									{
 									?>
 									<table class="table table-bordered reduce_space" >
@@ -114,7 +120,7 @@
 									{
 									?>
 										<?php
-										if($product_info_details->num_rows > 0)
+										if($product_info_details->num_rows() > 0)
 										{
 										?>
 										<table class="table table-bordered reduce_space" >
@@ -131,7 +137,7 @@
 											</tr>
 											<tr>
 												<td>Stock Amount</td>
-												<td><?php echo $tmp->stock_amount;?></td>
+												<td><?php echo $tmp->stock_amount; ?> <input type="hidden" id="stock_amount"  value="<?php echo $tmp->stock_amount ?>" name=""></td>
 												<td>Buy Price</td>
 												<td><?php echo $tmp->bulk_unit_buy_price;?></td>
 												<input type="hidden" name="buy_price" value="<?php echo $tmp->bulk_unit_buy_price;?>">
@@ -168,7 +174,9 @@
 									<center>
 										<div class="col-sm-22">
 											<?php if($this->uri->segment(4)!='' && $stock_amount>0){ ?>
-												<button type="submit" class="btn btn-success btn-sm" name="search_random" id="submit"><i class="fa fa-fw fa-save"></i> Create</button>
+												<button type="submit" id="d-block" class="btn btn-success btn-sm" name="search_random" id="submit"><i class="fa fa-fw fa-save" ></i> Create</button>
+
+												<button type="submit" id="d-nodedsd" class="btn btn-success btn-sm" disabled name="search_random" id="submit"><i class="fa fa-fw fa-save" ></i> Create</button>
 											<?php }else{ ?>
 											<button type="submit" disabled class="btn btn-success btn-sm" name="search_random" id="submit"><i class="fa fa-fw fa-save"></i> Create</button>
 											<?php } ?>
@@ -181,7 +189,7 @@
           		</div>
         	</div>
 			<?php
-			if($return_main_product->num_rows > 0)
+			if($return_main_product->num_rows() > 0)
 			{
 			?>
 			<div class="col-md-6">
@@ -238,8 +246,8 @@
 							<div class="box-footer" style="background: #0f77ab;">
 								<center>
 									<div class="col-sm-22">
-										<form action="<?php echo base_url();?>purchase/final_purchase_return" method="post">
-										<button type="submit" class="btn btn-success btn-sm" name="search_random" id="submit"><i class="fa fa-fw fa-save"></i> Final Submit</button>
+										<form id="dddddddddddddddddddd" action="<?php echo base_url();?>purchase/final_purchase_return" method="post" target="_blank">
+										<button type="submit" class="btn btn-success btn-sm" name="search_random" id="final_submit"><i class="fa fa-fw fa-save"></i> Final Submit</button>
 										</form>
 									</div>
 								</center>
