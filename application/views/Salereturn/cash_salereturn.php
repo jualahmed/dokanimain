@@ -26,7 +26,6 @@
 	<input type="hidden" id="in_id" value="<?php echo $this->uri->segment(5);?>">
 	<input type="hidden" id="pro_id" value="<?php echo $this->uri->segment(6);?>">
     <section class="content">
-      <!-- Small boxes (Stat box) -->
         <div class="row">
        		<div class="col-md-6">
         		<div class="box">
@@ -517,9 +516,7 @@
 							<div class="box-footer" style="background: #0f77ab;">
 								<center>
 									<div class="col-sm-22">
-										
 										<button type="submit" class="btn btn-success btn-sm" name="search_random" id="submit"><i class="fa fa-fw fa-save"></i> Final Submit</button>
-										
 									</div>
 								</center>
 								</form>

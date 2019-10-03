@@ -1,23 +1,25 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.3
--- http://www.phpmyadmin.net
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Sep 23, 2019 at 01:06 PM
--- Server version: 5.6.24
--- PHP Version: 5.6.8
+-- Host: 127.0.0.1
+-- Generation Time: Oct 03, 2019 at 10:29 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dokani_combo`
+-- Database: `dokanimain`
 --
 
 -- --------------------------------------------------------
@@ -26,7 +28,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `apps_info`
 --
 
-CREATE TABLE IF NOT EXISTS `apps_info` (
+CREATE TABLE `apps_info` (
   `appin_id` int(11) NOT NULL,
   `version_name` varchar(100) NOT NULL,
   `versoin_no` int(11) NOT NULL,
@@ -39,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `apps_info` (
 -- Table structure for table `bank_book`
 --
 
-CREATE TABLE IF NOT EXISTS `bank_book` (
+CREATE TABLE `bank_book` (
   `bb_id` int(11) NOT NULL,
   `ledger_id` int(11) NOT NULL,
   `ledger_type` varchar(30) NOT NULL,
@@ -57,16 +59,7 @@ CREATE TABLE IF NOT EXISTS `bank_book` (
   `doc` date NOT NULL,
   `dom` date NOT NULL,
   `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `bank_book`
---
-
-INSERT INTO `bank_book` (`bb_id`, `ledger_id`, `ledger_type`, `transaction_id`, `bank_id`, `card_id`, `transaction_type`, `bank_name`, `cheque_no`, `cheque_date`, `amount`, `date`, `status`, `creator`, `doc`, `dom`, `date_time`) VALUES
-(1, 1, 'purchase_payment', 6, 1, 0, 'out', 4, '123456', '2019-09-18', 10000, '2019-09-23', 'inactive', 12, '0000-00-00', '0000-00-00', '2019-09-23 04:02:00'),
-(2, 0, '', 18, 1, 1, 'in', 0, '', '0000-00-00', 1, '2019-09-23', 'active', 12, '2019-09-23', '2019-09-23', '2019-09-23 07:58:44'),
-(3, 0, '', 19, 1, 0, 'in', 0, '', '0000-00-00', 10000, '2019-09-23', 'active', 12, '2019-09-23', '2019-09-23', '2019-09-23 08:59:01');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -74,7 +67,7 @@ INSERT INTO `bank_book` (`bb_id`, `ledger_id`, `ledger_type`, `transaction_id`, 
 -- Table structure for table `bank_book_info`
 --
 
-CREATE TABLE IF NOT EXISTS `bank_book_info` (
+CREATE TABLE `bank_book_info` (
   `bank_book_id` int(20) NOT NULL,
   `shop_id` int(10) NOT NULL,
   `bank_id` int(20) NOT NULL,
@@ -93,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `bank_book_info` (
 -- Table structure for table `bank_card_info`
 --
 
-CREATE TABLE IF NOT EXISTS `bank_card_info` (
+CREATE TABLE `bank_card_info` (
   `card_id` int(11) NOT NULL,
   `bank_id` int(4) NOT NULL,
   `card_name` varchar(20) NOT NULL,
@@ -101,16 +94,7 @@ CREATE TABLE IF NOT EXISTS `bank_card_info` (
   `creator` int(4) NOT NULL,
   `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `bank_card_info`
---
-
-INSERT INTO `bank_card_info` (`card_id`, `bank_id`, `card_name`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 1, 'MASTER', 1, 12, '2019-09-23 07:35:23', '0000-00-00 00:00:00'),
-(2, 1, 'VISA', 1, 12, '2019-09-23 07:39:42', '0000-00-00 00:00:00'),
-(3, 1, 'AMERICAN EXPRESS', 1, 12, '2019-09-23 07:39:42', '0000-00-00 00:00:00');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -118,7 +102,7 @@ INSERT INTO `bank_card_info` (`card_id`, `bank_id`, `card_name`, `status`, `crea
 -- Table structure for table `bank_info`
 --
 
-CREATE TABLE IF NOT EXISTS `bank_info` (
+CREATE TABLE `bank_info` (
   `bank_id` int(50) NOT NULL,
   `shop_id` int(10) NOT NULL,
   `bank_name` varchar(250) NOT NULL,
@@ -130,15 +114,7 @@ CREATE TABLE IF NOT EXISTS `bank_info` (
   `bank_creator` int(20) NOT NULL,
   `bank_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `bank_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `bank_info`
---
-
-INSERT INTO `bank_info` (`bank_id`, `shop_id`, `bank_name`, `bank_account_no`, `bank_account_name`, `bank_description`, `card_account`, `bank_status`, `bank_creator`, `bank_doc`, `bank_dom`) VALUES
-(1, 1, 'dutch bangla bank limited', '869874566546465', 's', NULL, NULL, 'active', 12, '2019-09-23 03:55:48', '0000-00-00 00:00:00'),
-(4, 1, 'Dutch Bangla Bank Limited 1', '123456789', 'sda', NULL, NULL, 'active', 12, '2019-09-23 04:00:11', '0000-00-00 00:00:00');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -146,7 +122,7 @@ INSERT INTO `bank_info` (`bank_id`, `shop_id`, `bank_name`, `bank_account_no`, `
 -- Table structure for table `barcode_print`
 --
 
-CREATE TABLE IF NOT EXISTS `barcode_print` (
+CREATE TABLE `barcode_print` (
   `print_id` int(11) NOT NULL,
   `product_name` varchar(250) NOT NULL,
   `quantity` float NOT NULL,
@@ -161,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `barcode_print` (
 -- Table structure for table `bulk_sale_temp`
 --
 
-CREATE TABLE IF NOT EXISTS `bulk_sale_temp` (
+CREATE TABLE `bulk_sale_temp` (
   `bulk_sale_creator` int(15) DEFAULT NULL,
   `product_id` int(15) DEFAULT NULL,
   `bulk_sale_quantity` int(15) DEFAULT NULL,
@@ -175,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `bulk_sale_temp` (
 -- Table structure for table `bulk_stock_info`
 --
 
-CREATE TABLE IF NOT EXISTS `bulk_stock_info` (
+CREATE TABLE `bulk_stock_info` (
   `bulk_id` int(30) NOT NULL,
   `stock_amount` float NOT NULL,
   `product_id` int(30) NOT NULL,
@@ -187,15 +163,15 @@ CREATE TABLE IF NOT EXISTS `bulk_stock_info` (
   `last_buy_price` float NOT NULL,
   `warranty_period` int(3) DEFAULT NULL,
   `product_specification` int(1) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bulk_stock_info`
 --
 
 INSERT INTO `bulk_stock_info` (`bulk_id`, `stock_amount`, `product_id`, `shop_id`, `bulk_unit_buy_price`, `bulk_unit_sale_price`, `general_unit_sale_price`, `bulk_alarming_stock`, `last_buy_price`, `warranty_period`, `product_specification`) VALUES
-(1, 6, 1, 1, 1, 1, 1, 100, 12, NULL, NULL),
-(2, 6, 2, 1, 1, 1, 1, 100, 10, NULL, NULL);
+(1, 12, 1, 1, 16.125, 20.625, 20.625, 100, 10, NULL, NULL),
+(2, 3, 2, 1, 1.625, 1.625, 1.625, 100, 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -203,7 +179,7 @@ INSERT INTO `bulk_stock_info` (`bulk_id`, `stock_amount`, `product_id`, `shop_id
 -- Table structure for table `cash_book`
 --
 
-CREATE TABLE IF NOT EXISTS `cash_book` (
+CREATE TABLE `cash_book` (
   `cb_id` int(11) NOT NULL,
   `transaction_id` int(100) NOT NULL,
   `transaction_type` varchar(3) NOT NULL,
@@ -213,18 +189,20 @@ CREATE TABLE IF NOT EXISTS `cash_book` (
   `creator` int(8) NOT NULL,
   `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cash_book`
 --
 
 INSERT INTO `cash_book` (`cb_id`, `transaction_id`, `transaction_type`, `amount`, `date`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 8, 'in', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(2, 10, 'in', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(3, 12, 'in', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(4, 16, 'in', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(5, 19, 'out', 10000, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00');
+(1, 5, 'in', 20, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(2, 6, 'out', 500, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(3, 7, 'out', 500, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(4, 9, 'in', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(5, 10, 'out', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(6, 11, 'out', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(7, 29, 'in', 21, '2019-10-02', 'active', 12, '2019-10-01 18:00:00', '2019-10-01 18:00:00');
 
 -- --------------------------------------------------------
 
@@ -232,21 +210,21 @@ INSERT INTO `cash_book` (`cb_id`, `transaction_id`, `transaction_type`, `amount`
 -- Table structure for table `catagory_info`
 --
 
-CREATE TABLE IF NOT EXISTS `catagory_info` (
+CREATE TABLE `catagory_info` (
   `catagory_id` int(15) NOT NULL,
   `catagory_name` varchar(250) NOT NULL,
   `catagory_description` varchar(250) DEFAULT NULL,
   `catagory_creator` int(15) NOT NULL,
   `catagory_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `catagory_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `catagory_info`
 --
 
 INSERT INTO `catagory_info` (`catagory_id`, `catagory_name`, `catagory_description`, `catagory_creator`, `catagory_doc`, `catagory_dom`) VALUES
-(1, 'test', '', 12, '2019-09-22 11:01:02', '2019-09-22 11:01:02');
+(1, 'aaaaaaa', '', 12, '2019-09-30 05:00:09', '2019-09-30 05:00:09');
 
 -- --------------------------------------------------------
 
@@ -254,7 +232,7 @@ INSERT INTO `catagory_info` (`catagory_id`, `catagory_name`, `catagory_descripti
 -- Table structure for table `cheque_info`
 --
 
-CREATE TABLE IF NOT EXISTS `cheque_info` (
+CREATE TABLE `cheque_info` (
   `cheque_id` int(50) NOT NULL,
   `shop_id` int(10) NOT NULL,
   `cheque_no` varchar(250) NOT NULL,
@@ -280,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `cheque_info` (
 -- Table structure for table `cheque_reference_info`
 --
 
-CREATE TABLE IF NOT EXISTS `cheque_reference_info` (
+CREATE TABLE `cheque_reference_info` (
   `cheque_ref_id` int(100) NOT NULL,
   `cheque_ref_purpose` varchar(250) NOT NULL,
   `ref_id` int(100) NOT NULL,
@@ -300,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `cheque_reference_info` (
 -- Table structure for table `ci_sessions`
 --
 
-CREATE TABLE IF NOT EXISTS `ci_sessions` (
+CREATE TABLE `ci_sessions` (
   `session_id` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `ip_address` varchar(16) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `last_activity` varchar(100) COLLATE utf8_bin NOT NULL,
@@ -315,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 -- Table structure for table `commison_info`
 --
 
-CREATE TABLE IF NOT EXISTS `commison_info` (
+CREATE TABLE `commison_info` (
   `com_id` int(11) NOT NULL,
   `com_year` int(5) NOT NULL,
   `com_month` int(2) NOT NULL,
@@ -332,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `commison_info` (
 -- Table structure for table `company_info`
 --
 
-CREATE TABLE IF NOT EXISTS `company_info` (
+CREATE TABLE `company_info` (
   `company_id` int(15) NOT NULL,
   `company_name` varchar(250) NOT NULL,
   `company_address` tinytext NOT NULL,
@@ -342,14 +320,14 @@ CREATE TABLE IF NOT EXISTS `company_info` (
   `company_creator` varchar(250) NOT NULL,
   `company_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `company_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `company_info`
 --
 
 INSERT INTO `company_info` (`company_id`, `company_name`, `company_address`, `company_contact_no`, `company_email`, `company_description`, `company_creator`, `company_doc`, `company_dom`) VALUES
-(1, 'componey1', 'Componey1', 17846223, 's', 'Componey1', '12', '2019-09-22 11:01:23', '0000-00-00 00:00:00');
+(1, 'aaaaaaaa', 'saf', 123456789, 'sdf', 'sdf', '12', '2019-09-30 05:00:23', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -357,7 +335,7 @@ INSERT INTO `company_info` (`company_id`, `company_name`, `company_address`, `co
 -- Table structure for table `customer_info`
 --
 
-CREATE TABLE IF NOT EXISTS `customer_info` (
+CREATE TABLE `customer_info` (
   `customer_id` int(100) NOT NULL,
   `customer_name` varchar(250) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
@@ -371,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `customer_info` (
   `customer_creator` varchar(250) NOT NULL,
   `customer_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `customer_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `customer_info`
@@ -384,7 +362,8 @@ INSERT INTO `customer_info` (`customer_id`, `customer_name`, `user_id`, `custome
 (4, 'ddddddddd', 0, NULL, '12312', '123', '213', '3123', 'dddddddddd', 213, '12', '2019-09-23 05:40:49', '0000-00-00 00:00:00'),
 (5, 'sdgdg', 0, NULL, '123123', 'sdf', '123123', 'sfsf', 'sfsdf', 0, '12', '2019-09-23 05:42:15', '0000-00-00 00:00:00'),
 (6, 'sdfsd', 0, NULL, '123123', '21312', '3', '123112', 'sdf', 0, '12', '2019-09-23 05:42:44', '0000-00-00 00:00:00'),
-(7, 'aaaaaaaa', 0, NULL, '11', 'aaaaa', '1', '1231a12', 'sdfs', 0, '12', '2019-09-23 05:43:02', '0000-00-00 00:00:00');
+(7, 'aaaaaaaa', 0, NULL, '11', 'aaaaa', '1', '1231a12', 'sdfs', 0, '12', '2019-09-23 05:43:02', '0000-00-00 00:00:00'),
+(8, 'A', 0, NULL, '1', 'AD', '1', 'ASD', 'SD', 1, '12', '2019-09-29 04:07:08', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -392,7 +371,7 @@ INSERT INTO `customer_info` (`customer_id`, `customer_name`, `user_id`, `custome
 -- Table structure for table `daily_statement`
 --
 
-CREATE TABLE IF NOT EXISTS `daily_statement` (
+CREATE TABLE `daily_statement` (
   `daily_statement_id` int(11) NOT NULL,
   `statement_date` varchar(14) NOT NULL,
   `payable_purchase` varchar(7) NOT NULL,
@@ -434,7 +413,7 @@ CREATE TABLE IF NOT EXISTS `daily_statement` (
 -- Table structure for table `damage_product`
 --
 
-CREATE TABLE IF NOT EXISTS `damage_product` (
+CREATE TABLE `damage_product` (
   `damage_id` int(11) NOT NULL,
   `product_id` int(100) NOT NULL,
   `damage_quantity` int(5) NOT NULL,
@@ -450,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `damage_product` (
 -- Table structure for table `data_retrive_checking`
 --
 
-CREATE TABLE IF NOT EXISTS `data_retrive_checking` (
+CREATE TABLE `data_retrive_checking` (
   `drc_id` int(11) NOT NULL,
   `drc_name` varchar(250) CHARACTER SET latin1 NOT NULL,
   `status` int(11) NOT NULL,
@@ -464,7 +443,7 @@ CREATE TABLE IF NOT EXISTS `data_retrive_checking` (
 -- Table structure for table `discount_details`
 --
 
-CREATE TABLE IF NOT EXISTS `discount_details` (
+CREATE TABLE `discount_details` (
   `discount_details_id` int(12) NOT NULL,
   `discount_info_id` int(10) NOT NULL,
   `discount` int(4) NOT NULL,
@@ -481,7 +460,7 @@ CREATE TABLE IF NOT EXISTS `discount_details` (
 -- Table structure for table `discount_info`
 --
 
-CREATE TABLE IF NOT EXISTS `discount_info` (
+CREATE TABLE `discount_info` (
   `discount_info_id` int(10) NOT NULL,
   `product_id` int(6) NOT NULL,
   `shop_id` int(3) NOT NULL,
@@ -499,7 +478,7 @@ CREATE TABLE IF NOT EXISTS `discount_info` (
 -- Table structure for table `dishonour_cheque_book`
 --
 
-CREATE TABLE IF NOT EXISTS `dishonour_cheque_book` (
+CREATE TABLE `dishonour_cheque_book` (
   `cheque_book_id` int(100) NOT NULL,
   `cheque_id` int(100) NOT NULL,
   `cheque_book_amount` double NOT NULL,
@@ -514,7 +493,7 @@ CREATE TABLE IF NOT EXISTS `dishonour_cheque_book` (
 -- Table structure for table `distributor_info`
 --
 
-CREATE TABLE IF NOT EXISTS `distributor_info` (
+CREATE TABLE `distributor_info` (
   `distributor_id` int(100) NOT NULL,
   `distributor_name` varchar(250) NOT NULL,
   `distributor_address` varchar(250) NOT NULL,
@@ -525,14 +504,14 @@ CREATE TABLE IF NOT EXISTS `distributor_info` (
   `distributor_creator` varchar(250) NOT NULL,
   `distributor_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `distributor_dom` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `distributor_info`
 --
 
 INSERT INTO `distributor_info` (`distributor_id`, `distributor_name`, `distributor_address`, `distributor_contact_no`, `distributor_email`, `distributor_description`, `int_balance`, `distributor_creator`, `distributor_doc`, `distributor_dom`) VALUES
-(1, 'a test Distributor', 'sfs', '01784622362', 'md.jual.ah@gmail.com', 'sfdsf', 0, '12', '2019-09-22 11:03:24', NULL);
+(1, 'sdf', 'fdsf', '123', '13123', '12', 1, '12', '2019-09-30 05:01:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -540,7 +519,7 @@ INSERT INTO `distributor_info` (`distributor_id`, `distributor_name`, `distribut
 -- Table structure for table `employee_info`
 --
 
-CREATE TABLE IF NOT EXISTS `employee_info` (
+CREATE TABLE `employee_info` (
   `employee_id` int(100) NOT NULL,
   `employee_name` varchar(250) DEFAULT NULL,
   `employee_contact_no` varchar(250) DEFAULT NULL,
@@ -559,7 +538,7 @@ CREATE TABLE IF NOT EXISTS `employee_info` (
 -- Table structure for table `employee_salary`
 --
 
-CREATE TABLE IF NOT EXISTS `employee_salary` (
+CREATE TABLE `employee_salary` (
   `salary_id` int(6) NOT NULL,
   `user_id` int(4) NOT NULL,
   `salary_amount` double NOT NULL,
@@ -576,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `employee_salary` (
 -- Table structure for table `employee_salary_log`
 --
 
-CREATE TABLE IF NOT EXISTS `employee_salary_log` (
+CREATE TABLE `employee_salary_log` (
   `salary_log_id` int(6) NOT NULL,
   `user_id` int(4) NOT NULL,
   `salary_amount` double NOT NULL,
@@ -596,7 +575,7 @@ CREATE TABLE IF NOT EXISTS `employee_salary_log` (
 -- Table structure for table `exchange_return_details_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `exchange_return_details_tbl` (
+CREATE TABLE `exchange_return_details_tbl` (
   `id` int(5) NOT NULL,
   `exchange_return_id` int(5) NOT NULL,
   `product_id` int(5) NOT NULL,
@@ -614,7 +593,7 @@ CREATE TABLE IF NOT EXISTS `exchange_return_details_tbl` (
 -- Table structure for table `exchange_return_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `exchange_return_tbl` (
+CREATE TABLE `exchange_return_tbl` (
   `exchange_return_id` int(5) NOT NULL,
   `exchange_return_creator` int(5) NOT NULL,
   `status` varchar(8) NOT NULL,
@@ -629,7 +608,7 @@ CREATE TABLE IF NOT EXISTS `exchange_return_tbl` (
 -- Table structure for table `expense_info`
 --
 
-CREATE TABLE IF NOT EXISTS `expense_info` (
+CREATE TABLE `expense_info` (
   `expense_id` int(100) NOT NULL,
   `shop_id` int(10) NOT NULL,
   `service_provider_id` int(100) NOT NULL,
@@ -649,7 +628,7 @@ CREATE TABLE IF NOT EXISTS `expense_info` (
 -- Table structure for table `gift_details`
 --
 
-CREATE TABLE IF NOT EXISTS `gift_details` (
+CREATE TABLE `gift_details` (
   `gift_id` int(10) NOT NULL,
   `shop_id` int(10) NOT NULL,
   `gift_from` int(10) NOT NULL,
@@ -668,7 +647,7 @@ CREATE TABLE IF NOT EXISTS `gift_details` (
 -- Table structure for table `group_info`
 --
 
-CREATE TABLE IF NOT EXISTS `group_info` (
+CREATE TABLE `group_info` (
   `group_id` int(11) NOT NULL,
   `group_name` varchar(50) NOT NULL,
   `group_description` varchar(200) NOT NULL
@@ -680,7 +659,7 @@ CREATE TABLE IF NOT EXISTS `group_info` (
 -- Table structure for table `image_for_sale_listing`
 --
 
-CREATE TABLE IF NOT EXISTS `image_for_sale_listing` (
+CREATE TABLE `image_for_sale_listing` (
   `ifsl_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
@@ -699,7 +678,7 @@ CREATE TABLE IF NOT EXISTS `image_for_sale_listing` (
 -- Table structure for table `income_info`
 --
 
-CREATE TABLE IF NOT EXISTS `income_info` (
+CREATE TABLE `income_info` (
   `income_id` int(11) NOT NULL,
   `shop_id` int(11) DEFAULT NULL,
   `service_provider_id` int(11) DEFAULT NULL,
@@ -719,7 +698,7 @@ CREATE TABLE IF NOT EXISTS `income_info` (
 -- Table structure for table `investment_info`
 --
 
-CREATE TABLE IF NOT EXISTS `investment_info` (
+CREATE TABLE `investment_info` (
   `investment_id` int(25) NOT NULL,
   `shop_id` int(10) NOT NULL,
   `investor_id` int(25) NOT NULL,
@@ -737,7 +716,7 @@ CREATE TABLE IF NOT EXISTS `investment_info` (
 -- Table structure for table `investor_info`
 --
 
-CREATE TABLE IF NOT EXISTS `investor_info` (
+CREATE TABLE `investor_info` (
   `investor_id` int(25) NOT NULL,
   `investor_name` varchar(250) NOT NULL,
   `investor_contact_no` varchar(250) NOT NULL,
@@ -755,7 +734,7 @@ CREATE TABLE IF NOT EXISTS `investor_info` (
 -- Table structure for table `invoice_info`
 --
 
-CREATE TABLE IF NOT EXISTS `invoice_info` (
+CREATE TABLE `invoice_info` (
   `invoice_id` int(100) NOT NULL,
   `shop_id` int(3) NOT NULL,
   `customer_id` int(10) NOT NULL,
@@ -777,20 +756,15 @@ CREATE TABLE IF NOT EXISTS `invoice_info` (
   `point_info_id` int(11) NOT NULL,
   `point_discount` int(11) NOT NULL,
   `current_point` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `invoice_info`
 --
 
 INSERT INTO `invoice_info` (`invoice_id`, `shop_id`, `customer_id`, `total_price`, `discount`, `discount_type`, `cash_commision`, `discount_amount`, `delivery_charge`, `grand_total`, `total_paid`, `sale_return_amount`, `return_money`, `payment_mode`, `invoice_creator`, `invoice_doc`, `invoice_dom`, `date_time`, `point_info_id`, `point_discount`, `current_point`) VALUES
-(1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 'cash', '12', '2019-09-23', '2019-09-23', '2019-09-23 04:38:51', 0, 0, 0),
-(2, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 'cash', '12', '2019-09-23', '2019-09-23', '2019-09-23 04:40:02', 0, 0, 0),
-(3, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 'cash', '12', '2019-09-23', '2019-09-23', '2019-09-23 06:12:45', 0, 0, 0),
-(4, 1, 3, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 'cash', '12', '2019-09-23', '2019-09-23', '2019-09-23 07:28:30', 0, 0, 0),
-(5, 1, 4, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 'cash', '12', '2019-09-23', '2019-09-23', '2019-09-23 07:30:42', 0, 0, 0),
-(6, 1, 6, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 'cash', '12', '2019-09-23', '2019-09-23', '2019-09-23 07:31:53', 0, 0, 0),
-(7, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 'card', '12', '2019-09-23', '2019-09-23', '2019-09-23 07:58:43', 0, 0, 0);
+(2, 1, 3, 50, 0, 0, 0, 0, 0, 50, 50, 0, 0, 'cash', '12', '2019-09-30', '2019-09-30', '2019-09-30 07:56:28', 0, 0, 0),
+(3, 1, 1, 21, 0, 0, 0, 0, 0, 21, 21, 0, 0, 'cash', '12', '2019-10-02', '2019-10-02', '2019-10-02 04:14:32', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -798,7 +772,7 @@ INSERT INTO `invoice_info` (`invoice_id`, `shop_id`, `customer_id`, `total_price
 -- Table structure for table `loan_details_info`
 --
 
-CREATE TABLE IF NOT EXISTS `loan_details_info` (
+CREATE TABLE `loan_details_info` (
   `loan_details_id` int(10) NOT NULL,
   `loan_mode` tinyint(2) NOT NULL,
   `loan_seeker_id` int(10) NOT NULL,
@@ -818,7 +792,7 @@ CREATE TABLE IF NOT EXISTS `loan_details_info` (
 -- Table structure for table `loan_person_info`
 --
 
-CREATE TABLE IF NOT EXISTS `loan_person_info` (
+CREATE TABLE `loan_person_info` (
   `lp_id` int(100) NOT NULL,
   `loan_person_name` varchar(250) NOT NULL,
   `loan_person_type` varchar(250) NOT NULL,
@@ -837,7 +811,7 @@ CREATE TABLE IF NOT EXISTS `loan_person_info` (
 -- Table structure for table `loan_seeker_info`
 --
 
-CREATE TABLE IF NOT EXISTS `loan_seeker_info` (
+CREATE TABLE `loan_seeker_info` (
   `loan_seeker_id` int(10) NOT NULL,
   `loan_seeker_name` varchar(25) NOT NULL,
   `contact_no` varchar(15) NOT NULL,
@@ -855,7 +829,7 @@ CREATE TABLE IF NOT EXISTS `loan_seeker_info` (
 -- Table structure for table `login_attempts`
 --
 
-CREATE TABLE IF NOT EXISTS `login_attempts` (
+CREATE TABLE `login_attempts` (
   `id` int(100) NOT NULL,
   `ip_address` varchar(250) COLLATE utf8_bin NOT NULL,
   `login` varchar(250) COLLATE utf8_bin NOT NULL,
@@ -868,7 +842,7 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
 -- Table structure for table `owner_book`
 --
 
-CREATE TABLE IF NOT EXISTS `owner_book` (
+CREATE TABLE `owner_book` (
   `ob_id` int(11) NOT NULL,
   `transaction_id` int(100) NOT NULL,
   `cash_cheque` varchar(10) NOT NULL,
@@ -890,7 +864,7 @@ CREATE TABLE IF NOT EXISTS `owner_book` (
 -- Table structure for table `owner_info`
 --
 
-CREATE TABLE IF NOT EXISTS `owner_info` (
+CREATE TABLE `owner_info` (
   `owner_id` int(100) NOT NULL,
   `owner_name` varchar(250) NOT NULL,
   `owner_type` varchar(250) NOT NULL,
@@ -909,7 +883,7 @@ CREATE TABLE IF NOT EXISTS `owner_info` (
 -- Table structure for table `point_info`
 --
 
-CREATE TABLE IF NOT EXISTS `point_info` (
+CREATE TABLE `point_info` (
   `point_id` int(11) NOT NULL,
   `customer_id` int(30) NOT NULL,
   `total_point` int(20) NOT NULL,
@@ -923,7 +897,7 @@ CREATE TABLE IF NOT EXISTS `point_info` (
 -- Table structure for table `product_info`
 --
 
-CREATE TABLE IF NOT EXISTS `product_info` (
+CREATE TABLE `product_info` (
   `product_id` int(100) NOT NULL,
   `product_name` varchar(250) NOT NULL,
   `catagory_id` int(11) NOT NULL,
@@ -942,15 +916,15 @@ CREATE TABLE IF NOT EXISTS `product_info` (
   `img` varchar(255) NOT NULL,
   `product_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `product_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product_info`
 --
 
 INSERT INTO `product_info` (`product_id`, `product_name`, `catagory_id`, `company_id`, `group_name`, `product_type`, `product_size`, `product_model`, `unit_id`, `barcode`, `product_description`, `product_specification`, `product_warranty`, `product_creator`, `product_status`, `img`, `product_doc`, `product_dom`) VALUES
-(1, 'product1', 1, 1, NULL, NULL, '12', 'N/a', 1, '286926085', NULL, 2, 12, 12, 1, 'http://localhost/dokanicombine/assets/img/productimg/e70dae4849b903948b10c1df9c34821c.jpg', '2019-09-22 11:02:49', '2019-09-22 11:02:49'),
-(2, 'simple check', 1, 1, NULL, NULL, '1', '12', 1, '1387667730', NULL, 1, 0, 12, 1, 'http://localhost/dokanicombine/assets/img/productimg/e67a4f4deea8f7761dc5103c58b64346.jpg', '2019-09-23 06:53:03', '2019-09-23 06:53:04');
+(1, 'Simplecheck', 1, 1, NULL, NULL, '1', '', 1, '407207081', NULL, 1, 0, 12, 1, '', '2019-09-30 05:01:07', '2019-09-30 05:01:07'),
+(2, 'abcdefghijklmn', 1, 1, NULL, NULL, '', '', 1, '1', NULL, 2, 12, 12, 1, '', '2019-09-30 05:12:44', '2019-09-30 05:12:44');
 
 -- --------------------------------------------------------
 
@@ -958,7 +932,7 @@ INSERT INTO `product_info` (`product_id`, `product_name`, `catagory_id`, `compan
 -- Table structure for table `purchase_info`
 --
 
-CREATE TABLE IF NOT EXISTS `purchase_info` (
+CREATE TABLE `purchase_info` (
   `purchase_id` int(100) NOT NULL,
   `purchase_receipt_id` int(100) NOT NULL,
   `product_id` int(100) NOT NULL,
@@ -969,15 +943,22 @@ CREATE TABLE IF NOT EXISTS `purchase_info` (
   `purchase_creator` varchar(250) NOT NULL,
   `purchase_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `purchase_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_info`
 --
 
 INSERT INTO `purchase_info` (`purchase_id`, `purchase_receipt_id`, `product_id`, `purchase_quantity`, `unit_buy_price`, `purchase_expire_date`, `purchase_description`, `purchase_creator`, `purchase_doc`, `purchase_dom`) VALUES
-(1, 1, 1, 12, 1, '2019-09-21 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-22 11:04:28', '2019-09-22 11:04:28'),
-(2, 1, 2, 10, 1, '2019-09-22 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-23 06:53:34', '2019-09-23 06:53:34');
+(1, 1, 1, 10, 10, '2019-09-29 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-30 05:07:05', '2019-09-30 05:07:05'),
+(2, 1, 2, 1, 11, '2019-09-29 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-30 05:13:08', '2019-09-30 05:13:08'),
+(3, 1, 1, 15, 15, '2019-09-29 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-30 08:49:48', '2019-09-30 08:49:48'),
+(4, 1, 1, 50, 50, '2019-09-29 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-30 08:53:24', '2019-09-30 08:53:24'),
+(5, 1, 2, 1, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 04:09:34', '2019-10-01 04:09:34'),
+(6, 1, 2, 2, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 04:13:23', '2019-10-01 04:13:23'),
+(7, 1, 2, 2, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 04:34:34', '2019-10-01 04:34:34'),
+(8, 1, 2, 3, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 04:55:03', '2019-10-01 04:55:03'),
+(9, 1, 1, 10, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 11:12:01', '2019-10-01 11:12:01');
 
 -- --------------------------------------------------------
 
@@ -985,7 +966,7 @@ INSERT INTO `purchase_info` (`purchase_id`, `purchase_receipt_id`, `product_id`,
 -- Table structure for table `purchase_receipt_info`
 --
 
-CREATE TABLE IF NOT EXISTS `purchase_receipt_info` (
+CREATE TABLE `purchase_receipt_info` (
   `receipt_id` int(100) NOT NULL,
   `distributor_id` int(100) NOT NULL,
   `purchase_amount` float NOT NULL,
@@ -999,16 +980,14 @@ CREATE TABLE IF NOT EXISTS `purchase_receipt_info` (
   `receipt_creator` int(100) NOT NULL,
   `receipt_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `receipt_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_receipt_info`
 --
 
 INSERT INTO `purchase_receipt_info` (`receipt_id`, `distributor_id`, `purchase_amount`, `transport_cost`, `gift_on_purchase`, `final_amount`, `shop_id`, `receipt_status`, `total_paid`, `receipt_date`, `receipt_creator`, `receipt_doc`, `receipt_dom`) VALUES
-(1, 1, 100000, 0, 0, 100000, 1, 'unpaid', 0, '2019-09-22', 12, '2019-09-22 11:03:47', '0000-00-00 00:00:00'),
-(2, 1, 10000, 0, 0, 10000, 1, 'unpaid', 0, '2019-09-23', 12, '2019-09-23 04:00:48', '0000-00-00 00:00:00'),
-(3, 1, 10000, 0, 0, 10000, 1, 'unpaid', 10000, '2019-09-23', 12, '2019-09-23 04:02:00', '0000-00-00 00:00:00');
+(1, 1, 1000, 0, 0, 1000, 1, 'unpaid', 0, '2019-09-30', 12, '2019-09-30 05:06:43', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1016,7 +995,7 @@ INSERT INTO `purchase_receipt_info` (`receipt_id`, `distributor_id`, `purchase_a
 -- Table structure for table `purchase_return_main_product`
 --
 
-CREATE TABLE IF NOT EXISTS `purchase_return_main_product` (
+CREATE TABLE `purchase_return_main_product` (
   `prmp_id` int(11) NOT NULL,
   `distri_id` int(11) NOT NULL,
   `produ_id` int(11) NOT NULL,
@@ -1026,15 +1005,32 @@ CREATE TABLE IF NOT EXISTS `purchase_return_main_product` (
   `creator` int(11) NOT NULL,
   `doc` date NOT NULL,
   `dom` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_return_main_product`
 --
 
 INSERT INTO `purchase_return_main_product` (`prmp_id`, `distri_id`, `produ_id`, `return_quantity`, `buy_price`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 1, 1, 1, 1, 1, 12, '2019-09-22', '2019-09-22'),
-(2, 1, 1, 1, 1, 1, 12, '2019-09-23', '2019-09-23');
+(1, 1, 1, 5, 10, 1, 12, '2019-09-30', '2019-09-30'),
+(2, 1, 2, 1, 11, 1, 12, '2019-09-30', '2019-09-30'),
+(9, 1, 1, 110, 10, 1, 12, '2019-09-30', '2019-09-30'),
+(10, 1, 1, 15, 12.5, 1, 12, '2019-09-30', '2019-09-30'),
+(17, 1, 2, 1, 6, 1, 12, '2019-10-01', '2019-10-01'),
+(19, 1, 2, 1, 3.5, 1, 12, '2019-10-01', '2019-10-01'),
+(23, 1, 2, 3, 2.25, 1, 12, '2019-10-01', '2019-10-01'),
+(28, 1, 1, 10, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(29, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(30, 0, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(31, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(32, 1, 1, 5, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(33, 1, 1, 10, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(34, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(35, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(36, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(37, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(38, 1, 1, 2, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
+(39, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01');
 
 -- --------------------------------------------------------
 
@@ -1042,7 +1038,7 @@ INSERT INTO `purchase_return_main_product` (`prmp_id`, `distri_id`, `produ_id`, 
 -- Table structure for table `purchase_return_warranty_product`
 --
 
-CREATE TABLE IF NOT EXISTS `purchase_return_warranty_product` (
+CREATE TABLE `purchase_return_warranty_product` (
   `prwp_id` int(11) NOT NULL,
   `prmp_id` int(11) NOT NULL,
   `ip_id` int(11) NOT NULL,
@@ -1053,15 +1049,19 @@ CREATE TABLE IF NOT EXISTS `purchase_return_warranty_product` (
   `creator` int(11) NOT NULL,
   `doc` date NOT NULL,
   `dom` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_return_warranty_product`
 --
 
 INSERT INTO `purchase_return_warranty_product` (`prwp_id`, `prmp_id`, `ip_id`, `product_id`, `sl_no`, `warranty_period`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 1, 1, 1, '1', 0, 1, 12, '2019-09-22', '2019-09-22'),
-(2, 2, 12, 1, '3333', 0, 1, 12, '2019-09-23', '2019-09-23');
+(1, 2, 1, 2, '11111', 0, 1, 12, '2019-09-30', '2019-09-30'),
+(2, 17, 2, 2, '2147483647', 0, 1, 12, '2019-10-01', '2019-10-01'),
+(4, 19, 4, 2, '34', 0, 1, 12, '2019-10-01', '2019-10-01'),
+(9, 23, 3, 2, '12', 0, 1, 12, '2019-10-01', '2019-10-01'),
+(10, 23, 5, 2, '546456', 0, 1, 12, '2019-10-01', '2019-10-01'),
+(11, 23, 6, 2, '456456456', 0, 1, 12, '2019-10-01', '2019-10-01');
 
 -- --------------------------------------------------------
 
@@ -1069,7 +1069,7 @@ INSERT INTO `purchase_return_warranty_product` (`prwp_id`, `prmp_id`, `ip_id`, `
 -- Table structure for table `sale_details`
 --
 
-CREATE TABLE IF NOT EXISTS `sale_details` (
+CREATE TABLE `sale_details` (
   `sale_details_id` int(100) NOT NULL,
   `invoice_id` int(100) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -1086,20 +1086,15 @@ CREATE TABLE IF NOT EXISTS `sale_details` (
   `product_specification` varchar(250) NOT NULL,
   `exact_sale_price` double NOT NULL,
   `sale_details_status` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sale_details`
 --
 
 INSERT INTO `sale_details` (`sale_details_id`, `invoice_id`, `product_id`, `stock_id`, `sale_quantity`, `sale_type`, `discount_info_id`, `discount`, `discount_type`, `unit_sale_price`, `general_sale_price`, `unit_buy_price`, `actual_sale_price`, `product_specification`, `exact_sale_price`, `sale_details_status`) VALUES
-(1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, '2', 1, 1),
-(2, 2, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, '2', 1, 1),
-(3, 3, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, '2', 1, 1),
-(4, 4, 2, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, '', 1, 1),
-(5, 5, 2, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, '', 1, 1),
-(6, 6, 2, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, '', 1, 1),
-(7, 7, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, '2', 1, 1);
+(2, 2, 1, 0, 5, 1, 0, 0, 0, 10, 10, 10, 10, '', 10, 1),
+(3, 3, 1, 0, 1, 1, 0, 0, 0, 21, 21, 16.125, 21, '', 21, 1);
 
 -- --------------------------------------------------------
 
@@ -1107,7 +1102,7 @@ INSERT INTO `sale_details` (`sale_details_id`, `invoice_id`, `product_id`, `stoc
 -- Table structure for table `sale_price_info`
 --
 
-CREATE TABLE IF NOT EXISTS `sale_price_info` (
+CREATE TABLE `sale_price_info` (
   `sp_id` int(100) NOT NULL,
   `product_id` int(100) NOT NULL,
   `shop_id` double NOT NULL,
@@ -1123,7 +1118,7 @@ CREATE TABLE IF NOT EXISTS `sale_price_info` (
 -- Table structure for table `sale_return_details_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `sale_return_details_tbl` (
+CREATE TABLE `sale_return_details_tbl` (
   `id` int(11) NOT NULL,
   `sale_return_id` int(11) NOT NULL,
   `product_id` int(8) NOT NULL,
@@ -1142,7 +1137,7 @@ CREATE TABLE IF NOT EXISTS `sale_return_details_tbl` (
 -- Table structure for table `sale_return_list`
 --
 
-CREATE TABLE IF NOT EXISTS `sale_return_list` (
+CREATE TABLE `sale_return_list` (
   `srl_id` int(11) NOT NULL,
   `total_amount` float NOT NULL,
   `return_adjustment` float NOT NULL,
@@ -1151,14 +1146,21 @@ CREATE TABLE IF NOT EXISTS `sale_return_list` (
   `creator` int(11) NOT NULL,
   `doc` date NOT NULL,
   `dom` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sale_return_list`
 --
 
 INSERT INTO `sale_return_list` (`srl_id`, `total_amount`, `return_adjustment`, `type`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 0, 0, 'cashreturn', 0, 12, '2019-09-23', '2019-09-23');
+(1, 500, 500, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
+(2, 500, 1000, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
+(3, 50, 50, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
+(4, 0, 0, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
+(5, 50, 100, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
+(6, 0, 0, 'cashreturn', 0, 12, '2019-10-01', '2019-10-01'),
+(7, 0, 0, 'cashreturn', 0, 12, '2019-10-02', '2019-10-02'),
+(8, 0, 0, 'cashreturn', 0, 12, '2019-10-02', '2019-10-02');
 
 -- --------------------------------------------------------
 
@@ -1166,7 +1168,7 @@ INSERT INTO `sale_return_list` (`srl_id`, `total_amount`, `return_adjustment`, `
 -- Table structure for table `sale_return_main_product`
 --
 
-CREATE TABLE IF NOT EXISTS `sale_return_main_product` (
+CREATE TABLE `sale_return_main_product` (
   `srmp_id` int(11) NOT NULL,
   `return_list_id` int(11) NOT NULL,
   `inv_id` int(11) NOT NULL,
@@ -1179,14 +1181,18 @@ CREATE TABLE IF NOT EXISTS `sale_return_main_product` (
   `creator` int(11) NOT NULL,
   `doc` date NOT NULL,
   `dom` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sale_return_main_product`
 --
 
 INSERT INTO `sale_return_main_product` (`srmp_id`, `return_list_id`, `inv_id`, `customer`, `produ_id`, `return_quantity`, `exact_price`, `status`, `type`, `creator`, `doc`, `dom`) VALUES
-(1, 1, 0, 0, 2, 1, 1, 0, 'cashreturn', 12, '2019-09-23', '2019-09-23');
+(1, 1, 1, 1, 1, 50, 10, 1, 'cashreturn', 12, '2019-09-30', '2019-09-30'),
+(2, 2, 1, 1, 1, 50, 10, 1, 'cashreturn', 12, '2019-09-30', '2019-09-30'),
+(3, 3, 2, 3, 1, 5, 10, 1, 'cashreturn', 12, '2019-09-30', '2019-09-30'),
+(5, 5, 2, 3, 1, 5, 10, 1, 'cashreturn', 12, '2019-09-30', '2019-09-30'),
+(6, 8, 3, 0, 1, 1, 21, 0, 'cashreturn', 12, '2019-10-02', '2019-10-02');
 
 -- --------------------------------------------------------
 
@@ -1194,7 +1200,7 @@ INSERT INTO `sale_return_main_product` (`srmp_id`, `return_list_id`, `inv_id`, `
 -- Table structure for table `sale_return_receipt_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `sale_return_receipt_tbl` (
+CREATE TABLE `sale_return_receipt_tbl` (
   `sale_return_id` int(8) NOT NULL,
   `shop_id` int(3) NOT NULL,
   `total_return_amount` float NOT NULL,
@@ -1212,7 +1218,7 @@ CREATE TABLE IF NOT EXISTS `sale_return_receipt_tbl` (
 -- Table structure for table `sale_return_warranty_product`
 --
 
-CREATE TABLE IF NOT EXISTS `sale_return_warranty_product` (
+CREATE TABLE `sale_return_warranty_product` (
   `srwp_id` int(11) NOT NULL,
   `srmp_id` int(11) NOT NULL,
   `ip_id` int(11) NOT NULL,
@@ -1234,7 +1240,7 @@ CREATE TABLE IF NOT EXISTS `sale_return_warranty_product` (
 -- Table structure for table `sale_running_info`
 --
 
-CREATE TABLE IF NOT EXISTS `sale_running_info` (
+CREATE TABLE `sale_running_info` (
   `sale_running_id` int(100) NOT NULL,
   `sale_running_mode` varchar(250) NOT NULL,
   `sale_creator` int(100) NOT NULL
@@ -1246,7 +1252,7 @@ CREATE TABLE IF NOT EXISTS `sale_running_info` (
 -- Table structure for table `service_provider_info`
 --
 
-CREATE TABLE IF NOT EXISTS `service_provider_info` (
+CREATE TABLE `service_provider_info` (
   `service_provider_id` int(100) NOT NULL,
   `service_provider_name` varchar(250) NOT NULL,
   `service_provider_type` varchar(250) NOT NULL,
@@ -1265,7 +1271,7 @@ CREATE TABLE IF NOT EXISTS `service_provider_info` (
 -- Table structure for table `shop_setup`
 --
 
-CREATE TABLE IF NOT EXISTS `shop_setup` (
+CREATE TABLE `shop_setup` (
   `shop_id` int(3) NOT NULL,
   `shop_name` char(100) NOT NULL,
   `logo` text NOT NULL,
@@ -1278,14 +1284,14 @@ CREATE TABLE IF NOT EXISTS `shop_setup` (
   `one_taka_equal` int(20) NOT NULL,
   `shop_creator` int(10) NOT NULL,
   `shop_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `shop_setup`
 --
 
 INSERT INTO `shop_setup` (`shop_id`, `shop_name`, `logo`, `invoicelogo`, `shop_type`, `shop_address`, `shop_status`, `shop_contact`, `one_point_equal`, `one_taka_equal`, `shop_creator`, `shop_doc`) VALUES
-(1, 'Demo Dokani', '', 'invoicelogo.jpg', 'Main', 'Sylhet', 1, '123456', 1, 100, 11, '2019-09-23 08:38:59');
+(1, 'Demo Dokani', '', 'cc954b60196773384ed288fe7c9ec23c.jpg', 'Main', 'Sylhet', 1, '123456', 1, 100, 11, '2019-09-26 05:32:33');
 
 -- --------------------------------------------------------
 
@@ -1293,7 +1299,7 @@ INSERT INTO `shop_setup` (`shop_id`, `shop_name`, `logo`, `invoicelogo`, `shop_t
 -- Table structure for table `stock_info`
 --
 
-CREATE TABLE IF NOT EXISTS `stock_info` (
+CREATE TABLE `stock_info` (
   `stock_id` int(100) NOT NULL,
   `product_id` int(8) NOT NULL,
   `shop_id` int(4) NOT NULL,
@@ -1312,7 +1318,7 @@ CREATE TABLE IF NOT EXISTS `stock_info` (
 -- Table structure for table `temp_sale_details`
 --
 
-CREATE TABLE IF NOT EXISTS `temp_sale_details` (
+CREATE TABLE `temp_sale_details` (
   `temp_sale_details_id` int(12) NOT NULL,
   `temp_sale_id` int(10) NOT NULL,
   `product_id` int(5) NOT NULL,
@@ -1330,7 +1336,7 @@ CREATE TABLE IF NOT EXISTS `temp_sale_details` (
   `temp_sale_details_status` tinyint(1) NOT NULL,
   `item_name` varchar(100) NOT NULL,
   `stock` varchar(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1338,7 +1344,7 @@ CREATE TABLE IF NOT EXISTS `temp_sale_details` (
 -- Table structure for table `temp_sale_info`
 --
 
-CREATE TABLE IF NOT EXISTS `temp_sale_info` (
+CREATE TABLE `temp_sale_info` (
   `temp_sale_id` int(10) NOT NULL,
   `temp_sale_shop_id` int(3) NOT NULL,
   `temp_sale_type` varchar(10) NOT NULL,
@@ -1349,14 +1355,14 @@ CREATE TABLE IF NOT EXISTS `temp_sale_info` (
   `return_adjust_amount` float NOT NULL,
   `pre_invoice_status` varchar(20) NOT NULL,
   `temp_sale_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `temp_sale_info`
 --
 
 INSERT INTO `temp_sale_info` (`temp_sale_id`, `temp_sale_shop_id`, `temp_sale_type`, `temp_customer_id`, `temp_sale_creator`, `temp_sale_status`, `return_id`, `return_adjust_amount`, `pre_invoice_status`, `temp_sale_doc`) VALUES
-(19, 1, '', 0, 12, 1, 0, 0, '', '2019-09-23 10:01:40');
+(5, 1, '', 0, 12, 1, 0, 0, '', '2019-10-02 04:14:33');
 
 -- --------------------------------------------------------
 
@@ -1364,7 +1370,7 @@ INSERT INTO `temp_sale_info` (`temp_sale_id`, `temp_sale_shop_id`, `temp_sale_ty
 -- Table structure for table `tmp_cash_sale_return_details_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `tmp_cash_sale_return_details_tbl` (
+CREATE TABLE `tmp_cash_sale_return_details_tbl` (
   `id` int(5) NOT NULL,
   `tmp_cash_sale_return_id` int(1) NOT NULL,
   `invoice_id` int(11) NOT NULL,
@@ -1382,7 +1388,7 @@ CREATE TABLE IF NOT EXISTS `tmp_cash_sale_return_details_tbl` (
 -- Table structure for table `tmp_cash_sale_return_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `tmp_cash_sale_return_tbl` (
+CREATE TABLE `tmp_cash_sale_return_tbl` (
   `tmp_cash_sale_return_id` int(5) NOT NULL,
   `tmp_cash_sale_return_creator` int(5) NOT NULL,
   `status` varchar(8) NOT NULL,
@@ -1396,7 +1402,7 @@ CREATE TABLE IF NOT EXISTS `tmp_cash_sale_return_tbl` (
 -- Table structure for table `tmp_purchase_return_details_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `tmp_purchase_return_details_tbl` (
+CREATE TABLE `tmp_purchase_return_details_tbl` (
   `id` int(5) NOT NULL,
   `tmp_purchase_return_id` int(5) NOT NULL,
   `distributor_id` int(11) NOT NULL,
@@ -1413,7 +1419,7 @@ CREATE TABLE IF NOT EXISTS `tmp_purchase_return_details_tbl` (
 -- Table structure for table `tmp_purchase_return_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `tmp_purchase_return_tbl` (
+CREATE TABLE `tmp_purchase_return_tbl` (
   `tmp_purchase_return_id` int(5) NOT NULL,
   `tmp_purchase_id` int(5) NOT NULL,
   `distributor_id` int(11) NOT NULL,
@@ -1430,7 +1436,7 @@ CREATE TABLE IF NOT EXISTS `tmp_purchase_return_tbl` (
 -- Table structure for table `tmp_sale_return_details_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `tmp_sale_return_details_tbl` (
+CREATE TABLE `tmp_sale_return_details_tbl` (
   `id` int(5) NOT NULL,
   `tmp_sale_return_id` int(5) NOT NULL,
   `product_id` int(5) NOT NULL,
@@ -1447,7 +1453,7 @@ CREATE TABLE IF NOT EXISTS `tmp_sale_return_details_tbl` (
 -- Table structure for table `tmp_sale_return_tbl`
 --
 
-CREATE TABLE IF NOT EXISTS `tmp_sale_return_tbl` (
+CREATE TABLE `tmp_sale_return_tbl` (
   `tmp_sale_return_id` int(5) NOT NULL,
   `tmp_sale_id` int(5) NOT NULL,
   `tmp_sale_return_shop_id` int(5) NOT NULL,
@@ -1455,14 +1461,7 @@ CREATE TABLE IF NOT EXISTS `tmp_sale_return_tbl` (
   `status` varchar(8) NOT NULL,
   `total_amount` float NOT NULL,
   `tmp_sale_return_doc` varchar(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tmp_sale_return_tbl`
---
-
-INSERT INTO `tmp_sale_return_tbl` (`tmp_sale_return_id`, `tmp_sale_id`, `tmp_sale_return_shop_id`, `tmp_sale_return_creator`, `status`, `total_amount`, `tmp_sale_return_doc`) VALUES
-(1, 1, 1, 12, '', 0, '2019-09-23');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1470,7 +1469,7 @@ INSERT INTO `tmp_sale_return_tbl` (`tmp_sale_return_id`, `tmp_sale_id`, `tmp_sal
 -- Table structure for table `transaction_details`
 --
 
-CREATE TABLE IF NOT EXISTS `transaction_details` (
+CREATE TABLE `transaction_details` (
   `transaction_id` int(100) NOT NULL,
   `transaction_receipt_id` int(15) NOT NULL,
   `shop_id` int(3) NOT NULL,
@@ -1489,7 +1488,7 @@ CREATE TABLE IF NOT EXISTS `transaction_details` (
 -- Table structure for table `transaction_info`
 --
 
-CREATE TABLE IF NOT EXISTS `transaction_info` (
+CREATE TABLE `transaction_info` (
   `transaction_id` int(11) NOT NULL,
   `transaction_purpose` varchar(100) NOT NULL,
   `transaction_mode` varchar(100) NOT NULL,
@@ -1503,32 +1502,42 @@ CREATE TABLE IF NOT EXISTS `transaction_info` (
   `creator` int(8) NOT NULL,
   `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transaction_info`
 --
 
 INSERT INTO `transaction_info` (`transaction_id`, `transaction_purpose`, `transaction_mode`, `ledger_id`, `common_id`, `sub_id`, `remarks`, `amount`, `date`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 'purchase', '', 1, 1, 0, '', 100000, '2019-09-22', 'active', 12, '2019-09-22 11:03:47', '0000-00-00 00:00:00'),
-(2, 'purchase_return', '', 1, 0, 0, '', 1, '2019-09-22', 'active', 12, '2019-09-21 18:00:00', '2019-09-21 18:00:00'),
-(3, 'purchase_return', '', 1, 0, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(4, 'purchase', '', 1, 2, 0, '', 10000, '2019-09-23', 'active', 12, '2019-09-23 04:00:48', '0000-00-00 00:00:00'),
-(5, 'purchase', '', 1, 3, 0, '', 10000, '2019-09-23', 'active', 12, '2019-09-23 04:02:00', '0000-00-00 00:00:00'),
-(6, 'payment', 'cheque', 1, 3, 0, '', 10000, '2019-09-23', 'active', 12, '2019-09-23 04:02:00', '0000-00-00 00:00:00'),
-(7, 'sale', '', 1, 1, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(8, 'collection', 'cash', 1, 1, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(9, 'sale', '', 1, 2, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(10, 'collection', 'cash', 1, 2, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(11, 'sale', '', 1, 3, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(12, 'collection', 'cash', 1, 3, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(13, 'sale', '', 3, 4, 0, '', 2, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(14, 'sale', '', 4, 5, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(15, 'sale', '', 6, 6, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(16, 'collection', 'cash', 6, 6, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(17, 'sale', '', 1, 7, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(18, 'collection', 'card', 1, 7, 0, '', 1, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00'),
-(19, 'to_bank', 'cash', 0, 0, 0, '', 10000, '2019-09-23', 'active', 12, '2019-09-22 18:00:00', '2019-09-22 18:00:00');
+(1, 'purchase', '', 1, 1, 0, '', 1000, '2019-09-30', 'active', 12, '2019-09-30 05:06:44', '0000-00-00 00:00:00'),
+(2, 'purchase_return', '', 1, 0, 0, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(3, 'purchase_return', '', 1, 0, 0, '', 11, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(4, 'sale', '', 1, 1, 0, '', 20, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(5, 'collection', 'cash', 1, 1, 0, '', 20, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(6, 'sale_return', 'cash', 1, 0, 1, '', 500, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(7, 'sale_return', 'cash', 1, 0, 2, '', 500, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(8, 'sale', '', 3, 2, 0, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(9, 'collection', 'cash', 3, 2, 0, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(10, 'sale_return', 'cash', 3, 0, 3, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(11, 'sale_return', 'cash', 3, 0, 5, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(12, 'purchase_return', '', 1, 0, 0, '', 1100, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(13, 'purchase_return', '', 1, 0, 0, '', 187.5, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
+(14, 'purchase_return', '', 1, 0, 0, '', 6, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(15, 'purchase_return', '', 1, 0, 0, '', 3.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(16, 'purchase_return', '', 1, 0, 0, '', 6.75, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(17, 'purchase_return', '', 1, 0, 0, '', 312.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(18, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(19, 'purchase_return', '', 0, 0, 0, '', 62.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(20, 'purchase_return', '', 1, 0, 0, '', 156.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(21, 'purchase_return', '', 1, 0, 0, '', 312.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(22, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(23, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(24, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(25, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(26, 'purchase_return', '', 1, 0, 0, '', 62.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(27, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
+(28, 'sale', '', 1, 3, 0, '', 21, '2019-10-02', 'active', 12, '2019-10-01 18:00:00', '2019-10-01 18:00:00'),
+(29, 'collection', 'cash', 1, 3, 0, '', 21, '2019-10-02', 'active', 12, '2019-10-01 18:00:00', '2019-10-01 18:00:00');
 
 -- --------------------------------------------------------
 
@@ -1536,7 +1545,7 @@ INSERT INTO `transaction_info` (`transaction_id`, `transaction_purpose`, `transa
 -- Table structure for table `transaction_receipt_info`
 --
 
-CREATE TABLE IF NOT EXISTS `transaction_receipt_info` (
+CREATE TABLE `transaction_receipt_info` (
   `transaction_receipt_id` int(10) NOT NULL,
   `shop_id` int(3) NOT NULL,
   `transaction_receipt_amount` double NOT NULL,
@@ -1556,7 +1565,7 @@ CREATE TABLE IF NOT EXISTS `transaction_receipt_info` (
 -- Table structure for table `transaction_ref_details`
 --
 
-CREATE TABLE IF NOT EXISTS `transaction_ref_details` (
+CREATE TABLE `transaction_ref_details` (
   `transaction_ref_details_id` int(100) NOT NULL,
   `ref_id` int(100) NOT NULL,
   `transaction_purpose` varchar(250) NOT NULL,
@@ -1575,7 +1584,7 @@ CREATE TABLE IF NOT EXISTS `transaction_ref_details` (
 -- Table structure for table `type_info`
 --
 
-CREATE TABLE IF NOT EXISTS `type_info` (
+CREATE TABLE `type_info` (
   `type_id` int(100) NOT NULL,
   `type_name` varchar(250) NOT NULL,
   `type_type` varchar(250) NOT NULL,
@@ -1590,17 +1599,17 @@ CREATE TABLE IF NOT EXISTS `type_info` (
 -- Table structure for table `unit_info`
 --
 
-CREATE TABLE IF NOT EXISTS `unit_info` (
+CREATE TABLE `unit_info` (
   `unit_id` int(11) NOT NULL,
   `unit_name` varchar(40) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `unit_info`
 --
 
 INSERT INTO `unit_info` (`unit_id`, `unit_name`) VALUES
-(1, 'kg');
+(1, 'sfds');
 
 -- --------------------------------------------------------
 
@@ -1608,7 +1617,7 @@ INSERT INTO `unit_info` (`unit_id`, `unit_name`) VALUES
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
   `id` int(100) NOT NULL,
   `username` varchar(250) COLLATE utf8_bin NOT NULL,
   `password` varchar(250) COLLATE utf8_bin NOT NULL,
@@ -1629,14 +1638,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `password2`, `shop_id`, `user_type`, `user_full_name`, `user_address`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `last_login`, `created`, `modified`) VALUES
-(12, 'admin', '$2a$08$jtgIWmApi2qjF9YbBC6bKeq22ZpWEZrBXtmHUAKmblCTRFS1pfb1a', '1234', 1, 'superadmin', 'Admin', 'Sylhet', '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-09-23 09:50:05', '2017-06-14 15:46:54', '2019-09-23 03:50:05'),
+(12, 'admin', '$2a$08$jtgIWmApi2qjF9YbBC6bKeq22ZpWEZrBXtmHUAKmblCTRFS1pfb1a', '1234', 1, 'superadmin', 'Admin', 'Sylhet', '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-10-03 10:12:52', '2017-06-14 15:46:54', '2019-10-03 04:12:52'),
 (18, 'seller_1', '$2a$08$prLzr7wcRZ.YNn2wkLZa/uzis/TLpfqfdjvgJTSVH.o3R7vAzjkuG', '', 1, 'seller', 'Seller', 'Sylhet', '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-01-05 17:44:14', '2017-05-05 05:24:51', '2019-02-05 06:27:48'),
 (19, 'demo_user', '$2a$08$.WllJN10vRH/2KrVzzb5/eBtY1QeUkX7DInLPk155PW.bIEg4gsw6', '123456', 1, 'customer', 'demo user', '', '12345678945', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-03-18 16:47:21', '0000-00-00 00:00:00', '2019-03-18 10:47:21'),
 (20, 'Admin1', '$2a$08$7lW4OgQeMK7oTtjSy4Y6E.bXUKJXqyNuCH.04gL0xRF9S6ADCWe06', '123456', 1, 'superadmin', 'Admin1', 'ad', '1234', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-03-19 10:59:08', '2019-03-19 10:58:16', '2019-07-27 05:51:26');
@@ -1647,7 +1656,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `password2`, `shop_id`, `user
 -- Table structure for table `user_autologin`
 --
 
-CREATE TABLE IF NOT EXISTS `user_autologin` (
+CREATE TABLE `user_autologin` (
   `key_id` char(32) COLLATE utf8_bin NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `user_agent` varchar(150) COLLATE utf8_bin NOT NULL,
@@ -1661,7 +1670,7 @@ CREATE TABLE IF NOT EXISTS `user_autologin` (
 -- Table structure for table `user_profiles`
 --
 
-CREATE TABLE IF NOT EXISTS `user_profiles` (
+CREATE TABLE `user_profiles` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `country` varchar(250) COLLATE utf8_bin DEFAULT NULL,
@@ -1674,7 +1683,7 @@ CREATE TABLE IF NOT EXISTS `user_profiles` (
 -- Table structure for table `warranty_product_list`
 --
 
-CREATE TABLE IF NOT EXISTS `warranty_product_list` (
+CREATE TABLE `warranty_product_list` (
   `ip_id` int(11) NOT NULL,
   `product_id` int(20) NOT NULL,
   `purchase_receipt_id` int(11) DEFAULT NULL,
@@ -1688,23 +1697,16 @@ CREATE TABLE IF NOT EXISTS `warranty_product_list` (
   `creator` int(8) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `warranty_product_list`
 --
 
 INSERT INTO `warranty_product_list` (`ip_id`, `product_id`, `purchase_receipt_id`, `sl_no`, `invoice_id`, `status`, `purchase_date`, `purchase_price`, `sale_price`, `sale_date`, `creator`, `created_at`, `updated_at`) VALUES
-(2, 1, 1, 11, 0, 1, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:28', '2019-09-23 05:58:36'),
-(3, 1, 1, 111, 1, 0, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:28', '2019-09-23 04:05:05'),
-(4, 1, 1, 1111, 10, 0, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:29', '2019-09-23 05:58:47'),
-(5, 1, 1, 2, 7, 0, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:29', '2019-09-23 04:39:38'),
-(6, 1, 1, 22, 8, 0, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:29', '2019-09-23 05:00:55'),
-(7, 1, 1, 222, 16, 0, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:29', '2019-09-23 07:51:42'),
-(8, 1, 1, 2222, NULL, 1, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:29', '0000-00-00 00:00:00'),
-(9, 1, 1, 3, 6, 0, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:29', '2019-09-23 04:39:51'),
-(10, 1, 1, 33, NULL, 1, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:29', '0000-00-00 00:00:00'),
-(11, 1, 1, 333, NULL, 1, '2019-09-22', 1, NULL, NULL, 12, '2019-09-22 11:04:29', '0000-00-00 00:00:00');
+(7, 2, 1, 12, NULL, 1, '2019-10-01', 1, 1, NULL, 12, '2019-10-01 04:55:03', '2019-10-01 04:55:26'),
+(8, 2, 1, 23, NULL, 1, '2019-10-01', 1, 1, NULL, 12, '2019-10-01 04:55:03', '2019-10-01 04:55:26'),
+(9, 2, 1, 34, NULL, 1, '2019-10-01', 1, 1, NULL, 12, '2019-10-01 04:55:03', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -2171,371 +2173,446 @@ ALTER TABLE `warranty_product_list`
 --
 ALTER TABLE `apps_info`
   MODIFY `appin_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `bank_book`
 --
 ALTER TABLE `bank_book`
-  MODIFY `bb_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `bb_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `bank_book_info`
 --
 ALTER TABLE `bank_book_info`
   MODIFY `bank_book_id` int(20) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `bank_card_info`
 --
 ALTER TABLE `bank_card_info`
-  MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `bank_info`
 --
 ALTER TABLE `bank_info`
-  MODIFY `bank_id` int(50) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `bank_id` int(50) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `barcode_print`
 --
 ALTER TABLE `barcode_print`
   MODIFY `print_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `bulk_stock_info`
 --
 ALTER TABLE `bulk_stock_info`
-  MODIFY `bulk_id` int(30) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `bulk_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `cash_book`
 --
 ALTER TABLE `cash_book`
-  MODIFY `cb_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `cb_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `catagory_info`
 --
 ALTER TABLE `catagory_info`
-  MODIFY `catagory_id` int(15) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `catagory_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `cheque_info`
 --
 ALTER TABLE `cheque_info`
   MODIFY `cheque_id` int(50) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `cheque_reference_info`
 --
 ALTER TABLE `cheque_reference_info`
   MODIFY `cheque_ref_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `commison_info`
 --
 ALTER TABLE `commison_info`
   MODIFY `com_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `company_info`
 --
 ALTER TABLE `company_info`
-  MODIFY `company_id` int(15) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `company_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `customer_info`
 --
 ALTER TABLE `customer_info`
-  MODIFY `customer_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `customer_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- AUTO_INCREMENT for table `daily_statement`
 --
 ALTER TABLE `daily_statement`
   MODIFY `daily_statement_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `damage_product`
 --
 ALTER TABLE `damage_product`
   MODIFY `damage_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `data_retrive_checking`
 --
 ALTER TABLE `data_retrive_checking`
   MODIFY `drc_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `discount_details`
 --
 ALTER TABLE `discount_details`
   MODIFY `discount_details_id` int(12) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `discount_info`
 --
 ALTER TABLE `discount_info`
   MODIFY `discount_info_id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `dishonour_cheque_book`
 --
 ALTER TABLE `dishonour_cheque_book`
   MODIFY `cheque_book_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `distributor_info`
 --
 ALTER TABLE `distributor_info`
-  MODIFY `distributor_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `distributor_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `employee_info`
 --
 ALTER TABLE `employee_info`
   MODIFY `employee_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `employee_salary`
 --
 ALTER TABLE `employee_salary`
   MODIFY `salary_id` int(6) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `employee_salary_log`
 --
 ALTER TABLE `employee_salary_log`
   MODIFY `salary_log_id` int(6) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `exchange_return_details_tbl`
 --
 ALTER TABLE `exchange_return_details_tbl`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `exchange_return_tbl`
 --
 ALTER TABLE `exchange_return_tbl`
   MODIFY `exchange_return_id` int(5) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `expense_info`
 --
 ALTER TABLE `expense_info`
   MODIFY `expense_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `gift_details`
 --
 ALTER TABLE `gift_details`
   MODIFY `gift_id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `group_info`
 --
 ALTER TABLE `group_info`
   MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `image_for_sale_listing`
 --
 ALTER TABLE `image_for_sale_listing`
   MODIFY `ifsl_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `income_info`
 --
 ALTER TABLE `income_info`
   MODIFY `income_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `investment_info`
 --
 ALTER TABLE `investment_info`
   MODIFY `investment_id` int(25) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `investor_info`
 --
 ALTER TABLE `investor_info`
   MODIFY `investor_id` int(25) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `invoice_info`
 --
 ALTER TABLE `invoice_info`
-  MODIFY `invoice_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `invoice_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `loan_details_info`
 --
 ALTER TABLE `loan_details_info`
   MODIFY `loan_details_id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `loan_person_info`
 --
 ALTER TABLE `loan_person_info`
   MODIFY `lp_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `loan_seeker_info`
 --
 ALTER TABLE `loan_seeker_info`
   MODIFY `loan_seeker_id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `login_attempts`
 --
 ALTER TABLE `login_attempts`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `owner_book`
 --
 ALTER TABLE `owner_book`
   MODIFY `ob_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `owner_info`
 --
 ALTER TABLE `owner_info`
   MODIFY `owner_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `point_info`
 --
 ALTER TABLE `point_info`
   MODIFY `point_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `product_info`
 --
 ALTER TABLE `product_info`
-  MODIFY `product_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `product_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `purchase_info`
 --
 ALTER TABLE `purchase_info`
-  MODIFY `purchase_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `purchase_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `purchase_receipt_info`
 --
 ALTER TABLE `purchase_receipt_info`
-  MODIFY `receipt_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `receipt_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `purchase_return_main_product`
 --
 ALTER TABLE `purchase_return_main_product`
-  MODIFY `prmp_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `prmp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
 --
 -- AUTO_INCREMENT for table `purchase_return_warranty_product`
 --
 ALTER TABLE `purchase_return_warranty_product`
-  MODIFY `prwp_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `prwp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
 -- AUTO_INCREMENT for table `sale_details`
 --
 ALTER TABLE `sale_details`
-  MODIFY `sale_details_id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `sale_details_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `sale_price_info`
 --
 ALTER TABLE `sale_price_info`
   MODIFY `sp_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `sale_return_details_tbl`
 --
 ALTER TABLE `sale_return_details_tbl`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `sale_return_list`
 --
 ALTER TABLE `sale_return_list`
-  MODIFY `srl_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `srl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- AUTO_INCREMENT for table `sale_return_main_product`
 --
 ALTER TABLE `sale_return_main_product`
-  MODIFY `srmp_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `srmp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- AUTO_INCREMENT for table `sale_return_receipt_tbl`
 --
 ALTER TABLE `sale_return_receipt_tbl`
   MODIFY `sale_return_id` int(8) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `sale_return_warranty_product`
 --
 ALTER TABLE `sale_return_warranty_product`
   MODIFY `srwp_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `sale_running_info`
 --
 ALTER TABLE `sale_running_info`
   MODIFY `sale_running_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `service_provider_info`
 --
 ALTER TABLE `service_provider_info`
   MODIFY `service_provider_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `shop_setup`
 --
 ALTER TABLE `shop_setup`
-  MODIFY `shop_id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `shop_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `stock_info`
 --
 ALTER TABLE `stock_info`
   MODIFY `stock_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `temp_sale_details`
 --
 ALTER TABLE `temp_sale_details`
-  MODIFY `temp_sale_details_id` int(12) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `temp_sale_details_id` int(12) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `temp_sale_info`
 --
 ALTER TABLE `temp_sale_info`
-  MODIFY `temp_sale_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+  MODIFY `temp_sale_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `tmp_cash_sale_return_details_tbl`
 --
 ALTER TABLE `tmp_cash_sale_return_details_tbl`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `tmp_cash_sale_return_tbl`
 --
 ALTER TABLE `tmp_cash_sale_return_tbl`
   MODIFY `tmp_cash_sale_return_id` int(5) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `tmp_purchase_return_details_tbl`
 --
 ALTER TABLE `tmp_purchase_return_details_tbl`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `tmp_purchase_return_tbl`
 --
 ALTER TABLE `tmp_purchase_return_tbl`
   MODIFY `tmp_purchase_return_id` int(5) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `tmp_sale_return_details_tbl`
 --
 ALTER TABLE `tmp_sale_return_details_tbl`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `tmp_sale_return_tbl`
 --
 ALTER TABLE `tmp_sale_return_tbl`
-  MODIFY `tmp_sale_return_id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `tmp_sale_return_id` int(5) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `transaction_details`
 --
 ALTER TABLE `transaction_details`
   MODIFY `transaction_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `transaction_info`
 --
 ALTER TABLE `transaction_info`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
 --
 -- AUTO_INCREMENT for table `transaction_receipt_info`
 --
 ALTER TABLE `transaction_receipt_info`
   MODIFY `transaction_receipt_id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `transaction_ref_details`
 --
 ALTER TABLE `transaction_ref_details`
   MODIFY `transaction_ref_details_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `type_info`
 --
 ALTER TABLE `type_info`
   MODIFY `type_id` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `unit_info`
 --
 ALTER TABLE `unit_info`
-  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
 --
 -- AUTO_INCREMENT for table `user_profiles`
 --
 ALTER TABLE `user_profiles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `warranty_product_list`
 --
 ALTER TABLE `warranty_product_list`
-  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

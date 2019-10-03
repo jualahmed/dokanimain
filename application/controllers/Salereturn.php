@@ -83,7 +83,6 @@ class Salereturn extends MY_controller
 			if($query->num_rows == 0)
 			{
 				$return_list = array(
-				
 				'total_amount' => 0,
 				'type' => $type_name,
 				'creator' => $creator,
