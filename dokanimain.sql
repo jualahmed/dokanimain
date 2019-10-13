@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 03, 2019 at 10:29 AM
+-- Generation Time: Oct 03, 2019 at 10:36 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -165,14 +165,6 @@ CREATE TABLE `bulk_stock_info` (
   `product_specification` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `bulk_stock_info`
---
-
-INSERT INTO `bulk_stock_info` (`bulk_id`, `stock_amount`, `product_id`, `shop_id`, `bulk_unit_buy_price`, `bulk_unit_sale_price`, `general_unit_sale_price`, `bulk_alarming_stock`, `last_buy_price`, `warranty_period`, `product_specification`) VALUES
-(1, 12, 1, 1, 16.125, 20.625, 20.625, 100, 10, NULL, NULL),
-(2, 3, 2, 1, 1.625, 1.625, 1.625, 100, 3, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -191,19 +183,6 @@ CREATE TABLE `cash_book` (
   `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `cash_book`
---
-
-INSERT INTO `cash_book` (`cb_id`, `transaction_id`, `transaction_type`, `amount`, `date`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 5, 'in', 20, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(2, 6, 'out', 500, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(3, 7, 'out', 500, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(4, 9, 'in', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(5, 10, 'out', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(6, 11, 'out', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(7, 29, 'in', 21, '2019-10-02', 'active', 12, '2019-10-01 18:00:00', '2019-10-01 18:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -218,13 +197,6 @@ CREATE TABLE `catagory_info` (
   `catagory_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `catagory_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `catagory_info`
---
-
-INSERT INTO `catagory_info` (`catagory_id`, `catagory_name`, `catagory_description`, `catagory_creator`, `catagory_doc`, `catagory_dom`) VALUES
-(1, 'aaaaaaa', '', 12, '2019-09-30 05:00:09', '2019-09-30 05:00:09');
 
 -- --------------------------------------------------------
 
@@ -321,13 +293,6 @@ CREATE TABLE `company_info` (
   `company_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `company_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `company_info`
---
-
-INSERT INTO `company_info` (`company_id`, `company_name`, `company_address`, `company_contact_no`, `company_email`, `company_description`, `company_creator`, `company_doc`, `company_dom`) VALUES
-(1, 'aaaaaaaa', 'saf', 123456789, 'sdf', 'sdf', '12', '2019-09-30 05:00:23', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -505,13 +470,6 @@ CREATE TABLE `distributor_info` (
   `distributor_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `distributor_dom` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `distributor_info`
---
-
-INSERT INTO `distributor_info` (`distributor_id`, `distributor_name`, `distributor_address`, `distributor_contact_no`, `distributor_email`, `distributor_description`, `int_balance`, `distributor_creator`, `distributor_doc`, `distributor_dom`) VALUES
-(1, 'sdf', 'fdsf', '123', '13123', '12', 1, '12', '2019-09-30 05:01:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -758,14 +716,6 @@ CREATE TABLE `invoice_info` (
   `current_point` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `invoice_info`
---
-
-INSERT INTO `invoice_info` (`invoice_id`, `shop_id`, `customer_id`, `total_price`, `discount`, `discount_type`, `cash_commision`, `discount_amount`, `delivery_charge`, `grand_total`, `total_paid`, `sale_return_amount`, `return_money`, `payment_mode`, `invoice_creator`, `invoice_doc`, `invoice_dom`, `date_time`, `point_info_id`, `point_discount`, `current_point`) VALUES
-(2, 1, 3, 50, 0, 0, 0, 0, 0, 50, 50, 0, 0, 'cash', '12', '2019-09-30', '2019-09-30', '2019-09-30 07:56:28', 0, 0, 0),
-(3, 1, 1, 21, 0, 0, 0, 0, 0, 21, 21, 0, 0, 'cash', '12', '2019-10-02', '2019-10-02', '2019-10-02 04:14:32', 0, 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -918,14 +868,6 @@ CREATE TABLE `product_info` (
   `product_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `product_info`
---
-
-INSERT INTO `product_info` (`product_id`, `product_name`, `catagory_id`, `company_id`, `group_name`, `product_type`, `product_size`, `product_model`, `unit_id`, `barcode`, `product_description`, `product_specification`, `product_warranty`, `product_creator`, `product_status`, `img`, `product_doc`, `product_dom`) VALUES
-(1, 'Simplecheck', 1, 1, NULL, NULL, '1', '', 1, '407207081', NULL, 1, 0, 12, 1, '', '2019-09-30 05:01:07', '2019-09-30 05:01:07'),
-(2, 'abcdefghijklmn', 1, 1, NULL, NULL, '', '', 1, '1', NULL, 2, 12, 12, 1, '', '2019-09-30 05:12:44', '2019-09-30 05:12:44');
-
 -- --------------------------------------------------------
 
 --
@@ -944,21 +886,6 @@ CREATE TABLE `purchase_info` (
   `purchase_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `purchase_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_info`
---
-
-INSERT INTO `purchase_info` (`purchase_id`, `purchase_receipt_id`, `product_id`, `purchase_quantity`, `unit_buy_price`, `purchase_expire_date`, `purchase_description`, `purchase_creator`, `purchase_doc`, `purchase_dom`) VALUES
-(1, 1, 1, 10, 10, '2019-09-29 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-30 05:07:05', '2019-09-30 05:07:05'),
-(2, 1, 2, 1, 11, '2019-09-29 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-30 05:13:08', '2019-09-30 05:13:08'),
-(3, 1, 1, 15, 15, '2019-09-29 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-30 08:49:48', '2019-09-30 08:49:48'),
-(4, 1, 1, 50, 50, '2019-09-29 18:00:00', 'a test purchase_receipt_id', '12', '2019-09-30 08:53:24', '2019-09-30 08:53:24'),
-(5, 1, 2, 1, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 04:09:34', '2019-10-01 04:09:34'),
-(6, 1, 2, 2, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 04:13:23', '2019-10-01 04:13:23'),
-(7, 1, 2, 2, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 04:34:34', '2019-10-01 04:34:34'),
-(8, 1, 2, 3, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 04:55:03', '2019-10-01 04:55:03'),
-(9, 1, 1, 10, 1, '2019-09-30 18:00:00', 'a test purchase_receipt_id', '12', '2019-10-01 11:12:01', '2019-10-01 11:12:01');
 
 -- --------------------------------------------------------
 
@@ -982,13 +909,6 @@ CREATE TABLE `purchase_receipt_info` (
   `receipt_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `purchase_receipt_info`
---
-
-INSERT INTO `purchase_receipt_info` (`receipt_id`, `distributor_id`, `purchase_amount`, `transport_cost`, `gift_on_purchase`, `final_amount`, `shop_id`, `receipt_status`, `total_paid`, `receipt_date`, `receipt_creator`, `receipt_doc`, `receipt_dom`) VALUES
-(1, 1, 1000, 0, 0, 1000, 1, 'unpaid', 0, '2019-09-30', 12, '2019-09-30 05:06:43', '0000-00-00 00:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -1006,31 +926,6 @@ CREATE TABLE `purchase_return_main_product` (
   `doc` date NOT NULL,
   `dom` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_return_main_product`
---
-
-INSERT INTO `purchase_return_main_product` (`prmp_id`, `distri_id`, `produ_id`, `return_quantity`, `buy_price`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 1, 1, 5, 10, 1, 12, '2019-09-30', '2019-09-30'),
-(2, 1, 2, 1, 11, 1, 12, '2019-09-30', '2019-09-30'),
-(9, 1, 1, 110, 10, 1, 12, '2019-09-30', '2019-09-30'),
-(10, 1, 1, 15, 12.5, 1, 12, '2019-09-30', '2019-09-30'),
-(17, 1, 2, 1, 6, 1, 12, '2019-10-01', '2019-10-01'),
-(19, 1, 2, 1, 3.5, 1, 12, '2019-10-01', '2019-10-01'),
-(23, 1, 2, 3, 2.25, 1, 12, '2019-10-01', '2019-10-01'),
-(28, 1, 1, 10, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(29, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(30, 0, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(31, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(32, 1, 1, 5, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(33, 1, 1, 10, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(34, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(35, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(36, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(37, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(38, 1, 1, 2, 31.25, 1, 12, '2019-10-01', '2019-10-01'),
-(39, 1, 1, 1, 31.25, 1, 12, '2019-10-01', '2019-10-01');
 
 -- --------------------------------------------------------
 
@@ -1050,18 +945,6 @@ CREATE TABLE `purchase_return_warranty_product` (
   `doc` date NOT NULL,
   `dom` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_return_warranty_product`
---
-
-INSERT INTO `purchase_return_warranty_product` (`prwp_id`, `prmp_id`, `ip_id`, `product_id`, `sl_no`, `warranty_period`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 2, 1, 2, '11111', 0, 1, 12, '2019-09-30', '2019-09-30'),
-(2, 17, 2, 2, '2147483647', 0, 1, 12, '2019-10-01', '2019-10-01'),
-(4, 19, 4, 2, '34', 0, 1, 12, '2019-10-01', '2019-10-01'),
-(9, 23, 3, 2, '12', 0, 1, 12, '2019-10-01', '2019-10-01'),
-(10, 23, 5, 2, '546456', 0, 1, 12, '2019-10-01', '2019-10-01'),
-(11, 23, 6, 2, '456456456', 0, 1, 12, '2019-10-01', '2019-10-01');
 
 -- --------------------------------------------------------
 
@@ -1087,14 +970,6 @@ CREATE TABLE `sale_details` (
   `exact_sale_price` double NOT NULL,
   `sale_details_status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sale_details`
---
-
-INSERT INTO `sale_details` (`sale_details_id`, `invoice_id`, `product_id`, `stock_id`, `sale_quantity`, `sale_type`, `discount_info_id`, `discount`, `discount_type`, `unit_sale_price`, `general_sale_price`, `unit_buy_price`, `actual_sale_price`, `product_specification`, `exact_sale_price`, `sale_details_status`) VALUES
-(2, 2, 1, 0, 5, 1, 0, 0, 0, 10, 10, 10, 10, '', 10, 1),
-(3, 3, 1, 0, 1, 1, 0, 0, 0, 21, 21, 16.125, 21, '', 21, 1);
 
 -- --------------------------------------------------------
 
@@ -1148,20 +1023,6 @@ CREATE TABLE `sale_return_list` (
   `dom` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `sale_return_list`
---
-
-INSERT INTO `sale_return_list` (`srl_id`, `total_amount`, `return_adjustment`, `type`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 500, 500, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
-(2, 500, 1000, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
-(3, 50, 50, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
-(4, 0, 0, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
-(5, 50, 100, 'cashreturn', 0, 12, '2019-09-30', '2019-09-30'),
-(6, 0, 0, 'cashreturn', 0, 12, '2019-10-01', '2019-10-01'),
-(7, 0, 0, 'cashreturn', 0, 12, '2019-10-02', '2019-10-02'),
-(8, 0, 0, 'cashreturn', 0, 12, '2019-10-02', '2019-10-02');
-
 -- --------------------------------------------------------
 
 --
@@ -1182,17 +1043,6 @@ CREATE TABLE `sale_return_main_product` (
   `doc` date NOT NULL,
   `dom` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `sale_return_main_product`
---
-
-INSERT INTO `sale_return_main_product` (`srmp_id`, `return_list_id`, `inv_id`, `customer`, `produ_id`, `return_quantity`, `exact_price`, `status`, `type`, `creator`, `doc`, `dom`) VALUES
-(1, 1, 1, 1, 1, 50, 10, 1, 'cashreturn', 12, '2019-09-30', '2019-09-30'),
-(2, 2, 1, 1, 1, 50, 10, 1, 'cashreturn', 12, '2019-09-30', '2019-09-30'),
-(3, 3, 2, 3, 1, 5, 10, 1, 'cashreturn', 12, '2019-09-30', '2019-09-30'),
-(5, 5, 2, 3, 1, 5, 10, 1, 'cashreturn', 12, '2019-09-30', '2019-09-30'),
-(6, 8, 3, 0, 1, 1, 21, 0, 'cashreturn', 12, '2019-10-02', '2019-10-02');
 
 -- --------------------------------------------------------
 
@@ -1357,13 +1207,6 @@ CREATE TABLE `temp_sale_info` (
   `temp_sale_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `temp_sale_info`
---
-
-INSERT INTO `temp_sale_info` (`temp_sale_id`, `temp_sale_shop_id`, `temp_sale_type`, `temp_customer_id`, `temp_sale_creator`, `temp_sale_status`, `return_id`, `return_adjust_amount`, `pre_invoice_status`, `temp_sale_doc`) VALUES
-(5, 1, '', 0, 12, 1, 0, 0, '', '2019-10-02 04:14:33');
-
 -- --------------------------------------------------------
 
 --
@@ -1504,41 +1347,6 @@ CREATE TABLE `transaction_info` (
   `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `transaction_info`
---
-
-INSERT INTO `transaction_info` (`transaction_id`, `transaction_purpose`, `transaction_mode`, `ledger_id`, `common_id`, `sub_id`, `remarks`, `amount`, `date`, `status`, `creator`, `doc`, `dom`) VALUES
-(1, 'purchase', '', 1, 1, 0, '', 1000, '2019-09-30', 'active', 12, '2019-09-30 05:06:44', '0000-00-00 00:00:00'),
-(2, 'purchase_return', '', 1, 0, 0, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(3, 'purchase_return', '', 1, 0, 0, '', 11, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(4, 'sale', '', 1, 1, 0, '', 20, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(5, 'collection', 'cash', 1, 1, 0, '', 20, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(6, 'sale_return', 'cash', 1, 0, 1, '', 500, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(7, 'sale_return', 'cash', 1, 0, 2, '', 500, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(8, 'sale', '', 3, 2, 0, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(9, 'collection', 'cash', 3, 2, 0, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(10, 'sale_return', 'cash', 3, 0, 3, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(11, 'sale_return', 'cash', 3, 0, 5, '', 50, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(12, 'purchase_return', '', 1, 0, 0, '', 1100, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(13, 'purchase_return', '', 1, 0, 0, '', 187.5, '2019-09-30', 'active', 12, '2019-09-29 18:00:00', '2019-09-29 18:00:00'),
-(14, 'purchase_return', '', 1, 0, 0, '', 6, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(15, 'purchase_return', '', 1, 0, 0, '', 3.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(16, 'purchase_return', '', 1, 0, 0, '', 6.75, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(17, 'purchase_return', '', 1, 0, 0, '', 312.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(18, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(19, 'purchase_return', '', 0, 0, 0, '', 62.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(20, 'purchase_return', '', 1, 0, 0, '', 156.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(21, 'purchase_return', '', 1, 0, 0, '', 312.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(22, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(23, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(24, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(25, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(26, 'purchase_return', '', 1, 0, 0, '', 62.5, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(27, 'purchase_return', '', 1, 0, 0, '', 31.25, '2019-10-01', 'active', 12, '2019-09-30 18:00:00', '2019-09-30 18:00:00'),
-(28, 'sale', '', 1, 3, 0, '', 21, '2019-10-02', 'active', 12, '2019-10-01 18:00:00', '2019-10-01 18:00:00'),
-(29, 'collection', 'cash', 1, 3, 0, '', 21, '2019-10-02', 'active', 12, '2019-10-01 18:00:00', '2019-10-01 18:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -1603,13 +1411,6 @@ CREATE TABLE `unit_info` (
   `unit_id` int(11) NOT NULL,
   `unit_name` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `unit_info`
---
-
-INSERT INTO `unit_info` (`unit_id`, `unit_name`) VALUES
-(1, 'sfds');
 
 -- --------------------------------------------------------
 
@@ -1698,15 +1499,6 @@ CREATE TABLE `warranty_product_list` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `warranty_product_list`
---
-
-INSERT INTO `warranty_product_list` (`ip_id`, `product_id`, `purchase_receipt_id`, `sl_no`, `invoice_id`, `status`, `purchase_date`, `purchase_price`, `sale_price`, `sale_date`, `creator`, `created_at`, `updated_at`) VALUES
-(7, 2, 1, 12, NULL, 1, '2019-10-01', 1, 1, NULL, 12, '2019-10-01 04:55:03', '2019-10-01 04:55:26'),
-(8, 2, 1, 23, NULL, 1, '2019-10-01', 1, 1, NULL, 12, '2019-10-01 04:55:03', '2019-10-01 04:55:26'),
-(9, 2, 1, 34, NULL, 1, '2019-10-01', 1, 1, NULL, 12, '2019-10-01 04:55:03', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -2208,19 +2000,19 @@ ALTER TABLE `barcode_print`
 -- AUTO_INCREMENT for table `bulk_stock_info`
 --
 ALTER TABLE `bulk_stock_info`
-  MODIFY `bulk_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `bulk_id` int(30) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cash_book`
 --
 ALTER TABLE `cash_book`
-  MODIFY `cb_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `cb_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `catagory_info`
 --
 ALTER TABLE `catagory_info`
-  MODIFY `catagory_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `catagory_id` int(15) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cheque_info`
@@ -2244,7 +2036,7 @@ ALTER TABLE `commison_info`
 -- AUTO_INCREMENT for table `company_info`
 --
 ALTER TABLE `company_info`
-  MODIFY `company_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `company_id` int(15) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customer_info`
@@ -2292,7 +2084,7 @@ ALTER TABLE `dishonour_cheque_book`
 -- AUTO_INCREMENT for table `distributor_info`
 --
 ALTER TABLE `distributor_info`
-  MODIFY `distributor_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `distributor_id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employee_info`
@@ -2370,7 +2162,7 @@ ALTER TABLE `investor_info`
 -- AUTO_INCREMENT for table `invoice_info`
 --
 ALTER TABLE `invoice_info`
-  MODIFY `invoice_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `invoice_id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `loan_details_info`
@@ -2418,37 +2210,37 @@ ALTER TABLE `point_info`
 -- AUTO_INCREMENT for table `product_info`
 --
 ALTER TABLE `product_info`
-  MODIFY `product_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `product_id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `purchase_info`
 --
 ALTER TABLE `purchase_info`
-  MODIFY `purchase_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `purchase_id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `purchase_receipt_info`
 --
 ALTER TABLE `purchase_receipt_info`
-  MODIFY `receipt_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `receipt_id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `purchase_return_main_product`
 --
 ALTER TABLE `purchase_return_main_product`
-  MODIFY `prmp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `prmp_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `purchase_return_warranty_product`
 --
 ALTER TABLE `purchase_return_warranty_product`
-  MODIFY `prwp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `prwp_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sale_details`
 --
 ALTER TABLE `sale_details`
-  MODIFY `sale_details_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `sale_details_id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sale_price_info`
@@ -2466,13 +2258,13 @@ ALTER TABLE `sale_return_details_tbl`
 -- AUTO_INCREMENT for table `sale_return_list`
 --
 ALTER TABLE `sale_return_list`
-  MODIFY `srl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `srl_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sale_return_main_product`
 --
 ALTER TABLE `sale_return_main_product`
-  MODIFY `srmp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `srmp_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sale_return_receipt_tbl`
@@ -2520,7 +2312,7 @@ ALTER TABLE `temp_sale_details`
 -- AUTO_INCREMENT for table `temp_sale_info`
 --
 ALTER TABLE `temp_sale_info`
-  MODIFY `temp_sale_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `temp_sale_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tmp_cash_sale_return_details_tbl`
@@ -2568,7 +2360,7 @@ ALTER TABLE `transaction_details`
 -- AUTO_INCREMENT for table `transaction_info`
 --
 ALTER TABLE `transaction_info`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaction_receipt_info`
@@ -2592,7 +2384,7 @@ ALTER TABLE `type_info`
 -- AUTO_INCREMENT for table `unit_info`
 --
 ALTER TABLE `unit_info`
-  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -2610,7 +2402,7 @@ ALTER TABLE `user_profiles`
 -- AUTO_INCREMENT for table `warranty_product_list`
 --
 ALTER TABLE `warranty_product_list`
-  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ip_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
