@@ -17,19 +17,19 @@
 					<form action="<?php echo base_url().'shop/shop_setup' ?>" enctype="multipart/form-data" method="POST">
 					  <div class="box-body">
 						<div class="col-xs-4">
-							<input type="text" name="shopName" value="" maxlength="100" class="form-control" id="one" placeholder="Shop Name" autocomplete="off">
+							<input type="text" name="shopName" value="" class="form-control" id="one" placeholder="Shop Name" autocomplete="off">
 						</div>
 						<div class="col-xs-4">
-							<input type="text" name="shopType" value="" class="form-control" maxlength="8" id="two" placeholder="Shop Type" autocomplete="off">
+							<input type="text" name="shopType" value="" class="form-control" id="two" placeholder="Shop Type" autocomplete="off">
 						</div>
 						<div class="col-xs-4">
-							<input type="text" name="shopContact" value="" class="form-control" maxlength="15" id="three" placeholder="Shop Contact" autocomplete="off">
+							<input type="text" name="shopContact" value="" class="form-control"  id="three" placeholder="Shop Contact" autocomplete="off">
 						</div>
 						<br>
 						<br>
 						<br>
 						<div class="col-xs-4">
-							<textarea name="shopAddress" cols="10" rows="1" class="form-control" maxlength="300" id="four" placeholder="Shop Address" autocomplete="off"></textarea>
+							<textarea name="shopAddress" cols="10" rows="1" class="form-control" id="four" placeholder="Shop Address" autocomplete="off"></textarea>
 						</div>
 						<div class="col-xs-4">
 							<div class="col-md-2">Logo</div>
@@ -132,11 +132,11 @@
 				</div>
 				<div class="form-group">
 					<label class="form-control-label">Shop contace</label>
-					<input type="text" name="shop_contact" value="" class="form-control" id="shop_contact" maxlength="15" id="three" placeholder="Shop Contact" autocomplete="off">
+					<input type="text" name="shop_contact" value="" class="form-control" id="shop_contact" id="three" placeholder="Shop Contact" autocomplete="off">
 				</div>
 				<div class="form-group">
 					<label class="form-control-label">Shop Address</label>
-					<input type="text" name="shop_address" value="" class="form-control" maxlength="15" id="shop_address" placeholder="Shop Contact" autocomplete="off">
+					<input type="text" name="shop_address" value="" class="form-control" id="shop_address" placeholder="Shop Contact" autocomplete="off">
 				</div>
 				<div class="form-group">
 					<label class="form-control-label">Shop Logo</label>
