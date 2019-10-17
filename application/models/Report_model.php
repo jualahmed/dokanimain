@@ -623,6 +623,195 @@ class Report_model extends CI_model{
 		return $query;	
 	}	
 
+	public function specific_date_grand_sale_price_calculation( $start, $end )
+	{
+		$query = $this -> db -> select_sum( 'grand_total')
+							 -> from('invoice_info')
+							 //-> where('payment_mode = "cash"')
+							 -> where('invoice_doc >= "'.$start.'"')
+							 -> where('invoice_doc <= "'.$end.'"')
+							// -> where('invoice_info.invoice_id = sale_details.invoice_id' )
+							 //-> where('shop_id', $this->tank_auth->get_shop_id())
+							 -> get();
+		foreach($query -> result() as $result):
+				$total_sale = $result -> grand_total;
+		endforeach;
+		return $total_sale;
+	}
+ 
+ 	public function specific_date_sale_price_calculation( $start, $end )
+	{
+		
+		$query = $this -> db -> select_sum( 'grand_total')
+							 -> from('invoice_info')
+							 -> where('invoice_doc >= "'.$start.'"')
+							 -> where('invoice_doc <= "'.$end.'"')
+							 -> get();
+		foreach($query -> result() as $result):
+				$total_sale = $result -> grand_total;
+		endforeach;
+		return $total_sale;
+
+	}
+
+	public function specific_date_total_cash_calculation( $start, $end )
+	{
+		$query = $this -> db -> select_sum('transaction_amount')
+							 -> from('transaction_details')
+							 -> where('transaction_mode = "cash"')
+							 -> where('transaction_type = "in"')
+							 -> where('transaction_doc >= "'.$start.'"')
+							 -> where('transaction_doc <= "'.$end.'"')
+							 -> get();
+		foreach($query -> result() as $result):
+				$transaction_amount = $result -> transaction_amount;
+		endforeach;
+		return $transaction_amount;
+	}
+
+	public function specific_date_total_cash_out_calculation( $start, $end )
+	{
+		$query = $this -> db -> select_sum('transaction_amount')
+							 -> from('transaction_details')
+							 -> where('transaction_mode = "cash"')
+							 -> where('transaction_type = "out"')
+							 -> where('transaction_doc >= "'.$start.'"')
+							 -> where('transaction_doc <= "'.$end.'"')
+							 -> get();
+		foreach($query -> result() as $result):
+				$transaction_amount = $result -> transaction_amount;
+		endforeach;
+		return $transaction_amount;
+	}
+
+	function specific_date_total_card_collection_calculation( $start, $end )
+	{
+		$query = $this -> db -> select_sum('transaction_amount')
+							 -> from('transaction_ref_details')
+							 -> where('transaction_purpose = "sale"')
+							 -> where('transaction_type = "ToBank"')
+							 -> where('transaction_ref_details_doc >= "'.$start.'"')
+							 -> where('transaction_ref_details_doc <= "'.$end.'"')
+							 -> get();
+		foreach($query -> result() as $result):
+				$transaction_amount = $result -> transaction_amount;
+		endforeach;
+		return $transaction_amount;
+	}
+
+	public function specific_date_card_calculation( $start, $end )
+	{
+		$query = $this -> db -> query("
+										SELECT SUM(temp_one.amount_paid) as total_paid
+										FROM 
+										(
+											SELECT transaction_details.transaction_amount AS amount_paid,transaction_doc,customer_info.customer_id
+											FROM customer_info,transaction_ref_details,transaction_details,invoice_info
+
+											WHERE  transaction_ref_details.transaction_purpose = 'sale'
+											AND transaction_details.transaction_mode = 'card'
+											AND transaction_details.transaction_amount <> 0
+											AND transaction_ref_details.ref_id = invoice_info.invoice_id
+											AND transaction_details.transaction_reference_id = transaction_ref_details.transaction_ref_details_id
+											AND transaction_details.transaction_doc >= '".$start."'
+											AND transaction_details.transaction_doc <= '".$end."'
+										) as temp_one		  		  
+									");
+			foreach($query -> result() as $result):
+					$total_cash = $result -> total_paid;
+			endforeach;
+			return $total_cash;
+	}
+
+	public function specific_date_cash_calculation( $start, $end )
+	{
+		$query = $this -> db -> query("
+										SELECT SUM(temp_one.amount_paid) as total_paid
+										FROM 
+										(
+											SELECT transaction_details.transaction_amount AS amount_paid,transaction_doc,customer_info.customer_id
+											FROM customer_info,transaction_ref_details,transaction_details,invoice_info
+
+											WHERE  transaction_ref_details.transaction_purpose = 'sale'
+											
+											AND transaction_details.transaction_mode = 'cash'
+											AND transaction_details.transaction_amount <> 0
+											AND transaction_ref_details.ref_id = invoice_info.invoice_id
+											AND transaction_details.transaction_reference_id = transaction_ref_details.transaction_ref_details_id
+											AND transaction_details.transaction_doc >= '".$start."'
+											AND transaction_details.transaction_doc <= '".$end."'
+										) as temp_one		  		  
+									");
+			foreach($query -> result() as $result):
+					$total_cash = $result -> total_paid;
+			endforeach;
+			return $total_cash;
+	}
+
+	public function specific_date_total_credit_collection_calculation( $start, $end )
+	{
+		$query = $this -> db -> select_sum('transaction_amount')
+							 -> from('transaction_ref_details')
+							 -> where('transaction_purpose = "credit_collection"')
+							 -> where('transaction_type = "in"')
+							 //-> where('transaction_details.transaction_reference_id = transaction_ref_details.transaction_ref_details_id' )
+							 //-> where('transaction_receipt_id != "0"')
+							 -> where('transaction_ref_details_doc >= "'.$start.'"')
+							 -> where('transaction_ref_details_doc <= "'.$end.'"')
+							// -> where('invoice_info.grand_total > invoice_info.total_paid' )
+							 //-> where('shop_id', $this->tank_auth->get_shop_id())
+							 -> get();
+		foreach($query -> result() as $result):
+				$transaction_amount = $result -> transaction_amount;
+		endforeach;
+		return $transaction_amount;
+	}
+
+	public function specific_date_cash_return_calculation( $start, $end )
+	{
+		
+		$total_return_cash = 0;
+			$query2 = $this -> db -> query("
+										SELECT SUM(temp_one.amount_paid) as total_paid
+										FROM 
+										(
+											SELECT transaction_details.transaction_amount AS amount_paid,transaction_doc,customer_info.customer_id
+											FROM customer_info,transaction_ref_details,transaction_details,invoice_info
+
+											WHERE  transaction_ref_details.transaction_purpose = 'sale_return'
+											
+											AND transaction_details.transaction_mode = 'cash'
+											AND transaction_details.transaction_amount <> 0
+											AND transaction_ref_details.ref_id = invoice_info.invoice_id
+											AND transaction_details.transaction_reference_id = transaction_ref_details.transaction_ref_details_id
+											AND transaction_details.transaction_doc >= '".$start."'
+											AND transaction_details.transaction_doc <= '".$end."'
+										) as temp_one		  		  
+									");
+			if($query2->num_rows() > 0){
+				foreach($query2 -> result() as $result2):
+					$total_return_cash = $result2 -> total_paid;
+				endforeach;
+			}
+			return $total_return_cash;
+	}
+
+	public function specific_date_expense_amount_calculation( $start, $end )
+	{
+		$query = $this -> db -> select_sum( 'expense_amount' )
+							 -> from('expense_info')
+							 -> where('expense_type != "Transport Cost For Purchase"')
+							 -> where('expense_doc >= "'.$start.'"')
+							 -> where('expense_doc <= "'.$end.'"')
+							 -> where('shop_id', $this->tank_auth->get_shop_id())
+							 -> get();
+		foreach($query -> result() as $result):
+				$expense_amount = $result -> expense_amount;
+		endforeach;
+		return $expense_amount;
+	}
+		
+	
 	public function get_delivery_charge_info_by_multi()
 	{
 		$start_date=$this->input->post('start_date');
@@ -641,6 +830,27 @@ class Report_model extends CI_model{
 		$query = $this->db->get();
 		
 		return $query;	
+	}
+
+	public function specific_date_cheque_calculation( $start, $end )
+	{
+		$total_cash = 0;
+		$this->db->select('SUM(transaction_details.transaction_amount) as total_paid');
+		$this->db->from('customer_info,transaction_ref_details, transaction_receipt_info, transaction_details, invoice_info');
+		$this->db->where('transaction_ref_details.transaction_purpose = "sale" ');
+		$this->db->where('transaction_ref_details.ref_id = invoice_info.invoice_id');
+		$this->db->where('transaction_details.transaction_receipt_id = transaction_receipt_info.transaction_receipt_id');
+		$this->db->where('transaction_details.transaction_mode = "cheque" ');
+		$this->db->where('transaction_details.transaction_amount <> 0 ');
+		$this->db->where('transaction_details.transaction_doc >= "'.$start.'" ');
+		$this->db->where('transaction_details.transaction_doc <= "'.$end.'" ');
+		$query = $this->db->get();
+								
+								
+		foreach($query -> result() as $result):
+				$total_cash = $result -> total_paid;
+		endforeach;
+		return $total_cash;
 	} 	
 
 	public function get_return_info_by_multi()

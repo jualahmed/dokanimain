@@ -414,8 +414,6 @@ class Modify extends My_controller{
 	function total_purchase_price()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		$timezone = "Asia/Dhaka";
-		date_default_timezone_set($timezone);
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['alarming_level'] = false;
@@ -441,8 +439,8 @@ class Modify extends My_controller{
 	 **************************************************************/
 	function total_purchase_price_modify_apply()
 	{
-		$receipt_id = $this -> input -> post('receipt_id');
-		if($this -> modify_model -> total_purchase_price_modify_apply())
+		$receipt_id = $this->input->post('receipt_id');
+		if($this->modify_model->total_purchase_price_modify_apply())
 		{
 			redirect('modify/total_purchase_price/'.$receipt_id.'/successful');
 		}

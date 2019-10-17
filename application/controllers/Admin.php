@@ -21,6 +21,35 @@ class admin extends MY_controller{
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
 		$data['user_name'] = $this->tank_auth->get_username();	
+		$data['user_type'] = $this -> tank_auth -> get_usertype();
+		$data['bd_date'] = date ('Y-m-d');
+		$data['previous_date'] = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 30, date("y")));
+	    
+		$data[ 'sale_price_info' ] = $this -> report_model -> specific_date_sale_price_calculation(  $data['bd_date']  ,  $data['bd_date']  );
+		$data[ 'grand_price_info' ] = $this -> report_model -> specific_date_grand_sale_price_calculation(  $data['bd_date']  ,  $data['bd_date']  );
+
+		$data[ 'total_price_info' ] = 0;
+		
+		$data[ 'main_cash_info' ] = $this -> report_model -> specific_date_total_cash_calculation(  $data['bd_date']  ,  $data['bd_date']  );
+		$data[ 'main_cash_out_info' ] = $this -> report_model -> specific_date_total_cash_out_calculation(  $data['bd_date']  ,  $data['bd_date']  );
+		$data[ 'main_credit_receive_info' ] = $this -> report_model -> specific_date_total_credit_collection_calculation(  $data['bd_date']  ,  $data['bd_date']  );
+		$data[ 'main_card_receive_info' ] = $this -> report_model -> specific_date_total_card_collection_calculation(  $data['bd_date']  ,  $data['bd_date']  );
+	
+	    $data[ 'buy_price_info' ] = $this -> report_model -> specific_date_buy_price_calculation(  $data['bd_date']  ,  $data['bd_date'] );
+		
+	    $data[ 'cash_info' ] = $this -> report_model -> specific_date_cash_calculation( $data['bd_date']  ,  $data['bd_date']  );
+		
+		$data[ 'cash_return_info' ] = $this -> report_model -> specific_date_cash_return_calculation( $data['bd_date']  ,  $data['bd_date']  );
+		
+	    $data[ 'purchase_info' ] = $this -> report_model -> specific_date_purchase_amount_calculation( $data['bd_date']  ,  $data['bd_date']  );
+		
+	    $data['expense_info' ] = $this -> report_model -> specific_date_expense_amount_calculation( $data['bd_date']  ,  $data['bd_date']  );
+		
+		$data[ 'card_info' ] = $this -> report_model -> specific_date_card_calculation( $data['bd_date']  ,  $data['bd_date']  );
+		
+		$data[ 'cheque_info' ] = $this -> report_model -> specific_date_cheque_calculation( $data['bd_date']  ,  $data['bd_date']  );
+		$data['total_stock_price'] = $this -> site_model -> total_stock_price();
+		$data['total_stock_quantity'] = $this -> site_model -> total_stock_quantity();
 		$this->__renderview('home', $data);
 	}
 

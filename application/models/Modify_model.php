@@ -1445,106 +1445,39 @@
 			}
 			return true;
 		}
-		/***********************
-		* Cheque Status Modify
-		* 2016-12-24
-		* Ovi
-		************************/
-		/*****************************************************
-		 * Update Total Purchase Price Of a Purchase Receipt *
-		 * ***************************************************/
-		function total_purchase_price_modify_apply()
+
+		public function total_purchase_price_modify_apply()
 		{
-			/******* Modified 27-10-2013 *****/
-			$timezone = "Asia/Dhaka";
-			date_default_timezone_set($timezone);
 			$bd_date = date('Y-m-d');
+			$receipt_id 		= $this->input->post('receipt_id');
+			$new_grand_total 	= $this->input->post('new_grand_total');
+			$new_transport_cost = $this->input->post('new_transport_cost');
+			$purchase_amount 	= $this->input->post('purchase_amount');
+			$gift_on_purchase 	= $this->input->post('gift_on_purchase');
 			
-			$receipt_id 		= $this -> input -> post('receipt_id');
-			$new_grand_total 	= $this -> input -> post('new_grand_total');
-			$new_transport_cost = $this -> input -> post('new_transport_cost');
-			$purchase_amount 	= $this -> input -> post('purchase_amount');
-			$gift_on_purchase 	= $this -> input -> post('gift_on_purchase');
-			
-			$query = $this -> db -> select('*')
-								 -> from('purchase_receipt_info')
-								 -> where('receipt_id',$receipt_id)
-								 -> get();
+			$findalamount=$purchase_amount-$gift_on_purchase;
 
-			foreach($query -> result() as $field):
-				$prev_grand_total = $field -> grand_total;
-				$prev_transport_cost = $field -> transport_cost;
-			endforeach;
-			
-
-			$this -> db -> query("UPDATE purchase_receipt_info
-								  SET purchase_amount = '".$purchase_amount."',grand_total = '".$new_grand_total."',gift_on_purchase = '".$gift_on_purchase."',transport_cost = '".$new_transport_cost."'
-								  WHERE receipt_id = '".$receipt_id."'
-								  AND shop_id = '".$this->tank_auth->get_shop_id()."'
-								");
-			$this -> db -> query("UPDATE expense_info
+			$this->db->query("UPDATE purchase_receipt_info
+								SET purchase_amount = '".$purchase_amount."',final_amount = '".$findalamount."',gift_on_purchase = '".$gift_on_purchase."',transport_cost = '".$new_transport_cost."'WHERE receipt_id = '".$receipt_id."'AND shop_id = '".$this->tank_auth->get_shop_id()."'");
+			$this->db->query("UPDATE expense_info
 								  SET expense_amount = '".$new_transport_cost."'
 								  WHERE service_provider_id = '".$receipt_id."'
 								  AND expense_type = 'Transport Cost For Purchase'
 								  AND shop_id = '".$this->tank_auth->get_shop_id()."'
 								 ");
-			$this -> db -> query("UPDATE transaction_info
-								  SET amount = '".$new_grand_total."'
+			$this->db->query("UPDATE transaction_info
+								  SET amount = '".$findalamount."'
 								  WHERE common_id = '".$receipt_id."'
 								  AND transaction_purpose = 'purchase'
 								 ");
-								  
-			$this -> db -> query("UPDATE transaction_info
+			$this->db->query("UPDATE transaction_info
 								  SET amount = '".$new_transport_cost."'
 								  WHERE common_id = '".$receipt_id."'
 								  AND transaction_purpose = 'expense'
 								 ");
-								  
-								  
-			$all_product = $this -> db -> select('product_id, purchase_quantity,purchase_id, unit_buy_price')
-								 -> from('purchase_info')
-								 -> where('purchase_receipt_id = "'.$receipt_id.'"')
-								 -> get();
-								 
-								 
-			$previous_added_price_ratio = (( $prev_grand_total + $prev_transport_cost ) / $prev_grand_total );
-			$new_add_price_ratio = (( $new_grand_total + $new_transport_cost ) / $new_grand_total );
-			
-			foreach($all_product -> result() as $field):
-				$product_id = $field -> product_id;
-				$unit_buy_price = $field -> unit_buy_price;
-				$purchase_quantity = $field -> purchase_quantity;
-				
-				$specific_purchase_product = $this -> specific_product_details_from_bulk_stock_info( $product_id );
-				foreach($specific_purchase_product -> result() as $bulk_stock_details):
-					$stock_quantity = $bulk_stock_details -> stock_amount;
-					$stock_avg_price = $bulk_stock_details -> bulk_unit_buy_price;
-				endforeach;
-				$previous_incresed_price = $previous_added_price_ratio * $unit_buy_price;
-				$new_increased_price = $new_add_price_ratio * $unit_buy_price;
-				$unit_change = $new_increased_price - $previous_incresed_price;
-				$total_change = $unit_change * $purchase_quantity;
-				$new_total_price = ( $stock_quantity * $stock_avg_price ) + $total_change;
-				
-				if( $stock_quantity )
-					$temp_stock_quantity = $stock_quantity;
-				else $temp_stock_quantity = 1;
-				$new_avg_price =  $new_total_price / $temp_stock_quantity;
-				
-				$data = array(
-				   'bulk_unit_buy_price' => $new_avg_price,
-				   'stock_dom' => $bd_date
-				);
-				$this->db->where('product_id', $product_id);
-				$this->db->where('shop_id', $this -> shop_id);
-				$this->db->update('bulk_stock_info', $data);
-			endforeach;			
-			/***** end modification 27-10-2013 ***/
-								  
-			return true;
-			
 		}
-		
+
+
 		function specific_product_details_from_bulk_stock_info( $product_id )
 		{
 			$query = $this -> db -> select('*')
@@ -1554,6 +1487,7 @@
 								   -> get();
 			 return $query;
 		}
+
 	}
 		
 	
