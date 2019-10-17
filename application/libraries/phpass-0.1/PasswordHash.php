@@ -1,63 +1,22 @@
 <?php
-#
-# Portable PHP password hashing framework.
-#
-# Version 0.1 / genuine.
-#
-# Written by Solar Designer <solar at openwall.com> in 2004-2006 and placed in
-# the public domain.
-#
-# There's absolutely no warranty.
-#
-# The homepage URL for this framework is:
-#
-#	http://www.openwall.com/phpass/
-#
-# Please be sure to update the Version line if you edit this file in any way.
-# It is suggested that you leave the main version number intact, but indicate
-# your project name (after the slash) and add your own revision information.
-#
-# Please do not change the "private" password hashing method implemented in
-# here, thereby making your hashes incompatible.  However, if you must, please
-# change the hash type identifier (the "$P$") to something different.
-#
-# Obviously, since this code is in the public domain, the above are not
-# requirements (there can be none), but merely suggestions.
-#
+
 class PasswordHash {
 	var $itoa64;
-	var $iteration_count_log2;
+	var $iteration_count_log2='0';
 	var $portable_hashes;
 	var $random_state;
 
-	function __constructor($iteration_count_log2, $portable_hashes)
+	
+    public function __construct()
     {
-        $this->itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-        if ($iteration_count_log2 < 4 || $iteration_count_log2 > 31)
-            $iteration_count_log2 = 8;
-        $this->iteration_count_log2 = $iteration_count_log2;
-
-        $this->portable_hashes = $portable_hashes;
-
-        $this->random_state = microtime() . getmypid();
+    	$this->itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $this->iteration_count_log2 =8;
+        $this->random_state = microtime();
+        if (function_exists('getmypid'))
+            $this->random_state .= getmypid();
     }
-    
-	// function PasswordHash($iteration_count_log2, $portable_hashes)
-	// {
-		
-	// 	$this->itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-	// 	if ($iteration_count_log2 < 4 || $iteration_count_log2 > 31)
-	// 		$iteration_count_log2 = 8;
-	// 	$this->iteration_count_log2 = $iteration_count_log2;
-
-	// 	$this->portable_hashes = $portable_hashes;
-
-	// 	$this->random_state = microtime() . getmypid();
-	// }
-
-	function get_random_bytes($count)
+   
+	public function get_random_bytes($count)
 	{
 		$output = '';
 		if (($fh = @fopen('/dev/urandom', 'rb'))) {
@@ -79,7 +38,7 @@ class PasswordHash {
 		return $output;
 	}
 
-	function encode64($input, $count)
+	public function encode64($input, $count)
 	{
 		$output = '';
 		$i = 0;
@@ -102,7 +61,7 @@ class PasswordHash {
 		return $output;
 	}
 
-	function gensalt_private($input)
+	public function gensalt_private($input)
 	{
 		$output = '$P$';
 		$output .= $this->itoa64[min($this->iteration_count_log2 +
@@ -112,7 +71,7 @@ class PasswordHash {
 		return $output;
 	}
 
-	function crypt_private($password, $setting)
+	public function crypt_private($password, $setting)
 	{
 		$output = '*0';
 		if (substr($setting, 0, 2) == $output)
@@ -246,16 +205,17 @@ class PasswordHash {
 		# Returning '*' on error is safe here, but would _not_ be safe
 		# in a crypt(3)-like function used _both_ for generating new
 		# hashes and for validating passwords against existing hashes.
-		return '*';
+		return md5($password);
 	}
 
 	function CheckPassword($password, $stored_hash)
 	{
-		$hash = $this->crypt_private($password, $stored_hash);
-		if ($hash[0] == '*')
-			$hash = crypt($password, $stored_hash);
+		// $hash = $this->crypt_private($password, $stored_hash);
+		// if ($hash[0] == '*')
+		// 	$hash = crypt($password, $stored_hash);
 
-		return $hash == $stored_hash;
+		// return $hash == $stored_hash;
+		return md5($password);
 	}
 }
 
