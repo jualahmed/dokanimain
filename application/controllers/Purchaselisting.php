@@ -46,14 +46,14 @@ class Purchaselisting extends MY_Controller {
 		$creator = $this->tank_auth->get_user_id();
 		// Bulk stoke info table
 		$this->db->where('product_id', $product_id);
-		$alddata=$this->db->get('bulk_stock_info')->result();
+		$alddata=$this->db->get('bulk_stock_info')->row();
 
 		if($alddata){
-			$oldquantity=$alddata['0']->stock_amount;
+			$oldquantity=$alddata->stock_amount;
 			$totalquantity=$quantity+$oldquantity;
-			$unit_buy_price_purchase1=($alddata['0']->bulk_unit_buy_price+$unit_buy_price_purchase)/2;
-			$exclusive_sale_price1=($alddata['0']->bulk_unit_sale_price+$exclusive_sale_price)/2;
-			$general_unit_sale_price1=($alddata['0']->general_unit_sale_price+$general_sale_price)/2;
+			$unit_buy_price_purchase1=(($alddata->bulk_unit_buy_price*$oldquantity)+($unit_buy_price_purchase*$quantity))/($oldquantity+$quantity);
+			$exclusive_sale_price1=(($alddata->bulk_unit_sale_price*$oldquantity)+($exclusive_sale_price*$quantity))/($oldquantity+$quantity);
+			$general_unit_sale_price1=(($alddata->general_unit_sale_price*$oldquantity)+($general_sale_price*$quantity))/($oldquantity+$quantity);
 			$object=[
 				'stock_amount'=>$totalquantity,
 				'bulk_unit_buy_price'=>$unit_buy_price_purchase1,
@@ -61,7 +61,7 @@ class Purchaselisting extends MY_Controller {
 				'general_unit_sale_price'=>$general_unit_sale_price1,
 				'last_buy_price'=>$total_buy_price
 			];
-			$this->db->where('bulk_id', $alddata['0']->bulk_id);
+			$this->db->where('bulk_id', $alddata->bulk_id);
 			$this->db->update('bulk_stock_info',$object);
 		}else{
 			$object=[
@@ -83,6 +83,8 @@ class Purchaselisting extends MY_Controller {
 	        'product_id' => $product_id,
 	        'purchase_quantity' => $quantity,
 	        'unit_buy_price' => $unit_buy_price_purchase,
+	        'bulk_unit_sale_price' => $exclusive_sale_price,
+	        'general_unit_sale_price' => $general_sale_price,
 	        'purchase_expire_date' => $expiredate,
 	        'purchase_description' => "a test purchase_receipt_id",
 	        'purchase_creator' => $creator,
@@ -172,9 +174,19 @@ class Purchaselisting extends MY_Controller {
 
 	public function find()
 	{
-		$Purchaselisting_id=$this->input->post('Purchaselisting_id');
-		$data=$this->Purchaselisting_model->find($Purchaselisting_id);
+		$Purchaselisting_id=$this->input->post('purchaselisting_id');
+		$data=$this->purchaselisting_model->find($Purchaselisting_id);
 		echo json_encode($data);
+	}
+
+	public function editPruchaseProduct()
+	{
+		$purchase_id 			= $this->input->post('purchase_id');
+		$qnty 					= $this->input->post('qty');
+		$unit_buy_price 		= $this->input->post('u_b_p');
+		$bulk_unit_sale_price 		= $this->input->post('g_b_p');
+		$general_unit_sale_price 		= $this->input->post('e_b_p');
+		echo $this->purchaselisting_model->editPruchaseProduct($purchase_id, $qnty, $unit_buy_price,$bulk_unit_sale_price,$general_unit_sale_price);
 	}
 
 	public function update()

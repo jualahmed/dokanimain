@@ -129,8 +129,8 @@ class Product_model extends CI_model{
 		$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id = product_info.product_id');
 		$row=$this->db->get('warranty_product_list')->row();
 		
-	 	$this -> load -> add_package_path(APPPATH.'third_party/Zend_framework');
-		$this -> load -> library('zend_framework');
+	 	$this->load->add_package_path(APPPATH.'third_party/Zend_framework');
+		$this->load->library('zend_framework');
 		$barcode=$row->sl_no;
  		$barcodeOptions = array('text' => $row->sl_no );
 		$bc = Zend_Barcode::factory(
@@ -157,44 +157,73 @@ class Product_model extends CI_model{
 		$this->db->insert('barcode_print',$ins_data2);
 	}
 
+	function sr()
+	{
+		$sr = 'Sales Representative';
+		$this->db->select('*');
+		$this->db->where('designation = "'.$sr.'" ');
+		$query = $this -> db -> get('employee_info_sales');
+		$data[''] =  'Select SR';
+		foreach ($query-> result() as $field){
+			
+				$data[$field -> employee_id_sales] = $field -> employee_name_sales;
+			}
+		return $data;
+	}
+
+	public function delivery()
+	{
+		$delivery = 'Delivery Man';
+		$this->db->select('*');
+		$this->db->where('designation = "'.$delivery.'" ');
+		$query = $this -> db -> get('employee_info_delivery');
+		$data[''] =  'Select Delivery Man';
+		foreach ($query-> result() as $field){
+			
+				$data[$field -> employee_id_delivery] = $field -> employee_name_delivery;
+			}
+		return $data;
+	}
+
+
+
 	public function makeBarcode($product_id,$product_name, $product_specification,$sale_price,$g_price,$all_selected_stock_list)
 	{
-	 	$this->db->select('barcode');
-		$this->db->from('product_info');
-		$this->db->where('product_id',$product_id);
-		$quer=$this->db->get();
-		if($quer->num_rows >0){ 
-			foreach($quer -> result() as $field):
-				$barcode = $field -> barcode;
+		$this->db->where('product_id',1);
+		$quer=$this->db->get('product_info');
+		$barcode='';
+
+		if($quer->num_rows() >0){ 
+			foreach($quer->result() as $field):
+				$barcode = $field->barcode;
 			endforeach;
-			}
-	 	$this -> load -> add_package_path(APPPATH.'third_party/Zend_framework');
-		$this -> load -> library('zend_framework');
-	 
-	 		$barcodeOptions = array('text' => $barcode );
- 
-			$bc = Zend_Barcode::factory(
-				'code39',
-				'image',
-				$barcodeOptions,
-				array()
-			);
-			$res = $bc->draw();
-			$filename = './barcode/'.$barcode;
-			imagepng($res, $filename);
-			$this->session->set_userdata(array(
-				'purchase_quantity' => $this->input->post('Quantity'),
-				'barcode'	=> $barcode,
-				'product_name' => $product_name,
-				'sale_price' => $sale_price,
-			));
-			$ins_data2 = array(
-				'Quantity' => $this->input->post('Quantity'),
-				'barcode'	=> $barcode,
-				'product_name' => $product_name,
-				'sale_price' => $sale_price,
-			);
-			$this->db->insert('barcode_print',$ins_data2);
+		}
+
+	 	$this->load->add_package_path(APPPATH.'third_party/Zend_framework');
+		$this->load->library('zend_framework');
+ 		$barcodeOptions = array('text' => $barcode );
+		$bc = Zend_Barcode::factory(
+			'code39',
+			'image',
+			$barcodeOptions,
+			array()
+		);
+		$res = $bc->draw();
+		$filename = './barcode/'.$barcode;
+		imagepng($res, $filename);
+		$this->session->set_userdata(array(
+			'purchase_quantity' => $this->input->post('Quantity'),
+			'barcode'	=> $barcode,
+			'product_name' => $product_name,
+			'sale_price' => $sale_price,
+		));
+		$ins_data2 = array(
+			'Quantity' => $this->input->post('Quantity'),
+			'barcode'	=> $barcode,
+			'product_name' => $product_name,
+			'sale_price' => $sale_price,
+		);
+		$this->db->insert('barcode_print',$ins_data2);
 	}
 	 
 	public function get_barcode_all_listed_product(){
@@ -1353,80 +1382,7 @@ class Product_model extends CI_model{
 				return true;
 			}
 		}
-		/* Ending: newCreatePurchase() [17-12-16 Arun]*/
-
-
 		
-		/* Starting: removeProductFromPurchase() (Added by Arun)*/
-		public function removeProductFromPurchase($purchase_receipt_id, $product_id)
-		{
-			// getting previous data
-			$query = $this->db->select('purchase_info.*')
-			->where('purchase_receipt_id', $purchase_receipt_id)
-			->where('product_id', $product_id)
-			->limit(1)->get('purchase_info');
-			$tmp = $query->row();
-			
-			$this->db->select('bulk_stock_info.stock_amount,bulk_stock_info.bulk_unit_buy_price');
-			$this->db->where('product_id' , $product_id);
-			$query_2 = $this->db->get('bulk_stock_info');
-			$tmp_2 = $query_2->row();
-			
-			
-			
-			if($tmp->purchase_quantity <= $tmp_2->stock_amount)
-			{
-				// updating stock amount
-				$this->db->set('stock_amount', 'stock_amount - ' . $tmp->purchase_quantity, false);
-				$this->db->where('product_id' , $product_id);
-				$this->db->update('bulk_stock_info');
-				
-				//$total_buy_price 	= round(($tmp->purchase_quantity * $tmp->unit_buy_price), 2);
-				$total_buy_price 	= round(($tmp->purchase_quantity * $tmp->unit_buy_price), 2);
-				
-				
-				// updating buy price
-				
-				$pre_total_price = $tmp_2->stock_amount * $tmp_2->bulk_unit_buy_price;
-				$new_total_purchase_price = $tmp->purchase_quantity * $tmp->unit_buy_price;
-				$new_stock = $tmp_2->stock_amount - $tmp->purchase_quantity;
-				
-				$new_buy_price = $pre_total_price - $new_total_purchase_price;
-				
-				$final_buy_price = $new_buy_price / $new_stock;
-				
-				$data = array(
-				'bulk_unit_buy_price' => $final_buy_price
-				);
-				
-				$this->db->where('product_id' , $product_id);
-				$this->db->update('bulk_stock_info',$data);
-				
-				
-
-				$this->db->select('*')
-				->from('purchase_receipt_info')
-				->where('receipt_id', $purchase_receipt_id)
-				->limit(1);
-				$purchase_receipt_data = $this->db->get()->row();
-
-				$purchase_amt = $purchase_receipt_data->grand_total - $total_buy_price;
-
-				if($purchase_amt >= 0)
-				{
-					$this->db->where('receipt_id', $purchase_receipt_id)
-					->limit(1)
-					->update('purchase_receipt_info', array('grand_total2' => $purchase_amt));
-				} 
-
-				// deleting product form purchase info
-				$this->db->where('purchase_receipt_id', $purchase_receipt_id)
-				->where('product_id', $product_id)
-				->limit(1)->delete('purchase_info');
-			}
-			
-		}
-
 		/* Ending: removeProductFromPurchase() */
 		public function removeProductFromPurchase_warranty($purchase_receipt_id, $ip_id, $unit_buy_price, $product_id)
 		{
@@ -1595,128 +1551,7 @@ class Product_model extends CI_model{
 			}
 			
 		}
-		/* Ending: removeProductFromPurchase() */
-		/* Starting: editPruchaseProduct() (Added by Arun)*/
-		public function	editPruchaseProduct($purchase_receipt_id, $product_id, $qnty, $unit_buy_price, $shop_id)
-		{	
-
-			/*start: updating purchase amount */
-			$this->db->select('*')
-			->from('purchase_receipt_info')
-			->where('receipt_id', $purchase_receipt_id)
-			->limit(1);
-			$purchase_receipt_data = $this->db->get()->row();
-
-			$new_purchase_amt = $purchase_receipt_data->grand_total - ($qnty*$unit_buy_price);
-
-			if($new_purchase_amt >= 0)
-			{
-				$this->db->where('receipt_id', $purchase_receipt_id)
-				->update('purchase_receipt_info', array('grand_total2' => $new_purchase_amt));
-
-			}
-			
-			/*end*/
-
-			$sql =  	$this->db->select('purchase_quantity')
-						->where('purchase_receipt_id', $purchase_receipt_id)
-						->where('product_id', $product_id)
-						->limit(1)
-						->get('purchase_info')->row();
-
-			$prev_qty = $sql->purchase_quantity;
-
-			$pur_rcipt_data = array(
-				'purchase_quantity' => $qnty,
-				'unit_buy_price' 	=> $unit_buy_price
-				);
-			$this->db 	->set($pur_rcipt_data)
-						->where('purchase_receipt_id', $purchase_receipt_id)
-						->where('product_id', $product_id)
-						->update('purchase_info');
-						
-				$query_new= $this->db->select('purchase_quantity,unit_buy_price')
-									->where('product_id', $product_id)
-									->where('purchase_receipt_id!=', $purchase_receipt_id)
-									->get('purchase_info');
-				if($query_new->num_rows() > 0)
-				{
-					
-					$stock_amount = $this->db->select('stock_amount,bulk_unit_buy_price')
-				 						  ->from('bulk_stock_info')
-										  ->where('product_id', $product_id)
-										  ->where('shop_id', $shop_id)
-										  ->get();
-
-					 $amount 		= 0; 
-					 $unit_price 	= 0;
-
-					 if ($stock_amount->num_rows() > 0)
-					 {
-					   foreach ($stock_amount->result_array() as $ps)
-					   {    
-						  $amount 		= $ps['stock_amount'];
-						  $unit_price 	= $ps['bulk_unit_buy_price'];
-					   }
-					 } 
-					
-					
-					$new_purchase_quantity =0;
-					$total_buy_price_new =0;
-					foreach($query_new->result() as $field)
-					{
-						$new_purchase_quantity+= $field->purchase_quantity;
-						$total_buy_price_new+= $field->purchase_quantity * $field->unit_buy_price;
-					}
-					
-					$total_buy_price_new+=$qnty *  $unit_buy_price;
-					$new_purchase_quantity+=$qnty;
-				
-					$update_data = array(
-							'stock_amount' 			=> ($amount-$prev_qty) + $qnty,
-							'bulk_unit_buy_price' 	=> $total_buy_price_new/$new_purchase_quantity,
-							'last_buy_price' 		=> $total_buy_price_new/$new_purchase_quantity
-							);
-					$is_ok 	= $this->db->set($update_data)
-										->where('product_id', $product_id)
-										->where('shop_id', $shop_id)
-										->update('bulk_stock_info');
-					if($is_ok)return true;
-				}
-				else
-				{
-					$stock_amount = $this->db->select('stock_amount,bulk_unit_buy_price')
-				 						  ->from('bulk_stock_info')
-										  ->where('product_id', $product_id)
-										  ->where('shop_id', $shop_id)
-										  ->get();
-
-					 $amount 		= 0; 
-					 $unit_price 	= 0;
-
-					 if ($stock_amount->num_rows() > 0)
-					 {
-					   foreach ($stock_amount->result_array() as $ps)
-					   {    
-						  $amount 		= $ps['stock_amount'];
-						  $unit_price 	= $ps['bulk_unit_buy_price'];
-					   }
-					 } 
-					 
-					$bulk_stock_update_data = array(	
-					'stock_amount' 				=> ($amount-$prev_qty) + $qnty,
-					'bulk_unit_buy_price' 		=> $unit_buy_price,
-					'last_buy_price' 			=> $unit_buy_price
-					);
-					$is_ok 	= $this->db->set($bulk_stock_update_data)
-										->where('product_id', $product_id)
-										->update('bulk_stock_info');
-					if($is_ok)return true;
-				}			
-			
-			return $prev_qty;
-
-		}
+		
 		/* Ending: editPruchaseProduct() */
 		/* Create Purchase */
 		function create_purchase_for_direct_entry($product_id)

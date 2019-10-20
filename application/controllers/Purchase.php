@@ -11,6 +11,7 @@ class Purchase extends MY_Controller
 		$this->load->model('product_model');
 		$this->load->model('distributor_model');
 		$this->load->model('bankcard_model');
+		$this->load->model('purchaselisting_model');
 	}
 
 	public function is_logged_in()
@@ -359,4 +360,18 @@ class Purchase extends MY_Controller
 		}
 		$this->__renderviewprint('Prints/invoices/purchase_return_invoice', $data);
 	}
+
+	public function removeProductFromPurchase()
+	{
+		$purchase_receipt_id  	= $this->input->post('purchase_receipt_id');
+		$product_id 			= $this->input->post('pro_id');
+		$purchase_id 			= $this->input->post('purchase_id');
+		if($purchase_receipt_id != '' && $product_id != '' && is_numeric($purchase_receipt_id) && is_numeric($product_id))
+		{	
+			$data = $this->purchaselisting_model->removeProductFromPurchase($purchase_receipt_id, $product_id,$purchase_id);
+			echo $data;
+		}
+	}
+
+	
 }

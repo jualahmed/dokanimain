@@ -228,7 +228,8 @@
 		        <div class="box">
 		            <div class="box-body">
 			            <div class="wrap">
-							<table class="head">
+			            	<input type="hidden" name="" id="pur_rec_id" :value="selected1.receipt_id">
+							<table class="head" id="purchase_products">
 								<tr style="background-color: #2aabd2; color: white;">
 									<td style="width: 4%;">No</td>
 									<td style="width: 6%;">Pr. ID</td>
@@ -236,7 +237,6 @@
 									<td style="text-align: center; width: 6%;">Qnt.</td>
 									<td style="text-align: center;width: 10%;">U.BP</td>
 									<td style="text-align: center; width: 10%;">TP.</td>
-									<td style="text-align: center; width: 7%;" ><i class="fa fa-fw fa-wrench"></i></td>
 									<td style="text-align: center; width: 7%;" ><i class="fa fa-edit"></i></td>
 								</tr>
 								<tr v-for="(p,index) in purchase_info[0]">
@@ -246,175 +246,92 @@
 									<td style="text-align: center; width: 6%;">{{ p.purchase_quantity }}</td>
 									<td style="text-align: center;width: 10%;">{{ p.unit_buy_price }}</td>
 									<td style="text-align: center;width: 10%;">{{ p.purchase_quantity*p.unit_buy_price }}</td>
-									<td style="text-align: center; width: 7%;" ><i class="fa fa-fw fa-wrench"></i></td>
-									<td style="text-align: center; width: 7%;" ><i class="fa fa-edit"></i></td>
+									<td style="text-align: center;width: 6%;">
+									  <i
+									  	data-toggle="modal" data-target="#edit_modal" 
+									    class="fa fa-fw fa-edit css_for_cursor"
+									    style="color: #db8b0b; "
+									    name="edit"
+									    title="Edit"
+									    :id="p.product_id"
+									    :purchase_id="p.purchase_id"
+									  ></i>
+									  <i
+									    class="fa fa-fw fa-remove css_for_cursor"
+									    style="color: red; "
+									    :id="p.product_id"
+									    :purchase_id="p.purchase_id"
+									    name="remove"
+									    title="Remove"
+									  ></i>
+									</td>
 								</tr>
-								<tr  style="background-color: #2aabd2; color: white;">
-										<td style="width: 4%;"></td>
-										<td style="width: 6%;"></td>
-										<td style="width: 35%;text-align: right;">Total</td>
-										<td style="width: 6%;text-align: center;">{{ totalqty }}</td>
-										<td style="text-align: center; width: 10%;"></td>
-										<td style="text-align: center;width: 10%;">{{ tunit_buy_price }}</td>
-										<td style="text-align: center;width: 10%;"><span id="total_purchase_price_new_final"></span></td>
-										<td style="text-align: center; width: 7%;" ></td>
-									</tr>
+								<tr style="background-color: #2aabd2; color: white;">
+									<td style="width: 4%;"></td>
+									<td style="width: 6%;"></td>
+									<td style="width: 35%;text-align: right;">Total</td>
+									<td style="width: 6%;text-align: center;">{{ totalqty }}</td>
+									<td style="text-align: center; width: 10%;"></td>
+									<td style="text-align: center;width: 10%;">{{ tunit_buy_price }}</td>
+									<td style="text-align: center; width: 7%;" ></td>
+								</tr>	
 							</table>
 						</div>
 		            </div>
 		        </div>
 	      	</div>
 			
-
-	      <!-- Start: Modal -->
-      	   <div class="modal" id="edit_modal">
-	          <div class="modal-dialog" style="width: 60%;">
-	          	<form id="edit_modal_form" class="form-horizontal">
-		            <div class="modal-content">
-		              <div class="modal-header">
-
-		                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                  <span aria-hidden="true">&times;</span></button>
-		                <h4 class="modal-title">
-		                	<span class="glyphicon glyphicon-edit" style="color: #db8b0b;"></span>
-		                	Edit
-		                </h4>
-		              </div>
-		              <div class="modal-body">
-		              	<table class="table table-bordered serial_qnt_price" style="display:none;">
-		              		<tr>
-		              			<td style="vertical-align: middle;">Quantity: </td>
-		              			<td>
-		              				<input type="text" class="form-control" id="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
-		              				<input type="hidden" class="form-control" id="pro_hide" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
-		              				<input type="hidden" class="form-control" id="pro_hide_buy" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
-		              			</td>
-		              		</tr>
-		              		<tr>
-		              			<td style="vertical-align: middle;">Unit Buy Price: </td>
-		              			<td>
-		              				<input type="text" class="form-control" id="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-		              			</td>
-		              		</tr>
-		              	</table>
-						<div class="inner_table_2 pro_serial_input_for_edit" style="display:none;">
-
-							<table class="table table-bordered pro_serial_input_for_edit_new" id="pro_serial_input_for_edit">
-							</table>
-						</div>
-		              </div>
-		              <div class="modal-footer">
-		                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-		                <input type="submit" class="btn btn-info" id="save_change" style="display:none;" value="Save">
-		              </div>
-		            </div>
-		            <!-- modal-content -->
-	            </form>
-	          </div>
-	          <!-- modal-dialog -->
-	       </div>
-	      <!-- End: Modal -->
-
+ 				<div class="modal" id="edit_modal">
+		          <div class="modal-dialog" style="width: 60%;">
+		          	<form id="edit_modal_form" class="form-horizontal">
+			            <div class="modal-content">
+			              <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                  <span aria-hidden="true">&times;</span></button>
+			                <h4 class="modal-title">
+			                	<span class="glyphicon glyphicon-edit" style="color: #db8b0b;"></span>
+			                	Edit
+			                </h4>
+			              </div>
+			              <div class="modal-body">
+			              	<input type="hidden" class="form-control" name="purchase_id" id="purchase_id" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+			              	<table class="table table-bordered serial_qnt_price" >
+			              		<tr>
+			              			<td style="vertical-align: middle;">Quantity: </td>
+			              			<td>
+			              				<input type="text" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+			              			</td>
+			              		</tr>
+			              		<tr>
+			              			<td style="vertical-align: middle;">Unit Buy Price: </td>
+			              			<td>
+			              				<input type="text" class="form-control" id="u_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+			              			</td>
+			              		</tr>
+			              		<tr>
+			              			<td style="vertical-align: middle;"> General Sale Price: </td>
+			              			<td>
+			              				<input type="text" class="form-control" id="g_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+			              			</td>
+			              		</tr>
+			              		<tr>
+			              			<td style="vertical-align: middle;">Exclusive Sale Price: </td>
+			              			<td>
+			              				<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+			              			</td>
+			              		</tr>
+			              	</table>
+			              </div>
+			              <div class="modal-footer">
+			                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			                <input type="submit" class="btn btn-info" id="save_change" value="Save">
+			              </div>
+			            </div>
+			            <!-- modal-content -->
+		            </form>
+		          </div>
+		          <!-- modal-dialog -->
+		        </div>
 	    </div>
     </section>
 </div>
-
-<div class="modal fade" id="show_product_add_modal" >
-	<div class="modal-dialog" style="width:1000px;">
-		<div class="modal-content">
-			<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title"><i class="fa fa-plus"></i> Add New Product</h4>
-			</div>
-			<form id="add_product_form" action="<?php echo base_url(); ?>setup/create_new_product" method="post" autocomplete="off" enctype="multipart/form-data" role="form" class="form-horizontal">
-				<div class="modal-body" style="padding: 0px;">
-					<div class="col-md-12">
-						<div class="box-body">	
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">Catagory Name</label>
-								<div class="col-sm-4">
-									<?php 	
-										echo form_dropdown('catagory_name', $catagory_name, '' ,'class="form-control select2 catagory_name" id="catagory_name" style="width: 100%;"tabindex="-1" aria-hidden="true" required="required"');
-									?>
-								</div>
-								<label for="inputEmail3" class="col-sm-2 control-label">Custom Name</label>
-								<div class="col-sm-4">
-									<?php 
-										echo form_input('customProductName', '','class ="form-control" id="edValue" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onBlur="checkAvailability()" style="text-transform:uppercase" placeholder="Product New Name" autocomplete="off"');
-										
-									?>
-									<span id="user-availability-status1" style="display:none;"></span>
-									<span id="user-availability-status2" style="display:none;"></span>
-									<p><img src="<?php echo base_url();?>assets/assets2/LoaderIcon.gif" id="loaderIcon" style="display:none" /></p>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">Company Name</label>
-								<div class="col-sm-4">
-										<?php 	
-											echo form_dropdown('company_name', $company_name, '' ,'class="form-control select2 company_name" id="company_name" style="width: 100%;"tabindex="-1" aria-hidden="true" required="required"');
-										?>
-								</div>
-								<label for="inputEmail3" class="col-sm-2 control-label">Unit Name</label>
-								<div class="col-sm-4">
-									<?php 	
-										echo form_dropdown('unit_name', $unit_name, '' ,'class="form-control select2 unit_name" style="width: 100%;"tabindex="-1" aria-hidden="true" required="required" id="unit_name"');
-									?>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">Alarm Level</label>
-								<div class="col-sm-4">
-									<?php 	
-										echo form_input('alarming_stock', '0', 'class= "form-control" id="alarming_stock" autocomplete="off"');
-									?>
-								</div>
-								<label for="inputEmail3" class="col-sm-2 control-label">Product Size</label>
-								<div class="col-sm-4">
-									<?php 
-										echo form_input('product_size', '','class ="form-control" placeholder="Product Size" id="product_size" autocomplete="off"');
-									?>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">Product Barcode</label>
-								<div class="col-sm-4">
-									<?php 
-										$data = $last_id['product_id'];
-										echo form_input('barcode', $data, 'class= "form-control barcode_id"  style="text-transform:uppercase" placeholder="'.$data.'" id="barcode_id" autocomplete="off"');	
-									?>
-								</div>
-								<label for="inputEmail3" class="col-sm-2 control-label">Product Model</label>
-								<div class="col-sm-4">
-									<?php 
-										echo form_input('product_model', '','class ="form-control" placeholder="N/A" id="product_model" autocomplete="off"');
-									?>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">Genral / Warranty </label>
-								<div class="col-sm-4">
-									<select class="select2 form-control" name="product_specification" style="width:100%;" required="on" id="prospec">
-										<option value="">Select Type</option>
-										<option value="1" selected>General</option>
-										<option value="2">Warranty</option>
-									</select>
-								</div>
-								<label for="inputEmail3" class="col-sm-2 control-label war_peri">Warranty Period(In Month)</label>
-								<div class="col-sm-4 war_peri">
-									<input type="number" name="product_warranty" class="form-control" placeholder="N/A" id="nine" autocomplete="off">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary">Save Product</button>
-					<button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</form>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div>
-
-
