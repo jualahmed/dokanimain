@@ -17,7 +17,7 @@ class Purchaselisting_model extends CI_Model {
 
 	public function allproductbelogntopurchase($purchase_id='')
 	{	
-		$this->db->select('purchase_info.*,product_info.product_name');
+		$this->db->select('purchase_info.*,product_info.product_name,product_info.product_specification');
 		$this->db->where('purchase_receipt_id', $purchase_id);
 		$this->db->join('product_info', 'product_info.product_id = purchase_info.product_id');
 		return $this->db->get('purchase_info')->result();

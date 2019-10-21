@@ -246,7 +246,7 @@
 									<td style="text-align: center; width: 6%;">{{ p.purchase_quantity }}</td>
 									<td style="text-align: center;width: 10%;">{{ p.unit_buy_price }}</td>
 									<td style="text-align: center;width: 10%;">{{ p.purchase_quantity*p.unit_buy_price }}</td>
-									<td style="text-align: center;width: 6%;">
+									<td style="text-align: center;width: 6%;" v-if="p.product_specification==1">
 									  <i
 									  	data-toggle="modal" data-target="#edit_modal" 
 									    class="fa fa-fw fa-edit css_for_cursor"
