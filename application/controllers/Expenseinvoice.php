@@ -5,6 +5,7 @@ class Expenseinvoice extends CI_controller{
 		parent::__construct();
 		$this->is_logged_in();
 		$data['user_type'] = $this->tank_auth->get_usertype();
+		$this->load->library('numbertoword');
 	}
 
 	public function is_logged_in()
@@ -15,8 +16,7 @@ class Expenseinvoice extends CI_controller{
 		}
 	}
 	
-
-	function generate_invoice( $invoice_id )
+	public function generate_invoice( $invoice_id )
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
 		$data['user_name'] = $this->tank_auth->get_username();
@@ -64,7 +64,7 @@ class Expenseinvoice extends CI_controller{
 			$data['nil_discount'] = ( 100.00 / ( 100.00 - $data['discount'] )); 
 		}
 		else*/ $data['nil_discount'] = 1;
-		$data['number_to_text'] = $this -> expense_invoice_model -> convert_number_to_words( $data['grand_total'] );
+		$data['number_to_text'] = $this->numbertoword->convert_number_to_words( $data['grand_total'] );
 		
 		
 		$data['status'] = '';
@@ -77,8 +77,7 @@ class Expenseinvoice extends CI_controller{
 		//$this -> load -> view('invoice_view', $data);
 	}
 
-
-	function print_invoice()
+	public function print_invoice()
 	{
 		$invoice_id = $this -> uri -> segment(3);
 		//$invoice_id = $this -> input -> post('invoice_id');
@@ -106,18 +105,16 @@ class Expenseinvoice extends CI_controller{
 			$data['nil_discount'] = ( 100.00 / ( 100.00 - $data['discount'] )); 
 		}
 		else*/ $data['nil_discount'] = 1;
-		$data['number_to_text'] = $this -> expense_invoice_model -> convert_number_to_words( $data['grand_total'] );
+		$data['number_to_text'] = $this->numbertoword->convert_number_to_words( $data['grand_total'] );
 		$this -> load -> view('invoice_print_view', $data);
 		//redirect('sale_controller/sale');
 
 	}
 
-	function print_pos_invoice()
+	public function print_pos_invoice()
 	{
 		$this -> tank_auth -> set_current_temp_sale('');
-	
 		$invoice_id = $this -> uri -> segment(3);
-		//$invoice_id = $this -> input -> post('invoice_id');
 		$data['individual_product'] = $this -> expense_invoice_model -> get_individual_details($invoice_id);
 		$data['invoiceSoldProduct'] = $this -> expense_invoice_model -> invoiceSoldProduct($invoice_id);
 		$data['individual_product_stock_id'] = $this -> expense_invoice_model -> get_individual_stock_id( $data['individual_product'] , $invoice_id);
@@ -141,18 +138,12 @@ class Expenseinvoice extends CI_controller{
 		endforeach;
 		$data['discount'] = ( $data['show_discount'] * 100.00 ) / $data['total_price'];
 		$data['invoice_id'] = $invoice_id;
-		/*if($data['discount'] > 0)
-		{
-			$data['nil_discount'] = ( 100.00 / ( 100.00 - $data['discount'] )); 
-		}
-		else*/ $data['nil_discount'] = 1;
-		$data['number_to_text'] = $this -> expense_invoice_model -> convert_number_to_words( $data['grand_total'] );
+		$data['nil_discount'] = 1;
+		$data['number_to_text'] = $this->numbertoword->convert_number_to_words( $data['grand_total'] );
 		$this -> load -> view('pos_invoice_print_view', $data);
-		//redirect('sale_controller/sale');
-
 	}
 	
-	function print_price_quotation()
+	public function print_price_quotation()
 	{
 		$temp_invoice_id = $this -> uri -> segment(3);
 		if($temp_invoice_id == ''){
@@ -167,7 +158,7 @@ class Expenseinvoice extends CI_controller{
 				$data['grand_total'] = $field -> grand_total;
 		endforeach;
 		$data['nil_discount'] = 1;
-		$data['number_to_text'] = $this -> expense_invoice_model -> convert_number_to_words( $data['grand_total'] );
+		$data['number_to_text'] = $this->numbertoword->convert_number_to_words( $data['grand_total'] );
 		
 		$this -> sale_model -> my_sale_cancle($temp_invoice_id);
 		$this -> tank_auth -> set_current_temp_sale('');
@@ -175,7 +166,7 @@ class Expenseinvoice extends CI_controller{
 		$this -> load -> view('price_quotation_view', $data);
 	}
 
-    function type_entry()
+    public function type_entry()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
 		if($this -> access_control_model -> my_access($data['user_type'], 'expense_invoice_controller', 'expense_type_entry'))
@@ -193,5 +184,4 @@ class Expenseinvoice extends CI_controller{
 		}
 		else redirect('account/account/noaccess');
 	 }
-	
 }
