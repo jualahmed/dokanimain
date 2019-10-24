@@ -952,21 +952,15 @@ class Sale_model extends CI_model{
 
     public function getSoldProducts($invoice_id)
     {
-         $data   =  $this->db
-                ->select('product_info.product_name,product_info.product_specification,product_info.unit_id,product_info.product_size,product_info.product_model,product_info.product_warranty, sale_details.sale_quantity, sale_details.general_sale_price,sale_details.actual_sale_price,sale_details.unit_sale_price,sale_details.exact_sale_price,sale_details.unit_buy_price, invoice_info.total_price, invoice_info.delivery_charge,invoice_info.discount_amount, invoice_info.discount_type, invoice_info.total_paid, invoice_info.cash_commision, invoice_info.grand_total, invoice_info.sale_return_amount, invoice_info.return_money, invoice_info.invoice_doc, 
-                    invoice_info.invoice_creator, username,invoice_info.date_time, invoice_info.customer_id, customer_name, customer_address,customer_contact_no, invoice_info.discount_type, invoice_info.discount')
-                ->from('product_info, sale_details, invoice_info,users,customer_info')
-                ->where('product_info.product_id = sale_details.product_id')
-                ->where('invoice_info.invoice_id = sale_details.invoice_id')
-                ->where('invoice_info.customer_id = customer_info.customer_id')
-                ->where('invoice_info.invoice_creator = users.id')
-                ->where('sale_details.invoice_id', $invoice_id)
-                ->where('invoice_info.invoice_id', $invoice_id)
-				->order_by('sale_details.product_id','asc')
-                ->get();
+    	$this->db->join('users', 'users.id = invoice_info.invoice_creator');
+    	$this->db->join('sale_details','sale_details.invoice_id = invoice_info.invoice_id');
+    	$this->db->join('customer_info', 'customer_info.customer_id = invoice_info.customer_id');
+    	$this->db->join('product_info', 'product_info.product_id = sale_details.product_id');
+    	$data   =  $this->db->where('invoice_info.invoice_id', $invoice_id)->get('invoice_info');
         if($data->num_rows() > 0)return $data;
         else return FALSE;
     }
+
 
     public function getSoldProducts_warranty($invoice_id)
     {
