@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('account_model', 'product_model', 'report_model', 'my_variables_model', 'expense_invoice_model', 'access_control_model', 'registration_model', 'site_model', 'sale_model', 'login_model', 'joy_model', 'modify_model', 'setup_model', 'purchase_model','web_model','exchange_model','salereturn_model');
+$autoload['model'] = array('account_model', 'product_model', 'report_model', 'expense_invoice_model', 'access_control_model', 'registration_model', 'site_model', 'sale_model', 'login_model', 'joy_model', 'modify_model', 'setup_model', 'purchase_model','web_model','exchange_model','salereturn_model');
 
 
 
