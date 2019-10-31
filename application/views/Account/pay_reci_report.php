@@ -1,5 +1,6 @@
 <div class="content-wrapper">
 	<br>
+
 	<section>
 		<div class="row">
 			<div class="col-md-7 col-md-offset-3">
@@ -30,11 +31,13 @@
 			</div>
 		</div>
 	</section>
+
 	<div class="modal preload" style="display: none">
 		<div class="center">
 			<img src="<?php echo base_url();?>assets/img/spin.gif" id="loaderIcon"/>
 		</div>
 	</div>
+
 <input type="hidden" id="type_id">
 <input type="hidden" id="start">
 <input type="hidden" id="end">
@@ -44,29 +47,16 @@
 			<div class="box">	 
 				<div class="box-body">
 					<div class="wrap">
-						<table class="head">
-							<tr>
-								<td>No</td>
-								<td><span class="global_name_label"></span></td>
-								<td class="global_contact_label1"><span class="global_contact_label"></span></td>
-								<td class="global_address_label1"><span class="global_address_label"></span></td>
-								<td style="text-align:right;">Total Amount</td>
-								<td style="text-align:right;">Paid Amount</td>
-								<td style="text-align:right;">Return</td>
-								<td style="text-align:right;">Amount</td>
-							</tr>
+						<table class="table">
+							
 						</table>
-						<div class="inner_table">
-							<table class="new_data_2" id="search_data">
-							</table>
-						</div>
-						<table class="head">
+						<table class="table" id="search_data">
+						</table>
+						<table class="table">
 							<tr>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:right;"></td>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:right;"><span class="global_amount_sum" style="color:black;font-weight:bold;"></span></td>
+								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:right;" colspan="7">
+									<span class="global_amount_sum" style="color:black;font-weight:bold;"></span>
+								</td>
 							</tr>
 						</table>
 					</div>

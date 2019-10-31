@@ -1573,54 +1573,48 @@ class Account extends MY_controller{
 		}
 	}
 	
-	function download_data_reci_pay()
+	public function download_data_reci_pay()
 	{
-		date_default_timezone_set("Asia/Dhaka");
 		$bd_date = date('Y-m-d',time());
 		$data['bd_date'] = $bd_date;
-		
 		$temp = array();
 		$temp2 = array();
+		$temp3 = array();
 		$type=$this->uri->segment(3);
 		if($type=='payable')
 		{
 			$this->db->select('*');
-			$this->db->from('distributor_info');
+			$this->db->from('supplier_info');
 			$temppp = $this->db->get();
 			$temp = $temppp->result_array();
-
 			$i=0;
 			foreach($temp as $field)
 			{
-				$distributor_id = $field['distributor_id'];
-				$receipt_purchase_total_amount = $this->account_model->receipt_purchase_total_amount($distributor_id);
+				$supplier_id = $field['supplier_id'];
+				$receipt_purchase_total_amount = $this->account_model->receipt_purchase_total_amount($supplier_id);
 				$temp[$i]['receipt_purchase_total_amount'] = $receipt_purchase_total_amount->result_array();
 				
-				$receipt_payment_total_amount = $this->account_model->receipt_payment_total_amount($distributor_id);
+				$receipt_payment_total_amount = $this->account_model->receipt_payment_total_amount($supplier_id);
 				$temp[$i]['receipt_payment_total_amount'] = $receipt_payment_total_amount->result_array();
 				
-				$receipt_payment_delete_total_amount = $this->account_model->receipt_payment_delete_total_amount($distributor_id);
+				$receipt_payment_delete_total_amount = $this->account_model->receipt_payment_delete_total_amount($supplier_id);
 				$temp[$i]['receipt_payment_delete_total_amount'] = $receipt_payment_delete_total_amount->result_array();
 				
-				$receipt_purchase_return_total_amount = $this->account_model->receipt_purchase_return_total_amount($distributor_id);
+				$receipt_purchase_return_total_amount = $this->account_model->receipt_purchase_return_total_amount($supplier_id);
 				$temp[$i]['receipt_purchase_return_total_amount'] = $receipt_purchase_return_total_amount->result_array();
 				
-				$receipt_balance_total_amount_distributor = $this->account_model->receipt_balance_total_amount_distributor($distributor_id);
-				$temp[$i]['receipt_balance_total_amount'] = $receipt_balance_total_amount_distributor->result_array();
+				$receipt_balance_total_amount_supplier = $this->account_model->receipt_balance_total_amount_supplier($supplier_id);
+				$temp[$i]['receipt_balance_total_amount'] = $receipt_balance_total_amount_supplier->result_array();
 				
 				$i++;
 			}
-			
 		}
 		else if($type=='receive')
 		{
-			
-
 			$this->db->select('*');
 			$this->db->from('customer_info');
 			$temp2 = $this->db->get();
 			$temp2 = $temp2->result_array();
-
 			$i=0;
 			foreach($temp2 as $field)
 			{
@@ -1666,37 +1660,9 @@ class Account extends MY_controller{
 				$i++;
 			}
 		}
-		
 		$data['payable']= $temp;
 		$data['receive']= $temp2;
 		$data['expense_payable']= $temp3;
-
-
-		//$this->load->view('Download/download_data_reci_pay',$data); 
-		$html=$this->load->view('Download/download_data_reci_pay',$data,true); 
-
-		$this->load->library('m_pdf');
-		ob_start();
-		$this->m_pdf->pdf 	= new mPDF('utf-8', 'A4');
-		$this->m_pdf->pdf->SetProtection(array('print'));
-		$this->m_pdf->pdf->SetTitle("Payable Receivable Report");
-		$this->m_pdf->pdf->SetAuthor("Dokani");
-		$this->m_pdf->pdf->SetDisplayMode('fullpage');
-		
-		$this->m_pdf->pdf->AddPageByArray(array(
-		'orientation' => '',
-		'mgl' => '10','mgr' => '10','mgt' => '45','mgb' => '20','mgh' => '10','mgf' => '5',
-		//margin left,margin right,margin top,margin bottom,margin header,margin footer
-		));
-		//$this->m_pdf->pdf->SetColumns(2);
-		$this->m_pdf->pdf->WriteHTML($html);
-		ob_clean();
-		$this->m_pdf->pdf->Output();
-		ob_end_flush();
-		exit;
-		
+		$this->__renderviewprint('Prints/accounts/reci_pay_report.php',$data); 
 	}
-	
 }
-
-?>

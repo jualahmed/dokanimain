@@ -4,13 +4,20 @@ $(document).ready(function()
 	{
 		event.preventDefault();
 		var type = $('#type').val();
+		var output2 = `<tr>
+						<th>No</th>
+						<th><span class="global_name_label"></span></th>
+						<th class="global_contact_label1"><span class="global_contact_label"></span></th>
+						<th class="global_address_label1"><span class="global_address_label"></span></th>
+						<th style="text-align:right;">Total Amount</th>
+						<th style="text-align:right;">Paid Amount</th>
+						<th style="text-align:right;">Return</th>
+						<th style="text-align:right;">Amount</th>
+					</tr>`;
 		if(type=='payable')
 		{
 			var submiturl = base_url+'account/all_pay_report_find';
 			var methods = 'POST';
-			var output = '';
-			var output2 = '';
-			var output3 = '';
 			var all_ledger = '';
 			var total_payable=0;
 			var i=0;
@@ -29,12 +36,13 @@ $(document).ready(function()
 					$(".modal").hide();
 					for(i=0; i<result['payable'].length; i++)
 					{	
+						var distributor_name =result['payable'][i].distributor_name;
+						var distributor_contact =result['payable'][i].distributor_name;
+						var distributor_address =result['payable'][i].distributor_address;
+
 						for(n=0;n<result['payable'][i]['receipt_purchase_total_amount'].length;n++)
 						{
 							var purchase_amount_all =parseFloat(result['payable'][i]['receipt_purchase_total_amount'][n]['total_purchase_amount']).toFixed(2);
-							var distributor_name =result['payable'][i]['receipt_purchase_total_amount'][n]['distributor_name'];
-							var distributor_contact =result['payable'][i]['receipt_purchase_total_amount'][n]['distributor_contact_no'];
-							var distributor_address =result['payable'][i]['receipt_purchase_total_amount'][n]['distributor_address'];
 						}
 						for(m=0;m<result['payable'][i]['receipt_payment_total_amount'].length;m++)
 						{
@@ -133,9 +141,9 @@ $(document).ready(function()
 					}
 					if(output2 != '')
 					{
-						$(".global_name_label").html('Distributor Name'); 
-						$(".global_contact_label").html('Distributor Contact'); 
-						$(".global_address_label").html('Distributor Address');
+						$(".global_name_label").html('distributor Name'); 
+						$(".global_contact_label").html('distributor Contact'); 
+						$(".global_address_label").html('distributor Address');
 						$(".global_contact_label1").show(); 
 						$(".global_address_label1").show(); 
 						$(".global_amount_sum").html('Total : '+total_payable); 						
@@ -145,9 +153,9 @@ $(document).ready(function()
 					}
 					else
 					{
-						$(".global_name_label").html('Distributor Name'); 
-						$(".global_contact_label").html('Distributor Contact'); 
-						$(".global_address_label").html('Distributor Address');
+						$(".global_name_label").html('distributor Name'); 
+						$(".global_contact_label").html('distributor Contact'); 
+						$(".global_address_label").html('distributor Address');
 						$(".global_contact_label1").show(); 
 						$(".global_address_label1").show(); 						
 						$(".global_amount_sum").html('Total : '+total_payable); 	
@@ -167,9 +175,6 @@ $(document).ready(function()
 		{
 			var submiturl = base_url+'account/all_pay_report_find';
 			var methods = 'POST';
-			var output = '';
-			var output2 = '';
-			var output3 = '';
 			var all_ledger = '';
 			var total_receivable=0;
 			var i=0;
@@ -188,15 +193,15 @@ $(document).ready(function()
 					$(".modal").hide();
 					for(i=0; i<result['receive'].length; i++)
 					{	
-				
+						var customer_name =result['receive'][i].customer_name;
+						var customer_contact =result['receive'][i].customer_contact_no;
+						var customer_address =result['receive'][i].customer_address;
 						for(n=0;n<result['receive'][i]['receipt_sale_total_amount'].length;n++)
 						{
 							var sale_amount_all =parseFloat(result['receive'][i]['receipt_sale_total_amount'][n]['total_sale_amount']).toFixed(2);
 							var sale_amount_all2 =parseFloat(result['receive'][i]['receipt_sale_total_amount'][n]['total_sale_amount']).toFixed(2);
 							var customer_id =result['receive'][i]['receipt_sale_total_amount'][n]['customer_id'];
-							var customer_name =result['receive'][i]['receipt_sale_total_amount'][n]['customer_name'];
-							var customer_contact =result['receive'][i]['receipt_sale_total_amount'][n]['customer_contact_no'];
-							var customer_address =result['receive'][i]['receipt_sale_total_amount'][n]['customer_address'];
+						
 						}
 						
 						for(m=0;m<result['receive'][i]['receipt_collection_total_amount'].length;m++)
@@ -302,7 +307,6 @@ $(document).ready(function()
 						$('#infomsg').show();
 						$('#down').show();
 					}
-					
 					var type1 = $('#type').val();
 					$('#type_id').val(type1);
 					$('#cheque_status').val('');
@@ -314,9 +318,6 @@ $(document).ready(function()
 		{
 			var submiturl = base_url+'account/all_pay_report_find';
 			var methods = 'POST';
-			var output = '';
-			var output2 = '';
-			var output3 = '';
 			var all_ledger = '';
 			var total_expense_payable=0;
 			var i=0;
@@ -373,9 +374,6 @@ $(document).ready(function()
 						else{
 							expense_delete_amount_all = expense_delete_amount_all;
 						}
-						//alert(expense_amount_all);
-						//alert(expense_payment_amount_all);
-						//alert(expense_delete_amount_all);
 						var due_amount = parseFloat(expense_amount_all) - parseFloat(expense_payment_amount_all) + parseFloat(expense_delete_amount_all);
 						if(due_amount =='NaN')
 						{
@@ -419,6 +417,7 @@ $(document).ready(function()
 			});
 		};
 	});
+
 	$("#down").click(function(event2) {
 		event2.preventDefault();
 		submiturl = $(this).attr('href');
@@ -432,5 +431,5 @@ $(document).ready(function()
 		
 		window.open(submiturl+'/'+type_id,'_blank');
 	});
-	
+
 });
