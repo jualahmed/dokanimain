@@ -41,7 +41,7 @@ class Sale_model extends CI_model{
         $this->db->join('catagory_info', 'catagory_info.catagory_id = product_info.catagory_id');
         $this->db->join('company_info', 'company_info.company_id = product_info.company_id');
         $this->db->where('warranty_product_list.status',1);
-        $this->db->like('warranty_product_list.sl_no', $serial_no);
+        $this->db->where('warranty_product_list.sl_no', $serial_no);
         return $query = $this->db->get('warranty_product_list')->result();
     }
 

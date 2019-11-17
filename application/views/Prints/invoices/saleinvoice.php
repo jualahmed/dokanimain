@@ -68,7 +68,7 @@
 							$this->db->where('shop_id',$shop_id);
 							$shop_info=$this->db->get('shop_setup')->row();
 						?>
-						<?php if ($shop_info->invoicelogo): ?>
+						<?php if (isset($shop_info->invoicelogo)): ?>
 							<img style="width: 100%;" src="<?php echo base_url();?>assets/img/shop/<?php echo $shop_info->invoicelogo ?>">
 						<?php else: ?>
 							<img style="width: 50%;height: 100px" src="<?php echo base_url();?>assets/img/top_logo2.png">
@@ -127,7 +127,7 @@
 									
 									if(isset($sale_warranty_info[$j]) && $field->product_specification == 2)
 									{
-										echo '<p style="font-family:arial;font-size:12px;font-weight:normal;">'.$field -> product_name.'<span> (Warranty: '.$field->product_warranty.' Month)<span></p>';
+										echo '<p style="font-family:arial;font-size:12px;font-weight:normal;">'.$field->product_name.'<span> (Warranty: '.$field->product_warranty.' Month)<span></p>';
 										foreach($sale_warranty_info[$j]  as $filed2)
 										{
 											echo '<span style="font-family:arial;font-size:12px;font-weight:normal;">'.$filed2->sl_no .'</span>  '.',  ';
@@ -136,34 +136,34 @@
 									}
 									else
 									{
-										echo '<p style="font-family:arial;font-size:12px;font-weight:normal;">'.$field -> product_name.'</p>';
+										echo '<p style="font-family:arial;font-size:12px;font-weight:normal;">'.$field->product_name.'</p>';
 									}
 								?>
 							</td>
 							<td style="width:12%;text-align:center;">
 								<?php 
-									echo $field -> sale_quantity;
+									echo $field->sale_quantity;
 								?>
 							</td>
 							<td style="width:15%;text-align:right;">
 								<?php 
-									echo sprintf('%0.2f',$field-> unit_sale_price);
+									echo sprintf('%0.2f',$field->unit_sale_price);
 											
 								?> 
 							</td>
                             <td style="width:15%;text-align:right;">
 								<?php 
-									echo sprintf('%0.2f',$field-> actual_sale_price);
+									echo sprintf('%0.2f',$field->actual_sale_price);
 									
-									$save1 = $save1 + (round($field-> unit_sale_price, 2)*$field ->sale_quantity - 
-											round($field-> actual_sale_price, 2)*$field ->sale_quantity );
+									$save1 = $save1 + (round($field->unit_sale_price, 2)*$field ->sale_quantity - 
+											round($field->actual_sale_price, 2)*$field ->sale_quantity );
 											
 								?> 
 							</td>
 							
 							<td style="width:15%;text-align:right;border-right:0px solid black;">
 								<?php 
-									echo sprintf('%0.2f',$field -> sale_quantity * $field-> actual_sale_price);
+									echo sprintf('%0.2f',$field->sale_quantity * $field->actual_sale_price);
 								?> 
 							</td>
 						</tr>

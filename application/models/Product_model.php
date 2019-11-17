@@ -189,16 +189,13 @@ class Product_model extends CI_model{
 
 	public function makeBarcode($product_id,$product_name, $product_specification,$sale_price,$g_price,$all_selected_stock_list)
 	{
-		$this->db->where('product_id',1);
-		$quer=$this->db->get('product_info');
-		$barcode='';
-
-		if($quer->num_rows() >0){ 
-			foreach($quer->result() as $field):
-				$barcode = $field->barcode;
-			endforeach;
-		}
-
+		$this->db->where('product_id',$product_id);
+		$quer=$this->db->get('product_info')->row();
+    if ($quer->barcode!='') {
+     $barcode=$quer->barcode;
+    }else{
+      $barcode=$quer->product_id;
+    }
 	 	$this->load->add_package_path(APPPATH.'third_party/Zend_framework');
 		$this->load->library('zend_framework');
  		$barcodeOptions = array('text' => $barcode );

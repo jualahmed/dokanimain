@@ -106,11 +106,11 @@ class Purchaselisting extends MY_Controller {
 			}
 		}
 
-	    $this->db->select('purchase_info.*,product_info.product_name');
+	  $this->db->select('purchase_info.*,product_info.product_name');
 		$this->db->where('purchase_id', $id);
 		$this->db->join('product_info', 'product_info.product_id = purchase_info.product_id');
 		$alldata= $this->db->get('purchase_info')->result();
-	    echo json_encode($alldata);
+	  echo json_encode($alldata);
 	}
 
 	public function allproductbelogntopurchase($purchase_id='')

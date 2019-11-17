@@ -209,8 +209,6 @@ class Account extends MY_controller{
 		$data['customer_info'] = $this->account_model->customer_infoo_new();							
 		$data['service_provider_info'] = $this->account_model->service_provider_info();							
 		$data['owner_info'] = $this->account_model->owner_info();
-		$data['expense_type'] = $this->my_variables_model->fatch_expense_type();
-		$data['employee_info'] = $this->my_variables_model->employee_info();			
 		$data['status'] = '';
 		$data['vuejscomp'] = 'ledgers.js';
 		$this->__renderview('Account/ledgers', $data);
@@ -292,7 +290,6 @@ class Account extends MY_controller{
 			$data['status'] = '';
 			$data['user_name'] = $this->tank_auth->get_username();
 			$data['bank_info'] = $this->bankcard_model->all();
-			$data['employee_info'] = $this->my_variables_model->employee_info();
 			$data['vuejscomp'] = 'expense_payment_receipt.js';
 			$this->__renderview('Account/expense_payment_receipt', $data);
 		}

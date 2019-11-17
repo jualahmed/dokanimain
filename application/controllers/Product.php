@@ -426,7 +426,7 @@ class Product extends MY_Controller {
 	{
 		$data['nil_discount'] = 1;
 		$data['listed_product'] = $this->product_model->get_barcode_all_listed_product();
-		$this->__renderviewprint('Prints/barcode/barcode_print_view', $data);
+		$this->load->view('Prints/barcode/barcode_print_view', $data);
 	}
 
 	public function delete_barcode_print_product($print_id = '')

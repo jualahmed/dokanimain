@@ -126,7 +126,7 @@ class Sale extends MY_Controller
   			{
   				$tmp_data = $this->sale_model->search_warranty_product_and_add_to_my_list($barcode);
   				$info=[];
-  	            if(count($tmp_data)>0){
+  	      if(count($tmp_data)>0){
   					foreach($tmp_data as $tmp){
   						$info[] = array(
   							'id' 						=> $tmp->product_id,

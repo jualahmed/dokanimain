@@ -207,86 +207,78 @@ class Auth extends MY_Controller
 			if($data['user_type'] == 'seller')
 					redirect('Registration/registration');
 			else if (!$this->tank_auth->is_logged_in())
-			{									// logged in
+			{								
 				redirect('');
-
-			/*} elseif ($this->tank_auth->is_logged_in(FALSE)) {						// logged in, not activated
-				redirect('/auth/send_again/');*/
-
 			}
 			else if (!$this->config->item('allow_registration', 'tank_auth')) 
-			{	// registration is off
+			{
 				$this->_show_message($this->lang->line('auth_message_registration_disabled'));
 			} 
-			
 			else 
 			{
 				$use_username = $this->config->item('use_username', 'tank_auth');
 				if ($use_username) {
 					$this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length['.$this->config->item('username_min_length', 'tank_auth').']|max_length['.$this->config->item('username_max_length', 'tank_auth').']|alpha_dash');
 				}
-					$this->form_validation->set_rules('user_full_name', 'Full Name', 'required|xss_clean');
-					$this->form_validation->set_rules('phone_no', 'Phone No', 'required|xss_clean|numeric');
-					$this->form_validation->set_rules('user_address', 'User Address', 'required|xss_clean');
-					$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']|alpha_dash');
-					$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|matches[password]');
-					$this->form_validation->set_rules('user_type', 'User type', 'required|xss_clean');
-					$this->form_validation->set_rules('assigned_shop', 'Assigned Shop', 'required|xss_clean|numeric');
+				$this->form_validation->set_rules('user_full_name', 'Full Name', 'required|xss_clean');
+				$this->form_validation->set_rules('phone_no', 'Phone No', 'required|xss_clean|numeric');
+				$this->form_validation->set_rules('user_address', 'User Address', 'required|xss_clean');
+				$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']|alpha_dash');
+				$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|matches[password]');
+				$this->form_validation->set_rules('user_type', 'User type', 'required|xss_clean');
+				$this->form_validation->set_rules('assigned_shop', 'Assigned Shop', 'required|xss_clean|numeric');
 
 				$captcha_registration	= $this->config->item('captcha_registration', 'tank_auth');
 				$use_recaptcha			= $this->config->item('use_recaptcha', 'tank_auth');
 				if ($captcha_registration) {
 					if ($use_recaptcha) {
 						$this->form_validation->set_rules('recaptcha_response_field', 'Confirmation Code', 'trim|xss_clean|required|callback__check_recaptcha');
-					} else {
+					}else {
 						$this->form_validation->set_rules('captcha', 'Confirmation Code', 'trim|xss_clean|required|callback__check_captcha');
 					}
 				}
-				$data['errors'] = array();
 
+				$data['errors'] = array();
 				$email_activation = $this->config->item('email_activation', 'tank_auth');
 				$data['status'] = '';
 				$data['sale_status'] = '';
-				//echo $this->form_validation->set_value('password');
 				if ($this->form_validation->run()) 
+				{
+					if (!is_null($data = $this->tank_auth->create_user(
+							$use_username ? $this->form_validation->set_value('username') : '',
+							$this->form_validation->set_value('user_full_name'),
+							$this->form_validation->set_value('phone_no'),
+							$this->form_validation->set_value('password'),
+							$this->form_validation->set_value('user_type'),
+							$this->form_validation->set_value('user_address'),
+							$this->form_validation->set_value('assigned_shop'),
+							$email_activation))) 
+							{								
+								$data['status'] = 'successful';
+							}
+					 
+					else 
 					{
-						if (!is_null($data = $this->tank_auth->create_user(
-								$use_username ? $this->form_validation->set_value('username') : '',
-								$this->form_validation->set_value('user_full_name'),
-								$this->form_validation->set_value('phone_no'),
-								$this->form_validation->set_value('password'),
-								$this->form_validation->set_value('user_type'),
-								$this->form_validation->set_value('user_address'),
-								$this->form_validation->set_value('assigned_shop'),
-								$email_activation))) 
-								{									// success
-									$data['status'] = 'successful';
-								}
-						 
-						else 
-						{
-							$data['status'] = 'jkl';
-							$errors = $this->tank_auth->get_error_message();
-							foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
-						}
+						$data['status'] = 'jkl';
+						$errors = $this->tank_auth->get_error_message();
+						foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
 					}
+				}
 			}
-				$data['sale_status'] = '';
-				$data['user_type'] = $this->tank_auth->get_usertype();
-				$data['user_name'] = $this->tank_auth->get_username();
-
-				$data['use_username'] = $use_username;
-				$data['captcha_registration'] = $captcha_registration;
-				$data['use_recaptcha'] = $use_recaptcha;
+			$data['sale_status'] = '';
+			$data['user_type'] = $this->tank_auth->get_usertype();
+			$data['user_name'] = $this->tank_auth->get_username();
+			$data['use_username'] = $use_username;
+			$data['captcha_registration'] = $captcha_registration;
+			$data['use_recaptcha'] = $use_recaptcha;
 				
-				$field = $this->ci->users->shop_information(true, 1);
-				$temp[$field->shop_id]=$field->shop_name.' ( '.$field->shop_address.' )';
-				$data['all_shop'] = $temp;
-				$data['alarming_level'] = $this->report_model->product_under_alarming_level();
-				$this->__renderview('auth/register_form', $data);
-			}
-			else redirect('Registration/registration/noaccess');
+			$field = $this->ci->users->shop_information(true, 1);
+			$temp[$field->shop_id]=$field->shop_name.' ( '.$field->shop_address.' )';
+			$data['all_shop'] = $temp;
+			$this->__renderview('auth/register_form', $data);
 		}
+		else redirect('Registration/registration/noaccess');
+	}
 
 	/**
 	 * Send activation email again, to the same or new email address
@@ -436,10 +428,8 @@ class Auth extends MY_Controller
 	 */
 	function change_password()
 	{
-		$data['alarming_level'] = $this -> report_model -> product_under_alarming_level();
 		$data['sale_status'] = '';
 		
-		$data['alarming_level'] = $this -> report_model -> product_under_alarming_level();
 		if (!$this->tank_auth->is_logged_in()) {								// not logged in or not activated
 			redirect('/auth/login/');
 
@@ -451,17 +441,7 @@ class Auth extends MY_Controller
 			$data['errors'] = array();
 			$data['status']='';
 			if ($this->form_validation->run()) 
-			{								// validation ok
-				/* if ($this->tank_auth->change_password(
-						$this->form_validation->set_value('old_password'),
-						$this->form_validation->set_value('new_password'))) {	// success
-						$data['status']='successful';
-				} 
-				else 
-				{														// fail
-					$errors = $this->tank_auth->get_error_message();
-					foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
-				} */
+			{	
 				$new_password 	= $this -> input -> post('new_password');
 				$hasher = new PasswordHash(
 				$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
@@ -487,9 +467,6 @@ class Auth extends MY_Controller
 			
 			$data['user_type'] = $this->tank_auth->get_usertype();
 			$data['user_name'] = $this->tank_auth->get_username();
-			//$data['main_content'] = 'auth/change_password_form';
-			//$data['tricker_content'] = 'tricker_registration_view';
-			//$this -> load -> view('include/template', $data);
 			$this->__renderview('auth/change_password_form', $data);
 		}
 	

@@ -42,8 +42,7 @@ class Expense extends MY_Controller {
 	      ),
 	      array(
 	        'field' => 'service_provider_id',
-	        'label' => 'service_provider_id',
-	        'rules' => 'required'
+	        'label' => 'service_provider_id'
 	      ),
 	      array(
 	        'field' => 'expense_amount',
@@ -238,8 +237,7 @@ class Expense extends MY_Controller {
 	      ),
 	      array(
 	        'field' => 'service_provider_id',
-	        'label' => 'service_provider_id',
-	        'rules' => 'required'
+	        'label' => 'service_provider_id'
 	      ),
 	      array(
 	        'field' => 'income_amount',

@@ -13,7 +13,7 @@
         $this->db->where('shop_id', $this->tank_auth->get_shop_id());
         $data=$this->db->get('shop_setup')->row();
       ?>
-      <?php if ($data->logo): ?>
+      <?php if (isset($data->logo)): ?>
         <img style="width:90px;" class="schoolLogoHeaderSmall" src="<?php echo base_url().'assets/img/'.$data->logo;?>"/>
       <?php else: ?>
         <img style="width:90px;" src="<?php echo base_url();?>assets/img/top_logo2.png"/>

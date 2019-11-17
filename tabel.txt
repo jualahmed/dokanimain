@@ -1,3 +1,9 @@
 product_info (product_id,category_id,unit_id,status(default 1))
 employee_info
 expense_info(expense_type)
+barcode_print
+purchase_info(bulk_unit_sale_price,general_unit_sale_price)
+invoice_info(delivery_charge)
+sale_return_main_product
+loan_person_info
+shop_setup(logo,invoicelogo)

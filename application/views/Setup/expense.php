@@ -23,7 +23,7 @@
 										</span>
 									</div>
 								</div>
-								<label for="inputEmail3" class="col-sm-2 control-label">Service Provider <span class="text-danger">*</span></label>
+								<label for="inputEmail3" class="col-sm-2 control-label">Service Provider </label>
 								<div class="col-sm-4">
 									<div class="input-group input-group-md">
 										<select name="service_provider_id" id="service_provider_id" class="form-control">
