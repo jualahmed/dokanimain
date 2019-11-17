@@ -66,7 +66,7 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar scrollbar-outer">
+  <aside class="main-sidebar scrollbar-outer" style="max-height: 97vh!important">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->

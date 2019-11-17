@@ -68,7 +68,7 @@
 							   <input type="text" name="company_name" value="" class="form-control company_name" placeholder="Company Name" autocomplete="off">
 							</div>
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">Company Address <span class="text-danger">*</span></label>
+							    <label for="inputEmail3" class="control-label">Company Address </label>
 								<textarea name="company_address" cols="10" rows="1" class="form-control company_address" maxlength="300" placeholder="Company Address"></textarea>
 							</div>
 							<div class="form-group">
@@ -78,12 +78,12 @@
 						</div>
 						<div class="col-md-6 right">
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">Company Email <span class="text-danger">*</span></label>
-								<input type="text" name="company_email" value="" class="form-control company_email" placeholder="Email Address" autocomplete="off">
+							    <label for="inputEmail3" class="control-label">Company Email </label>
+								<input type="email" name="company_email" value="" class="form-control company_email" placeholder="Email Address" autocomplete="off">
 							</div>
 							
 							<div class="form-group">
-								<label for="inputEmail3" class="control-label">Company Description <span class="text-danger">*</span></label>
+								<label for="inputEmail3" class="control-label">Company Description </label>
 								<textarea name="company_description" cols="10" rows="1" class="form-control company_description" maxlength="300" placeholder="Company Description"></textarea>
 							</div>
 						</div>
@@ -128,7 +128,7 @@
 							<input type="text" name="company_name" value="" class="form-control" id="company_name" placeholder="Company Name" autocomplete="off">
 						</div>
 						<div class="form-group">
-							<label class="form-control-label">Company address <span class="text-danger">*</span></label>
+							<label class="form-control-label">Company address </label>
 							<textarea name="company_address" cols="10" rows="2" class="form-control" id="company_address" maxlength="100" placeholder="Company address"></textarea>
 						</div>
 						<div class="form-group">
@@ -138,11 +138,11 @@
 					</div>
 					<div class="col-md-6 right">
 						<div class="form-group">
-							<label class="form-control-label">Company Email <span class="text-danger">*</span></label>
+							<label class="form-control-label">Company Email </label>
 							<input type="text" name="company_email" value="" class="form-control" id="company_email" placeholder="Company Email" autocomplete="off">
 						</div>
 						<div class="form-group">
-							<label class="form-control-label">Company Description <span class="text-danger">*</span></label>
+							<label class="form-control-label">Company Description </label>
 							<input type="text" name="company_description" value="" class="form-control" id="company_description" placeholder="Company Description" autocomplete="off">
 						</div>
 					</div>

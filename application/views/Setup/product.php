@@ -141,7 +141,6 @@
 				<th>Product Name</th>
 				<th>Product Category</th>
 				<th>Product Company</th>
-				<th>Product Status</th>
 				<th align="center">Action</th>
 			</tr>
 			<tr v-for="(r,index) in result[0]" align="left"> 
@@ -153,7 +152,6 @@
 				<td>{{ r.product_name }}</td>
 				<td>{{ r.catagory_name }}</td>
 				<td>{{ r.company_name }}</td>
-				<td><span v-if="r.product_status==1">Active</span><span class="text-danger" v-else>Inactive</span></td>
 				<td>
 					<a data-toggle="modal" :product_id="r.product_id" data-target="#EditModel" class="btn edit btn-sm btn-success" ><i class="fa fa-edit"></i> Edit</a>
 					<a onclick="return confirm('Are you sure your want to delete?')" :href="base_url+'product/destroy/'+r.product_id" class="btn btn-sm btn-danger" >
@@ -236,17 +234,17 @@
 								<input type="text" name="company_contact_no" value="" class="form-control company_contact_no" placeholder="Contact Number" autocomplete="off">
 							</div>
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">Email <span class="text-danger">*</span></label>
+							    <label for="inputEmail3" class="control-label">Email</label>
 								<input type="text" name="company_email" value="" class="form-control company_email text-lowercase" placeholder="Email Address" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-6 right">
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">Address <span class="text-danger">*</span></label>
+							    <label for="inputEmail3" class="control-label">Address</label>
 								<textarea name="company_address" cols="10" rows="1" class="form-control company_address" maxlength="300" placeholder="Company Address"></textarea>
 							</div>
 							<div class="form-group">
-								<label for="inputEmail3" class="control-label">Description <span class="text-danger">*</span></label>
+								<label for="inputEmail3" class="control-label">Description </label>
 								<textarea name="company_description" cols="10" rows="1" class="form-control company_description" maxlength="300" placeholder="Company Description"></textarea>
 							</div>
 						</div>
@@ -333,9 +331,6 @@
 									<option value="<?php echo $value->catagory_id ?>"><?php echo $value->catagory_name ?></option>
 								<?php } ?>
 							</select>
-							<span class="input-group-btn">
-								<button type="button" data-toggle="modal" data-target="#cModel" class="btn btn-block btn-primary add_unit"> <i class="fa fa-plus"></i></button>
-							</span>
 						</div>
 					</div>
 
@@ -353,7 +348,7 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-6">
-						<label for="inputEmail3" class="control-label">Company Name</label>
+						<label class="control-label">Company Name</label>
 						<div class="input-group input-group-md">
 							<select name="company_id" id="" class="form-control abccompany_id company_id">
 								<option value="">Select a Company</option>
@@ -361,31 +356,25 @@
 									<option value="<?php echo $value->company_id ?>"><?php echo $value->company_name ?></option>
 								<?php } ?>
 							</select>
-							<span class="input-group-btn">
-								<button type="button" data-toggle="modal" data-target="#comModel" class="btn btn-block btn-primary add_unit"> <i class="fa fa-plus"></i></button>
-							</span>
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<label for="inputEmail3" class="control-label">Unit Name</label>
-						<div class="input-group input-group-md">
+						<label class="control-label">Unit Name</label>
+						<div class="input-group">
 							<select name="unit_id" id="" class="form-control abcunit_id unit_id">
 								<option value="">Select a Unit</option>
 								<?php foreach ($unit as $value) { ?>
 									<option value="<?php echo $value->unit_id ?>"><?php echo $value->unit_name ?></option>
 								<?php } ?>
 							</select>
-							<span class="input-group-btn">
-								<button type="button" data-toggle="modal" data-target="#unitModel" class="btn btn-block btn-primary add_unit"> <i class="fa fa-plus"></i></button>
-							</span>
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<label for="inputEmail3" class="control-label">Product Size</label>
+						<label class="control-label">Product Size</label>
 						<input type="text" name="product_size" value="" class="form-control abcproduct_size product_size" placeholder="Product Size" id="product_size" autocomplete="off">
 					</div>
 					<div class="col-sm-6">
-						<label for="inputEmail3" class="ccontrol-label">Product Image</label>
+						<label class="ccontrol-label">Product Image</label>
 						<div class="">
 							<input type="file" placeholder="Profile" id="file1" name="file" class="form-control">
 						</div>
@@ -394,8 +383,8 @@
 			</div> 
 	        <div class="modal-footer">
 	        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        	<button type="submit" class="btn btn-success btn-sm" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
-				<button type="reset" id="reset_btn" class="btn btn-warning btn-sm"><i class="fa fa-fw fa-refresh"></i> Reset</button>
+	        	<button type="submit" class="btn btn-success " name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
+				<button type="reset" id="reset_btn" class="btn btn-warning "><i class="fa fa-fw fa-refresh"></i> Reset</button>
 	        </div>
 	    </div>
 	  </div>

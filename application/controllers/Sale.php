@@ -54,7 +54,7 @@ class Sale extends MY_Controller
 
     public function search_product2()
     {
-		$data['current_sale'] 	= '';        
+		  $data['current_sale'] 	= '';        
         $data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
         if($data['current_sale'] != ''){
             $key=$this->input->post('term');
@@ -112,66 +112,66 @@ class Sale extends MY_Controller
 
     public function search_product_warranty()
     {
-		$data['current_sale'] 	= '';        
-        $data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
-        if($data['current_sale'] != '')
-        {
-            $key			= $this->input->post('term');
-            $flag 			= (int)$this->input->post('flag');
+		  $data['current_sale'] 	= '';        
+      $data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
+      if($data['current_sale'] != '')
+      {
+        $key			= $this->input->post('term');
+        $flag 			= (int)$this->input->post('flag');
 
-			$barcode 	= $this->input->post('barcode');
-			$num_of_tr 	= $this->input->post('num_of_tr');
+  			$barcode 	= $this->input->post('barcode');
+  			$num_of_tr 	= $this->input->post('num_of_tr');
 
-			if($barcode != '')
-			{
-				$tmp_data = $this->sale_model->search_warranty_product_and_add_to_my_list($barcode);
-				$info=[];
-	            if(count($tmp_data)>0){
-					foreach($tmp_data as $tmp){
-						$info[] = array(
-							'id' 						=> $tmp->product_id,
-							'product_name' 				=> $tmp->product_name,
-							'company_name' 				=> $tmp->company_name,
-							'catagory_name' 			=> $tmp->catagory_name,
-							'product_size' 				=> $tmp->product_size,
-							'product_model' 			=> $tmp->product_model,
-							'mrp_price' 				=> $tmp->bulk_unit_sale_price,
-							'sale_price' 				=> $tmp->general_unit_sale_price,
-							'buy_price' 				=> $tmp->bulk_unit_buy_price,
-							'stock' 					=> 1,
-							'generic_name' 				=> $tmp->group_name,
-							'barcode' 					=> $tmp->barcode,
-							'product_specification' 	=> $tmp->product_specification,
-							'temp_pro_data' 			=> $tmp->product_id . '<>' . 
-														   $tmp->product_name . '<>' .
-														   $tmp->stock_amount . '<>' .
-														   $tmp->general_unit_sale_price . '<>' .
-														   $tmp->bulk_unit_buy_price . '<>' .
-														   $tmp->product_specification
-						);
-					}
-				}
-				else{
-					$info[] = array(
-						'id' 						=> '',
-						'product_name' 				=> 'Nothing Found',
-						'company_name' 				=> '',
-						'catagory_name' 			=> '',
-						'product_size' 				=> '',
-						'product_model' 			=> '',
-						'mrp_price' 				=> '',
-						'sale_price' 				=> '',
-						'buy_price' 				=> '',
-						'stock' 					=> '',
-						'generic_name' 				=> '',
-						'barcode' 					=> '',
-						'product_specification' 	=> '',
-						'temp_pro_data' 			=> ''
-					);
-				}
-				echo json_encode($info);
-			}
-		}
+  			if($barcode != '')
+  			{
+  				$tmp_data = $this->sale_model->search_warranty_product_and_add_to_my_list($barcode);
+  				$info=[];
+  	            if(count($tmp_data)>0){
+  					foreach($tmp_data as $tmp){
+  						$info[] = array(
+  							'id' 						=> $tmp->product_id,
+  							'product_name' 				=> $tmp->product_name,
+  							'company_name' 				=> $tmp->company_name,
+  							'catagory_name' 			=> $tmp->catagory_name,
+  							'product_size' 				=> $tmp->product_size,
+  							'product_model' 			=> $tmp->product_model,
+  							'mrp_price' 				=> $tmp->bulk_unit_sale_price,
+  							'sale_price' 				=> $tmp->general_unit_sale_price,
+  							'buy_price' 				=> $tmp->bulk_unit_buy_price,
+  							'stock' 					=> 1,
+  							'generic_name' 				=> $tmp->group_name,
+  							'barcode' 					=> $tmp->barcode,
+  							'product_specification' 	=> $tmp->product_specification,
+  							'temp_pro_data' 			=> $tmp->product_id . '<>' . 
+  														   $tmp->product_name . '<>' .
+  														   $tmp->stock_amount . '<>' .
+  														   $tmp->general_unit_sale_price . '<>' .
+  														   $tmp->bulk_unit_buy_price . '<>' .
+  														   $tmp->product_specification
+  						);
+  					}
+  				}
+  				else{
+  					$info[] = array(
+  						'id' 						=> '',
+  						'product_name' 				=> 'Nothing Found',
+  						'company_name' 				=> '',
+  						'catagory_name' 			=> '',
+  						'product_size' 				=> '',
+  						'product_model' 			=> '',
+  						'mrp_price' 				=> '',
+  						'sale_price' 				=> '',
+  						'buy_price' 				=> '',
+  						'stock' 					=> '',
+  						'generic_name' 				=> '',
+  						'barcode' 					=> '',
+  						'product_specification' 	=> '',
+  						'temp_pro_data' 			=> ''
+  					);
+  				}
+  				echo json_encode($info);
+  			}
+	    }
     }
 
 	public function new_sale()

@@ -466,6 +466,15 @@ class Product extends MY_Controller {
 		echo json_encode('Success');
 	}
 
+  public function updateolddata()
+  {
+    $cat=$this->db->get('company_info')->result();
+    foreach ($cat as $value) {
+      $this->db->set('company_id',$value->company_id);
+      $this->db->where('company_id', $value->company_name);
+      $this->db->update('product_info');
+    }
+  }
 }
 
 /* End of file Product.php */

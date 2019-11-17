@@ -16,7 +16,7 @@ var vuejsapp = new Vue({
 	        type: 'GET',
 	        dataType: 'json',
 	        success: function(result) {
-                   self.rowperpage=result.rowperpage;
+                self.rowperpage=result.rowperpage;
                 self.total=result.total;
 	         	self.result.push(result.result);
 	         	self.pagination.push(result.pagination);
@@ -33,7 +33,7 @@ var vuejsapp = new Vue({
 		        type: 'GET',
 		        dataType: 'json',
 		        success: function(result) {
-                         self.rowperpage=result.rowperpage;
+                    self.rowperpage=result.rowperpage;
                     self.row=result.row;
 		         	self.result.push(result.result);
 		         	self.pagination.push(result.pagination);
@@ -81,7 +81,6 @@ $(document).ready(function () {
                             data: form_data,
                             type: 'post',
                             success: function (response) {
-                                console.log(response)
                                 $('#msg').html(response); // display success response from the server
                             },
                             error: function (response) {
@@ -91,8 +90,7 @@ $(document).ready(function () {
                         $('#product')[0].reset();
                         swal({
                             title: "Good job!",
-                            text: "Product Created successfully!",
-                            icon: "success",
+                            text: "Product Created successfully!"
                         });
                         setTimeout(() => {
                             location.reload();
@@ -250,7 +248,6 @@ $(document).ready(function () {
             data: data,
             dataType: 'json',
             success: function (res){
-                console.log(res)
                 if (res.check == true) {
                     $('#productedit').find('div.form-group').removeClass('has-error').removeClass('has-success');
                     $('#productedit').find('p.text-danger').remove();
@@ -268,7 +265,6 @@ $(document).ready(function () {
                             data: form_data,
                             type: 'post',
                             success: function (response) {
-                                console.log(response)
                                 $('#msg').html(response); // display success response from the server
                             },
                             error: function (response) {
@@ -278,8 +274,7 @@ $(document).ready(function () {
                         $('#product')[0].reset();
                         swal({
                             title: "Good job!",
-                            text: "Product Update successfully!",
-                            icon: "success",
+                            text: "Product Update successfully!"
                         });
                         setTimeout(() => {
                             location.reload();

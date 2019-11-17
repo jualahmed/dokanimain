@@ -72,8 +72,7 @@ $(document).ready(function () {
                         $('#company')[0].reset();
                         swal({
                             title: "Good job!",
-                            text: "Company Created successfully!",
-                            icon: "success",
+                            text: "Company Created successfully!"
                         });
                         setTimeout(() => {
                             location.reload();
@@ -132,8 +131,7 @@ $(document).ready(function () {
                         $('#companyupdate').modal('hide');
                         swal({
                             title: "Good job!",
-                            text: "Company updated successfully!",
-                            icon: "success",
+                            text: "Company updated successfully!"
                         });
                         setTimeout(() => {
                             location.reload();

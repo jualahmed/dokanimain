@@ -41,37 +41,24 @@ class Customer extends MY_Controller {
 	      array(
 	        'field' => 'customer_name',
 	        'label' => 'customer_name',
-	        'rules' => 'required|is_unique[customer_info.customer_name]'
-	      ),
-	      array(
-	        'field' => 'customer_type',
-	        'label' => 'customer_type',
-	        'rules' => 'required|is_unique[customer_info.customer_type]'
+	        'rules' => 'required'
 	      ),
 	      array(
 	        'field' => 'customer_contact_no',
 	        'label' => 'customer_contact_no',
-	        'rules' => 'required|integer'
-	      ),
-	      array(
-	        'field' => 'customer_mode',
-	        'label' => 'customer_mode',
-	        'rules' => 'required|integer'
+	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'customer_email',
-	        'label' => 'customer_email',
-	        'rules' => 'required'
+	        'label' => 'customer_email'
 	      ),
 	      array(
 	        'field' => 'customer_address',
-	        'label' => 'customer_address',
-	        'rules' => 'required'
+	        'label' => 'customer_address'
 	      ),
 	      array(
 	        'field' => 'int_balance',
-	        'label' => 'int_balance',
-	        'rules' => 'required'
+	        'label' => 'int_balance'
 	      )
 	    );
 		$creator = $this->tank_auth->get_user_id();
@@ -81,9 +68,7 @@ class Customer extends MY_Controller {
 	      $jsonData['check'] = true;
 	      $data = array(
 	        'customer_name' => $this->input->post('customer_name'),
-	        'customer_type' => $this->input->post('customer_type'),
 	        'customer_contact_no' => $this->input->post('customer_contact_no'),
-	        'customer_mode' => $this->input->post('customer_mode'),
 	        'customer_email' => $this->input->post('customer_email'),
 	        'customer_address' => $this->input->post('customer_address'),
 	        'int_balance' => $this->input->post('int_balance'),
@@ -174,34 +159,21 @@ class Customer extends MY_Controller {
 	        'rules' => 'required'
 	      ),
 	      array(
-	        'field' => 'customer_type',
-	        'label' => 'customer_type',
-	        'rules' => 'required'
-	      ),
-	      array(
 	        'field' => 'customer_contact_no',
 	        'label' => 'customer_contact_no',
-	        'rules' => 'required|integer'
-	      ),
-	      array(
-	        'field' => 'customer_mode',
-	        'label' => 'customer_mode',
-	        'rules' => 'required|integer'
+	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'customer_email',
-	        'label' => 'customer_email',
-	        'rules' => 'required'
+	        'label' => 'customer_email'
 	      ),
 	      array(
 	        'field' => 'customer_address',
-	        'label' => 'customer_address',
-	        'rules' => 'required'
+	        'label' => 'customer_address'
 	      ),
 	      array(
 	        'field' => 'int_balance',
-	        'label' => 'int_balance',
-	        'rules' => 'required'
+	        'label' => 'int_balance'
 	      )
 	    );
 	    $customer_id=$this->input->post('customer_id');
@@ -212,9 +184,7 @@ class Customer extends MY_Controller {
 	      $jsonData['check'] = true;
 	      $data = array(
 	        'customer_name' => $this->input->post('customer_name'),
-	        'customer_type' => $this->input->post('customer_type'),
 	        'customer_contact_no' => $this->input->post('customer_contact_no'),
-	        'customer_mode' => $this->input->post('customer_mode'),
 	        'customer_email' => $this->input->post('customer_email'),
 	        'customer_address' => $this->input->post('customer_address'),
 	        'int_balance' => $this->input->post('int_balance'),

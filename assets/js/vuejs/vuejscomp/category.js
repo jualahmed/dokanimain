@@ -72,8 +72,7 @@ $(document).ready(function () {
                         $('#category')[0].reset();
                         swal({
                             title: "Good job!",
-                            text: "Category Created successfully!",
-                            icon: "success",
+                            text: "Category Created successfully!"
                         });
                         setTimeout(() => {
                             location.reload();
@@ -125,8 +124,7 @@ $(document).ready(function () {
                         $('#updateCategory').modal('hide');
                         swal({
                             title: "Good job!",
-                            text: "Category updated successfully!",
-                            icon: "success",
+                            text: "Category updated successfully!"
                         });
                         setTimeout(() => {
                             location.reload();

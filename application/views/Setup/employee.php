@@ -16,7 +16,6 @@
 			<tr align="left">
 				<th>No.</th>
 				<th>employee name</th>
-				<th>employee type</th>
 				<th>employee address</th>
 				<th>employee contact no</th>
 				<th>int balance</th>
@@ -26,7 +25,6 @@
 			<tr v-for="(r,index) in result[0]" align="left"> 
 				<td>{{ index+1 }}</td>
 				<td>{{ r.employee_name }}</td>
-				<td>{{ r.employee_type }}</td>
 				<td>{{ r.employee_address }}</td>
 				<td>{{ r.employee_contact_no }}</td>
 				<td>{{ r.int_balance }}</td>
@@ -74,21 +72,21 @@
 								<input type="text" name="employee_contact_no" value="" class="form-control employee_contact_no" placeholder="Contact Number" autocomplete="off">
 							</div>
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">Email <span class="text-danger">*</span></label>
+							    <label for="inputEmail3" class="control-label">Email</label>
 								<input type="text" name="employee_email" value="" class="text-lowercase form-control employee_email" placeholder="Email Address" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-6 right">
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">Address <span class="text-danger">*</span></label>
+							    <label for="inputEmail3" class="control-label">Address</label>
 								<textarea name="employee_address" cols="10" rows="1" class="form-control employee_address" maxlength="300" placeholder="employee Address"></textarea>
 							</div>
 							<div class="form-group">
-								<label for="inputEmail3" class="control-label">type <span class="text-danger">*</span></label>
+								<label for="inputEmail3" class="control-label">type</label>
 								<textarea name="employee_type" cols="10" rows="1" class="form-control employee_type" maxlength="300" placeholder="employee type"></textarea>
 							</div>
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">int balance <span class="text-danger">*</span></label>
+							    <label for="inputEmail3" class="control-label">int balance</label>
 								<input type="text" name="int_balance" value="" class="form-control int_balance" placeholder="int_balance" autocomplete="off">
 							</div>
 						</div>
@@ -137,21 +135,21 @@
 							<textarea name="employee_address" cols="10" rows="2" class="form-control" id="employee_address" maxlength="100" placeholder="employee address"></textarea>
 						</div>
 						<div class="form-group">
-							<label class="form-control-label">employee contact no <span class="text-danger">*</span></label>
+							<label class="form-control-label">employee contact no</label>
 							<input type="text" name="employee_contact_no" value="" class="form-control" id="employee_contact_no"placeholder="employee contact no" autocomplete="off">
 						</div>
 					</div>
 					<div class="col-md-6 right">
 						<div class="form-group">
-							<label class="form-control-label">employee Email <span class="text-danger">*</span></label>
+							<label class="form-control-label">employee Email</label>
 							<input type="text" name="employee_email" value="" class="form-control text-lowercase" id="employee_email" placeholder="employee Email" autocomplete="off">
 						</div>
 						<div class="form-group">
-							<label class="form-control-label">employee type <span class="text-danger">*</span></label>
+							<label class="form-control-label">employee type</label>
 							<input type="text" name="employee_type" value="" class="form-control" id="employee_type" placeholder="employee type" autocomplete="off">
 						</div>
 						<div class="form-group">
-						    <label for="inputEmail3" class="control-label">int balance <span class="text-danger">*</span></label>
+						    <label for="inputEmail3" class="control-label">int balance</label>
 							<input type="text" name="int_balance" value="" class="form-control" id="int_balance" placeholder="int_balance" autocomplete="off">
 						</div>
 					</div>

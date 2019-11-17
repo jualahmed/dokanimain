@@ -45,22 +45,19 @@ class Company extends MY_Controller {
 	      array(
 	        'field' => 'company_contact_no',
 	        'label' => 'company_contact_no',
-	        'rules' => 'required|integer'
+	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'company_email',
-	        'label' => 'company_email',
-	        'rules' => 'required'
+	        'label' => 'company_email'
 	      ),
 	      array(
 	        'field' => 'company_address',
-	        'label' => 'company_address',
-	        'rules' => 'required'
+	        'label' => 'company_address'
 	      ),
 	      array(
 	        'field' => 'company_description',
-	        'label' => 'company_description',
-	        'rules' => 'required'
+	        'label' => 'company_description'
 	      ),
 	      array(
 	        'field' => 'company_description',
@@ -168,22 +165,19 @@ class Company extends MY_Controller {
 	      array(
 	        'field' => 'company_contact_no',
 	        'label' => 'company_contact_no',
-	        'rules' => 'required|integer'
+	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'company_email',
-	        'label' => 'company_email',
-	        'rules' => 'required'
+	        'label' => 'company_email'
 	      ),
 	      array(
 	        'field' => 'company_address',
-	        'label' => 'company_address',
-	        'rules' => 'required'
+	        'label' => 'company_address'
 	      ),
 	      array(
 	        'field' => 'company_description',
-	        'label' => 'company_description',
-	        'rules' => 'required'
+	        'label' => 'company_description'
 	      ),
 	      array(
 	        'field' => 'company_description',

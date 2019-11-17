@@ -46,27 +46,23 @@ class Distributor extends MY_Controller {
 	      array(
 	        'field' => 'distributor_contact_no',
 	        'label' => 'distributor_contact_no',
-	        'rules' => 'required|integer'
+	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'distributor_email',
-	        'label' => 'distributor_email',
-	        'rules' => 'required'
+	        'label' => 'distributor_email'
 	      ),
 	      array(
 	        'field' => 'distributor_address',
-	        'label' => 'distributor_address',
-	        'rules' => 'required'
+	        'label' => 'distributor_address'
 	      ),
 	      array(
 	        'field' => 'int_balance',
-	        'label' => 'int_balance',
-	        'rules' => 'required'
+	        'label' => 'int_balance'
 	      ),
 	      array(
 	        'field' => 'distributor_description',
-	        'label' => 'distributor_description',
-	        'rules' => 'required'
+	        'label' => 'distributor_description'
 	      ),
 	      array(
 	        'field' => 'distributor_description',
@@ -176,27 +172,23 @@ class Distributor extends MY_Controller {
 	      array(
 	        'field' => 'distributor_contact_no',
 	        'label' => 'distributor_contact_no',
-	        'rules' => 'required|integer'
+	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'distributor_email',
-	        'label' => 'distributor_email',
-	        'rules' => 'required'
+	        'label' => 'distributor_email'
 	      ),
 	      array(
 	        'field' => 'distributor_address',
-	        'label' => 'distributor_address',
-	        'rules' => 'required'
+	        'label' => 'distributor_address'
 	      ),
 	      array(
 	        'field' => 'int_balance',
-	        'label' => 'int_balance',
-	        'rules' => 'required'
+	        'label' => 'int_balance'
 	      ),
 	      array(
 	        'field' => 'distributor_description',
-	        'label' => 'distributor_description',
-	        'rules' => 'required'
+	        'label' => 'distributor_description'
 	      ),
 	      array(
 	        'field' => 'distributor_description',

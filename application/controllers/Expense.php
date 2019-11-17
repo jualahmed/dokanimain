@@ -104,7 +104,7 @@ class Expense extends MY_Controller {
         $this->db->limit($rowperpage, $rowno);
         $this->db->order_by('expense_id', 'desc');
         $this->db->join('type_info', 'type_info.type_id = expense_info.expense_type');
-        $this->db->join('service_provider_info', 'service_provider_info.service_provider_id = expense_info.service_provider_id');
+        $this->db->join('service_provider_info', 'service_provider_info.service_provider_id = expense_info.service_provider_id','left');
         $users_record = $this->db->get('expense_info')->result_array();
         $config['base_url'] = base_url().'expense';
         $config['use_page_numbers'] = TRUE;

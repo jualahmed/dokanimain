@@ -72,8 +72,7 @@ $(document).ready(function () {
                         $('#customer')[0].reset();
                         swal({
                             title: "Good job!",
-                            text: "customer Created successfully!",
-                            icon: "success",
+                            text: "customer Created successfully!"
                         });
                         setTimeout(() => {
                             location.reload();
@@ -131,8 +130,7 @@ $(document).ready(function () {
                         $('#customerupdate').modal('hide');
                         swal({
                             title: "Good job!",
-                            text: "customer updated successfully!",
-                            icon: "success",
+                            text: "customer updated successfully!"
                         });
                         setTimeout(() => {
                             location.reload();

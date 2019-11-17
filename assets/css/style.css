@@ -1,3 +1,6 @@
+input{
+  text-transform: none!important;
+}
 #d-nodedsd{
   display: none;
 }
@@ -103,11 +106,14 @@ tfoot th:first-child {
     background: transparent;
   }
   .main-sidebar{
-      max-height: 100vh!important;
+      max-height: 97vh!important;
       overflow: scroll;
   }
   #newselladd{
     display: flex;
+  }
+  .sidebar-menu{
+        margin-top: 31px;
   }
   #autosuggest__input {
       outline: none;
@@ -196,10 +202,7 @@ tfoot th:first-child {
 }
 .content-wrapper{
   overflow: hidden!important;
-  min-height: 88vh!important;
-}
-.main-header{
-      max-height: 14vh!important;
+  min-height: 90vh!important;
 }
 .close{
       font-size: 40px;

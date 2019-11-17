@@ -39,32 +39,24 @@ class Employee extends MY_Controller {
 	      array(
 	        'field' => 'employee_name',
 	        'label' => 'employee_name',
-	        'rules' => 'required|is_unique[employee_info.employee_name]'
+	        'rules' => 'required'
 	      ),
 	      array(
 	        'field' => 'employee_contact_no',
 	        'label' => 'employee_contact_no',
-	        'rules' => 'required|integer'
+	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'employee_email',
-	        'label' => 'employee_email',
-	        'rules' => 'required'
+	        'label' => 'employee_email'
 	      ),
 	      array(
 	        'field' => 'employee_address',
-	        'label' => 'employee_address',
-	        'rules' => 'required'
+	        'label' => 'employee_address'
 	      ),
 	      array(
 	        'field' => 'int_balance',
-	        'label' => 'int_balance',
-	        'rules' => 'required'
-	      ),
-	      array(
-	        'field' => 'employee_type',
-	        'label' => 'employee_type',
-	        'rules' => 'required'
+	        'label' => 'int_balance'
 	      )
 	    );
 
@@ -79,7 +71,6 @@ class Employee extends MY_Controller {
 	        'int_balance' => $this->input->post('int_balance'),
 	        'employee_contact_no' => $this->input->post('employee_contact_no'),
 	        'employee_email' => $this->input->post('employee_email'),
-	        'employee_type' => $this->input->post('employee_type'),
 	        'employee_creator' => $creator,
 	      );
 	      $id = $this->employee_model->create($data);
@@ -149,27 +140,19 @@ class Employee extends MY_Controller {
 	      array(
 	        'field' => 'employee_contact_no',
 	        'label' => 'employee_contact_no',
-	        'rules' => 'required|integer'
+	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'employee_email',
-	        'label' => 'employee_email',
-	        'rules' => 'required'
+	        'label' => 'employee_email'
 	      ),
 	      array(
 	        'field' => 'employee_address',
-	        'label' => 'employee_address',
-	        'rules' => 'required'
+	        'label' => 'employee_address'
 	      ),
 	      array(
 	        'field' => 'int_balance',
-	        'label' => 'int_balance',
-	        'rules' => 'required'
-	      ),
-	      array(
-	        'field' => 'employee_type',
-	        'label' => 'employee_type',
-	        'rules' => 'required'
+	        'label' => 'int_balance'
 	      )
 	    );
 	    $employee_id=$this->input->post('employee_id');
@@ -184,7 +167,6 @@ class Employee extends MY_Controller {
 	        'int_balance' => $this->input->post('int_balance'),
 	        'employee_contact_no' => $this->input->post('employee_contact_no'),
 	        'employee_email' => $this->input->post('employee_email'),
-	        'employee_type' => $this->input->post('employee_type'),
 	        'employee_creator' => $creator,
 	      );
 	      $id = $this->employee_model->update($employee_id,$data);

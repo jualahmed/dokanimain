@@ -67,30 +67,30 @@
 					<div class="row">
 						<div class="col-md-6 left">
 							<div class="form-group">
-							   <label for="inputEmail3" class="control-label">Name <span class="text-danger">*</span></label>
+							   <label for="inputEmail3" class="control-label">Distributor Name <span class="text-danger">*</span></label>
 							   <input type="text" name="distributor_name" value="" class="form-control distributor_name" placeholder="distributor Name" autocomplete="off">
 							</div>
 							<div class="form-group">
-							  	<label for="inputEmail3" class="control-label">Number <span class="text-danger">*</span></label>
+							  	<label for="inputEmail3" class="control-label">Distributor Number <span class="text-danger">*</span></label>
 								<input type="text" name="distributor_contact_no" value="" class="form-control distributor_contact_no" placeholder="Contact Number" autocomplete="off">
 							</div>
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">Email <span class="text-danger">*</span></label>
-								<input type="text" name="distributor_email" value="" class="form-control distributor_email text-lowercase" placeholder="Email Address" autocomplete="off">
+							    <label for="inputEmail3" class="control-label">Distributor Email</label>
+								<input type="email" name="distributor_email" value="" class="form-control distributor_email text-lowercase" placeholder="Email Address" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-md-6 right">
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">Address <span class="text-danger">*</span></label>
+							    <label for="inputEmail3" class="control-label">Distributor Address</label>
 								<textarea name="distributor_address" cols="10" rows="1" class="form-control distributor_address" maxlength="300" placeholder="distributor Address"></textarea>
 							</div>
 							<div class="form-group">
-								<label for="inputEmail3" class="control-label">Description <span class="text-danger">*</span></label>
+								<label for="inputEmail3" class="control-label">Distributor Description</label>
 								<textarea name="distributor_description" cols="10" rows="1" class="form-control distributor_description" maxlength="300" placeholder="distributor Description"></textarea>
 							</div>
 							<div class="form-group">
-							    <label for="inputEmail3" class="control-label">int balance <span class="text-danger">*</span></label>
-								<input type="text" name="int_balance" value="" class="form-control int_balance" placeholder="int_balance" autocomplete="off">
+							    <label for="inputEmail3" class="control-label">int balance</label>
+								<input type="number" name="int_balance" value="" class="form-control int_balance" placeholder="int_balance" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -130,30 +130,30 @@
 					<div class="col-md-6 left">
 						<input type="hidden" name="distributor_id" id="distributor_id">
 		 				<div class="form-group">
-							<label class="form-control-label">distributor Name <span class="text-danger">*</span></label>
+							<label class="form-control-label">Distributor Name <span class="text-danger">*</span></label>
 							<input type="text" name="distributor_name" value="" class="form-control" id="distributor_name" placeholder="distributor Name" autocomplete="off">
 						</div>
+            <div class="form-group">
+              <label class="form-control-label">Distributor Number <span class="text-danger">*</span></label>
+              <input type="text" name="distributor_contact_no" value="" class="form-control" id="distributor_contact_no" placeholder="distributor contact no" autocomplete="off">
+            </div>
 						<div class="form-group">
-							<label class="form-control-label">distributor address <span class="text-danger">*</span></label>
+							<label class="form-control-label">Distributor address </label>
 							<textarea name="distributor_address" cols="10" rows="2" class="form-control" id="distributor_address" maxlength="100" placeholder="distributor address"></textarea>
-						</div>
-						<div class="form-group">
-							<label class="form-control-label">distributor contact no <span class="text-danger">*</span></label>
-							<input type="text" name="distributor_contact_no" value="" class="form-control" id="distributor_contact_no" placeholder="distributor contact no" autocomplete="off">
 						</div>
 					</div>
 					<div class="col-md-6 right">
 						<div class="form-group">
-							<label class="form-control-label">distributor Email <span class="text-danger">*</span></label>
-							<input type="text" name="distributor_email" value="" class="form-control text-lowercase" id="distributor_email" placeholder="distributor Email" autocomplete="off">
+							<label class="form-control-label">Distributor Email </label>
+							<input type="email" name="distributor_email" value="" class="form-control text-lowercase" id="distributor_email" placeholder="distributor Email" autocomplete="off">
 						</div>
 						<div class="form-group">
-							<label class="form-control-label">distributor Description <span class="text-danger">*</span></label>
+							<label class="form-control-label">Distributor Description </label>
 							<input type="text" name="distributor_description" value="" class="form-control" id="distributor_description" placeholder="distributor Description" autocomplete="off">
 						</div>
 						<div class="form-group">
-						    <label for="inputEmail3" class="control-label">int balance <span class="text-danger">*</span></label>
-							<input type="text" name="int_balance" value="" class="form-control" id="int_balance" placeholder="int_balance" autocomplete="off">
+						    <label for="inputEmail3" class="control-label">int balance </label>
+							<input type="number" name="int_balance" value="" class="form-control" id="int_balance" placeholder="int_balance" autocomplete="off">
 						</div>
 					</div>
 				</div>
