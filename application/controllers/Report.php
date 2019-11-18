@@ -262,34 +262,53 @@ class Report extends MY_controller
 		 $this->__renderviewprint('Prints/report/stock_report', $data);
 	}
 
-	public function stock_details()
-	{
-		$data['user_type'] = $this->tank_auth->get_usertype();
-		if($this->access_control_model->my_access($data['user_type'], 'Product', 'product_entry'))
-		{
-			$bd_date = date('Y-m-d');
-			$data['bd_date'] = $bd_date;
-			$data['sale_status'] = '';
-			$data['alarming_level'] = FALSE;
-			$data['last_id'] = $this->product_model->getLastInserted();
-			$data['user_name'] = $this->tank_auth->get_username();
-			$data['posts']= array();
-			$data['reportdata']=$this->report_model->stock_details();
-			$this->__renderview('Report/stock_details', $data);
-		}
-		else redirect('Product/product/noaccess');
-	}
+  public function stock_details()
+  {
+    $data['user_type'] = $this->tank_auth->get_usertype();
+    if($this->access_control_model->my_access($data['user_type'], 'Product', 'product_entry'))
+    {
+      $bd_date = date('Y-m-d');
+      $data['bd_date'] = $bd_date;
+      $data['sale_status'] = '';
+      $data['alarming_level'] = FALSE;
+      $data['last_id'] = $this->product_model->getLastInserted();
+      $data['user_name'] = $this->tank_auth->get_username();
+      $data['status'] = '';
+      $data['company'] = $this->company_model->all();
+      $data['product'] = $this->product_model->allworrantyproduct();
+      $data['catagory'] = $this->category_model->all();
+      $data['product_specification'] = $this->product_model->product_specification();
+      $data['total_stock_price'] = $this->site_model->total_stock_price();
+      $data['total_stock_sale_price'] = $this->site_model->total_stock_sale_price();
+      $data['total_stock_quantity'] = $this->site_model->total_stock_quantity();
+      $data['product_type'] = $this->product_model->product_type();
+      $data['unit_name'] = $this->product_model->unit_name();
+      $data['posts']= array();
+      $data['reportdata']=$this->report_model->stock_details();
+      $data['vuejscomp'] = 'stock_details.js';
+      $this->__renderview('Report/stock_details', $data);
+    }
+    else redirect('Product/product/noaccess');
+  }
 
-	public function stock_details_print()
-	{
-		$data['reportdata']=$this->report_model->stock_details();
-		$data['reportname']="Stock Details Report";
-		$this->__renderviewprint('Prints/report/stock_details', $data);
-	}
+  public function stock_details_json()
+  {
+    $catagory_id= $this->input->post('catagory_id');
+    $product_id= $this->input->post('product_id');
+    $company_id=$this->input->post('company_id');
+    $reportdata=$this->report_model->stock_details($catagory_id,$product_id,$company_id);
+    echo json_encode($reportdata);
+  }
+
+  public function stock_details_print()
+  {
+    $data['reportdata']=$this->report_model->stock_details();
+    $this->__renderviewprint('Prints/report/stock_details', $data);
+  }
 
 	public function  purchase_report()
 	{
-	   $data['user_type'] = $this->tank_auth->get_usertype();
+	  $data['user_type'] = $this->tank_auth->get_usertype();
 		if($this->access_control_model->my_access($data['user_type'], 'Product', 'product_entry'))
 		{
 			$bd_date = date('Y-m-d');

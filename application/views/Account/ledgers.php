@@ -46,15 +46,19 @@
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label" style="display:none;" id="exp_type_label">Type</label>
 								<div class="col-sm-2" style="display:none;" id="exp_type_list">
-									<?php 
-										echo form_dropdown('type_id', $expense_type,'','style="width:100%;" class="form-control select2 ledger input-sm" id="type_id" tabindex="-1" aria-hidden="true"');
-									?>
+                   <select name="type_id" class="form-control select2 ledger input-sm" id="type_id">
+                    <?php foreach ($expense_type as $key => $var): ?>
+                      <option value="<?php echo $var->type_id ?>"><?php echo $var->type_name ?></option>
+                    <?php endforeach ?>
+                  </select>
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label" style="display:none;" id="emp_label">Employee</label>
 								<div class="col-sm-2" style="display:none;" id="emp_list">
-									<?php 
-										echo form_dropdown('employee_id', $employee_info,'','style="width:100%;" class="form-control select2 ledger input-sm" id="employee_id" tabindex="-1" aria-hidden="true"');
-									?>
+                  <select name="employee_id" class="form-control select2 ledger input-sm" id="employee_id">
+                    <?php foreach ($employee_info as $key => $var): ?>
+                      <option value="<?php echo $var->employee_id ?>"><?php echo $var->employee_name ?></option>
+                    <?php endforeach ?>
+                  </select>
 								</div>
 								
 								<label for="inputEmail3" class="col-sm-1 control-label" style="display:none;" id="type_label">Type</label>
@@ -116,7 +120,7 @@
 							<h3 class="box-title" style="color:white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;"><span class="ledger_name" style="color: #394446;text-align:center;"></span></h3>
 						</div>
 						<div class="wrap">
-							<table class="head">
+							<table class="table">
 								<tr>
 									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;">Date</td>
 									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;width:25%;"><span class="table_head_name"></span></td>
@@ -127,10 +131,10 @@
 								</tr>
 							</table>
 							<div class="inner_table">
-							<table class="new_data_2 search_data" id="search_data"></table>
+							<table class="new_data_2 search_data table" id="search_data"></table>
 							
 							</div>
-							<table class="head">
+							<table class="table">
 								<tr>
 									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
 									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;width:25%;"></td>

@@ -18,6 +18,13 @@ class Product_model extends CI_model{
 		return $this->db->get('product_info')->result();
 	}
 
+  public function allworrantyproduct()
+  { 
+    $this->db->order_by('product_id', 'desc');
+    $this->db->where('product_specification',2);
+    return $this->db->get('product_info')->result();
+  }
+
 	public function destroy($id)
 	{
 		$this->db->where('product_id', $id);

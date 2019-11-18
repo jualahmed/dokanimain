@@ -32,19 +32,19 @@
 	</section>
 	<div class="modal preload" style="display: none">
 		<div class="center">
-			<img src="<?php echo base_url();?>assets/img/spin.gif" id="loaderIcon"/>
+			<img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
 		</div>
 	</div>
 <input type="hidden" id="type_id">
 <input type="hidden" id="start">
 <input type="hidden" id="end">
-<section class="content-3" id="infomsg" style="display:none;">
+<section class="content" id="infomsg" style="display:none;">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box">	 
 				<div class="box-body">
 					<div class="wrap">
-						<table class="head">
+						<table class="table">
 							<tr>
 								<td>No</td>
 								<td><span class="global_name_label"></span></td>
@@ -57,10 +57,10 @@
 							</tr>
 						</table>
 						<div class="inner_table">
-							<table class="new_data_2" id="search_data">
+							<table class="new_data_2 table" id="search_data">
 							</table>
 						</div>
-						<table class="head">
+						<table class="table">
 							<tr>
 								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
 								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>

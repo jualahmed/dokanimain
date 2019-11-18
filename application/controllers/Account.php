@@ -10,6 +10,8 @@ class Account extends MY_controller{
             redirect('admin/noaccess');
         }
 		$this->load->model('bankcard_model');
+    $this->load->model('employee_model');
+    $this->load->model('expense_model');
 	}
 	
 	public function transactionreport()
@@ -205,7 +207,9 @@ class Account extends MY_controller{
 	{
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		$data['distributor_info'] = $this->account_model->distributor_info();				
+    $data['distributor_info'] = $this->account_model->distributor_info();       
+    $data['employee_info'] = $this->employee_model->all();        
+		$data['expense_type'] = $this->expense_model->typeall();				
 		$data['customer_info'] = $this->account_model->customer_infoo_new();							
 		$data['service_provider_info'] = $this->account_model->service_provider_info();							
 		$data['owner_info'] = $this->account_model->owner_info();

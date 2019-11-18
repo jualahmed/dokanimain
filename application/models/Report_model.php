@@ -67,16 +67,19 @@ class Report_model extends CI_model{
 		}
 	}	
 
-	public function stock_details($value='')
-	{	
-		$this->db->where('warranty_product_list.status', 1);
-		$this->db->join('product_info', 'product_info.product_id = warranty_product_list.product_id');
-		$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id','left');
-		$this->db->join('catagory_info','catagory_info.catagory_id = product_info.catagory_id','left');	
-		$this->db->join('company_info','company_info.company_id = product_info.company_id','left');	
-		$this->db->join('purchase_receipt_info','purchase_receipt_info.receipt_id = warranty_product_list.purchase_receipt_id');
-		return $this->db->get('warranty_product_list')->result();
-	}
+  public function stock_details($catagory_id='',$product_id='',$company_id='')
+  { 
+    if (isset($product_id)) {
+      $this->db->where('warranty_product_list.product_id', $product_id);
+    }
+    $this->db->where('warranty_product_list.status', 1);
+    $this->db->join('product_info', 'product_info.product_id = warranty_product_list.product_id');
+    $this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id','left');
+    $this->db->join('catagory_info','catagory_info.catagory_id = product_info.catagory_id','left'); 
+    $this->db->join('company_info','company_info.company_id = product_info.company_id','left'); 
+    $this->db->join('purchase_receipt_info','purchase_receipt_info.receipt_id = warranty_product_list.purchase_receipt_id');
+    return $this->db->get('warranty_product_list')->result();
+  }
 
 	public function get_purchase_info_by_multi($receipt_id='',$product_id='',$distributor_id='',$start_date='',$end_date='',$category1='',$company1='')
 	{	

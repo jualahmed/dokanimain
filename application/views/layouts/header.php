@@ -296,7 +296,7 @@
             <br><br>
           </ul>
         </li>
-        <li class="treeview <?php echo active_link_controller('auth') ?>  <?php echo active_link_controller('shop') ?> <?php echo active_link_function('report','staff_report_new'); ?>">
+        <li class="treeview <?php echo active_link_controller('auth') ?>  <?php echo active_link_controller('admin') ?> <?php echo active_link_controller('shop') ?> <?php echo active_link_function('report','staff_report_new'); ?>">
           <a href="#">
             <i class="fa fa-user"></i>
             <span>User</span>
