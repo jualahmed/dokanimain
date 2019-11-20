@@ -1,0 +1,48 @@
+.table td, .table th{
+  padding: 0px!important;
+}
+.page-header, .page-header-space {
+  height: 100px;
+}
+
+.page-footer, .page-footer-space {
+  height: 50px;
+}
+
+.page-header,.page-footer{
+	/*display: bl;*/
+}
+
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: 2px solid #dee2e6;
+  margin-top: 5px;
+}
+
+.page-header {
+  position: fixed;
+  top: 0mm;
+  width: 100%;
+}
+
+.page {
+  page-break-after: always;
+}
+
+@page {
+  margin: 20mm;
+}
+
+@media print {
+	.page-header,.page-footer{
+		display: block;
+	}
+   thead {display: table-header-group;} 
+   tfoot {display: table-footer-group;}
+   
+   button {display: none;}
+   
+   body {margin: 0;}
+}
