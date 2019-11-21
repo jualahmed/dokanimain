@@ -15,6 +15,7 @@ new Vue({
     saletype:2,
     isinvoice:0,
     quantity:0,
+    loding:false,
   },
   methods:{
     result(){
@@ -22,6 +23,7 @@ new Vue({
       this.end_date=($("#datepickerr").val());
       this.amount=0;
       this.samount=0;
+      this.loding=!this.loding;
       var self=this;
       alldata:[];
       $.ajax({
@@ -30,11 +32,13 @@ new Vue({
       dataType: 'json',
       data: {company_id:this.company_id,category_id:this.category_id,saletype:this.saletype,invoice_id:this.invoice_id,customer_id:this.customer_id,product_id:this.product_id,seller_id:this.seller_id,start_date:this.start_date,end_date:this.end_date},
       success: function(result) { 
-        self.alldata=result;
+          self.alldata=result;
+          self.loding=!self.loding;
           result.forEach( function(element, index) {
            self.amount=parseInt(self.amount)+parseInt(element.unit_buy_price*element.sale_quantity);  
            self.samount=parseInt(self.samount)+parseInt((element.actual_sale_price*element.sale_quantity));
            self.quantity=parseInt(self.quantity)+parseInt((element.sale_quantity));
+
           });
 
           if(self.saletype==1){

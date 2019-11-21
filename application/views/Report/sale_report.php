@@ -96,7 +96,10 @@
 			</div>
 		</div>
 	</section>
-	<section class="content" style="padding-top: 0px;">
+  <div class="text-center" v-if="loding">
+    <img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
+  </div>
+	<section v-else class="content" style="padding-top: 0px;">
 		<div id="table-scroll" class="table-scroll table-secondary" v-if="alldata.length">          
 			<table id="main-table" class="main-table table table-secondary" style="width: 100%;">
 				<thead class="table-hf" style="line-height: 0px;">

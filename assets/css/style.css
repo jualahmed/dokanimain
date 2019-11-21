@@ -75,15 +75,18 @@ tfoot th:first-child {
 .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group{
   z-index: 0;
 }
-  .main-footer{
-         padding: 0px!important; 
-  }
-  .main-footer p{
-            margin: 0 0 0px!important;
-  }
- .vdp-datepicker__calendar{
-  width: 228px!important;
- }
+.main-footer{
+  padding: 0px!important; 
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.main-footer p{
+  margin: 0 0 0px!important;
+}
+.vdp-datepicker__calendar{
+width: 228px!important;
+}
   .datapick{
     display: flex;
   }
@@ -202,11 +205,11 @@ tfoot th:first-child {
 }
 .content-wrapper{
   overflow: hidden!important;
-  min-height: 90vh!important;
+  min-height: 94vh!important;
 }
 .close{
-      font-size: 40px;
-    color: red;
+  font-size: 40px;
+  color: red;
 }
 .table{
   background: #fff!important;
