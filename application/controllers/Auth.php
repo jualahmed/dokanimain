@@ -33,16 +33,12 @@ class Auth extends MY_Controller
 		if ($this->tank_auth->is_logged_in()) 
 		{
 			$data['user_type'] = $this->tank_auth->get_usertype();
-			
-			if($data['user_type']!='customer')
-			{
+			if($data['user_type']!='customer'){
 				redirect('admin');
 			}
-			else
-			{
+			else{
 				redirect('auth/logout2');
 			}
-
 		} elseif ($this->tank_auth->is_logged_in(FALSE)) {						// logged in, not activated
 			redirect('/auth/send_again/');
 

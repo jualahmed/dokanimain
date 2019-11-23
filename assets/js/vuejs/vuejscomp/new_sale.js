@@ -97,10 +97,12 @@ jQuery(document).ready(function($) {
 					}
 				},
 			});
+
 			$( "#search_by_product_name" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
-			  return $( "<li style=\"border-bottom: 2px solid gray; hover: red;\">" )
-			  .append( "<div><span class=\"label_style\">" + item.label +' '+item.catagory_name +' '+item.product_size + "</span><br>" + item.generic_name + "    " +item.catagory_name + "    <span style='color:#00cd6e;'> (Stock: "+ item.stock + ")</span> <span style='color:#00cd6e;'> (Pack: "+ item.product_model + ")</span><br>" + item.company_name + "</div>" ).appendTo( ul );
-			};
+		      return $(`<li style="border-bottom: 1px solid gray; hover: red;">` )
+		      .append(`<div><span class="label_style">${item.label} </span><br><span> Stock : </span>${item.stock}<br> <span> Size : </span>${ item.product_size }</div>`).appendTo(ul);
+		    };
+
 		}
 		else{
 			$(this).val('');

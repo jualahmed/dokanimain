@@ -2,8 +2,6 @@
 <html>
 <head>
 	<title> Dokani : IT Lab Solutions </title>
-	<link rel="icon" href="<?php echo base_url(); ?>images/favicon.ico"  type="image/x-icon"/>
-	<!--link rel="stylesheet" href="<?php echo base_url(); ?>style/table_style.css" type="text/css"/-->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>style/invoice_style.css" type="text/css"/>
 	<style>
 		#t_left{width: 332px;}
@@ -75,28 +73,9 @@
 
 						<?php endif ?> 
 				</div> <!--end of shop_title_box-->
-				<div id = "invoice_details_header" style="width: 699px;">	
-					 
-					<?php $row_data = $sale_info->row(); ?>
-					<table class="customers" style="width: 100%;">	
-						<tr>
-							<td >Customer Name: <?php echo $row_data->customer_name; ?></td>
-							<td >Customer ID: <?php echo $row_data->customer_id; ?></td>	
-						</tr>
-						<tr>
-							
-							<td >Address: <?php echo $row_data->customer_address; ?></td>
-							<td >Contact: <?php echo $row_data->customer_contact_no; ?></td>
-						</tr>			
-						<tr>
-							<td >Date: <?php echo $row_data->invoice_doc; ?> </td>
-							<td >Creator: <?php echo $row_data->username;?> </td>
-						</tr>
-					</table>	
-				</div> <!--end of invoice_details_header-->
-				
+		
 				<?php
-					if($sale_info -> num_rows() > 0) 
+					if($alll -> num_rows() > 0) 
 					{
 				?>
 				<div style="width:100%;margin:0px auto;float:left;border-right: 2px solid #ddd;">
@@ -114,7 +93,7 @@
 							$j = 1;
 							$save1 = 0;
 							
-							foreach ($sale_info -> result() as $field):
+							foreach ($alll -> result() as $field):
 						?>
 						<tr>
 							<td style="width:4%;">

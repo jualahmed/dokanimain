@@ -874,12 +874,9 @@ class Report_model extends CI_model{
 			if($start_date!=''){$this -> db -> where('sale_return_details_tbl.return_doc >= "'.$start_date.'"');}
 			if($end_date!=''){$this -> db -> where('sale_return_details_tbl.return_doc <= "'.$end_date.'"');}
 			else if($start_date!=''){$this -> db -> where('sale_return_details_tbl.return_doc <= "'.$start_date.'"');}
-
-			//$this->db->group_by('sale_return_details_tbl.id');
 			$this->db->order_by('sale_return_details_tbl.id','asc'); 
 			$this->db->order_by('sale_return_details_tbl.return_doc','asc'); 
 			$query = $this->db->get();
-			
 			return $query;	
 		}
 		else if($type=='indirect')
@@ -894,14 +891,10 @@ class Report_model extends CI_model{
 			if($start_date!=''){$this -> db -> where('sale_return_details_tbl.return_doc >= "'.$start_date.'"');}
 			if($end_date!=''){$this -> db -> where('sale_return_details_tbl.return_doc <= "'.$end_date.'"');}
 			else if($start_date!=''){$this -> db -> where('sale_return_details_tbl.return_doc <= "'.$start_date.'"');}
-
-			//$this->db->group_by('sale_return_details_tbl.id');
 			$this->db->order_by('sale_return_details_tbl.id','asc'); 
 			$this->db->order_by('sale_return_details_tbl.return_doc','asc'); 
 			$query = $this->db->get();
-			
 			return $query;	
-		
 		} 	
 		else
 		{

@@ -60,8 +60,10 @@ class Tank_auth
 
 				// Does password match hash in database?
 				$hasher = new PasswordHash(
-						$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
-						$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+          $this->ci->config->item('phpass_hash_strength', 'tank_auth'),
+          $this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+       
+
 				if ($hasher->CheckPassword($password, $user->password)) {		// password ok
 
 					if ($user->banned == 1) {									// fail - banned
@@ -69,14 +71,14 @@ class Tank_auth
 
 					} else {
 						$this->ci->session->set_userdata(array(
-								'user_id'	=> $user -> id,
-								'username'	=> $user -> user_full_name,
-								'user_type' => $user -> user_type,
-								'shop_name' => $user -> shop_name,
-								'shop_type'=> $user -> shop_type,
-								'shop_address' => $user -> shop_address,
-								'shop_id' => $user -> shop_id,
-								'shop_contact' => $user -> shop_contact,
+								'user_id'	=> $user->id,
+								'username'	=> $user->user_full_name,
+								'user_type' => $user->user_type,
+								'shop_name' => $user->shop_name,
+								'shop_type'=> $user->shop_type,
+								'shop_address' => $user->shop_address,
+								'shop_id' => $user->shop_id,
+								'shop_contact' => $user->shop_contact,
 								'status'	=> ($user->activated == 1) ? STATUS_ACTIVATED : STATUS_NOT_ACTIVATED,
 						));
 
