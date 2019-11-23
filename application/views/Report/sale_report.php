@@ -4,7 +4,7 @@
 			<div class="col-md-12">
 				<div class="box">
 					<div class="box-header with-border">
-						<h3 class="box-title">Motorcycle Sale Report</h3>
+						<h3 class="box-title">Sale Report</h3>
 					</div>
 					<div class="box-body">
 						<form action ="<?php echo base_url();?>Report/all_sale_report_find" class="form-horizontal" method="post" enctype="multipart/form-data" id="salereport" autocomplete="off">
