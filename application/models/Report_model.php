@@ -117,8 +117,8 @@ class Report_model extends CI_model{
 		if($customer_id!=0){$this->db->where('invoice_info.customer_id',$customer_id);} 
 		if($product_id!=0){$this->db->where('product_info.product_id',$product_id);}
 		if($seller_id!=0){$this->db->where('invoice_info.invoice_creator',$seller_id);}
-		if($start_date!=0){$this->db->where('invoice_info.date >="'.$start_date.'"');}
-		if($end_date!=0){$this->db->where('invoice_info.date <= "'.$end_date.'"');}
+		if($start_date!=0){$this->db->where('invoice_info.invoice_doc >="'.$start_date.'"');}
+		if($end_date!=0){$this->db->where('invoice_info.invoice_doc <= "'.$end_date.'"');}
 		$this->db->order_by('invoice_info.invoice_id','asc'); 
 		$query = $this->db->get('invoice_info')->result();
 		return $query;
@@ -131,8 +131,8 @@ class Report_model extends CI_model{
 		$this->db->join('users', 'users.id = invoice_info.invoice_creator');
 		if($invoice_id!=0){$this->db->where('invoice_info.invoice_id',$invoice_id);} 
 		if($seller_id!=0){$this->db->where('invoice_info.invoice_creator',$seller_id);}
-		if($start_date!=0){$this->db->where('invoice_info.date >="'.$start_date.'"');}
-		if($end_date!=0){$this->db->where('invoice_info.date <= "'.$end_date.'"');}
+		if($start_date!=0){$this->db->where('invoice_info.invoice_doc >="'.$start_date.'"');}
+		if($end_date!=0){$this->db->where('invoice_info.invoice_doc <= "'.$end_date.'"');}
 		$this->db->order_by('invoice_info.invoice_id','asc'); 
 		$query = $this->db->get('invoice_info')->result();
 		return $query;
