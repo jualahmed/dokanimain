@@ -7,7 +7,6 @@
 </h1>
 	<input type="hidden" id="hide_dist" value="<?php echo $this->uri->segment(3);?>">
     <section class="content">
-      <!-- Small boxes (Stat box) -->
         <div class="row">
        		<div class="col-md-6">
         		<div class="box">
@@ -15,7 +14,7 @@
               			<h3 class="box-title" style="color: #fff;">Purchase Return</h3>
             		</div>
             		<?php $stock_amount=0; ?>
-             		<div class="box-body">
+             		  <div class="box-body">
                 		<div class="col-md-12">
 							<table class="table table-bordered reduce_space" >
 								<tr>

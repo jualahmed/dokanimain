@@ -85,7 +85,7 @@ class Purchase extends MY_Controller
 	        'final_amount' => $this->input->post('final_amount'),
 	        'shop_id' 		=> $this->tank_auth->get_shop_id(), 
 	        'receipt_status' 	=> 'unpaid',
-			'total_paid' 		=> $this->input->post('payment_amount'),
+			    'total_paid' 		=> $this->input->post('payment_amount'),
 	        'receipt_date	' => $ffffffff,
 	        'receipt_creator' => $creator,
 	      );
@@ -316,28 +316,30 @@ class Purchase extends MY_Controller
 		   'dom'    							=> $bd_date
 		);
 		$this->db->insert('transaction_info', $transaction_info);
+
 		$this->db->select('*');
 		$this->db->from('purchase_return_main_product');
 		$this->db->where('purchase_return_main_product.status="0"');
+        $this->db->join('distributor_info', 'distributor_info.distributor_id = purchase_return_main_product.distri_id');
+        $this->db->join('product_info', 'product_info.product_id = purchase_return_main_product.produ_id');
 		$query1 = $this->db->get();
 		$i=1;
 		$data['alll']=$query1;
 		foreach($query1->result() as $tmp1)
 		{
-			$this->db->set('status', 'status+' . 1, FALSE);
+			$this->db->set('status','status+'. 1,FALSE);
 			$this->db->where('status="'.$zero.'"');
 			$this->db->where('prmp_id', $tmp1->prmp_id);
 			$this->db->where('produ_id', $tmp1->produ_id);
 			$this->db->update('purchase_return_main_product');
-			 $i++;
+			$i++;
 		}
 
 		$this->db->select('*');
 		$this->db->from('purchase_return_warranty_product');
 		$this->db->where('purchase_return_warranty_product.status="'.$zero.'"');
 		$query2 = $this->db->get();
-		
-		
+		$data['wproduct']=$query2;
 		if($query2->num_rows() > 0)
 		{
 			$ii=1;
@@ -346,7 +348,6 @@ class Purchase extends MY_Controller
 				$this->db->where('ip_id', $tmp2->ip_id);
 				$this->db->where('product_id', $tmp2->product_id);
 				$this->db->delete('warranty_product_list');
-				
 				$this->db->set('status', 'status+' . 1, FALSE);
 				$this->db->where('status="'.$zero.'"');
 				$this->db->where('prwp_id', $tmp2->prwp_id);
@@ -358,7 +359,7 @@ class Purchase extends MY_Controller
 			}
 			
 		}
-		$this->__renderviewprint('Prints/invoices/purchase_return_invoice', $data);
+		$this->load->view('Prints/invoices/purchase_return_invoice', $data);
 	}
 
 	public function removeProductFromPurchase()
@@ -372,6 +373,4 @@ class Purchase extends MY_Controller
 			echo $data;
 		}
 	}
-
-	
 }

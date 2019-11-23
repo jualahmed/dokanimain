@@ -3,7 +3,7 @@ class admin extends MY_controller{
 
 	public function __construct()
 	{
-    	parent::__construct();
+    parent::__construct();
 		$this->is_logged_in();
 		$this->load->model('admin_model');
 		$this->ci =& get_instance();

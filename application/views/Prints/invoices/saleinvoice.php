@@ -3,7 +3,6 @@
 <head>
 	<title> Dokani : IT Lab Solutions </title>
 	<link rel="icon" href="<?php echo base_url(); ?>images/favicon.ico"  type="image/x-icon"/>
-	<!--link rel="stylesheet" href="<?php echo base_url(); ?>style/table_style.css" type="text/css"/-->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>style/invoice_style.css" type="text/css"/>
 	<style>
 		#t_left{width: 332px;}
