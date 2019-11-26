@@ -73,7 +73,10 @@
 			</div>
 		</div>
 	</section>
-	<section class="content-3" id="infomsg">
+  <div class="text-center" v-if="loding">
+    <img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
+  </div>
+	<section class="content" id="infomsg">
 		<div class="row">
 			<div class="col-md-12">
 				<div id="table-scroll" class="table-scroll table-secondary table-responsive" v-if="alldata.length>0">

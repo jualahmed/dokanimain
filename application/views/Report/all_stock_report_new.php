@@ -68,38 +68,40 @@
 			</div>
 		</div>
 	</section>
-	<div class="modal preload" style="display: none">
-		<div class="center">
-			<img src="<?php echo base_url();?>assets/assets2/spin.gif" id="loaderIcon"/>
-		</div>
-	</div>
-	<div id="table-scroll" class="table-scroll table-secondary" v-if="alldata.length">         
-		<table id="main-table" class="main-table table table-secondary" style="width: 100%;" v-if="alldata.length>0">
-			<thead class="table-hf" style="line-height: 0px;">
-				<tr>
-					<th>No.</th>
-					<th>Product.</th>
-					<th>Stock.</th>
-					<th>BP.</th>
-					<th>SP.</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="(d,index) in alldata">
-					<td>{{ index+1 }}</td> 
-					<td>{{ d.product_name }}</td>
-					<td>{{ d.stock_amount }}</td>
-					<td>{{ d.bulk_unit_buy_price }}</td>
-					<td>{{ d.general_unit_sale_price }}</td>
-				</tr>
-				<tr>
-					<td colspan="2"><b></b></td>
-					<td colspan="1"><b>Total Quantity: {{ stockqty }}</b> </td>
-					<td colspan="1"><b>Total Stock Amount: {{ amount }}</b></td>
-					<td colspan="1"><b>Total Sale Amount: {{ samount }}</b></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<h2 class="text-danger text-center" v-else>Result is Empty</h2>
+	
+  <div class="text-center" v-if="loding">
+    <img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
+  </div>
+
+  <section class="content">
+  	<div id="table-scroll" class="table-scroll table-secondary" v-if="alldata.length">         
+  		<table id="main-table" class="main-table table table-secondary" style="width: 100%;" v-if="alldata.length>0">
+  			<thead class="table-hf" style="line-height: 0px;">
+  				<tr>
+  					<th>No.</th>
+  					<th>Product.</th>
+  					<th>Stock.</th>
+  					<th>BP.</th>
+  					<th>SP.</th>
+  				</tr>
+  			</thead>
+  			<tbody>
+  				<tr v-for="(d,index) in alldata">
+  					<td>{{ index+1 }}</td> 
+  					<td>{{ d.product_name }}</td>
+  					<td>{{ d.stock_amount }}</td>
+  					<td>{{ d.bulk_unit_buy_price }}</td>
+  					<td>{{ d.general_unit_sale_price }}</td>
+  				</tr>
+  				<tr>
+  					<td colspan="2"><b></b></td>
+  					<td colspan="1"><b>Total Quantity: {{ stockqty }}</b> </td>
+  					<td colspan="1"><b>Total Stock Amount: {{ amount }}</b></td>
+  					<td colspan="1"><b>Total Sale Amount: {{ samount }}</b></td>
+  				</tr>
+  			</tbody>
+  		</table>
+  	</div>
+  	<h2 class="text-danger text-center" v-else>Result is Empty</h2>
+  </section>
 </div>
