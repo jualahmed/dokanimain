@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2019 at 10:29 AM
--- Server version: 10.4.8-MariaDB
--- PHP Version: 7.3.10
+-- Generation Time: Nov 26, 2019 at 04:16 PM
+-- Server version: 10.1.40-MariaDB
+-- PHP Version: 7.3.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dokanimain1`
+-- Database: `dokanimain`
 --
 
 -- --------------------------------------------------------
@@ -58,7 +58,7 @@ CREATE TABLE `bank_book` (
   `creator` int(8) NOT NULL,
   `doc` date NOT NULL,
   `dom` date NOT NULL,
-  `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -92,8 +92,8 @@ CREATE TABLE `bank_card_info` (
   `card_name` varchar(20) NOT NULL,
   `status` tinyint(8) NOT NULL,
   `creator` int(4) NOT NULL,
-  `doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -108,12 +108,12 @@ CREATE TABLE `bank_info` (
   `bank_name` varchar(250) NOT NULL,
   `bank_account_no` varchar(100) NOT NULL,
   `bank_account_name` varchar(250) NOT NULL,
-  `bank_description` text DEFAULT NULL,
+  `bank_description` text,
   `card_account` varchar(2) DEFAULT NULL,
   `bank_status` varchar(50) NOT NULL,
   `bank_creator` int(20) NOT NULL,
-  `bank_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `bank_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `bank_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `bank_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -128,7 +128,7 @@ CREATE TABLE `barcode_print` (
   `quantity` float NOT NULL,
   `barcode` varchar(250) NOT NULL,
   `sale_price` int(11) NOT NULL,
-  `print_doc` timestamp NOT NULL DEFAULT current_timestamp()
+  `print_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -170,7 +170,8 @@ CREATE TABLE `bulk_stock_info` (
 --
 
 INSERT INTO `bulk_stock_info` (`bulk_id`, `stock_amount`, `product_id`, `shop_id`, `bulk_unit_buy_price`, `bulk_unit_sale_price`, `general_unit_sale_price`, `bulk_alarming_stock`, `last_buy_price`, `warranty_period`, `product_specification`) VALUES
-(1, 34, 1, 1, 1, 1, 1, 100, 25, NULL, NULL);
+(1, 35, 1, 1, 1, 1, 1, 100, 25, NULL, NULL),
+(2, 4, 2, 1, 100, 100, 100, 100, 1000, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -186,8 +187,8 @@ CREATE TABLE `cash_book` (
   `date` date NOT NULL,
   `status` varchar(10) NOT NULL,
   `creator` int(8) NOT NULL,
-  `doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -199,7 +200,10 @@ INSERT INTO `cash_book` (`cb_id`, `transaction_id`, `transaction_type`, `amount`
 (2, 4, 'in', 1, '2019-10-17', 'active', 30, '2019-10-16 18:00:00', '2019-10-16 18:00:00'),
 (3, 6, 'in', 1, '2019-10-17', 'active', 30, '2019-10-16 18:00:00', '2019-10-16 18:00:00'),
 (4, 8, 'in', 1, '2019-10-19', 'active', 12, '2019-10-18 18:00:00', '2019-10-18 18:00:00'),
-(5, 10, 'in', 5, '2019-10-19', 'active', 12, '2019-10-18 18:00:00', '2019-10-18 18:00:00');
+(5, 10, 'in', 5, '2019-10-19', 'active', 12, '2019-10-18 18:00:00', '2019-10-18 18:00:00'),
+(6, 18, 'in', 200, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(7, 19, 'out', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(8, 22, 'out', 1, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00');
 
 -- --------------------------------------------------------
 
@@ -212,8 +216,8 @@ CREATE TABLE `catagory_info` (
   `catagory_name` varchar(250) NOT NULL,
   `catagory_description` varchar(250) DEFAULT NULL,
   `catagory_creator` int(15) NOT NULL,
-  `catagory_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `catagory_dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `catagory_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `catagory_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -297,8 +301,8 @@ CREATE TABLE `commison_info` (
   `com_amount` float NOT NULL,
   `status` int(1) NOT NULL,
   `creator` int(8) NOT NULL,
-  `doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -315,8 +319,8 @@ CREATE TABLE `company_info` (
   `company_email` varchar(250) NOT NULL,
   `company_description` text NOT NULL,
   `company_creator` varchar(250) NOT NULL,
-  `company_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `company_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `company_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `company_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -344,8 +348,8 @@ CREATE TABLE `customer_info` (
   `customer_email` varchar(250) DEFAULT NULL,
   `int_balance` float NOT NULL,
   `customer_creator` varchar(250) NOT NULL,
-  `customer_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `customer_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `customer_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `customer_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -416,8 +420,8 @@ CREATE TABLE `damage_product` (
   `damage_quantity` int(5) NOT NULL,
   `unit_buy_price` varchar(20) NOT NULL,
   `creator` int(8) NOT NULL,
-  `doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -499,8 +503,8 @@ CREATE TABLE `distributor_info` (
   `distributor_description` varchar(250) NOT NULL,
   `int_balance` float NOT NULL,
   `distributor_creator` varchar(250) NOT NULL,
-  `distributor_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `distributor_dom` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `distributor_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `distributor_dom` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -525,8 +529,8 @@ CREATE TABLE `employee_info` (
   `employee_email` varchar(250) DEFAULT NULL,
   `int_balance` float NOT NULL,
   `employee_creator` varchar(250) NOT NULL,
-  `employee_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `employee_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `employee_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `employee_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -543,7 +547,7 @@ CREATE TABLE `employee_salary` (
   `reduced_amount` double DEFAULT NULL,
   `salary_status` tinyint(1) NOT NULL,
   `salary_creator` int(4) NOT NULL,
-  `salary_doc` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `salary_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -561,7 +565,7 @@ CREATE TABLE `employee_salary_log` (
   `salary_month` char(5) NOT NULL,
   `salary_year` int(4) NOT NULL,
   `mode` char(10) NOT NULL,
-  `salary_doc` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `salary_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `salary_creator` int(4) NOT NULL,
   `salary_status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -615,8 +619,8 @@ CREATE TABLE `expense_info` (
   `expense_details` varchar(250) NOT NULL,
   `total_paid` float DEFAULT NULL,
   `expense_creator` varchar(250) NOT NULL,
-  `expense_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `expense_dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `expense_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `expense_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -685,8 +689,8 @@ CREATE TABLE `income_info` (
   `income_details` varchar(255) NOT NULL,
   `total_paid` float DEFAULT NULL,
   `income_creator` int(11) NOT NULL,
-  `income_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `income_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `income_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `income_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -749,7 +753,7 @@ CREATE TABLE `invoice_info` (
   `invoice_creator` varchar(300) NOT NULL,
   `invoice_doc` date NOT NULL,
   `invoice_dom` date NOT NULL,
-  `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `point_info_id` int(11) NOT NULL,
   `point_discount` int(11) NOT NULL,
   `current_point` int(11) NOT NULL
@@ -763,7 +767,8 @@ INSERT INTO `invoice_info` (`invoice_id`, `shop_id`, `customer_id`, `total_price
 (1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 'cash', '30', '2019-10-17', '2019-10-17', '2019-10-17 09:25:54', 0, 0, 0),
 (2, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 'cash', '30', '2019-10-17', '2019-10-17', '2019-10-17 09:26:14', 0, 0, 0),
 (3, 1, 2, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 'cash', '12', '2019-10-19', '2019-10-19', '2019-10-19 03:48:54', 0, 0, 0),
-(4, 1, 1, 5, 0, 0, 0, 0, 0, 5, 5, 0, 0, 'cash', '12', '2019-10-19', '2019-10-19', '2019-10-19 08:28:52', 0, 0, 0);
+(4, 1, 1, 5, 0, 0, 0, 0, 0, 5, 5, 0, 0, 'cash', '12', '2019-10-19', '2019-10-19', '2019-10-19 08:28:52', 0, 0, 0),
+(5, 1, 1, 200, 0, 0, 0, 0, 0, 200, 200, 0, 0, 'cash', '12', '2019-11-23', '2019-11-23', '2019-11-23 03:33:09', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -832,7 +837,7 @@ CREATE TABLE `login_attempts` (
   `id` int(100) NOT NULL,
   `ip_address` varchar(250) COLLATE utf8_bin NOT NULL,
   `login` varchar(250) COLLATE utf8_bin NOT NULL,
-  `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -854,7 +859,7 @@ CREATE TABLE `owner_book` (
   `creator` int(8) NOT NULL,
   `doc` date NOT NULL,
   `dom` date NOT NULL,
-  `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -911,10 +916,10 @@ CREATE TABLE `product_info` (
   `product_specification` int(3) NOT NULL,
   `product_warranty` int(11) NOT NULL,
   `product_creator` int(10) DEFAULT NULL,
-  `product_status` tinyint(1) DEFAULT 1,
+  `product_status` tinyint(1) DEFAULT '1',
   `img` varchar(255) NOT NULL,
-  `product_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `product_dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `product_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `product_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -922,7 +927,8 @@ CREATE TABLE `product_info` (
 --
 
 INSERT INTO `product_info` (`product_id`, `product_name`, `catagory_id`, `company_id`, `group_name`, `product_type`, `product_size`, `product_model`, `unit_id`, `barcode`, `product_description`, `product_specification`, `product_warranty`, `product_creator`, `product_status`, `img`, `product_doc`, `product_dom`) VALUES
-(1, 'simple producy', 1, 1, NULL, NULL, '1', '', 1, '689892732', NULL, 1, 0, 30, 1, '', '2019-10-17 09:24:41', '2019-10-17 09:24:41');
+(1, 'simple producy', 1, 1, NULL, NULL, '1', '', 1, '689892732', NULL, 1, 0, 30, 1, '', '2019-10-17 09:24:41', '2019-10-17 09:24:41'),
+(2, 'simple product', 1, 1, NULL, NULL, '10', '1', 1, '1592070408', NULL, 1, 0, 12, 1, '', '2019-11-23 03:14:25', '2019-11-23 03:14:25');
 
 -- --------------------------------------------------------
 
@@ -938,11 +944,11 @@ CREATE TABLE `purchase_info` (
   `unit_buy_price` float NOT NULL,
   `bulk_unit_sale_price` int(11) NOT NULL,
   `general_unit_sale_price` int(11) NOT NULL,
-  `purchase_expire_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `purchase_expire_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `purchase_description` text NOT NULL,
   `purchase_creator` varchar(250) NOT NULL,
-  `purchase_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `purchase_dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `purchase_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `purchase_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -951,7 +957,8 @@ CREATE TABLE `purchase_info` (
 
 INSERT INTO `purchase_info` (`purchase_id`, `purchase_receipt_id`, `product_id`, `purchase_quantity`, `unit_buy_price`, `bulk_unit_sale_price`, `general_unit_sale_price`, `purchase_expire_date`, `purchase_description`, `purchase_creator`, `purchase_doc`, `purchase_dom`) VALUES
 (1, 1, 1, 12, 1, 0, 0, '2019-10-16 18:00:00', 'a test purchase_receipt_id', '30', '2019-10-17 09:25:38', '2019-10-17 09:25:38'),
-(2, 1, 1, 30, 1, 1, 1, '2019-10-19 08:28:25', 'a test purchase_receipt_id', '12', '2019-10-19 08:28:16', '2019-10-19 08:28:25');
+(2, 1, 1, 30, 1, 1, 1, '2019-10-19 08:28:25', 'a test purchase_receipt_id', '12', '2019-10-19 08:28:16', '2019-10-19 08:28:25'),
+(3, 2, 2, 10, 100, 100, 100, '2019-11-22 18:00:00', 'a test purchase_receipt_id', '12', '2019-11-23 03:14:42', '2019-11-23 03:14:42');
 
 -- --------------------------------------------------------
 
@@ -971,8 +978,8 @@ CREATE TABLE `purchase_receipt_info` (
   `total_paid` float NOT NULL,
   `receipt_date` date NOT NULL,
   `receipt_creator` int(100) NOT NULL,
-  `receipt_doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `receipt_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `receipt_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `receipt_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -980,7 +987,8 @@ CREATE TABLE `purchase_receipt_info` (
 --
 
 INSERT INTO `purchase_receipt_info` (`receipt_id`, `distributor_id`, `purchase_amount`, `transport_cost`, `gift_on_purchase`, `final_amount`, `shop_id`, `receipt_status`, `total_paid`, `receipt_date`, `receipt_creator`, `receipt_doc`, `receipt_dom`) VALUES
-(1, 1, 11111100000, 0, 0, 2147483647, 1, 'unpaid', 1, '2019-10-17', 30, '2019-10-17 09:25:22', '0000-00-00 00:00:00');
+(1, 1, 11111100000, 0, 0, 2147483647, 1, 'unpaid', 1, '2019-10-17', 30, '2019-10-17 09:25:22', '0000-00-00 00:00:00'),
+(2, 1, 1000, 0, 0, 1000, 1, 'unpaid', 1000, '2019-11-23', 12, '2019-11-23 03:13:34', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -999,6 +1007,19 @@ CREATE TABLE `purchase_return_main_product` (
   `doc` date NOT NULL,
   `dom` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_return_main_product`
+--
+
+INSERT INTO `purchase_return_main_product` (`prmp_id`, `distri_id`, `produ_id`, `return_quantity`, `buy_price`, `status`, `creator`, `doc`, `dom`) VALUES
+(1, 1, 2, 1, 100, 1, 12, '2019-11-23', '2019-11-23'),
+(2, 1, 2, 1, 100, 1, 12, '2019-11-23', '2019-11-23'),
+(3, 1, 2, 1, 100, 1, 12, '2019-11-23', '2019-11-23'),
+(4, 1, 2, 1, 100, 1, 12, '2019-11-23', '2019-11-23'),
+(5, 1, 2, 1, 100, 1, 12, '2019-11-23', '2019-11-23'),
+(6, 1, 2, 1, 100, 1, 12, '2019-11-23', '2019-11-23'),
+(8, 1, 2, 1, 100, 1, 12, '2019-11-23', '2019-11-23');
 
 -- --------------------------------------------------------
 
@@ -1052,7 +1073,8 @@ INSERT INTO `sale_details` (`sale_details_id`, `invoice_id`, `product_id`, `stoc
 (1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, '', 1, 1),
 (2, 2, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, '', 1, 1),
 (3, 3, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, '', 1, 1),
-(4, 4, 1, 0, 5, 1, 0, 0, 0, 1, 1, 1, 1, '', 1, 1);
+(4, 4, 1, 0, 5, 1, 0, 0, 0, 1, 1, 1, 1, '', 1, 1),
+(5, 5, 2, 0, 2, 1, 0, 0, 0, 100, 100, 100, 100, '', 100, 1);
 
 -- --------------------------------------------------------
 
@@ -1106,6 +1128,16 @@ CREATE TABLE `sale_return_list` (
   `dom` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `sale_return_list`
+--
+
+INSERT INTO `sale_return_list` (`srl_id`, `total_amount`, `return_adjustment`, `type`, `status`, `creator`, `doc`, `dom`) VALUES
+(1, 100, 100, 'cashreturn', 0, 12, '2019-11-23', '2019-11-23'),
+(2, 100, 200, 'cashreturn', 0, 12, '2019-11-23', '2019-11-23'),
+(3, 1, 101, 'cashreturn', 0, 12, '2019-11-23', '2019-11-23'),
+(4, 100, 201, 'cashreturn', 0, 12, '2019-11-23', '2019-11-23');
+
 -- --------------------------------------------------------
 
 --
@@ -1127,6 +1159,16 @@ CREATE TABLE `sale_return_main_product` (
   `dom` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `sale_return_main_product`
+--
+
+INSERT INTO `sale_return_main_product` (`srmp_id`, `return_list_id`, `inv_id`, `customer`, `produ_id`, `return_quantity`, `exact_price`, `status`, `type`, `creator`, `doc`, `dom`) VALUES
+(1, 1, 5, 1, 2, 1, 100, 1, 'cashreturn', 12, '2019-11-23', '2019-11-23'),
+(2, 2, 0, 1, 2, 1, 100, 1, 'cashreturn', 12, '2019-11-23', '2019-11-23'),
+(3, 3, 1, 1, 1, 1, 1, 1, 'cashreturn', 12, '2019-11-23', '2019-11-23'),
+(4, 4, 0, 1, 2, 1, 100, 1, 'cashreturn', 12, '2019-11-23', '2019-11-23');
+
 -- --------------------------------------------------------
 
 --
@@ -1142,7 +1184,7 @@ CREATE TABLE `sale_return_receipt_tbl` (
   `creator` varchar(100) NOT NULL,
   `sale_return_doc` varchar(20) NOT NULL,
   `sale_return_dom` varchar(20) NOT NULL,
-  `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1216,7 +1258,7 @@ CREATE TABLE `shop_setup` (
   `one_point_equal` int(20) NOT NULL,
   `one_taka_equal` int(20) NOT NULL,
   `shop_creator` int(10) NOT NULL,
-  `shop_doc` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `shop_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1224,7 +1266,7 @@ CREATE TABLE `shop_setup` (
 --
 
 INSERT INTO `shop_setup` (`shop_id`, `shop_name`, `logo`, `invoicelogo`, `shop_type`, `shop_address`, `shop_status`, `shop_contact`, `one_point_equal`, `one_taka_equal`, `shop_creator`, `shop_doc`) VALUES
-(1, 'Demo Dokani', '', 'cc954b60196773384ed288fe7c9ec23c.jpg', 'Main', 'Sylhet', 1, '123456', 1, 100, 11, '2019-09-26 05:32:33');
+(1, 'Demo Dokani', '', '0dd67c1663d40b60b1c4885d71460a0c.png', 'Main', 'Sylhet', 1, '123456', 1, 100, 11, '2019-11-23 16:14:32');
 
 -- --------------------------------------------------------
 
@@ -1287,7 +1329,7 @@ CREATE TABLE `temp_sale_info` (
   `return_id` int(11) NOT NULL,
   `return_adjust_amount` float NOT NULL,
   `pre_invoice_status` varchar(20) NOT NULL,
-  `temp_sale_doc` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `temp_sale_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1295,7 +1337,7 @@ CREATE TABLE `temp_sale_info` (
 --
 
 INSERT INTO `temp_sale_info` (`temp_sale_id`, `temp_sale_shop_id`, `temp_sale_type`, `temp_customer_id`, `temp_sale_creator`, `temp_sale_status`, `return_id`, `return_adjust_amount`, `pre_invoice_status`, `temp_sale_doc`) VALUES
-(5, 1, '', 0, 12, 1, 0, 0, '', '2019-10-19 08:28:53');
+(7, 1, '', 0, 12, 1, 0, 0, '', '2019-11-23 03:33:10');
 
 -- --------------------------------------------------------
 
@@ -1433,8 +1475,8 @@ CREATE TABLE `transaction_info` (
   `date` date NOT NULL,
   `status` varchar(10) NOT NULL,
   `creator` int(8) NOT NULL,
-  `doc` timestamp NOT NULL DEFAULT current_timestamp(),
-  `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1451,7 +1493,20 @@ INSERT INTO `transaction_info` (`transaction_id`, `transaction_purpose`, `transa
 (7, 'sale', '', 2, 3, 0, '', 1, '2019-10-19', 'active', 12, '2019-10-18 18:00:00', '2019-10-18 18:00:00'),
 (8, 'collection', 'cash', 2, 3, 0, '', 1, '2019-10-19', 'active', 12, '2019-10-18 18:00:00', '2019-10-18 18:00:00'),
 (9, 'sale', '', 1, 4, 0, '', 5, '2019-10-19', 'active', 12, '2019-10-18 18:00:00', '2019-10-18 18:00:00'),
-(10, 'collection', 'cash', 1, 4, 0, '', 5, '2019-10-19', 'active', 12, '2019-10-18 18:00:00', '2019-10-18 18:00:00');
+(10, 'collection', 'cash', 1, 4, 0, '', 5, '2019-10-19', 'active', 12, '2019-10-18 18:00:00', '2019-10-18 18:00:00'),
+(11, 'purchase', '', 1, 2, 0, '', 1000, '2019-11-23', 'active', 12, '2019-11-23 03:13:34', '0000-00-00 00:00:00'),
+(12, 'purchase_return', '', 1, 0, 0, '', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(13, 'purchase_return', '', 1, 0, 0, '', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(14, 'purchase_return', '', 1, 0, 0, '', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(15, 'purchase_return', '', 1, 0, 0, '', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(16, 'purchase_return', '', 1, 0, 0, '', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(17, 'sale', '', 1, 5, 0, '', 200, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(18, 'collection', 'cash', 1, 5, 0, '', 200, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(19, 'sale_return', 'cash', 1, 0, 1, '', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(20, 'purchase_return', '', 1, 0, 0, '', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(21, 'purchase_return', '', 1, 0, 0, '', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(22, 'sale_return', 'cash', 1, 0, 3, '', 1, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00'),
+(23, 'sale_return', 'cash', 1, 0, 4, '', 100, '2019-11-23', 'active', 12, '2019-11-22 18:00:00', '2019-11-22 18:00:00');
 
 -- --------------------------------------------------------
 
@@ -1541,8 +1596,8 @@ CREATE TABLE `users` (
   `user_full_name` varchar(250) COLLATE utf8_bin NOT NULL,
   `user_address` varchar(250) COLLATE utf8_bin NOT NULL,
   `email` varchar(250) COLLATE utf8_bin NOT NULL,
-  `activated` tinyint(1) NOT NULL DEFAULT 1,
-  `banned` tinyint(1) NOT NULL DEFAULT 0,
+  `activated` tinyint(1) NOT NULL DEFAULT '1',
+  `banned` tinyint(1) NOT NULL DEFAULT '0',
   `ban_reason` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `new_password_key` varchar(250) COLLATE utf8_bin DEFAULT NULL,
   `new_password_requested` datetime DEFAULT NULL,
@@ -1551,7 +1606,7 @@ CREATE TABLE `users` (
   `last_ip` varchar(250) COLLATE utf8_bin NOT NULL,
   `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -1559,10 +1614,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `password2`, `shop_id`, `user_type`, `user_full_name`, `user_address`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `last_login`, `created`, `modified`) VALUES
-(12, 'admin', '$2a$08$jtgIWmApi2qjF9YbBC6bKeq22ZpWEZrBXtmHUAKmblCTRFS1pfb1a', '1234', 1, 'superadmin', 'Admin', 'Sylhet', '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-10-19 09:48:32', '2017-06-14 15:46:54', '2019-10-19 03:48:32'),
+(12, 'admin', '$2a$08$jtgIWmApi2qjF9YbBC6bKeq22ZpWEZrBXtmHUAKmblCTRFS1pfb1a', '1234', 1, 'superadmin', 'Admin', 'Sylhet', '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-11-24 19:41:14', '2017-06-14 15:46:54', '2019-11-24 13:41:14'),
 (18, 'seller_1', '$2a$08$prLzr7wcRZ.YNn2wkLZa/uzis/TLpfqfdjvgJTSVH.o3R7vAzjkuG', '', 1, 'seller', 'Seller', 'Sylhet', '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-01-05 17:44:14', '2017-05-05 05:24:51', '2019-02-05 06:27:48'),
 (19, 'demo_user', '$2a$08$.WllJN10vRH/2KrVzzb5/eBtY1QeUkX7DInLPk155PW.bIEg4gsw6', '123456', 1, 'customer', 'demo user', '', '12345678945', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-03-18 16:47:21', '0000-00-00 00:00:00', '2019-03-18 10:47:21'),
-(20, 'Admin1', '$2a$08$7lW4OgQeMK7oTtjSy4Y6E.bXUKJXqyNuCH.04gL0xRF9S6ADCWe06', '123456', 1, 'superadmin', 'Admin1', 'ad', '1234', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-03-19 10:59:08', '2019-03-19 10:58:16', '2019-07-27 05:51:26');
+(20, 'Admin1', '$2a$08$7lW4OgQeMK7oTtjSy4Y6E.bXUKJXqyNuCH.04gL0xRF9S6ADCWe06', '123456', 1, 'superadmin', 'Admin1', 'ad', '1234', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-03-19 10:59:08', '2019-03-19 10:58:16', '2019-07-27 05:51:26'),
+(21, 'ahmed', '$2a$08$w6z1jJf4I2jf7Gfp.S3aYOrCRnh.taFCRohjDF8kNLE8LdiD8eaLW', '123456', 1, 'superadmin', 'ahmed', 'sdsdf', '01784622362', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-11-23 08:57:28', '2019-11-23 08:57:14', '2019-11-23 02:57:28'),
+(22, 'jualahmed', '$2a$08$NAyh.YzJ5eyUgsZVLPWcuOr7uhfUiJxzA.2CwMT1tX9WsMRDs9Oia', '123456789', 1, 'superadmin', 'jualahmed', 'sdfsdf', '01784622365', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-11-23 09:09:57', '2019-11-23 09:09:43', '2019-11-23 03:09:57'),
+(23, 'jahmed', '$2a$08$xHhb7LwHVkvAXUhW85EaweEzc73wFWPwp4bBP9hAF.pbxNOy8ghPu', '123456', 1, 'seller', 'jahmed', 'dsfsdf', '2132', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-11-23 22:50:52', '2019-11-23 22:50:40', '2019-11-23 16:50:52');
 
 -- --------------------------------------------------------
 
@@ -1572,10 +1630,10 @@ INSERT INTO `users` (`id`, `username`, `password`, `password2`, `shop_id`, `user
 
 CREATE TABLE `user_autologin` (
   `key_id` char(32) COLLATE utf8_bin NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT '0',
   `user_agent` varchar(150) COLLATE utf8_bin NOT NULL,
   `last_ip` varchar(40) COLLATE utf8_bin NOT NULL,
-  `last_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -1591,6 +1649,15 @@ CREATE TABLE `user_profiles` (
   `website` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Dumping data for table `user_profiles`
+--
+
+INSERT INTO `user_profiles` (`id`, `user_id`, `country`, `website`) VALUES
+(1, 21, NULL, NULL),
+(2, 22, NULL, NULL),
+(3, 23, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -1603,14 +1670,14 @@ CREATE TABLE `warranty_product_list` (
   `purchase_receipt_id` int(11) DEFAULT NULL,
   `sl_no` int(20) NOT NULL,
   `invoice_id` int(11) DEFAULT NULL,
-  `status` int(1) DEFAULT 1,
+  `status` int(1) DEFAULT '1',
   `purchase_date` date NOT NULL,
   `purchase_price` float NOT NULL,
   `sale_price` float DEFAULT NULL,
   `sale_date` date DEFAULT NULL,
   `creator` int(8) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -2113,13 +2180,13 @@ ALTER TABLE `barcode_print`
 -- AUTO_INCREMENT for table `bulk_stock_info`
 --
 ALTER TABLE `bulk_stock_info`
-  MODIFY `bulk_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `bulk_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cash_book`
 --
 ALTER TABLE `cash_book`
-  MODIFY `cb_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cb_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `catagory_info`
@@ -2275,7 +2342,7 @@ ALTER TABLE `investor_info`
 -- AUTO_INCREMENT for table `invoice_info`
 --
 ALTER TABLE `invoice_info`
-  MODIFY `invoice_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `invoice_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `loan_details_info`
@@ -2323,25 +2390,25 @@ ALTER TABLE `point_info`
 -- AUTO_INCREMENT for table `product_info`
 --
 ALTER TABLE `product_info`
-  MODIFY `product_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `product_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `purchase_info`
 --
 ALTER TABLE `purchase_info`
-  MODIFY `purchase_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `purchase_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `purchase_receipt_info`
 --
 ALTER TABLE `purchase_receipt_info`
-  MODIFY `receipt_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `receipt_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `purchase_return_main_product`
 --
 ALTER TABLE `purchase_return_main_product`
-  MODIFY `prmp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `prmp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `purchase_return_warranty_product`
@@ -2353,7 +2420,7 @@ ALTER TABLE `purchase_return_warranty_product`
 -- AUTO_INCREMENT for table `sale_details`
 --
 ALTER TABLE `sale_details`
-  MODIFY `sale_details_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `sale_details_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sale_price_info`
@@ -2371,13 +2438,13 @@ ALTER TABLE `sale_return_details_tbl`
 -- AUTO_INCREMENT for table `sale_return_list`
 --
 ALTER TABLE `sale_return_list`
-  MODIFY `srl_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `srl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sale_return_main_product`
 --
 ALTER TABLE `sale_return_main_product`
-  MODIFY `srmp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `srmp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sale_return_receipt_tbl`
@@ -2419,13 +2486,13 @@ ALTER TABLE `stock_info`
 -- AUTO_INCREMENT for table `temp_sale_details`
 --
 ALTER TABLE `temp_sale_details`
-  MODIFY `temp_sale_details_id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `temp_sale_details_id` int(12) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `temp_sale_info`
 --
 ALTER TABLE `temp_sale_info`
-  MODIFY `temp_sale_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `temp_sale_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tmp_cash_sale_return_details_tbl`
@@ -2473,7 +2540,7 @@ ALTER TABLE `transaction_details`
 -- AUTO_INCREMENT for table `transaction_info`
 --
 ALTER TABLE `transaction_info`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `transaction_receipt_info`
@@ -2503,13 +2570,13 @@ ALTER TABLE `unit_info`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `user_profiles`
 --
 ALTER TABLE `user_profiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `warranty_product_list`
