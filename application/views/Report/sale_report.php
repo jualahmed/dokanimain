@@ -131,7 +131,7 @@
 						<td>{{ index+1 }}</td>
 						<td align="center">{{ i.sid }}</td>
 						<td>{{ formatDate(i.date_time) }}</td>
-						<td v-if="isinvoice!=1">{{ i.product_name }}</td>
+						<td v-if="isinvoice!=1" style="white-space: normal!important;">{{ i.product_name }}</td>
 						<td v-if="isinvoice!=1">{{ i.company_name }}</td>
 						<td v-if="isinvoice!=1">{{ i.catagory_name }}</td>
 						<td>{{ i.customer_name }}</td>

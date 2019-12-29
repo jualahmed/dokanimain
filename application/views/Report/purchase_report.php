@@ -100,7 +100,7 @@
 							  <td title="Receipt ID">{{ a.receipt_id }}</td>
 							  <td>{{ a.company_name }}</td>
 							  <td>{{ a.catagory_name }}</td>
-							  <td>{{ a.product_name }}</td>
+							  <td style="white-space: normal!important;">{{ a.product_name }}</td>
 							  <td title="Purchase Quantity">{{ a.purchase_quantity }}</td>
 							  <td>{{ a.unit_buy_price }}</td>
 							</tr>

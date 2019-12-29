@@ -252,7 +252,7 @@
               			<td>
               				SL No
               			</td>
-						<td>
+						<td style="white-space: normal!important;">
               				Name
               			</td>
               			<td>
@@ -282,7 +282,7 @@
         			?>
 								<tr style="background-color: white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;    font-weight: 500;">
 									<td id="pro_name"><?php echo $i_num; ?></td>
-									<td id="pro_name"><?php echo $tmp->item_name.' '.$tmp->product_size; ?></td>
+									<td id="pro_name" style="white-space: normal!important;"><?php echo $tmp->item_name.' '.$tmp->product_size; ?></td>
 									<td align="center"><?php echo $tmp->stock; ?></td>
 									<td align="center"> <?php echo $qnty = $tmp->sale_quantity; ?></td>
 									<td align="right"><?php echo $sale_price = $tmp->general_unit_sale_price; ?></td>

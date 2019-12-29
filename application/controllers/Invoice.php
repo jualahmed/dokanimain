@@ -12,6 +12,7 @@ class invoice extends CI_controller{
        		redirect('auth/login');
    		}
 	}
+	
 	// sale invoice
     public function index()
     {
@@ -47,7 +48,7 @@ class invoice extends CI_controller{
 				$number 			= $data['sale_return_info']->row();
 				$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->total_return_amount) . " (TK)";
 
-				$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
+				$this->load->view('Prints/invoices/sale_return', $data);
 			}
 			else{
 				echo 'NOTHING FOUND!!!';
@@ -68,7 +69,7 @@ class invoice extends CI_controller{
 				$number 			= $data['purchase_return_info']->row();
 				$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->total_return_amount) . " (TK)";
 
-				$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
+				$this->load->view('Prints/invoices/purchase_return', $data);
 			}
 			else{
 				echo 'NOTHING FOUND!!!';
@@ -89,7 +90,7 @@ class invoice extends CI_controller{
 				$number 			= $data['collection_payment_info']->row();
 				$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->amount) . " (TK)";
 
-				$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
+				$this->load->view( 'Prints/invoices/collection_payment_invoice', $data);
 			}
 			else{
 				echo 'NOTHING FOUND!!!';

@@ -127,7 +127,7 @@
 						</div>
 						<form action="<?php echo base_url();?>account/do_collection_payment" class="form-horizontal" method="post" enctype="multipart/form-data">					
 							<div class="wrap">
-								<table class="head">
+								<table class="table">
 									<tr>
 										<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif; width:12px;text-align:center;">Total Amount</td>
 										<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif; width:12px;text-align:center;" id="cheque_return" style="display:none;">Cheque Return</td>
@@ -142,7 +142,7 @@
 									</tr>
 								</table>
 								<div class="inner_table">
-									<table class="new_data_2" id="search_data">
+									<table class="table" id="search_data">
 										<tr>
 											<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif; width:30px;"><input type="text" class="form-control total_amount" id="total_amount" style="text-align:right;" readonly></td>
 											<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif; width:30px;text-align:right;display:none;" id="cheque_return_amount2"><input type="text" id="cheque_return_amount" class="form-control" style="text-align:right;" readonly></td>

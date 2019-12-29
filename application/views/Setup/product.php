@@ -149,7 +149,7 @@
 					<div v-if="r.img"><img :src="r.img" width="50px" class="img-circle"></div>
 					<div v-else><img src="<?php echo base_url()."assets/img/avatar.png" ?>" width="50px" class="img-circle"></div>
 				</td>
-				<td>{{ r.product_name }}</td>
+				<td style="white-space: normal!important;">{{ r.product_name }}</td>
 				<td>{{ r.catagory_name }}</td>
 				<td>{{ r.company_name }}</td>
 				<td>

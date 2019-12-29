@@ -88,7 +88,7 @@
   			<tbody>
   				<tr v-for="(d,index) in alldata">
   					<td>{{ index+1 }}</td> 
-  					<td>{{ d.product_name }}</td>
+  					<td style="white-space: normal!important;">{{ d.product_name }}</td>
   					<td>{{ d.stock_amount }}</td>
   					<td>{{ d.bulk_unit_buy_price }}</td>
   					<td>{{ d.general_unit_sale_price }}</td>

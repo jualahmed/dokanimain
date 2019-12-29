@@ -1,7 +1,7 @@
 
 <div class="content-wrapper">
 	<br>
-<section>
+<section class="content">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="box">
@@ -94,7 +94,7 @@
 	</div> 
 </section>
 
-<section class="content2 collection_payment" style="display:none;min-height:0px;">
+<section class="content collection_payment" style="display:none;min-height:0px;">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box">
@@ -128,7 +128,7 @@
 					</div>
 					<form action="<?php echo base_url();?>account/do_collection_payment" class="form-horizontal" method="post" enctype="multipart/form-data">					
 						<div class="wrap">
-							<table class="head">
+							<table class="table">
 								<tr>
 									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif; width:12px;text-align:center;">Total Amount</td>
 									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif; width:12px;text-align:center;">Delivery Charge</td>
@@ -145,7 +145,7 @@
 								</tr>
 							</table>
 							<div class="inner_table">
-								<table class="new_data_2" id="search_data">
+								<table class="table" id="search_data">
 									<tr>
 										<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif; width:30px;"><input type="text" class="form-control total_amount" id="total_amount" style="text-align:right;" readonly></td>
 										<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif; width:30px;text-align:right;"><input type="text" id="delivery_amount" class="form-control delivery_amount" style="text-align:right;" readonly></td>

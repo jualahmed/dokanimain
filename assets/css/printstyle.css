@@ -1,48 +1,22 @@
-.table td, .table th{
-  padding: 0px!important;
+#main_invoice{
+  width: 700px;
+  margin: auto;
 }
-.page-header, .page-header-space {
-  height: 100px;
+.margin-b-0{
+  margin-bottom: 0px!important;
 }
-
-.page-footer, .page-footer-space {
-  height: 50px;
+.w-50{
+  width: 50%;
 }
-
-.page-header,.page-footer{
-	/*display: bl;*/
+.mr-0{
+  margin-right: 0px;
 }
-
-.page-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  border-top: 2px solid #dee2e6;
-  margin-top: 5px;
+.p-0{
+  padding:0px!important;
 }
-
-.page-header {
-  position: fixed;
-  top: 0mm;
-  width: 100%;
+.m-1{
+  margin: 5px!important;
 }
-
-.page {
-  page-break-after: always;
-}
-
-@page {
-  margin: 20mm;
-}
-
-@media print {
-	.page-header,.page-footer{
-		display: block;
-	}
-   thead {display: table-header-group;} 
-   tfoot {display: table-footer-group;}
-   
-   button {display: none;}
-   
-   body {margin: 0;}
+.rows{
+  display: flex;
 }

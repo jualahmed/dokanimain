@@ -269,7 +269,7 @@ $(document).ready(function()
 				if(payment_mode != '' && receipt_type != '' && payment_input != '')
 				{
 					$.ajax({
-						url: '<?php echo base_url()?>account/do_collection_payment',
+						url: base_url+'account/do_collection_payment',
 						type: "POST",
 						cache: false,
 						async: false,
@@ -319,7 +319,7 @@ $(document).ready(function()
 							location.reload(); 
 							if(result!='cheque')
 							{
-								window.open("<?php echo base_url()?>New_invoice_print/collection_payment_invoice/"+result+"/"+receipt_type, '_blank');
+								window.open(base_url+"invoice/collection_payment_invoice/"+result+"/"+receipt_type, '_blank');
 							}         
 						}  
 					});
