@@ -398,7 +398,7 @@ class Report extends MY_controller
 		$start_date=$this->input->post('start_date');
 		$end_date=$this->input->post('end_date');
 		if($saletype==1){
-			$temp2 = $this->report_model->get_sale_info_by_multi1($invoice_id,$customer_id,$product_id,$seller_id,$start_date,$end_date,$company_id,$category_id);
+			$temp2 = $this->report_model->get_sale_info_by_multi1($invoice_id,$customer_id,$seller_id,$start_date,$end_date);
 		}else{
 			$temp2 = $this->report_model->get_sale_info_by_multi($invoice_id,$customer_id,$product_id,$seller_id,$start_date,$end_date,$company_id,$category_id);
 		}
@@ -560,38 +560,24 @@ class Report extends MY_controller
 
 	public function  all_credit_collection_report_find()
 	{
-		$temp3 = $this->report_model->get_credit_collection_info_by_multi();
+		$start_date=$this->input->post('start_date');
+		$end_date=$this->input->post('end_date');
+		$temp3 = $this->report_model->get_credit_collection_info_by_multi($start_date,$end_date);
 		echo json_encode($temp3->result());
 	}
 
 	public function download_credit_collection()
 	{
-		date_default_timezone_set("Asia/Dhaka");
-		$bd_date = date('Y-m-d',time());
-	    $data['all_credit_collection'] = $this->report_model->all_credit_collection();
-		$html=$this->load->view('Download/download_credit_collection',$data, true); 
-		$this->load->library('m_pdf');
-		ob_start();
-		$this->m_pdf->pdf 	= new mPDF('utf-8', 'A4');
-		$this->m_pdf->pdf->SetProtection(array('print'));
-		$this->m_pdf->pdf->SetTitle("Credit Collection Report");
-		$this->m_pdf->pdf->SetAuthor("Dokani");
-		$this->m_pdf->pdf->SetDisplayMode('fullpage');
-		$this->m_pdf->pdf->AddPageByArray(array(
-		'orientation' => '',
-		'mgl' => '10','mgr' => '10','mgt' => '35','mgb' => '20','mgh' => '10','mgf' => '5',
-		));
-		$this->m_pdf->pdf->WriteHTML($html);
-		ob_clean();
-		$this->m_pdf->pdf->Output();
-		ob_end_flush();
-		exit;
+		$start_date = $this ->uri->segment(3);
+		$end_date = $this->uri->segment(4);
+	    $data['all_credit_collection'] = $this->report_model->get_credit_collection_info_by_multi($start_date,$end_date);
+		$this->__renderviewprint('Prints/report/credit_collection',$data); 
 	}
 	
 	function get_other_expense_details(){
 		$start_date = $this->input->post('start_date');
 		$end_date = $this->input->post('end_date');
-		$data = $this -> report_model -> get_other_expense_details($start_date,$end_date);
+		$data = $this->report_model->get_other_expense_details($start_date,$end_date);
 		echo json_encode($data->result());
 	}
 }

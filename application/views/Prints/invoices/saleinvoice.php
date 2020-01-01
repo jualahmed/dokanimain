@@ -15,8 +15,8 @@
 	 	<div id ="main_invoice">
 			<div id = "invoice">
 				<div class="text-center">			
-						<div>  <b><?php echo $this->tank_auth->get_shopname(); ?></b>  </div>
-						<div>  <?php echo $this->tank_auth->get_shopaddress(); ?></div>	
+						<div> <b><?php echo $this->tank_auth->get_shopname(); ?></b>  </div>
+						<div> <?php echo $this->tank_auth->get_shopaddress(); ?></div>	
 						<div> <b>Contact: <?php echo $this->tank_auth->get_shopcontact(); ?></b> </div>
 						<?php
 							$shop_id=$this->tank_auth->get_shop_id();
@@ -27,7 +27,6 @@
 							<img style="width: 20%;" src="<?php echo base_url();?>assets/img/shop/<?php echo $shop_info->invoicelogo ?>">
 						<?php else: ?>
 							<img style="width: 50%;height: 100px" src="<?php echo base_url();?>assets/img/top_logo2.png">
-
 						<?php endif ?> 
 						<div> Invoice # <?php echo $invoice_id; ?></div>
 				</div> <!--end of shop_title_box-->

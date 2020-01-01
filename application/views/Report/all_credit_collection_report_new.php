@@ -42,29 +42,8 @@
 				<div class="box">	 
 					<div class="box-body">
 						<div class="wrap">
-							<table class="head">
-								<tr>
-								  <td style="width:1%;">ID</td>
-								  <td style="width:1%;">Mode</td>
-								  <td style="width:2%;text-align:left;">Customer ID</td>
-								  <td style="width:4%;text-align:left;">Customer Name</td>
-								  <td style="width:2%;text-align:right;">Amount</td>
-								  <td style="width:2%;text-align:center;">Date</td>
-								  <td style="width:2%;text-align:left;">Creator</td>
-								</tr>
-							</table>
-							<div class="inner_table" id="search_data">
-							</div>
-							<table class="head">
-								<tr>
-								  <td style="width:1%;"></td>
-								  <td style="width:1%;"></td>
-								  <td style="width:2%;"></td>
-								  <td style="width:4%;text-align:right;">Total</td>
-								  <td style="width:2%;text-align:right;"><span id="total_amount"></span></td>
-								  <td style="width:2%;"></td>
-								  <td style="width:2%;"></td>
-								</tr>
+							<table class="inner_table table" id="search_data">
+
 							</table>
 						</div>
 					</div>

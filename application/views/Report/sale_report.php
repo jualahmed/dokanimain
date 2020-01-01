@@ -151,9 +151,9 @@
 					</tr>
 					<tr>
 						<td colspan="8"></td>
-						<td><b>Total Quantity: {{ quantity }}</b></td>
-						<td><b>Total BP: {{ amount }}</b></td>
-						<td><b>Total SP:{{ samount }}</b></td>
+						<td><b>Total: {{ quantity }}</b></td>
+						<td><b>Total: {{ amount }}</b></td>
+						<td><b>Total:{{ samount }}</b></td>
 					</tr>
 				</tbody>
 			</table>

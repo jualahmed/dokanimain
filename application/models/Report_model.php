@@ -994,10 +994,9 @@ class Report_model extends CI_model{
 		
 	}
 
-	public function get_credit_collection_info_by_multi()
+	public function get_credit_collection_info_by_multi($start_date,$end_date)
 	{
-		$start_date=$this->input->post('start_date');
-		$end_date=$this->input->post('end_date');
+		
 		$this->db->select('*');
 		$this->db->from('transaction_info,customer_info,users');
 		$this->db->where('transaction_info.ledger_id = customer_info.customer_id');
@@ -1012,28 +1011,6 @@ class Report_model extends CI_model{
 		return $query;	
 	} 	
 	
-	public function all_credit_collection()
-	{
-		$start_date = $this -> uri -> segment(3);
-		$end_date = $this -> uri -> segment(4);
-		$this->db->select('transaction_info.transaction_id,transaction_info.ledger_id,transaction_info.date_time,transaction_info.transaction_mode,transaction_info.amount,customer_info.customer_name,users.user_full_name');
-		$this->db->from('transaction_info,customer_info,users');
-		$this->db->where('transaction_info.ledger_id = customer_info.customer_id');
-		$this->db->where('transaction_info.creator = users.id');
-		$this->db->where('transaction_info.transaction_purpose = "credit_collection"');
-		
-		if($start_date!='null'){$this -> db -> where('transaction_info.date >= "'.$start_date.'"');}
-		if($end_date!='null'){$this -> db -> where('transaction_info.date <= "'.$end_date.'"');}
-		else if($start_date!='null'){$this -> db -> where('transaction_info.date <= "'.$start_date.'"');}
-
-		//$this->db->group_by('transaction_info.expense_id');
-		$this->db->order_by('transaction_info.transaction_id','asc'); 
-		$this->db->order_by('transaction_info.date','asc'); 
-		$query = $this->db->get();
-		
-		return $query;	
-		
-	}		
 	/***************************************************
 	* Calculate Purchase Amount of Specific date      **
 	* **************************************************/

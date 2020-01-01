@@ -4,7 +4,15 @@ $(document).ready(function() {
 		var submiturl = $(this).attr('action');
 		var methods = $(this).attr('method');
 		var output = '';
-		var output2 = '';
+		var output2 = `<tr>
+						  <th style="width:1%;">ID</th>
+						  <th style="width:1%;">Mode</th>
+						  <th style="width:2%;text-align:left;">Customer ID</th>
+						  <th style="width:4%;text-align:left;">Customer Name</th>
+						  <th style="width:2%;text-align:right;">Amount</th>
+						  <th style="width:2%;text-align:center;">Date</th>
+						  <th style="width:2%;text-align:left;">Creator</th>
+						</tr>`;
 		var output3 = '';
 		var total_amount1 = 0.00;
 		var total_amount2 = 0.00;
@@ -19,16 +27,25 @@ $(document).ready(function() {
 				 $(".modal").show();
 			},
 			success: function(result) {	
-				console.log(result);
+				console.log(result)
 				$(".modal").hide();
 				total_amount1 = 0.00;
 				for(i=0; i<result.length; i++)
 				{	
 					var amount1=parseFloat(Math.round(result[i].amount));
 					total_amount1+=parseFloat(Math.round(result[i].amount));
-					output2+='<table><tr><td style="width: 1%;">'+result[i].transaction_id+'</td><td style="width: 1%;">'+result[i].transaction_mode+'</td><td style="width: 2%;">'+result[i].ledger_id+'</td><td style="width: 4%;">'+result[i].customer_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;width: 2%;text-align:right;">'+amount1.toFixed(2)+'</td><td style="width: 2%;text-align:center;">'+result[i].date_time+'</td><td style="width: 2%;">'+result[i].user_full_name+'</td></tr></table>';
+					output2=output2+'<tr><td style="width: 1%;">'+result[i].transaction_id+'</td><td style="width: 1%;">'+result[i].transaction_mode+'</td><td style="width: 2%;">'+result[i].ledger_id+'</td><td style="width: 4%;">'+result[i].customer_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;width: 2%;text-align:right;">'+amount1.toFixed(2)+'</td><td style="width: 2%;text-align:center;">'+result[i].date+'</td><td style="width: 2%;">'+result[i].user_full_name+'</td></tr>';
 					
 				}
+				output2=output2+`<tr>
+								  <td style="width:1%;"></td>
+								  <td style="width:1%;"></td>
+								  <td style="width:2%;"></td>
+								  <td style="width:4%;text-align:right;">Total</td>
+								  <td style="width:2%;text-align:right;"><span id="total_amount"></span></td>
+								  <td style="width:2%;"></td>
+								  <td style="width:2%;"></td>
+								</tr>`
 				if(output2 != '')
 				{
 					$('#search_data').html(output2);
