@@ -318,7 +318,6 @@ class Account extends MY_controller{
 	{
 		$this->db->select('customer_info.customer_id,customer_info.customer_name');
 		$this->db->from('customer_info');
-		$this->db->where('customer_info.customer_id!=',1);
 		$this->db->order_by('customer_info.customer_id','asc');
 		$query = $this->db->get();
 		echo json_encode($query->result());

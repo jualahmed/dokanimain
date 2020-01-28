@@ -47,8 +47,6 @@ $(document).ready(function()
 						{
 							var expense_amount_all =parseFloat(result.ledger_list['receipt_expense_total_amount'][n]['total_expense_amount']).toFixed(2);
 							var service_provider_name =result.ledger_list['receipt_expense_total_amount'][n]['type_type'];
-							//var service_provider_contact =result.ledger_list['receipt_expense_total_amount'][n]['service_provider_contact'];
-							//var service_provider_address =result.ledger_list['receipt_expense_total_amount'][n]['service_provider_address'];
 						}
 						for(m=0;m<result.ledger_list['receipt_expense_payment_total_amount'].length;m++)
 						{
@@ -350,7 +348,7 @@ $(document).ready(function()
 					output34s+='<option value="">Select Expense Type</option>';
 					for(var i=0; i<result.length; i++ )
 					{
-					  output34s+='<option value="'+result[i].type_id+'">'+result[i].type_type+'</option>';
+					  output34s+='<option value="'+result[i].type_id+'">'+result[i].type_name+'</option>';
 					}
 					$("#expense_type").html(output34s);
 					$(".panel_name").html('Expense Payment Panel'); 

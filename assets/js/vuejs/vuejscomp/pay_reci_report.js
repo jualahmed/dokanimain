@@ -16,6 +16,18 @@ $(document).ready(function()
 			var i=0;
 			var k= 1;
 			var mm= 0;
+			output2=output2+`<table class="table">
+								<tr>
+									<td>No</td>
+									<td><span class="global_name_label"></span></td>
+									<td class="global_contact_label1"><span class="global_contact_label"></span></td>
+									<td class="global_address_label1"><span class="global_address_label"></span></td>
+									<td style="text-align:right;">Total Amount</td>
+									<td style="text-align:right;">Paid Amount</td>
+									<td style="text-align:right;">Return</td>
+									<td style="text-align:right;">Amount</td>
+								</tr>
+							`;
 			$.ajax({
 				url: submiturl,
 				type: methods,
@@ -175,6 +187,18 @@ $(document).ready(function()
 			var i=0;
 			var k= 1;
 			var mm= 0;
+			output2=output2+`<table class="table">
+				<tr>
+					<td>No</td>
+					<td><span class="global_name_label"></span></td>
+					<td class="global_contact_label1"><span class="global_contact_label"></span></td>
+					<td class="global_address_label1"><span class="global_address_label"></span></td>
+					<td style="text-align:right;">Total Amount</td>
+					<td style="text-align:right;">Paid Amount</td>
+					<td style="text-align:right;">Return</td>
+					<td style="text-align:right;">Amount</td>
+				</tr>
+			`;
 			$.ajax({
 				url: submiturl,
 				type: methods,
@@ -322,6 +346,18 @@ $(document).ready(function()
 			var i=0;
 			var k= 1;
 			var mm= 0;
+			output2=output2+`<table class="table">
+				<tr>
+					<td>No</td>
+					<td><span class="global_name_label"></span></td>
+					<td class="global_contact_label1"><span class="global_contact_label"></span></td>
+					<td class="global_address_label1"><span class="global_address_label"></span></td>
+					<td style="text-align:right;">Total Amount</td>
+					<td style="text-align:right;">Paid Amount</td>
+					<td style="text-align:right;">Return</td>
+					<td style="text-align:right;">Amount</td>
+				</tr>
+			`;
 			$.ajax({
 				url: submiturl,
 				type: methods,

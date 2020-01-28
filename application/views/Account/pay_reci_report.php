@@ -35,45 +35,32 @@
 			<img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
 		</div>
 	</div>
-<input type="hidden" id="type_id">
-<input type="hidden" id="start">
-<input type="hidden" id="end">
-<section class="content" id="infomsg" style="display:none;">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="box">	 
-				<div class="box-body">
-					<div class="wrap">
-						<table class="table">
-							<tr>
-								<td>No</td>
-								<td><span class="global_name_label"></span></td>
-								<td class="global_contact_label1"><span class="global_contact_label"></span></td>
-								<td class="global_address_label1"><span class="global_address_label"></span></td>
-								<td style="text-align:right;">Total Amount</td>
-								<td style="text-align:right;">Paid Amount</td>
-								<td style="text-align:right;">Return</td>
-								<td style="text-align:right;">Amount</td>
-							</tr>
-						</table>
-						<div class="inner_table">
-							<table class="new_data_2 table" id="search_data">
+	<input type="hidden" id="type_id">
+	<input type="hidden" id="start">
+	<input type="hidden" id="end">
+	<section class="content" id="infomsg" style="display:none;">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box">	 
+					<div class="box-body">
+						<div class="wrap">
+							
+							<div class="inner_table new_data_2" id="search_data">
+								
+							</div>
+							<table class="table">
+								<tr>
+									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
+									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
+									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
+									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:right;"></td>
+									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:right;"><span class="global_amount_sum" style="color:black;font-weight:bold;"></span></td>
+								</tr>
 							</table>
 						</div>
-						<table class="table">
-							<tr>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:right;"></td>
-								<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:right;"><span class="global_amount_sum" style="color:black;font-weight:bold;"></span></td>
-							</tr>
-						</table>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>	
-</section>
-
+		</div>	
+	</section>
 </div>

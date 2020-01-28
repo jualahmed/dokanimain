@@ -1,0 +1,17 @@
+{
+    "name": "jual/dokanicompany",
+    "authors": [
+        {
+            "name": "jual ahmed",
+            "email": "md.jual.ah@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^6.11"
+    },
+    "autoload": {
+        "classmap": [
+            "application/models"
+        ]
+    }
+}

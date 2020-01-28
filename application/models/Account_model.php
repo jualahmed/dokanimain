@@ -67,8 +67,6 @@ class Account_model extends CI_model{
 				   'date'                   			=> $bd_date,
 				   'status'        						=> 'active',
 				   'creator'        					=> $creator,
-				   'doc'   								=> $bd_date,
-				   'dom'    							=> $bd_date
 				);
 				$this->db->insert('transaction_info', $transaction_info);
 				$insert_id1 = $this->db->insert_id();
@@ -80,8 +78,6 @@ class Account_model extends CI_model{
 				   'date'         						=> $bd_date,
 				   'status'    	 						=> 'active',
 				   'creator'                   			=> $creator,
-				   'doc'        						=> $bd_date,
-				   'dom'       							=> $bd_date,
 				);
 				$this->db->insert('cash_book', $cash_book);
 			}
@@ -97,8 +93,6 @@ class Account_model extends CI_model{
 				   'date'                   			=> $bd_date,
 				   'status'        						=> 'active',
 				   'creator'        					=> $creator,
-				   'doc'   								=> $bd_date,
-				   'dom'    							=> $bd_date
 				);
 				$this->db->insert('transaction_info', $transaction_info);
 				$insert_id1 = $this->db->insert_id();
@@ -115,13 +109,12 @@ class Account_model extends CI_model{
 				   'date'         						=> $bd_date,
 				   'status'    	 						=> 'active',
 				   'creator'                   			=> $creator,
-				   'doc'        						=> $bd_date,
-				   'dom'       							=> $bd_date,
 				);
 				$this->db->insert('bank_book', $bank_book);
 			}
 			return $investment_id;
 		}
+
 		function get_loan_receive_in()
 		{
 			if($this->uri->segment(3)=='')
@@ -139,10 +132,9 @@ class Account_model extends CI_model{
 			$this->db->where('transaction_info.ledger_id',$lp_id);
 			$this->db->order_by('transaction_info.transaction_id','asc'); 
 			$query = $this->db->get();
-			
 			return $query;	
-			
-		} 	
+		} 
+		
 		function get_loan_payment_out()
 		{
 			if($this->uri->segment(3)=='')
@@ -1279,7 +1271,7 @@ class Account_model extends CI_model{
 	{
 		$this->db->select('SUM(transaction_info.amount) as total_sale_amount,customer_info.customer_id,customer_info.customer_name,customer_info.customer_contact_no,customer_info.customer_address');
 		$this->db->from('transaction_info,customer_info');			
-		$this->db->where('(transaction_info.transaction_purpose = "sale" OR transaction_info.transaction_purpose = "delivery_charge")');
+		$this->db->where('(transaction_info.transaction_purpose = "sale" OR transaction_info.transaction_purpose = "delivery_charge" OR transaction_info.transaction_purpose = "loan")');
 		$this->db->where('transaction_info.ledger_id = customer_info.customer_id');
 		$this->db->where('transaction_info.ledger_id',$customer_id);
 		$query_data = $this->db->get();
@@ -1457,8 +1449,6 @@ class Account_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $creator,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $collection_info);
 			$insert_id = $this->db->insert_id();
@@ -1470,8 +1460,6 @@ class Account_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'active',
 			   'creator'                   			=> $creator,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('cash_book', $cash_book);
 			return $insert_id;
@@ -1563,8 +1551,6 @@ class Account_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $creator,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $payment_info);
 			$insert_id = $this->db->insert_id();
@@ -1576,8 +1562,6 @@ class Account_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'active',
 			   'creator'                   			=> $creator,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('cash_book', $cash_book);
 			return $insert_id;
@@ -1599,8 +1583,6 @@ class Account_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'inactive',
 			   'creator'                   			=> $creator,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('bank_book', $bank_book);
 			return 'cheque';
@@ -1619,8 +1601,6 @@ class Account_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $creator,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $payment_info);
 			$insert_id = $this->db->insert_id();
@@ -1645,8 +1625,6 @@ class Account_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'active',
 			   'creator'                   			=> $creator,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('bank_book', $bank_book);
 			return $insert_id;
@@ -1670,8 +1648,6 @@ class Account_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $creator,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $payment_info);
 			$insert_id = $this->db->insert_id();
@@ -1683,8 +1659,6 @@ class Account_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'active',
 			   'creator'                   			=> $creator,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('cash_book', $cash_book);
 			return $insert_id;
@@ -1706,8 +1680,6 @@ class Account_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'inactive',
 			   'creator'                   			=> $creator,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('bank_book', $bank_book);
 			return 'cheque';
@@ -1727,8 +1699,6 @@ class Account_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $creator,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $payment_info);
 			$insert_id = $this->db->insert_id();
@@ -1753,8 +1723,6 @@ class Account_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'active',
 			   'creator'                   			=> $creator,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('bank_book', $bank_book);
 			return $insert_id;
@@ -1766,7 +1734,7 @@ class Account_model extends CI_model{
 		if($receipt_type==3)
 		{
 			$data=  $this->db
-					->select('customer_info.customer_name, customer_info.customer_contact_no, customer_info.customer_address,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username')
+					->select('customer_info.customer_name, customer_info.customer_contact_no, customer_info.customer_address,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username,transaction_info.created_at')
 					->from('customer_info,transaction_info,users')
 					->where('transaction_info.ledger_id = customer_info.customer_id')
 					->where('transaction_info.creator = users.id')
@@ -1781,7 +1749,7 @@ class Account_model extends CI_model{
 		else if($receipt_type==1)
 		{
 			$data=  $this->db
-					->select('distributor_info.distributor_name, distributor_info.distributor_contact_no, distributor_info.distributor_address,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username')
+					->select('distributor_info.distributor_name, distributor_info.distributor_contact_no, distributor_info.distributor_address,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username,transaction_info.created_at')
 					->from('distributor_info,transaction_info,users')
 					->where('transaction_info.ledger_id = distributor_info.distributor_id')
 					->where('transaction_info.creator = users.id')
@@ -1796,7 +1764,7 @@ class Account_model extends CI_model{
 		else if($receipt_type==2)
 		{
 			$data=  $this->db
-					->select('employee_info.*,type_info.*,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username')
+					->select('employee_info.*,type_info.*,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username,transaction_info.created_at')
 					->from('type_info,transaction_info,users')
 					->where('transaction_info.sub_id = type_info.type_id')
 					->join('employee_info','transaction_info.ledger_id = employee_info.employee_id','left')

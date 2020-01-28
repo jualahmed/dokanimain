@@ -998,7 +998,7 @@ class Sale_model extends CI_model{
 		$this->db->where('transaction_info.common_id',$invoice_id);
 		$query = $this->db->get();
 		$row = $query->row();
-		$transaction_id = $row->transaction_id;
+		$transaction_id = isset($row->transaction_id) ? $row->transaction_id : '';
 		$this->db->select('SUM(transaction_info.amount) as total_sale_amount');
 		$this->db->from('transaction_info');			
 		$this->db->where('transaction_info.transaction_purpose = "sale"');

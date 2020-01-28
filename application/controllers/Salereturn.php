@@ -441,9 +441,7 @@ class Salereturn extends MY_controller
 						   'amount'     						=> $tmp3->total_return,
 						   'date'                   			=> date('Y-m-d'),
 						   'status'        						=> 'active',
-						   'creator'        					=> $creator,
-						   'doc'   								=> $bd_date,
-						   'dom'    							=> $bd_date
+						   'creator'        					=> $creator
 						);
 						$this->db->insert('transaction_info', $transaction_info);
 						$insert_id = $this->db->insert_id();
@@ -454,9 +452,7 @@ class Salereturn extends MY_controller
 						   'amount'                 			=> $tmp3->total_return,
 						   'date'         						=> $bd_date,
 						   'status'    	 						=> 'active',
-						   'creator'                   			=> $creator,
-						   'doc'        						=> $bd_date,
-						   'dom'       							=> $bd_date
+						   'creator'                   			=> $creator
 						);
 						$this->db->insert('cash_book', $cash_book);
 					}
@@ -473,9 +469,7 @@ class Salereturn extends MY_controller
 						   'amount'     						=> $tmp3->total_return,
 						   'date'                   			=> date('Y-m-d'),
 						   'status'        						=> 'active',
-						   'creator'        					=> $creator,
-						   'doc'   								=> $bd_date,
-						   'dom'    							=> $bd_date
+						   'creator'        					=> $creator
 						);
 						$this->db->insert('transaction_info', $transaction_info);
 					}
@@ -574,9 +568,7 @@ class Salereturn extends MY_controller
 						   'amount'     						=> $tmp3->total_return,
 						   'date'                   			=> date('Y-m-d'),
 						   'status'        						=> 'active',
-						   'creator'        					=> $creator,
-						   'doc'   								=> $bd_date,
-						   'dom'    							=> $bd_date
+						   'creator'        					=> $creator
 						);
 						$this->db->insert('transaction_info', $transaction_info);
 						$insert_id = $this->db->insert_id();
@@ -587,9 +579,7 @@ class Salereturn extends MY_controller
 						   'amount'                 			=> $tmp3->total_return,
 						   'date'         						=> $bd_date,
 						   'status'    	 						=> 'active',
-						   'creator'                   			=> $creator,
-						   'doc'        						=> $bd_date,
-						   'dom'       							=> $bd_date
+						   'creator'                   			=> $creator
 						);
 						$this->db->insert('cash_book', $cash_book);
 					}
@@ -606,9 +596,7 @@ class Salereturn extends MY_controller
 						   'amount'     						=> $tmp3->total_return,
 						   'date'                   			=> date('Y-m-d'),
 						   'status'        						=> 'active',
-						   'creator'        					=> $creator,
-						   'doc'   								=> $bd_date,
-						   'dom'    							=> $bd_date
+						   'creator'        					=> $creator
 						);
 						$this->db->insert('transaction_info', $transaction_info);
 					}

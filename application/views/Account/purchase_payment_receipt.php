@@ -93,7 +93,7 @@
 			</div> 
 		</div> 
 	</section>
-	<section class="content2 collection_payment" style="display:none;min-height:0px;">
+	<section class="content collection_payment" style="display:none;min-height:0px;">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box">
