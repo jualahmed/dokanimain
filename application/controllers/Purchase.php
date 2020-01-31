@@ -146,6 +146,11 @@ class Purchase extends MY_Controller
 		echo json_encode($data);
 	}
 
+	public function find($id='')
+	{
+		
+	}
+
 	// purchase return
 	public function purchase_return()
 	{

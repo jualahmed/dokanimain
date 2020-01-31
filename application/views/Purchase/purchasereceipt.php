@@ -149,12 +149,12 @@
 				<td>{{ r.final_amount }}</td>
 				<td>{{ r.total_paid }}</td>
 				<td>{{ r.receipt_status }}</td>
-			<!-- 	<td>
-					<a data-toggle="modal" :company_id="r.company_id" data-target="#EditModel" class="btn edit btn-sm btn-success" ><i class="fa fa-edit"></i> Edit</a>
-					<a onclick="return confirm('Are you sure your want to delete?')" :href="base_url+'Company/destroy/'+r.company_id" class="btn btn-sm btn-danger" >
+				<td>
+					<a data-toggle="modal" data-target="#dis_adder_mdl" :receipt_id="r.receipt_id" class="btn edit btn-sm btn-success" ><i class="fa fa-edit"></i> Edit</a>
+					<!-- <a onclick="return confirm('Are you sure your want to delete?')" :href="base_url+'Company/destroy/'+r.company_id" class="btn btn-sm btn-danger" >
 						<i class="fa fa-trash"></i> Delete
-					</a>
-				</td> -->
+					</a> -->
+				</td>
 			</tr>
 		</table>
 		<div id='pagination' v-html="pagination[0]"></div>

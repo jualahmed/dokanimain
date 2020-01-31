@@ -36,7 +36,6 @@ var vuejsapp = new Vue({
 	}
 })
 
-
 jQuery(document).ready(function($) {
 	$('#pagination').on('click','.page-link',function(e){
        e.preventDefault(); 
@@ -222,3 +221,4 @@ $(document).ready(function()
 		}
 	});
 });
+
