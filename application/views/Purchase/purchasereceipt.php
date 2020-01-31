@@ -150,7 +150,7 @@
 				<td>{{ r.total_paid }}</td>
 				<td>{{ r.receipt_status }}</td>
 				<td>
-					<a data-toggle="modal" data-target="#dis_adder_mdl" :receipt_id="r.receipt_id" class="btn edit btn-sm btn-success" ><i class="fa fa-edit"></i> Edit</a>
+					<a data-toggle="modal" :purchase_id="r.receipt_id" data-target="#dis_adder_mdl" class="btn edit btn-sm btn-success" ><i class="fa fa-edit"></i> Edit</a>
 					<!-- <a onclick="return confirm('Are you sure your want to delete?')" :href="base_url+'Company/destroy/'+r.company_id" class="btn btn-sm btn-danger" >
 						<i class="fa fa-trash"></i> Delete
 					</a> -->
@@ -162,6 +162,7 @@
 </div>
 
 
+
 <!-- <?php //echo validation_errors(); ?> -->
 <div class="modal"  id="dis_adder_mdl">
 	<div class="modal-dialog">
@@ -169,55 +170,45 @@
 			<div class="modal-header">
 		    	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		    		<span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title">Add Distributor</h4>
+		        <h4 class="modal-title">Add supplier</h4>
 		    </div>
-		    <form id="distributor_info" action="" method="post">
-		    <div class="modal-body">
-		    
-				<table class="table table-bordered">
-	             	<tr>
-	             		<td>Distributor Name:</td>
-	             		<td>
-	             			<input type="text" class="form-control distt_name" id="name" placeholder="Distributor Name" required="on" autocomplete="off">
-	             		</td>
-	             	</tr>
-	             	<tr>
-	             		<td>Phone:</td>
-	             		<td>
-	             			<input type="text" class="form-control" id="phn" placeholder="Phone" required="on" autocomplete="off">
-	             		</td>
-	             	</tr>
-	             	<tr>
-	             		<td>E-mail:</td>
-	             		<td>
-	             			<input type="email" class="form-control" id="mail" placeholder="E-mail" required="on" autocomplete="off">
-	             		</td>
-	             	</tr>
-	             	<tr>
-	             		<td>Address:</td>
-	             		<td>
-	             			<input type="text" class="form-control" id="address" placeholder="Address" required="on" autocomplete="off">
-	             		</td>
-	             	</tr>
-					<tr>
-	             		<td>Initial Balance:</td>
-	             		<td>
-	             			<input type="number" class="form-control" id="int_balance" placeholder="Initial Balance" required="on" autocomplete="off">
-	             		</td>
-	             	</tr>
-	             	<tr>
-	             		<td>Description:</td>
-	             		<td>
-	             			<input type="text" class="form-control" id="des" placeholder="Description" required="on" autocomplete="off">
-	             		</td>
-	             	</tr>
-	       		</table>
+		    <form id="purchaseupdate" action="<?php echo base_url().'purchase/updaterecipt' ?>" method="post">
+			    <div class="modal-body">
+			    
+					<table class="table table-bordered">
+						<input type="hidden" id="purchase_id" name="purchase_id">
+						<input type="hidden" id="supplier_id" name="supplier_id">
+		             	<tr>
+		             		<td>Purchase Amount:</td>
+		             		<td>
+		             			<input type="text" name="purchase_amount" class="form-control" id="purchase_amounts" placeholder="purchase_amount" required="on" autocomplete="off">
+		             		</td>
+		             	</tr>
+		             	<tr>
+		             		<td>Transport Cost:</td>
+		             		<td>
+		             			<input type="text" name="transport_cost" disabled class="form-control" id="transport_costs" placeholder="transport_cost" required="on" autocomplete="off">
+		             		</td>
+		             	</tr>
+		             	<tr>
+		             		<td>Discount:</td>
+		             		<td>
+		             			<input type="text" name="discount" disabled class="form-control" id="discounts" placeholder="discount" required="on" autocomplete="off">
+		             		</td>
+		             	</tr>
+						<tr>
+		             		<td>Total Paid:</td>
+		             		<td>
+		             			<input type="number" disabled name="total_paid" class="form-control" id="total_paids" placeholder="total_paid" required="on" autocomplete="off">
+		             		</td>
+		             	</tr>
+		       		</table>
 
-		    </div>
-		    <div class="modal-footer">
-		    	<button type="button" class="btn" data-dismiss="modal">Close</button>
-		    	<input type="submit" name="submit" id="submit_info" class="btn btn-info" value="Save">
-		    </div>
+			    </div>
+			    <div class="modal-footer">
+			    	<button type="button" class="btn" data-dismiss="modal">Close</button>
+			    	<input type="submit" name="submit" id="submit_info" class="btn btn-info" value="Save">
+			    </div>
 			</form>
 		</div>
 	</div>

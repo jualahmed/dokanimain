@@ -34,6 +34,54 @@ class Purchase extends MY_Controller
 		$this->__renderview('Purchase/purchasereceipt',$data);
 	}
 
+	public function find($id='')
+	{	
+		$id=$this->input->post('purchase_id');
+		echo Purchasereceiptm::find($id);
+	}
+
+	public function updaterecipt()
+	{
+		$jsonData = array('errors' => array(), 'success' => false, 'check' => false, 'output' => '');
+	    $rules = array(
+	      array(
+	        'field' => 'purchase_amount',
+	        'label' => 'purchase_amount',
+	        'rules' => 'required'
+	      )
+	    );
+
+	    $this->form_validation->set_rules($rules);
+	    $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
+	    if ($this->form_validation->run() == TRUE) {
+	      	$jsonData['check'] = true;
+	     
+	      	$purchase_id=$this->input->post('purchase_id');
+	      	$supplier_id=$this->input->post('supplier_id');
+			$purchase = Purchasereceiptm::find($purchase_id);
+			$purchase->purchase_amount = $this->input->post('purchase_amount');
+			$purchase->final_amount = $this->input->post('purchase_amount')-$this->input->post('discount');
+			$purchase->update();
+			$transactionm=Transactionm::where('common_id',$purchase_id)->where('transaction_purpose','purchase')->first();
+			$transactionm->amount=$this->input->post('purchase_amount')-$this->input->post('discount');
+			$transactionm->update();
+			// $transactionm1=Transactionm::where('common_id',$purchase_id)->where('transaction_purpose','payment')->first();
+			// if($transactionm1){
+			// 	$transactionm1->amount=$this->input->post('purchase_amount');
+			// 	$transactionm1->update();
+			// }else{
+			// 	$transactionm=new Transactionm();
+			// }
+	      	$jsonData['success'] = true;
+	    }else {
+	      foreach ($_POST as $key => $value) {
+	        $jsonData['errors'][$key] = form_error($key);
+	      }
+	    }
+	    echo json_encode($jsonData);
+
+	}
+
 	public function create()
 	{
 		$jsonData = array('errors' => array(), 'success' => false, 'check' => false, 'output' => '');
@@ -146,11 +194,6 @@ class Purchase extends MY_Controller
 		echo json_encode($data);
 	}
 
-	public function find($id='')
-	{
-		
-	}
-
 	// purchase return
 	public function purchase_return()
 	{
@@ -192,7 +235,6 @@ class Purchase extends MY_Controller
 		
 		if($ip_id!='')
 		{
-			
 			$main_data = array(
 				'distri_id' => $dis_id,
 				'produ_id' => $pro_id,

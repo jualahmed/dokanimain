@@ -115,6 +115,7 @@ class ComposerStaticInitef4e5afef088b92d22e1407d70c2861e
         'Product_model' => __DIR__ . '/../..' . '/application/models/Product_model.php',
         'Purchase_model' => __DIR__ . '/../..' . '/application/models/Purchase_model.php',
         'Purchaselisting_model' => __DIR__ . '/../..' . '/application/models/Purchaselisting_model.php',
+        'Purchasereceiptm' => __DIR__ . '/../..' . '/application/models/Purchasereceiptm.php',
         'Registration_model' => __DIR__ . '/../..' . '/application/models/Registration_model.php',
         'Report_model' => __DIR__ . '/../..' . '/application/models/Report_model.php',
         'Sale_model' => __DIR__ . '/../..' . '/application/models/Sale_model.php',

@@ -33,6 +33,7 @@ return array(
     'Product_model' => $baseDir . '/application/models/Product_model.php',
     'Purchase_model' => $baseDir . '/application/models/Purchase_model.php',
     'Purchaselisting_model' => $baseDir . '/application/models/Purchaselisting_model.php',
+    'Purchasereceiptm' => $baseDir . '/application/models/Purchasereceiptm.php',
     'Registration_model' => $baseDir . '/application/models/Registration_model.php',
     'Report_model' => $baseDir . '/application/models/Report_model.php',
     'Sale_model' => $baseDir . '/application/models/Sale_model.php',

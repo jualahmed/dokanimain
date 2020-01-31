@@ -36,6 +36,7 @@ var vuejsapp = new Vue({
 	}
 })
 
+
 jQuery(document).ready(function($) {
 	$('#pagination').on('click','.page-link',function(e){
        e.preventDefault(); 
@@ -88,18 +89,18 @@ $(document).ready(function () {
         $('#EditModel').modal('show');
         var purchase_id = $(this).attr('purchase_id');
         $.ajax({
-            url: base_url+'purchase/find',
+            url: base_url+'purchase/find/'+purchase_id,
             method: 'post',
             data: {purchase_id:purchase_id},
             dataType: 'json',
             success: function (res){
                 console.log(res);
-                $('#purchase_id').val(res.purchase_id);
-                $('#purchase_name').val(res.purchase_name);
-                $('#purchase_address').val(res.purchase_address);
-                $('#purchase_contact_no').val(res.purchase_contact_no);
-                $('#purchase_email').val(res.purchase_email);
-                $('#purchase_description').val(res.purchase_description);
+                $('#purchase_id').val(res.receipt_id);
+                $('#supplier_id').val(res.supplier_id);
+                $('#total_paids').val(res.total_paid);
+                $('#purchase_amounts').val(res.purchase_amount);
+                $('#transport_costs').val(res.transport_cost);
+                $('#discounts').val(res.gift_on_purchase);
             }
         });
     });
@@ -113,7 +114,7 @@ $(document).ready(function () {
             data: data,
             dataType: 'json',
             success: function (res){
-                console.log(res)
+    			console.log(res)
                 if (res.check == true) {
                     $('#purchaseupdate').find('div.form-group').removeClass('has-error').removeClass('has-success');
                     $('#purchaseupdate').find('p.text-danger').remove();
@@ -122,7 +123,7 @@ $(document).ready(function () {
                         $('#purchaseupdate').modal('hide');
                         swal({
                             title: "Good job!",
-                            text: "purchase updated successfully!",
+                            text: "Purchase updated successfully!",
                             icon: "success",
                         });
                         setTimeout(() => {
@@ -221,4 +222,3 @@ $(document).ready(function()
 		}
 	});
 });
-
