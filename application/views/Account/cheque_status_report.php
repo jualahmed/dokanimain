@@ -44,21 +44,6 @@
 			<div class="box">	 
 				<div class="box-body">
 					<div class="wrap">
-						<table class="table">
-							<tr>
-							  <td>No</td>
-							  <td>Cheque ID</td>
-							  <td>Cheque Date</td>
-							  <td>Trasaction ID</td>
-							  <td>Ledger Name</td>
-							  <td>Ledger Type</td>
-							  <td>Bank Name</td>
-							  <td>Cheque No</td>
-							  <td style="text-align:right;"> Amount</td>
-							  <td style="text-align:center;">Status</td>
-							  <td style="text-align:center;">Action</td>
-							</tr>
-						</table>
 						<div class="inner_table">
 							<table class="new_data_2" id="search_data">
 							</table>

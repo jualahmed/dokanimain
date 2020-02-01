@@ -6,7 +6,21 @@ $(document).ready(function()
 		var submiturl = $(this).attr('action');
 		var methods = $(this).attr('method');
 		var output = '';
-		var output2 = '';
+		var output2 = `<table class="table">
+							<tr>
+							  <th>No</th>
+							  <th>Cheque ID</th>
+							  <th>Cheque Date</th>
+							  <th>Trasaction ID</th>
+							  <th>Ledger Name</th>
+							  <th>Ledger Type</th>
+							  <th>Bank Name</th>
+							  <th>Cheque No</th>
+							  <th style="text-align:right;"> Amount</th>
+							  <th style="text-align:center;">Status</th>
+							  <th style="text-align:center;">Action</th>
+							</tr>
+						</table>`;
 		var output3 = '';
 		var all_ledger = '';
 		var i=0;
@@ -101,7 +115,7 @@ function editr(par)
 	var td_amount = par.children("td:nth-child(9)"); 
 	var td_status = par.children("td:nth-child(10)"); 
 	var tdButtons = par.children("td:nth-child(11)"); 
-	var urlx='<?php echo base_url();?>modify/cheque_status_edit';
+	var urlx=base_url+'modify/cheque_status_edit';
 	var id=td_id.html();
 	$.ajax({
 		url: urlx,
@@ -134,7 +148,7 @@ function saver(par)
 	var td_status = par.children("td:nth-child(10)"); 
 	var tdButtons = par.children("td:nth-child(11)"); 
 	
-	var urlx='<?php echo base_url();?>modify/save_cheque_status_edit';
+	var urlx=base_url+'modify/save_cheque_status_edit';
 	var hid=td_id.html();
 	var transaction=td_transaction.html();
 	var ledger_type=td_ledger_type.html();
