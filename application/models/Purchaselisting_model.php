@@ -119,7 +119,7 @@ class Purchaselisting_model extends CI_Model {
 			$this->db->set('stock_amount', 'stock_amount - ' . $tmp->purchase_quantity, FALSE);
 			$this->db->where('product_id' , $product_id);
 			$this->db->update('bulk_stock_info');
-			$this->db->where('purchase_id', $purchase_id)->delete('purchase_info');
+			return $this->db->where('purchase_id', $purchase_id)->delete('purchase_info');
 		}
 	}
 

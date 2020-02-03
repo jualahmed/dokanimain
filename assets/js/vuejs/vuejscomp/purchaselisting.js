@@ -238,12 +238,21 @@ jQuery(document).ready(function($) {
                 data      : {purchase_receipt_id: purchase_receipt_id, pro_id: product_id,purchase_id:purchase_id},
                 success: function(result)
                 {	
+                	var result = parseInt(result);
                 	vm.updatepurchase_info();
-                  	swal(
-	                    'Deleted!',
-	                    'Product has been deleted.',
-	                    'success'
-                  	);
+                  	if(result==1){
+	                  	swal(
+		                    'Deleted!',
+		                    'Product has been deleted.',
+		                    'success'
+	                  	);
+	                }else{
+	                	swal({
+				            title               : 'You Can Not Delete The Items',
+				            text                : "You Have Already Sale Product From This Items",
+				            type                : 'warning',
+				        })
+	                }
                 }
               });
           })
