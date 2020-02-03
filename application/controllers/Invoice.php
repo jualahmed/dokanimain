@@ -27,7 +27,13 @@ class invoice extends CI_controller{
 				$number 			= $data['sale_info']->row();
 				$data['receipt_sale_total_amount'] = $this->sale_model->receipt_sale_total_amount($number->customer_id,$data['invoice_id']);
 				$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->grand_total);
-				$this->load->view('Prints/invoices/posinvoice', $data);
+				$this->load->config('custom_config'); 
+				$invoice_type = $this->config->item('invoice_type');
+				if($invoice_type==1){
+					$this->load->view('Prints/invoices/posinvoice', $data);
+				}else{
+					$this->load->view('Prints/invoices/saleinvoice', $data);
+				}
 			}
 			else{
 				echo 'NOTHING FOUND!!!';

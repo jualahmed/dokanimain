@@ -18,17 +18,17 @@ class Sale extends MY_Controller
 	}
 
 	public function is_logged_in() {
-				if(!$this->tank_auth->is_logged_in()) {
-						redirect('auth/login');
-				}
+		if(!$this->tank_auth->is_logged_in()) {
+			redirect('auth/login');
+		}
 	}
 
 	public function addNewSale()
-		{
+	{
 		$data['sale_id'] = $this->sale_model->createNewSale($this->tank_auth->get_user_id(), $this->tank_auth->get_shop_id());
 		$this->tank_auth->set_current_temp_sale( $data['sale_id'] );
 		$this->load->view("Sale/addNewSale", $data);
-		}
+	}
 
 		public function setCurrentSale()
 		{
