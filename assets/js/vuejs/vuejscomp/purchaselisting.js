@@ -48,13 +48,17 @@ const vm = new Vue({
 	    		data: {allworrantyproduct:this.allworrantyproduct,purchase_receipt_id: purchase_receipt_id,product_id:this.selectedCountries.product_id,expiredate:this.expiredate,tp_total:this.tp_total,vat_total:this.vat_total,quantity:this.quantity,total_buy_price:this.total_buy_price,unit_buy_price_purchase:this.unit_buy_price_purchase,exclusive_sale_price:this.exclusive_sale_price,general_sale_price:this.general_sale_price},
 	    	})
 	    	.done(function(re) {
-	    		var re = jQuery.parseJSON(re);
-	    		self.purchase_info[0].push(re[0]);
-	    		self.general_sale_price=0;
-	    		self.exclusive_sale_price=0;
-	    		self.unit_buy_price_purchase=0;
-	    		self.total_buy_price=0;
-	    		self.quantity=0;
+	    		if(re=='exceed'){
+	    			alert("Purchase Priced Exceed Not Allow")
+	    		}else{
+		    		var re = jQuery.parseJSON(re);
+		    		self.purchase_info[0].push(re[0]);
+		    		self.general_sale_price=0;
+		    		self.exclusive_sale_price=0;
+		    		self.unit_buy_price_purchase=0;
+		    		self.total_buy_price=0;
+		    		self.quantity=0;
+		    	}
 	    	})
 	    	.fail(function() {
 	    		console.log("error");

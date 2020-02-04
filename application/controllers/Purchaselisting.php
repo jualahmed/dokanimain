@@ -48,69 +48,81 @@ class Purchaselisting extends MY_Controller {
 		$this->db->where('product_id', $product_id);
 		$alddata=$this->db->get('bulk_stock_info')->row();
 
-		if($alddata){
-			$oldquantity=$alddata->stock_amount;
-			$totalquantity=$quantity+$oldquantity;
-			$unit_buy_price_purchase1=(($alddata->bulk_unit_buy_price*$oldquantity)+($unit_buy_price_purchase*$quantity))/($oldquantity+$quantity);
-			$exclusive_sale_price1=(($alddata->bulk_unit_sale_price*$oldquantity)+($exclusive_sale_price*$quantity))/($oldquantity+$quantity);
-			$general_unit_sale_price1=(($alddata->general_unit_sale_price*$oldquantity)+($general_sale_price*$quantity))/($oldquantity+$quantity);
-			$object=[
-				'stock_amount'=>$totalquantity,
-				'bulk_unit_buy_price'=>$unit_buy_price_purchase1,
-				'bulk_unit_sale_price'=>$exclusive_sale_price1,
-				'general_unit_sale_price'=>$general_unit_sale_price1,
-				'last_buy_price'=>$total_buy_price
-			];
-			$this->db->where('bulk_id', $alddata->bulk_id);
-			$this->db->update('bulk_stock_info',$object);
+		$total_unit_buy_price=0;
+		$purchaseinfoma=Purchaseinfom::where('purchase_receipt_id',$purchase_receipt_id)->get();
+		foreach ($purchaseinfoma as $key => $value) {
+			$total_unit_buy_price+=($value->purchase_quantity*$value->unit_buy_price);
+		}
+		$totalprice=Purchasereceiptinfom::find($purchase_receipt_id);
+		$this->load->config('custom_config'); 
+		$allow_purchase_exceed = $this->config->item('allow_purchase_exceed');
+		if($allow_purchase_exceed==0 && ($total_unit_buy_price+$total_buy_price)>$totalprice->final_amount){
+			echo "exceed";
 		}else{
-			$object=[
-				'stock_amount'=>$quantity,
-				'product_id'=>$product_id,
-				'shop_id'   => $this->tank_auth->get_shop_id(), 
-				'bulk_unit_buy_price'=>$unit_buy_price_purchase,
-				'bulk_unit_sale_price'=>$exclusive_sale_price,
-				'general_unit_sale_price'=>$general_sale_price,
-				'bulk_alarming_stock'=>100,
-				'last_buy_price'=>$total_buy_price,
-			];
-			$this->db->insert('bulk_stock_info', $object);
-		}
-
-		// reciper for info table
-		$data = array(
-	        'purchase_receipt_id' => $purchase_receipt_id,
-	        'product_id' => $product_id,
-	        'purchase_quantity' => $quantity,
-	        'unit_buy_price' => $unit_buy_price_purchase,
-	        'bulk_unit_sale_price' => $exclusive_sale_price,
-	        'general_unit_sale_price' => $general_sale_price,
-	        'purchase_expire_date' => $expiredate,
-	        'purchase_description' => "a test purchase_receipt_id",
-	        'purchase_creator' => $creator,
-	    );
-	    $id=$this->purchaselisting_model->createlisting($data);
-
-	    if(!empty($allworrantyproduct)){
-		    foreach ($allworrantyproduct as $key => $value) {
-				$datass = array(
-			        'product_id' => $product_id,
-			        'purchase_receipt_id' => $purchase_receipt_id,
-			        'sl_no'=>$value,
-			        'purchase_date' => date("Y-m-d"),
-			        'purchase_price' => $unit_buy_price_purchase,
-			        'sale_price' => $general_sale_price,
-			        'creator' => $creator,
-		    	);
-		    	$this->db->insert('warranty_product_list', $datass);
+			if($alddata){
+				$oldquantity=$alddata->stock_amount;
+				$totalquantity=$quantity+$oldquantity;
+				$unit_buy_price_purchase1=(($alddata->bulk_unit_buy_price*$oldquantity)+($unit_buy_price_purchase*$quantity))/($oldquantity+$quantity);
+				$exclusive_sale_price1=(($alddata->bulk_unit_sale_price*$oldquantity)+($exclusive_sale_price*$quantity))/($oldquantity+$quantity);
+				$general_unit_sale_price1=(($alddata->general_unit_sale_price*$oldquantity)+($general_sale_price*$quantity))/($oldquantity+$quantity);
+				$object=[
+					'stock_amount'=>$totalquantity,
+					'bulk_unit_buy_price'=>$unit_buy_price_purchase1,
+					'bulk_unit_sale_price'=>$exclusive_sale_price1,
+					'general_unit_sale_price'=>$general_unit_sale_price1,
+					'last_buy_price'=>$total_buy_price
+				];
+				$this->db->where('bulk_id', $alddata->bulk_id);
+				$this->db->update('bulk_stock_info',$object);
+			}else{
+				$object=[
+					'stock_amount'=>$quantity,
+					'product_id'=>$product_id,
+					'shop_id'   => $this->tank_auth->get_shop_id(), 
+					'bulk_unit_buy_price'=>$unit_buy_price_purchase,
+					'bulk_unit_sale_price'=>$exclusive_sale_price,
+					'general_unit_sale_price'=>$general_sale_price,
+					'bulk_alarming_stock'=>100,
+					'last_buy_price'=>$total_buy_price,
+				];
+				$this->db->insert('bulk_stock_info', $object);
 			}
-		}
 
-	  	$this->db->select('purchase_info.*,product_info.product_name');
-		$this->db->where('purchase_id', $id);
-		$this->db->join('product_info', 'product_info.product_id = purchase_info.product_id');
-		$alldata= $this->db->get('purchase_info')->result();
-	  	echo json_encode($alldata);
+			// reciper for info table
+			$data = array(
+		        'purchase_receipt_id' => $purchase_receipt_id,
+		        'product_id' => $product_id,
+		        'purchase_quantity' => $quantity,
+		        'unit_buy_price' => $unit_buy_price_purchase,
+		        'bulk_unit_sale_price' => $exclusive_sale_price,
+		        'general_unit_sale_price' => $general_sale_price,
+		        'purchase_expire_date' => $expiredate,
+		        'purchase_description' => "a test purchase_receipt_id",
+		        'purchase_creator' => $creator,
+		    );
+		    $id=$this->purchaselisting_model->createlisting($data);
+
+		    if(!empty($allworrantyproduct)){
+			    foreach ($allworrantyproduct as $key => $value) {
+					$datass = array(
+				        'product_id' => $product_id,
+				        'purchase_receipt_id' => $purchase_receipt_id,
+				        'sl_no'=>$value,
+				        'purchase_date' => date("Y-m-d"),
+				        'purchase_price' => $unit_buy_price_purchase,
+				        'sale_price' => $general_sale_price,
+				        'creator' => $creator,
+			    	);
+			    	$this->db->insert('warranty_product_list', $datass);
+				}
+			}
+
+		  	$this->db->select('purchase_info.*,product_info.product_name');
+			$this->db->where('purchase_id', $id);
+			$this->db->join('product_info', 'product_info.product_id = purchase_info.product_id');
+			$alldata= $this->db->get('purchase_info')->result();
+		  	echo json_encode($alldata);
+		}
 	}
 
 	public function allproductbelogntopurchase($purchase_id='')

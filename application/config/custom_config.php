@@ -12,5 +12,5 @@
 	$config['cash_sale_return'] = 1;/** Allow =1, Not Allow = 0 **/
 	$config['product_sale_return'] = 1;/** Allow =1, Not Allow = 0 **/
 	$config['invoice_type'] = 1;/** Pos Printer =1, A4/A5 = 0 **/
-	$config['allow_purchase_exceed'] = 1;/** YES = 1, NO = 0 **/
+	$config['allow_purchase_exceed'] = 0;/** YES = 1, NO = 0 **/
 ?>
