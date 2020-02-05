@@ -46,19 +46,19 @@
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label" style="display:none;" id="exp_type_label">Type</label>
 								<div class="col-sm-2" style="display:none;" id="exp_type_list">
-                   <select name="type_id" class="form-control select2 ledger input-sm" id="type_id">
-                    <?php foreach ($expense_type as $key => $var): ?>
-                      <option value="<?php echo $var->type_id ?>"><?php echo $var->type_name ?></option>
-                    <?php endforeach ?>
-                  </select>
+				                   <select name="type_id" class="form-control select2 ledger input-sm" id="type_id">
+				                    <?php foreach ($expense_type as $key => $var): ?>
+				                      <option value="<?php echo $var->type_id ?>"><?php echo $var->type_name ?></option>
+				                    <?php endforeach ?>
+				                  </select>
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label" style="display:none;" id="emp_label">Employee</label>
 								<div class="col-sm-2" style="display:none;" id="emp_list">
-                  <select name="employee_id" class="form-control select2 ledger input-sm" id="employee_id">
-                    <?php foreach ($employee_info as $key => $var): ?>
-                      <option value="<?php echo $var->employee_id ?>"><?php echo $var->employee_name ?></option>
-                    <?php endforeach ?>
-                  </select>
+				                  <select name="employee_id" class="form-control select2 ledger input-sm" id="employee_id">
+				                    <?php foreach ($employee_info as $key => $var): ?>
+				                      <option value="<?php echo $var->employee_id ?>"><?php echo $var->employee_name ?></option>
+				                    <?php endforeach ?>
+				                  </select>
 								</div>
 								
 								<label for="inputEmail3" class="col-sm-1 control-label" style="display:none;" id="type_label">Type</label>
@@ -107,7 +107,7 @@
 	
 	<div class="modal_loader preload" style="display: none">
 		<div class="center">
-			<img src="<?php echo base_url();?>assets/img/spin.gif" id="loaderIcon"/>
+			<img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
 		</div>
 	</div>
 
