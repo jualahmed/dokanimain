@@ -30,149 +30,149 @@ class Sale extends MY_Controller
 		$this->load->view("Sale/addNewSale", $data);
 	}
 
-		public function setCurrentSale()
-		{
-			$this->tank_auth->set_current_temp_sale($this->input->post('id'));
-			$data['tmp_item']   = $this->sale_model->getAllTmpProduct($this->input->post('id'));
-			$number             = 0;
-				$data['in_word']    = "";
-				if($data['tmp_item'] != FALSE)
-				{
-						foreach ($data['tmp_item']->result() as $tmp)
-						{
-								$number += ($tmp->unit_sale_price * $tmp->sale_quantity);
-						}
-						$VAT 	= ($number * 10) / 100;
-						$number += $VAT;
-				}
-				$number = round($number);
-				if($number != 0){
-					$data['in_word']    = $this->numbertoword->convert_number_to_words($number) . " (TK)"; 
-				}
-			$this->load->view('Sale/setCurrentSale', $data);
-		}
-
-		public function search_product2()
-		{
-			$data['current_sale'] 	= '';        
-				$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
-				if($data['current_sale'] != ''){
-						$key=$this->input->post('term');
-						$data 	= $this->sale_model->search_product($key);
-						$info=[];
-						if(count($data)>0){
-				foreach($data as $tmp){
-					if($tmp->stock_amount == '')$stock = 0;
-					else $stock = $tmp->stock_amount;
-					$info[] = array(
-						'id' 						=> $tmp->product_id,
-						'product_name' 				=> $tmp->product_name,
-						'company_name' 				=> $tmp->company_name,
-						'catagory_name' 			=> $tmp->catagory_name,
-						'product_size' 				=> $tmp->product_size,
-						'product_model' 			=> $tmp->product_model,
-						'mrp_price' 				=> $tmp->bulk_unit_sale_price,
-						'sale_price' 				=> $tmp->general_unit_sale_price,
-						'buy_price' 				=> $tmp->bulk_unit_buy_price,
-						'stock' 					=> $stock,
-						'generic_name' 				=> $tmp->group_name,
-						'barcode' 					=> $tmp->barcode,
-						'product_specification' 	=> $tmp->product_specification,
-						'temp_pro_data' 			=> $tmp->product_id . '<>' . 
-														 $tmp->product_name . '<>' .
-														 $tmp->stock_amount . '<>' .
-														 $tmp->general_unit_sale_price . '<>' .
-														 $tmp->bulk_unit_buy_price . '<>' .
-														 $tmp->product_specification
-					);
-				}
+	public function setCurrentSale()
+	{
+		$this->tank_auth->set_current_temp_sale($this->input->post('id'));
+		$data['tmp_item']   = $this->sale_model->getAllTmpProduct($this->input->post('id'));
+		$number             = 0;
+			$data['in_word']    = "";
+			if($data['tmp_item'] != FALSE)
+			{
+					foreach ($data['tmp_item']->result() as $tmp)
+					{
+							$number += ($tmp->unit_sale_price * $tmp->sale_quantity);
+					}
+					$VAT 	= ($number * 10) / 100;
+					$number += $VAT;
 			}
-			else{
+			$number = round($number);
+			if($number != 0){
+				$data['in_word']    = $this->numbertoword->convert_number_to_words($number) . " (TK)"; 
+			}
+		$this->load->view('Sale/setCurrentSale', $data);
+	}
+
+	public function search_product2()
+	{
+		$data['current_sale'] 	= '';        
+			$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
+			if($data['current_sale'] != ''){
+					$key=$this->input->post('term');
+					$data 	= $this->sale_model->search_product($key);
+					$info=[];
+					if(count($data)>0){
+			foreach($data as $tmp){
+				if($tmp->stock_amount == '')$stock = 0;
+				else $stock = $tmp->stock_amount;
 				$info[] = array(
-					'id' 						=> '',
-					'product_name' 				=> 'Nothing Found',
-					'company_name' 				=> '',
-					'catagory_name' 			=> '',
-					'product_size' 				=> '',
-					'product_model' 			=> '',
-					'mrp_price' 				=> '',
-					'sale_price' 				=> '',
-					'buy_price' 				=> '',
-					'stock' 					=> '',
-					'generic_name' 				=> '',
-					'barcode' 					=> '',
-					'product_specification' 	=> '',
-					'temp_pro_data' 			=> ''
+					'id' 						=> $tmp->product_id,
+					'product_name' 				=> $tmp->product_name,
+					'company_name' 				=> $tmp->company_name,
+					'catagory_name' 			=> $tmp->catagory_name,
+					'product_size' 				=> $tmp->product_size,
+					'product_model' 			=> $tmp->product_model,
+					'mrp_price' 				=> $tmp->bulk_unit_sale_price,
+					'sale_price' 				=> $tmp->general_unit_sale_price,
+					'buy_price' 				=> $tmp->bulk_unit_buy_price,
+					'stock' 					=> $stock,
+					'generic_name' 				=> $tmp->group_name,
+					'barcode' 					=> $tmp->barcode,
+					'product_specification' 	=> $tmp->product_specification,
+					'temp_pro_data' 			=> $tmp->product_id . '<>' . 
+													 $tmp->product_name . '<>' .
+													 $tmp->stock_amount . '<>' .
+													 $tmp->general_unit_sale_price . '<>' .
+													 $tmp->bulk_unit_buy_price . '<>' .
+													 $tmp->product_specification
 				);
 			}
-
-						echo json_encode($info);
-				}
+		}
+		else{
+			$info[] = array(
+				'id' 						=> '',
+				'product_name' 				=> 'Nothing Found',
+				'company_name' 				=> '',
+				'catagory_name' 			=> '',
+				'product_size' 				=> '',
+				'product_model' 			=> '',
+				'mrp_price' 				=> '',
+				'sale_price' 				=> '',
+				'buy_price' 				=> '',
+				'stock' 					=> '',
+				'generic_name' 				=> '',
+				'barcode' 					=> '',
+				'product_specification' 	=> '',
+				'temp_pro_data' 			=> ''
+			);
 		}
 
-		public function search_product_warranty()
+					echo json_encode($info);
+			}
+	}
+
+	public function search_product_warranty()
+	{
+		$data['current_sale'] 	= '';        
+		$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
+		if($data['current_sale'] != '')
 		{
-			$data['current_sale'] 	= '';        
-			$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
-			if($data['current_sale'] != '')
+			$key			= $this->input->post('term');
+			$flag 			= (int)$this->input->post('flag');
+
+			$barcode 	= $this->input->post('barcode');
+			$num_of_tr 	= $this->input->post('num_of_tr');
+
+			if($barcode != '')
 			{
-				$key			= $this->input->post('term');
-				$flag 			= (int)$this->input->post('flag');
-
-				$barcode 	= $this->input->post('barcode');
-				$num_of_tr 	= $this->input->post('num_of_tr');
-
-				if($barcode != '')
-				{
-					$tmp_data = $this->sale_model->search_warranty_product_and_add_to_my_list($barcode);
-					$info=[];
-					if(count($tmp_data)>0){
-						foreach($tmp_data as $tmp){
-							$info[] = array(
-								'id' 						=> $tmp->product_id,
-								'product_name' 				=> $tmp->product_name,
-								'company_name' 				=> $tmp->company_name,
-								'catagory_name' 			=> $tmp->catagory_name,
-								'product_size' 				=> $tmp->product_size,
-								'product_model' 			=> $tmp->product_model,
-								'mrp_price' 				=> $tmp->bulk_unit_sale_price,
-								'sale_price' 				=> $tmp->general_unit_sale_price,
-								'buy_price' 				=> $tmp->bulk_unit_buy_price,
-								'stock' 					=> 1,
-								'generic_name' 				=> $tmp->group_name,
-								'barcode' 					=> $tmp->barcode,
-								'product_specification' 	=> $tmp->product_specification,
-								'temp_pro_data' 			=> $tmp->product_id . '<>' . 
-																 $tmp->product_name . '<>' .
-																 $tmp->stock_amount . '<>' .
-																 $tmp->general_unit_sale_price . '<>' .
-																 $tmp->bulk_unit_buy_price . '<>' .
-																 $tmp->product_specification
-							);
-						}
-					}
-					else{
+				$tmp_data = $this->sale_model->search_warranty_product_and_add_to_my_list($barcode);
+				$info=[];
+				if(count($tmp_data)>0){
+					foreach($tmp_data as $tmp){
 						$info[] = array(
-							'id' 						=> '',
-							'product_name' 				=> 'Nothing Found',
-							'company_name' 				=> '',
-							'catagory_name' 			=> '',
-							'product_size' 				=> '',
-							'product_model' 			=> '',
-							'mrp_price' 				=> '',
-							'sale_price' 				=> '',
-							'buy_price' 				=> '',
-							'stock' 					=> '',
-							'generic_name' 				=> '',
-							'barcode' 					=> '',
-							'product_specification' 	=> '',
-							'temp_pro_data' 			=> ''
+							'id' 						=> $tmp->product_id,
+							'product_name' 				=> $tmp->product_name,
+							'company_name' 				=> $tmp->company_name,
+							'catagory_name' 			=> $tmp->catagory_name,
+							'product_size' 				=> $tmp->product_size,
+							'product_model' 			=> $tmp->product_model,
+							'mrp_price' 				=> $tmp->bulk_unit_sale_price,
+							'sale_price' 				=> $tmp->general_unit_sale_price,
+							'buy_price' 				=> $tmp->bulk_unit_buy_price,
+							'stock' 					=> 1,
+							'generic_name' 				=> $tmp->group_name,
+							'barcode' 					=> $tmp->barcode,
+							'product_specification' 	=> $tmp->product_specification,
+							'temp_pro_data' 			=> $tmp->product_id . '<>' . 
+															 $tmp->product_name . '<>' .
+															 $tmp->stock_amount . '<>' .
+															 $tmp->general_unit_sale_price . '<>' .
+															 $tmp->bulk_unit_buy_price . '<>' .
+															 $tmp->product_specification
 						);
 					}
-					echo json_encode($info);
 				}
+				else{
+					$info[] = array(
+						'id' 						=> '',
+						'product_name' 				=> 'Nothing Found',
+						'company_name' 				=> '',
+						'catagory_name' 			=> '',
+						'product_size' 				=> '',
+						'product_model' 			=> '',
+						'mrp_price' 				=> '',
+						'sale_price' 				=> '',
+						'buy_price' 				=> '',
+						'stock' 					=> '',
+						'generic_name' 				=> '',
+						'barcode' 					=> '',
+						'product_specification' 	=> '',
+						'temp_pro_data' 			=> ''
+					);
+				}
+				echo json_encode($info);
 			}
 		}
+	}
 
 	public function new_sale()
 	{
@@ -186,30 +186,30 @@ class Sale extends MY_Controller
 		$value_added_tax 		= $this->config->item('VAT');
 		$tmp_customer_info 		= "";  
 		$data['current_sale_customer'] 	= $this->sale_model->get_current_sale_customer($data['current_sale']);
-				$data['sale_invoice_status'] 	= $this->sale_model->get_current_sale_invoice_status($data['current_sale']);
-				$data['customer_info'] 	= $this->customer_model->all();
-				$data['card_info'] 	= $this->bankcard_model->cardall();
+		$data['sale_invoice_status'] 	= $this->sale_model->get_current_sale_invoice_status($data['current_sale']);
+		$data['customer_info'] 	= $this->customer_model->all();
+		$data['card_info'] 	= $this->bankcard_model->cardall();
 		$data['tmp_item']   		= $this->sale_model->getAllTmpProduct($this->tank_auth->get_current_temp_sale());
 		$data['return_id'] 			= $this->sale_model->getReturnId($this->tank_auth->get_current_temp_sale());
 		$data['return_adjust'] 		= $this->sale_model->getReturnAdjustAmount($this->tank_auth->get_current_temp_sale());
-				$number             		= 0;
-				$data['in_word']    		= "";
-				if($data['tmp_item'] != FALSE)
+		$number             		= 0;
+		$data['in_word']    		= "";
+		if($data['tmp_item'] != FALSE)
+		{
+				foreach ($data['tmp_item']->result() as $tmp)
 				{
-						foreach ($data['tmp_item']->result() as $tmp)
-						{
-								$number += ($tmp->unit_sale_price * $tmp->sale_quantity);
-						}
-						$VAT 	= ($number * $value_added_tax) / 100;
-						$number += $VAT;
-						$number = round($number);
+						$number += ($tmp->unit_sale_price * $tmp->sale_quantity);
 				}
-				if($number != 0)$data['in_word']    = $this->numbertoword->convert_number_to_words($number) . " (TK)";
-				
-				$tmp_sale_return_id 	= $this->tank_auth->get_current_sale_return_id();
-				$tmp_current_sale_id 	= $this->tank_auth->get_current_temp_sale();
+				$VAT 	= ($number * $value_added_tax) / 100;
+				$number += $VAT;
+				$number = round($number);
+		}
+		if($number != 0)$data['in_word']    = $this->numbertoword->convert_number_to_words($number) . " (TK)";
+		
+		$tmp_sale_return_id 	= $this->tank_auth->get_current_sale_return_id();
+		$tmp_current_sale_id 	= $this->tank_auth->get_current_temp_sale();
 
-				$data['sale_return_info'] = $this->sale_model->getAllSaleReturnProduct($tmp_sale_return_id, $tmp_current_sale_id);
+		$data['sale_return_info'] = $this->sale_model->getAllSaleReturnProduct($tmp_sale_return_id, $tmp_current_sale_id);
 		$data['vuejscomp'] = 'new_sale.js';
 		$this->__renderview('Sale/new_sale',$data);
 	}

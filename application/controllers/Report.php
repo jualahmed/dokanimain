@@ -52,7 +52,6 @@ class Report extends MY_controller
 		//Stock Report Start//
 		$temp_date = date("Y-m-d",strtotime(date("Y-m-d", strtotime($end_date)) . " +1 day"));
 		$pre_date = date("Y-m-d",strtotime(date("Y-m-d", strtotime($start_date)) . " -1 day"));
-		$data['payable_receivable_financial_statement'] = $this->report_model->payable_receivable_financial_statement($start_date,$end_date);
 		$data['sale_price_info'] = $this->report_model->todays_sale($start_date,$end_date);
 		$data['purchase_return_info'] = $this->report_model->purchase_return_info($start_date,$end_date);
 		$data['from_bank_opening'] = $this->report_model->from_bank_opening($pre_date);
@@ -130,7 +129,6 @@ class Report extends MY_controller
 		//Stock Report Start//
 		$temp_date = date("Y-m-d",strtotime(date("Y-m-d", strtotime($end_date)) . " +1 day"));
 		$pre_date = date("Y-m-d",strtotime(date("Y-m-d", strtotime($start_date)) . " -1 day"));
-		$this->data['payable_receivable_financial_statement'] = $this->report_model->payable_receivable_financial_statement($start_date,$end_date);
 		$this->data['sale_price_info'] = $this->report_model->todays_sale($start_date,$end_date);
 		$this->data['sale_return_info'] = $this-> report_model->sale_return_info($start_date,$end_date);
 		$this->data['purchase_return_info'] = $this->report_model->purchase_return_info($start_date,$end_date);

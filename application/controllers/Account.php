@@ -185,7 +185,7 @@ class Account extends MY_controller{
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
-		$data['loan_person_info'] = $this->account_model->loan_person_info();
+		$data['loan_person_info'] = Customerm::all();
 		$data['bank_info'] = $this->bankcard_model->all();
 		$data['vuejscomp'] = 'loan_transfer.js';
 		$this->__renderview('Account/loan_transfer', $data);
@@ -198,7 +198,7 @@ class Account extends MY_controller{
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
-		$data['loan_person_info'] = $this->account_model->loan_person_info();
+		$data['loan_person_info'] = Customerm::all();
 		$data['vuejscomp'] = 'loan_transfer_report.js';
 		$this->__renderview('Account/loan_transfer_report', $data);
 	}
@@ -523,10 +523,10 @@ class Account extends MY_controller{
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
-		$data['owner_info'] = $this -> account_model -> owner_info();
+		$data['owner_info'] = $this->account_model->owner_info();
 		
 		
-		$transfer_id = $this -> account_model -> create_owner_transfer();
+		$transfer_id = $this->account_model->create_owner_transfer();
 
 		if($transfer_id!=''){
 			$data['status'] = 'success';
@@ -545,10 +545,10 @@ class Account extends MY_controller{
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
-		$data['loan_person_info'] = $this -> account_model -> loan_person_info();
+		$data['loan_person_info'] = Customerm::all();
 		
 		
-		$transfer_id = $this -> account_model -> create_loan_transfer();
+		$transfer_id = $this->account_model->create_loan_transfer();
 
 		if($transfer_id!=''){
 			$data['status'] = 'success';
@@ -560,7 +560,7 @@ class Account extends MY_controller{
 		}	
 	}
 
-	function all_loan_transfer_report_find()
+	public function all_loan_transfer_report_find()
 	{
 		$credit = array();
 		$debit = array();
@@ -571,7 +571,7 @@ class Account extends MY_controller{
 		echo json_encode(array('credit'=>$credit,'debit'=>$debit));
 	}
 
-	function download_loan_transfer()
+	public function download_loan_transfer()
 	{
 		date_default_timezone_set("Asia/Dhaka");
 		$bd_date = date('Y-m-d',time());

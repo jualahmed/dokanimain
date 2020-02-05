@@ -122,9 +122,6 @@
 					<li class="<?php echo active_link_function('product','searchBarcode'); ?>">
 						<a href="<?php echo base_url();?>product/searchBarcode"><i class="fa fa-search-plus"></i>Barcode Print</a>
 					</li>
-					<li class="<?php echo active_link_function('loan','index'); ?>">
-						<a href="<?php echo base_url();?>loan"><i class="fa fa-search-plus"></i>Loan</a>
-					</li> 
 				</ul>
 			</li>
 		<?php }?>

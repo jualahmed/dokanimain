@@ -7,7 +7,6 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="icon" href="<?php echo base_url(); ?>images/favicon.ico"  type="image/x-icon"/>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/posinvoice.css" type="text/css"/>
-	<script src="<?php echo base_url();?>js/jquery-1.10.2.js"></script>
 	<style>
 		.pos_top_header_fourth_left{
 			width: 74%;
@@ -16,16 +15,6 @@
 			width: 25%;
 		}
 	</style>
-	
-	<script type="text/javascript">
-		$(function(){
-			window.onload	= function(){ self.print();}
-			window.onfocus	= function(){ window.close();}
-			// window.print();
-			// window.close();
-		});
-
-	</script>
 </head>
 	<body> 
 		<div id= "main_container_body_main">
@@ -46,7 +35,7 @@
 						$shop_info=$this->db->get('shop_setup')->row();
 					?>
 					<?php if (isset($shop_info->invoicelogo)): ?>
-						<img style="width: 20%;" src="<?php echo base_url();?>assets/img/shop/<?php echo $shop_info->invoicelogo ?>">
+						<img style="width: 140px;" src="<?php echo base_url();?>assets/img/shop/<?php echo $shop_info->invoicelogo ?>">
 					<?php else: ?>
 						<img style="width: 50%;height: 100px" src="<?php echo base_url();?>assets/img/top_logo2.png">
 					<?php endif ?> 
@@ -55,17 +44,14 @@
 				</a>
 				<!-- <div id ="pos_top_header_right"></div> -->
 			</div>
-			<?php 
-				$timezone = "Asia/Dhaka";
-				date_default_timezone_set($timezone);
-			?>
+		
 			<div class ="pos_top_header_second"><?php $row_data = $sale_info->row(); ?>
 				<div class ="pos_top_header_second_left" style="font-weight: bold; ">Invoice : <?php echo $invoice_id; ?></div>
 				<div class ="pos_top_header_second_middle" style="font-weight: bold; width:120px;margin:0px 0px 0px 6px; "> Creator : <?php echo $row_data->username; ?></div>
 			</div>
 			<div class ="pos_top_header_second">
 				<div id ="pos_top_header_second_right" style="font-weight: bold; ">Date : <?php $newDate = date("d-m-Y", strtotime($row_data->invoice_doc));echo $newDate; ?></div>
-				<div id ="pos_top_header_second_right_1" style="font-weight: bold; margin:0px 0px 0px 5px;">Time : <?php $newDate1 = date("h:i A");echo $newDate1; ?></div>
+				<div id ="pos_top_header_second_right_1" style="font-weight: bold; margin:0px 0px 0px 5px;">Time : <?php $newDate1 = date("h:i A",strtotime($row_data->date_time));echo $newDate1; ?></div>
 			</div>
 			<div class ="pos_top_header_second">
 				<div class ="pos_top_header_second_left_two" style="font-weight: bold; ">Customer : <?php echo $row_data->customer_name; ?></div>

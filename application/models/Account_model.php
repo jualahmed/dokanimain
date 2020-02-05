@@ -125,9 +125,9 @@ class Account_model extends CI_model{
 				$lp_id=$this->uri->segment(3);
 			}
 
-			$this->db->select('transaction_info.*,loan_person_info.loan_person_name');
-			$this->db->from('transaction_info,loan_person_info');
-			$this->db->where('transaction_info.ledger_id=loan_person_info.lp_id');
+			$this->db->select('transaction_info.*,customer_info.customer_name');
+			$this->db->from('transaction_info,customer_info');
+			$this->db->where('transaction_info.ledger_id=customer_info.customer_id');
 			$this->db->where('transaction_info.transaction_purpose="loan_receive"');
 			$this->db->where('transaction_info.ledger_id',$lp_id);
 			$this->db->order_by('transaction_info.transaction_id','asc'); 
@@ -145,9 +145,9 @@ class Account_model extends CI_model{
 				$lp_id=$this->uri->segment(3);
 			}
 
-			$this->db->select('transaction_info.*,loan_person_info.loan_person_name');
-			$this->db->from('transaction_info,loan_person_info');
-			$this->db->where('transaction_info.ledger_id=loan_person_info.lp_id');
+			$this->db->select('transaction_info.*,customer_info.customer_name');
+			$this->db->from('transaction_info,customer_info');
+			$this->db->where('transaction_info.ledger_id=customer_info.customer_id');
 			$this->db->where('transaction_info.transaction_purpose="loan_payment"');
 			$this->db->where('transaction_info.ledger_id',$lp_id);
 			$this->db->order_by('transaction_info.transaction_id','asc'); 
@@ -947,13 +947,13 @@ class Account_model extends CI_model{
 	public function create_owner_transfer()
 	{
 		$bd_date = date('Y-m-d');
-		$transfer_type = $this -> input -> post('transfer_type');
-		$payment_type = $this -> input -> post('payment_type');
-		$owner_id  = $this -> input -> post('owner_id');
-		$bank_id  = $this -> input -> post('bank_id');
-		$cheque_no  = $this -> input -> post('cheque_no');
-		$cheque_date  = $this -> input -> post('cheque_date');
-		$amount  = $this -> input -> post('amount');
+		$transfer_type = $this->input->post('transfer_type');
+		$payment_type = $this->input->post('payment_type');
+		$owner_id  = $this->input->post('owner_id');
+		$bank_id  = $this->input->post('bank_id');
+		$cheque_no  = $this->input->post('cheque_no');
+		$cheque_date  = $this->input->post('cheque_date');
+		$amount  = $this->input->post('amount');
 		$creator = $this->tank_auth->get_user_id();
 		if($transfer_type ==1)
 		{
@@ -967,10 +967,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$this -> db -> insert('transaction_info',$to_owner_transaction_info);
+				$this->db->insert('transaction_info',$to_owner_transaction_info);
 				$transaction_id = $this->db->insert_id();
 				$to_owner_book = array(
 					'transaction_id' =>$transaction_id, 
@@ -982,10 +980,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$insert = $this -> db -> insert('owner_book',$to_owner_book);
+				$insert = $this->db->insert('owner_book',$to_owner_book);
 				$out_cash_book = array(
 					'transaction_id' =>$transaction_id, 
 					'transaction_type' => 'out',
@@ -993,10 +989,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$insert = $this -> db -> insert('cash_book',$out_cash_book);
+				$insert = $this->db->insert('cash_book',$out_cash_book);
 				return $transaction_id;
 			}
 			else
@@ -1009,10 +1003,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$this -> db -> insert('transaction_info',$from_owner_transaction_info);
+				$this->db->insert('transaction_info',$from_owner_transaction_info);
 				$transaction_id = $this->db->insert_id();
 				$from_owner_book = array(
 					'transaction_id' =>$transaction_id, 
@@ -1024,10 +1016,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$insert = $this -> db -> insert('owner_book',$from_owner_book);
+				$insert = $this->db->insert('owner_book',$from_owner_book);
 				$in_bank_book = array(
 					'transaction_id' =>$transaction_id, 
 					'transaction_type' => 'out',
@@ -1038,10 +1028,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$insert = $this -> db -> insert('bank_book',$in_bank_book);
+				$insert = $this->db->insert('bank_book',$in_bank_book);
 				return $transaction_id;
 			}
 		}
@@ -1057,10 +1045,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$this -> db -> insert('transaction_info',$from_owner_transaction_info);
+				$this->db->insert('transaction_info',$from_owner_transaction_info);
 				$transaction_id = $this->db->insert_id();
 				$from_owner_book = array(
 					'transaction_id' =>$transaction_id, 
@@ -1072,10 +1058,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$insert = $this -> db -> insert('owner_book',$from_owner_book);
+				$insert = $this->db->insert('owner_book',$from_owner_book);
 				$in_cash_book = array(
 					'transaction_id' =>$transaction_id, 
 					'transaction_type' => 'in',
@@ -1083,10 +1067,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$insert = $this -> db -> insert('cash_book',$in_cash_book);
+				$insert = $this->db->insert('cash_book',$in_cash_book);
 				return $transaction_id;
 			}
 			else
@@ -1099,10 +1081,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$this -> db -> insert('transaction_info',$from_owner_transaction_info);
+				$this->db->insert('transaction_info',$from_owner_transaction_info);
 				$transaction_id = $this->db->insert_id();
 				$from_owner_book = array(
 					'transaction_id' =>$transaction_id, 
@@ -1114,10 +1094,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$insert = $this -> db -> insert('owner_book',$from_owner_book);
+				$insert = $this->db->insert('owner_book',$from_owner_book);
 				$in_bank_book = array(
 					'transaction_id' =>$transaction_id, 
 					'transaction_type' => 'in',
@@ -1128,10 +1106,8 @@ class Account_model extends CI_model{
 					'date' => $bd_date,
 					'status' => 'active',
 					'creator' => $creator,
-					'doc' => $bd_date,
-					'dom' => $bd_date
 				);
-				$insert = $this -> db -> insert('bank_book',$in_bank_book);
+				$insert = $this->db->insert('bank_book',$in_bank_book);
 				return $transaction_id;
 			}
 		}
@@ -1140,13 +1116,10 @@ class Account_model extends CI_model{
 	/* insert bank information to bank_info table   */
 	function create_loan_transfer()
 	{
-		$timezone = "Asia/Dhaka";
-		date_default_timezone_set($timezone);
 		$bd_date = date('Y-m-d');
-		
-		$transfer_type = $this -> input -> post('transfer_type');
-		$lp_id  = $this -> input -> post('lp_id');
-		$amount  = $this -> input -> post('amount');
+		$transfer_type = $this->input->post('transfer_type');
+		$lp_id  = $this->input->post('lp_id');
+		$amount  = $this->input->post('amount');
 		$creator = $this->tank_auth->get_user_id();
 		
 		if($transfer_type ==1)
@@ -1159,10 +1132,8 @@ class Account_model extends CI_model{
 				'date' => $bd_date,
 				'status' => 'active',
 				'creator' => $creator,
-				'doc' => $bd_date,
-				'dom' => $bd_date
 			);
-			$this -> db -> insert('transaction_info',$loan_receive_transaction_info);
+			$this->db->insert('transaction_info',$loan_receive_transaction_info);
 			$transaction_id = $this->db->insert_id();
 			$in_cash_book = array(
 				'transaction_id' =>$transaction_id, 
@@ -1171,10 +1142,8 @@ class Account_model extends CI_model{
 				'date' => $bd_date,
 				'status' => 'active',
 				'creator' => $creator,
-				'doc' => $bd_date,
-				'dom' => $bd_date
 			);
-			$insert = $this -> db -> insert('cash_book',$in_cash_book);
+			$insert = $this->db->insert('cash_book',$in_cash_book);
 			return $transaction_id;
 		}
 		else
@@ -1187,8 +1156,6 @@ class Account_model extends CI_model{
 				'date' => $bd_date,
 				'status' => 'active',
 				'creator' => $creator,
-				'doc' => $bd_date,
-				'dom' => $bd_date
 			);
 			$this -> db -> insert('transaction_info',$loan_payment_transaction_info);
 			$transaction_id = $this->db->insert_id();
@@ -1199,8 +1166,6 @@ class Account_model extends CI_model{
 				'date' => $bd_date,
 				'status' => 'active',
 				'creator' => $creator,
-				'doc' => $bd_date,
-				'dom' => $bd_date
 			);
 			$insert = $this -> db -> insert('cash_book',$out_cash_book);
 			return $transaction_id;
@@ -1477,8 +1442,6 @@ class Account_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'inactive',
 			   'creator'                   			=> $creator,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('bank_book', $bank_book);
 			return 'cheque';
@@ -1497,8 +1460,6 @@ class Account_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $creator,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $collection_info);
 			$insert_id = $this->db->insert_id();
@@ -1523,8 +1484,6 @@ class Account_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'active',
 			   'creator'                   			=> $creator,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('bank_book', $bank_book);
 			return $insert_id;

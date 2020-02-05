@@ -398,8 +398,6 @@ class Sale_model extends CI_model{
            'date'                   			=> date('Y-m-d'),
            'status'        						=> 'active',
            'creator'        					=> $this->currentUser,
-           'doc'   								=> date('Y-m-d'),
-           'dom'    							=> date('Y-m-d')
         );
         $this->db->insert('transaction_info', $sale_info);
         $insert_id = $this->db->insert_id();
@@ -416,8 +414,6 @@ class Sale_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $this->currentUser,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $delivery_info);
 		}
@@ -436,8 +432,6 @@ class Sale_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $this->currentUser,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $collection_info);
 			$insert_id1 = $this->db->insert_id();
@@ -455,8 +449,6 @@ class Sale_model extends CI_model{
 				   'date'                   			=> date('Y-m-d'),
 				   'status'        						=> 'active',
 				   'creator'        					=> $this->currentUser,
-				   'doc'   								=> date('Y-m-d'),
-				   'dom'    							=> date('Y-m-d')
 				);
 				$this->db->insert('transaction_info', $collection_info2);
 				$insert_id = $this->db->insert_id();
@@ -468,8 +460,6 @@ class Sale_model extends CI_model{
 				   'date'         						=> date('Y-m-d'),
 				   'status'    	 						=> 'active',
 				   'creator'                   			=> $this->currentUser,
-				   'doc'        						=> date('Y-m-d'),
-				   'dom'       							=> date('Y-m-d')
 				);
 				$this->db->insert('cash_book', $cash_book2);
 			}
@@ -486,8 +476,6 @@ class Sale_model extends CI_model{
 				   'date'                   			=> date('Y-m-d'),
 				   'status'        						=> 'active',
 				   'creator'        					=> $this->currentUser,
-				   'doc'   								=> date('Y-m-d'),
-				   'dom'    							=> date('Y-m-d')
 				);
 				$this->db->insert('transaction_info', $collection_info2);
 				$insert_id = $this->db->insert_id();
@@ -499,8 +487,6 @@ class Sale_model extends CI_model{
 				   'date'         						=> date('Y-m-d'),
 				   'status'    	 						=> 'active',
 				   'creator'                   			=> $this->currentUser,
-				   'doc'        						=> date('Y-m-d'),
-				   'dom'       							=> date('Y-m-d')
 				);
 				$this->db->insert('cash_book', $cash_book2);
 			}
@@ -517,8 +503,6 @@ class Sale_model extends CI_model{
 				   'date'                   			=> date('Y-m-d'),
 				   'status'        						=> 'active',
 				   'creator'        					=> $this->currentUser,
-				   'doc'   								=> date('Y-m-d'),
-				   'dom'    							=> date('Y-m-d')
 				);
 				$this->db->insert('transaction_info', $collection_info3);
 				$insert_id = $this->db->insert_id();
@@ -530,8 +514,6 @@ class Sale_model extends CI_model{
 				   'date'         						=> date('Y-m-d'),
 				   'status'    	 						=> 'active',
 				   'creator'                   			=> $this->currentUser,
-				   'doc'        						=> date('Y-m-d'),
-				   'dom'       							=> date('Y-m-d')
 				);
 				$this->db->insert('cash_book', $cash_book3);
 			}
@@ -552,8 +534,6 @@ class Sale_model extends CI_model{
 				   'date'                   			=> date('Y-m-d'),
 				   'status'        						=> 'active',
 				   'creator'        					=> $this->currentUser,
-				   'doc'   								=> date('Y-m-d'),
-				   'dom'    							=> date('Y-m-d')
 				);
 				$this->db->insert('transaction_info', $collection_info);
 				$insert_id = $this->db->insert_id();
@@ -565,8 +545,6 @@ class Sale_model extends CI_model{
 				   'date'         						=> date('Y-m-d'),
 				   'status'    	 						=> 'active',
 				   'creator'                   			=> $this->currentUser,
-				   'doc'        						=> date('Y-m-d'),
-				   'dom'       							=> date('Y-m-d')
 				);
 				$this->db->insert('cash_book', $cash_book);
 			}
@@ -591,8 +569,6 @@ class Sale_model extends CI_model{
 				   'date'                   			=> date('Y-m-d'),
 				   'status'        						=> 'active',
 				   'creator'        					=> $this->currentUser,
-				   'doc'   								=> date('Y-m-d'),
-				   'dom'    							=> date('Y-m-d')
 				);
 				$this->db->insert('transaction_info', $collection_info);
 				$insert_id = $this->db->insert_id();
@@ -604,8 +580,6 @@ class Sale_model extends CI_model{
 				   'date'         						=> date('Y-m-d'),
 				   'status'    	 						=> 'active',
 				   'creator'                   			=> $this->currentUser,
-				   'doc'        						=> date('Y-m-d'),
-				   'dom'       							=> date('Y-m-d')
 				);
 				$this->db->insert('cash_book', $cash_book);
 			}
@@ -628,8 +602,6 @@ class Sale_model extends CI_model{
            'date'                   			=> date('Y-m-d'),
            'status'        						=> 'active',
            'creator'        					=> $this->currentUser,
-           'doc'   								=> date('Y-m-d'),
-           'dom'    							=> date('Y-m-d')
         );
         
         $this->db->insert('transaction_info', $sale_info);
@@ -648,8 +620,6 @@ class Sale_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $this->currentUser,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $delivery_info);
 		}
@@ -668,8 +638,6 @@ class Sale_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $this->currentUser,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $sale_return_info);
 			$insert_id1 = $this->db->insert_id();
@@ -681,8 +649,6 @@ class Sale_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'active',
 			   'creator'                   			=> $this->currentUser,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('cash_book', $cash_book);
 			
@@ -780,8 +746,6 @@ class Sale_model extends CI_model{
            'date'                   			=> date('Y-m-d'),
            'status'        						=> 'active',
            'creator'        					=> $this->currentUser,
-           'doc'   								=> date('Y-m-d'),
-           'dom'    							=> date('Y-m-d')
         );
         $this->db->insert('transaction_info', $sale_info);
 		if($delivery_charge!=0){
@@ -796,8 +760,6 @@ class Sale_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $this->currentUser,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $delivery_info);
 		}
@@ -814,8 +776,6 @@ class Sale_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $this->currentUser,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $sale_return);
 			$insert_id1 = $this->db->insert_id();
@@ -830,8 +790,6 @@ class Sale_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $this->currentUser,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $collection_info3);
 			$insert_id3 = $this->db->insert_id();
@@ -845,8 +803,6 @@ class Sale_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'active',
 			   'creator'                   			=> $this->currentUser,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('bank_book', $bank_book3);
 		}
@@ -863,8 +819,6 @@ class Sale_model extends CI_model{
 			   'date'                   			=> date('Y-m-d'),
 			   'status'        						=> 'active',
 			   'creator'        					=> $this->currentUser,
-			   'doc'   								=> date('Y-m-d'),
-			   'dom'    							=> date('Y-m-d')
 			);
 			$this->db->insert('transaction_info', $collection_info);
 			$insert_id = $this->db->insert_id();
@@ -878,8 +832,6 @@ class Sale_model extends CI_model{
 			   'date'         						=> date('Y-m-d'),
 			   'status'    	 						=> 'active',
 			   'creator'                   			=> $this->currentUser,
-			   'doc'        						=> date('Y-m-d'),
-			   'dom'       							=> date('Y-m-d')
 			);
 			$this->db->insert('bank_book', $bank_book);
 			return $insert_id;	

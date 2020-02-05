@@ -13,9 +13,12 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">Person Name</label>
 								<div class="col-sm-7">
-									<?php 
-										echo form_dropdown('lp_id', $loan_person_info,'','style="width:100%;" class="form-control select2 input-sm" id="lp_id" tabindex="-1" aria-hidden="true"');
-									?>
+									<select class="form-control select22" tabindex="-1" aria-hidden="true" name="lp_id" required="on">
+										<option value="">Select Type</option>
+										<?php foreach ($loan_person_info as $key => $value): ?>
+											<option value="<?php echo $value->customer_id ?>"><?php echo $value->customer_name ?></option>
+										<?php endforeach ?>
+									</select>
 								</div>
 								<div class="col-sm-3">
 									<button type="submit" class="btn btn-success btn-sm" name="search_random" style="width:100px;"><i class="fa fa-fw fa-search"></i> Search</button>
@@ -29,8 +32,8 @@
 		</div>
 	</section>
 	<div class="modal" style="display: none">
-		<div class="center">
-			<img src="<?php echo base_url();?>assets2/spin.gif" id="loaderIcon"/>
+		<div class="text-center">
+			<img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
 		</div>
 	</div>
 	<input type="hidden" id="start">
