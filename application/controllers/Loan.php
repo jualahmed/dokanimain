@@ -35,9 +35,9 @@ class Loan extends MY_Controller {
 		$Transactionm->status="active";
 		$Transactionm->creator=12;
 		$Transactionm->save();
-
+		
 		$Cashbook=new Cashbook();
-		$Cashbook->transaction_id=$Transactionm->id;
+		$Cashbook->transaction_id=$Transactionm->transaction_id;
 		$Cashbook->transaction_type='out';
 		$Cashbook->amount=$amount;
 		$Cashbook->date=date("Y-m-d");

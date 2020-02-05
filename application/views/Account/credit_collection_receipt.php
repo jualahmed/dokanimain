@@ -62,34 +62,34 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
-									<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">My</label>
-									<div class="col-sm-2">
-										<select name="my_bank" id="my_bank" class="form-control">
-											<option value="">Select a bank</option>
-											<?php foreach ($bank_info as $key => $value) { ?>
-												<option value="<?php echo $value->bank_id ?>"><?php echo $value->bank_account_name ?></option>
-											<?php } ?>
-										</select>
-									</div>
-									<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Bank</label>
-									<div class="col-sm-2">
-										<select name="to_bank" id="to_bank" class="form-control">
-											<option value="">Select a bank</option>
-											<?php foreach ($bank_info as $key => $value) { ?>
-												<option value="<?php echo $value->bank_id ?>"><?php echo $value->bank_account_name ?></option>
-											<?php } ?>
-										</select>
-									</div>
-									<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Cheque</label>
-									<div class="col-sm-2">
-										<input type="text" name="cheque_no" class="form-control" id="cheque_no_id" placeholder="Cheque No" title="Cheque No" autocomplete="off">
-									</div>
-									<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Date</label>
-									<div class="col-sm-2">
-										<input type="text" class="form-control" name="cheque_date" id="datasep" placeholder="Cheque Date" title="Cheque Date">
-									</div>
+							<div class="form-group" style="background: #6c8490;padding: 6px;height: 48px;display:none;" id="result_cheque">
+								<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">My</label>
+								<div class="col-sm-2">
+									<select name="my_bank" id="my_bank" class="form-control">
+										<option value="">Select a bank</option>
+										<?php foreach ($bank_info as $key => $value) { ?>
+											<option value="<?php echo $value->bank_id ?>"><?php echo $value->bank_account_name ?></option>
+										<?php } ?>
+									</select>
 								</div>
+								<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Bank</label>
+								<div class="col-sm-2">
+									<select name="to_bank" id="to_bank" class="form-control">
+										<option value="">Select a bank</option>
+										<?php foreach ($bank_info as $key => $value) { ?>
+											<option value="<?php echo $value->bank_id ?>"><?php echo $value->bank_account_name ?></option>
+										<?php } ?>
+									</select>
+								</div>
+								<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Cheque</label>
+								<div class="col-sm-2">
+									<input type="text" name="cheque_no" class="form-control" id="cheque_no_id" placeholder="Cheque No" title="Cheque No" autocomplete="off">
+								</div>
+								<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Date</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" name="cheque_date" id="datasep" placeholder="Cheque Date" title="Cheque Date">
+								</div>
+							</div>
 						</div> 
 					</form>
 				</div> 

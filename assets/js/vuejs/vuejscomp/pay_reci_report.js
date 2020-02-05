@@ -349,13 +349,11 @@ $(document).ready(function()
 			output2=output2+`<table class="table">
 				<tr>
 					<td>No</td>
-					<td><span class="global_name_label"></span></td>
-					<td class="global_contact_label1"><span class="global_contact_label"></span></td>
-					<td class="global_address_label1"><span class="global_address_label"></span></td>
-					<td style="text-align:right;">Total Amount</td>
-					<td style="text-align:right;">Paid Amount</td>
-					<td style="text-align:right;">Return</td>
+					<td style="text-align:right;">Service Provider Name</td>
 					<td style="text-align:right;">Amount</td>
+					<td style="text-align:right;">Paid</td>
+					<td style="text-align:right;">Delete Amount</td>
+					<td style="text-align:right;">Due amount</td>
 				</tr>
 			`;
 			$.ajax({
@@ -375,7 +373,7 @@ $(document).ready(function()
 						for(n=0;n<result['expense_payable'][i]['receipt_expense_total_amount'].length;n++)
 						{
 							var expense_amount_all =parseFloat(result['expense_payable'][i]['receipt_expense_total_amount'][n]['total_expense_amount']).toFixed(2);
-							var service_provider_name =result['expense_payable'][i]['receipt_expense_total_amount'][n]['type_type'];
+							var service_provider_name =result['expense_payable'][i]['receipt_expense_total_amount'][n]['type_name'];
 						}
 						
 						for(m=0;m<result['expense_payable'][i]['receipt_expense_payment_total_amount'].length;m++)
@@ -409,9 +407,6 @@ $(document).ready(function()
 						else{
 							expense_delete_amount_all = expense_delete_amount_all;
 						}
-						//alert(expense_amount_all);
-						//alert(expense_payment_amount_all);
-						//alert(expense_delete_amount_all);
 						var due_amount = parseFloat(expense_amount_all) - parseFloat(expense_payment_amount_all) + parseFloat(expense_delete_amount_all);
 						if(due_amount =='NaN')
 						{
@@ -423,7 +418,7 @@ $(document).ready(function()
 							
 						}
 						total_expense_payable+=parseFloat(due_amount);
-						output2+='<tr><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;">'+k+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;">'+service_provider_name+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;text-align:right;">'+expense_amount_all+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;text-align:right;">'+expense_payment_amount_all+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;text-align:right;">'+expense_delete_amount_all+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;text-align:right;">'+due_amount+'</td></tr>';
+						output2+='<tr><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;">'+k+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;">'+service_provider_name+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;text-align:right;">'+expense_amount_all+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;text-align:right;">'+expense_payment_amount_all+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;text-align:right;">'+expense_delete_amount_all+'</td><td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:12px; font-size:12px;text-align:right;">'+due_amount+'</td></tr></table>';
 						k++;
 					}
 					if(output2 != '')
