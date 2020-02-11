@@ -245,7 +245,7 @@ class Sale_model extends CI_model{
 				'sale_return_amount'=> $return_adjust,  
 				'payment_mode'      => 'cash',
 				'invoice_creator'   => $this->tank_auth->get_user_id(),
-				'date_time'       	=> date('Y-m-d h:i:s', time()),
+				'date_time'       	=> date('Y-m-d H:i:s'),
 				'invoice_doc'       => date('Y-m-d'),
 				'invoice_dom'       => date('Y-m-d'),
 			);
@@ -276,7 +276,7 @@ class Sale_model extends CI_model{
 				'return_money'      => $return_money,  
 				'payment_mode'      => 'cash',
 				'invoice_creator'   => $this->tank_auth->get_user_id(),
-				'date_time'       	=> date('Y-m-d h:i:s', time()),
+				'date_time'       	=> date('Y-m-d H:i:s'),
 				'invoice_doc'       => date('Y-m-d'),
 				'invoice_dom'       => date('Y-m-d'),
 			);
@@ -309,7 +309,7 @@ class Sale_model extends CI_model{
 				'sale_return_amount'=> $return_adjust,  
 				'payment_mode'      => 'cash',
 				'invoice_creator'   => $this->tank_auth->get_user_id(),
-				'date_time'       	=> date('Y-m-d h:i:s', time()),
+				'date_time'       	=> date('Y-m-d H:i:s'),
 				'invoice_doc'       => date('Y-m-d'),
 				'invoice_dom'       => date('Y-m-d'),
 			);
@@ -336,7 +336,7 @@ class Sale_model extends CI_model{
 				'return_money'      => $return_money,  
 				'payment_mode'      => 'cash',
 				'invoice_creator'   => $this->tank_auth->get_user_id(),
-				'date_time'       	=> date('Y-m-d h:i:s', time()),
+				'date_time'       	=> date('Y-m-d H:i:s'),
 				'invoice_doc'       => date('Y-m-d'),
 				'invoice_dom'       => date('Y-m-d'),
 			);
