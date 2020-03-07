@@ -37,47 +37,56 @@ class Damageproduct extends MY_Controller {
 	public function create()
 	{
 		$jsonData = array('errors' => array(), 'success' => false, 'check' => false, 'output' => '');
-	    $rules = array(
-	      array(
-	        'field' => 'product_name',
-	        'label' => 'product_name',
-	        'rules' => 'required'
-	      ),
-	      array(
-	        'field' => 'damage_quantity',
-	        'label' => 'damage_quantity',
-	        'rules' => 'required'
-	      ),array(
-	        'field' => 'buy_price',
-	        'label' => 'buy_price',
-	        'rules' => 'required'
-	      )
-	    );
+		$rules = array(
+		  array(
+			'field' => 'product_name',
+			'label' => 'product_name',
+			'rules' => 'required'
+		  ),
+		  array(
+			'field' => 'damage_quantity',
+			'label' => 'damage_quantity',
+			'rules' => 'required'
+		  ),array(
+			'field' => 'buy_price',
+			'label' => 'buy_price',
+			'rules' => 'required'
+		  )
+		);
+
+		$stock_id=$this->input->post('stock_id');
+		$damage_quantity=$this->input->post('damage_quantity');
+
+		$bulkstockinfom=Bulkstockinfom::find($stock_id);
+		$bulkstockinfom->stock_amount=$bulkstockinfom->stock_amount-$damage_quantity;
+		$bulkstockinfom->save();
 
 		$creator = $this->tank_auth->get_user_id();
-	    $this->form_validation->set_rules($rules);
-	    $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
-	    if ($this->form_validation->run() == TRUE) {
-	      $jsonData['check'] = true;
-	      $data = array(
-	        'product_id' => $this->input->post('pro_id'),
-	        'damage_quantity' => $this->input->post('damage_quantity'),
-	        'unit_buy_price' => $this->input->post('buy_price'),
-	        'creator' => $creator,
-	      );
-	      $id = $this->damageproduct_model->create($data);
-	      $output = '';
-	      if ($id != -1) {
-	        $jsonData['data'] = $this->damageproduct_model->all($data);
-	        $jsonData['success'] = true;
-	      }
-	    }else {
-	      foreach ($_POST as $key => $value) {
-	        $jsonData['errors'][$key] = form_error($key);
-	      }
-	    }
-	    echo json_encode($jsonData);
+		$this->form_validation->set_rules($rules);
+		$this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
+		if ($this->form_validation->run() == TRUE) {
+		  $jsonData['check'] = true;
+		  $data = array(
+			'product_id' => $this->input->post('pro_id'),
+			'stock_id' => $this->input->post('stock_id'),
+			'damage_quantity' => $damage_quantity,
+			'unit_buy_price' => $this->input->post('buy_price'),
+			'creator' => $creator,
+		  );
+		  $id = $this->damageproduct_model->create($data);
+		  $output = '';
+		  if ($id != -1) {
+			$jsonData['data'] = $this->damageproduct_model->all($data);
+			$jsonData['success'] = true;
+		  }
+		}else {
+		  foreach ($_POST as $key => $value) {
+			$jsonData['errors'][$key] = form_error($key);
+		  }
+		}
+		echo json_encode($jsonData);
 	}
+
 
 	public function all($rowno=0)
 	{
@@ -186,6 +195,14 @@ class Damageproduct extends MY_Controller {
 
 	public function destroy($id)
 	{	
+
+		$this->db->where('damage_id', $id);
+		$data = $this->db->get('damage_product')->row();
+
+		$bulkstockinfom=Bulkstockinfom::find($data->stock_id);
+		$bulkstockinfom->stock_amount=$bulkstockinfom->stock_amount+$data->damage_quantity;
+		$bulkstockinfom->save();
+
 		$result=$this->damageproduct_model->destroy($id);
 		if($result){
 			$this->session->set_flashdata('success', 'damageproduct Delete successfully');

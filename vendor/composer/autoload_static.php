@@ -92,6 +92,7 @@ class ComposerStaticInitef4e5afef088b92d22e1407d70c2861e
         'Account_model' => __DIR__ . '/../..' . '/application/models/Account_model.php',
         'Admin_model' => __DIR__ . '/../..' . '/application/models/Admin_model.php',
         'Bankcard_model' => __DIR__ . '/../..' . '/application/models/Bankcard_model.php',
+        'Bulkstockinfom' => __DIR__ . '/../..' . '/application/models/Bulkstockinfom.php',
         'Cashbook' => __DIR__ . '/../..' . '/application/models/Cashbook.php',
         'Category_model' => __DIR__ . '/../..' . '/application/models/Category_model.php',
         'Checkout_model' => __DIR__ . '/../..' . '/application/models/Checkout_model.php',

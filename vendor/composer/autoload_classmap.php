@@ -10,6 +10,7 @@ return array(
     'Account_model' => $baseDir . '/application/models/Account_model.php',
     'Admin_model' => $baseDir . '/application/models/Admin_model.php',
     'Bankcard_model' => $baseDir . '/application/models/Bankcard_model.php',
+    'Bulkstockinfom' => $baseDir . '/application/models/Bulkstockinfom.php',
     'Cashbook' => $baseDir . '/application/models/Cashbook.php',
     'Category_model' => $baseDir . '/application/models/Category_model.php',
     'Checkout_model' => $baseDir . '/application/models/Checkout_model.php',
