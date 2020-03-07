@@ -1786,9 +1786,9 @@ class Account_model extends CI_model{
 		}
 		return $data;
 	}
+
 	function customer_infoo_new()
 	{
-		$this -> db -> where("customer_id!=1");
 		$this -> db -> order_by("customer_name", "asc");
 		$query = $this -> db -> get('customer_info');
 		$data[''] =  'Select Customer';
@@ -1798,6 +1798,7 @@ class Account_model extends CI_model{
 		}
 		return $data;
 	}
+	
 	function service_provider_info()
 	{
 		$this -> db -> order_by("service_provider_name", "asc");

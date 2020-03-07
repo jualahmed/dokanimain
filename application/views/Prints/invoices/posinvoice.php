@@ -42,20 +42,21 @@
 			</div> 
 				
 				</a>
-				<!-- <div id ="pos_top_header_right"></div> -->
 			</div>
 		
-			<div class ="pos_top_header_second"><?php $row_data = $sale_info->row(); ?>
-				<div class ="pos_top_header_second_left" style="font-weight: bold; ">Invoice : <?php echo $invoice_id; ?></div>
-				<div class ="pos_top_header_second_middle" style="font-weight: bold; width:120px;margin:0px 0px 0px 6px; "> Creator : <?php echo $row_data->username; ?></div>
+			<?php $row_data = $sale_info->row(); ?>
+			<div style="display: flex;font-size: 13px;justify-content: center;font-weight: 700;margin-left: 6px;">
+				<div>
+					<p>Invoice : <?php echo $invoice_id; ?></p>
+					<p>Creator : <?php echo $row_data->username; ?></p>
+					<p>Date : <?php $newDate = date("d-m-Y", strtotime($row_data->invoice_doc));echo $newDate; ?></p>
+				</div>
+				<div>
+					<p>Time : <?php $newDate1 = date("h:i A",strtotime($row_data->date_time));echo $newDate1; ?></p>
+					<p>Customer : <?php echo $row_data->customer_name; ?></p>
+				</div>
 			</div>
-			<div class ="pos_top_header_second">
-				<div id ="pos_top_header_second_right" style="font-weight: bold; ">Date : <?php $newDate = date("d-m-Y", strtotime($row_data->invoice_doc));echo $newDate; ?></div>
-				<div id ="pos_top_header_second_right_1" style="font-weight: bold; margin:0px 0px 0px 5px;">Time : <?php $newDate1 = date("h:i A",strtotime($row_data->date_time));echo $newDate1; ?></div>
-			</div>
-			<div class ="pos_top_header_second">
-				<div class ="pos_top_header_second_left_two" style="font-weight: bold; ">Customer : <?php echo $row_data->customer_name; ?></div>
-			</div>
+		
 			<div id ="pos_top_header_thired">
 			<?php
 				if($sale_info -> num_rows() > 0) 
