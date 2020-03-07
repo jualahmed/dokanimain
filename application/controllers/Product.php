@@ -306,6 +306,7 @@ class Product extends MY_Controller {
 
 				$info[] = array(
 					'id' 						=> $tmp->product_id,
+					'stock_id' 					=> $tmp->bulk_id,
 					'product_name' 				=> $tmp->product_name,
 					'company_name' 				=> $tmp->company_name,
 					'catagory_name' 			=> $tmp->catagory_name,

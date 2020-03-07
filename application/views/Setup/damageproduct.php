@@ -13,6 +13,7 @@
 								<div class="col-sm-8">
 									<input type="text" class="form-control product_name" title="Product Name" name="product_name" id="lockk3" placeholder="Product Name" autofocus="on">
 									<input type="hidden" id="pro_id" name="pro_id">
+									<input type="hidden" id="stock_id" name="stock_id">
 								</div>
 							</div>
 							<br>

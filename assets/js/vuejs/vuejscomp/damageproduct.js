@@ -154,6 +154,7 @@ jQuery(document).ready(function($) {
               response( $.map(result, function(item){
                 return{
                   id              : item.id,
+                  stock_id        : item.stock_id,
                   label           : item.product_name,
                   company_name    : item.company_name,
                   catagory_name   : item.catagory_name,
@@ -178,6 +179,7 @@ jQuery(document).ready(function($) {
         else
         {
           $('#pro_id').val(ui.item.id);
+          $('#stock_id').val(ui.item.stock_id);
           $('#buy').val(ui.item.buy_price);
           $('#sale').val(ui.item.sale_price);
           $("#pro_name").val(ui.item.label);
