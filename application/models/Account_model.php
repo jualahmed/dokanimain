@@ -1786,18 +1786,6 @@ class Account_model extends CI_model{
 		}
 		return $data;
 	}
-
-	function customer_infoo_new()
-	{
-		$this -> db -> order_by("customer_name", "asc");
-		$query = $this -> db -> get('customer_info');
-		$data[''] =  'Select Customer';
-		foreach ($query-> result() as $field)
-		{
-			$data[$field -> customer_id] = $field -> customer_name;
-		}
-		return $data;
-	}
 	
 	function service_provider_info()
 	{

@@ -10,8 +10,9 @@ class Account extends MY_controller{
             redirect('admin/noaccess');
         }
 		$this->load->model('bankcard_model');
-    $this->load->model('employee_model');
-    $this->load->model('expense_model');
+	    $this->load->model('employee_model');
+	    $this->load->model('expense_model');
+	    $this->load->model('expense_model');
 	}
 	
 	public function transactionreport()
@@ -207,14 +208,28 @@ class Account extends MY_controller{
 	{
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['user_type'] = $this->tank_auth->get_usertype();
-    $data['distributor_info'] = $this->account_model->distributor_info();       
-    $data['employee_info'] = $this->employee_model->all();        
+    	$data['distributor_info'] = $this->account_model->distributor_info();       
+    	$data['employee_info'] = $this->employee_model->all();        
 		$data['expense_type'] = $this->expense_model->typeall();				
-		$data['customer_info'] = $this->account_model->customer_infoo_new();							
+		$data['customer'] = Customerm::all();							
 		$data['service_provider_info'] = $this->account_model->service_provider_info();							
 		$data['owner_info'] = $this->account_model->owner_info();
 		$data['status'] = '';
 		$data['vuejscomp'] = 'ledgers.js';
+		$this->__renderview('Account/ledgers', $data);
+	}
+
+	public function all_ledger_report_find()
+	{
+		$start =$this->input->post('start');
+		$end = $this->input->post('end');
+
+		$customer_id =$this->input->post('customer_id');
+		$data['user_name'] = $this->tank_auth->get_username();
+		$data['user_type'] = $this->tank_auth->get_usertype();
+		$data['customer'] = Customerm::all();							
+		$data['debit']=Transactionm::where('transaction_purpose','sale')->where('ledger_id',$customer_id)->whereBetween('date',[$start, $end])->get();
+		$data['credit']=Transactionm::where('transaction_purpose','collection')->where('ledger_id',$customer_id)->whereBetween('date',[$start, $end])->get();
 		$this->__renderview('Account/ledgers', $data);
 	}
 
@@ -614,312 +629,6 @@ class Account extends MY_controller{
 		$this->db->order_by('bank_info.bank_name','asc');
 		$query = $this->db->get();
 		echo json_encode ($query->result());
-	}
-		
-	public function all_ledger_report_find()
-	{
-		$bd_date = date('Y-m-d');
-		$cur_bd_date = $bd_date;
-		$start =$this->input->post('start');
-		$end = $this->input->post('end');
-		$distributor_id =$this->input->post('distributor_id');
-		$customer_id =$this->input->post('customer_id');
-		$type_id =$this->input->post('type_id');
-		$employee_id =$this->input->post('employee_id');
-		$purpose_id =$this->input->post('purpose_id');
-		$transfer_type =$this->input->post('transfer_type');
-		$owner_transfer_type =$this->input->post('owner_transfer_type');
-		
-		if($start=='')
-		{
-			$start = '2016-01-01';
-		}
-		else
-		{
-			$start = $start;
-		}
-		
-		if($end=='')
-		{
-			$end = $cur_bd_date ;
-		}
-		else
-		{
-			$end = $end;
-		}
-
-		$ledger_list = array();
-		$ledger_list2 = array();
-		$ledger_list3 = array();
-		$ledger_list4 = array();
-		$ledger_list5 = array();
-		$new_date = $start;
-		
-		if($purpose_id ==3)
-		{
-			$purchase_total_amount = $this->account_model->purchase_total_amount($start,$distributor_id);
-
-			if($purchase_total_amount)
-			{
-				$ledger_list['total_purchase_amount'] = $purchase_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list['total_purchase_amount'] = array();
-			}
-			$purchase_payment_total_amount = $this->account_model->purchase_payment_amount($start,$distributor_id);
-
-			if($purchase_payment_total_amount)
-			{
-				$ledger_list['total_purchase_payment_amount'] = $purchase_payment_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list['total_purchase_payment_amount'] = array();
-			}
-			if($distributor_id!='')
-			{
-				$balance_total_amount = $this->account_model->balance_amount_distributor($distributor_id);
-
-				if($balance_total_amount)
-				{
-					$ledger_list['total_balance_amount_distributor'] = $balance_total_amount->result_array();
-				}
-				else
-				{
-					$ledger_list['total_balance_amount_distributor'] = array();
-				}
-			}
-			else
-			{
-				$ledger_list['total_balance_amount_distributor'] = 0;
-			}
-			while($new_date <= $end)
-			{
-				$purchase_details = $this->account_model->all_purchase($new_date,$new_date,$distributor_id);
-				if($purchase_details)
-				{
-					$ledger_list[$new_date]['total_purchase'] = $purchase_details->result_array();
-				}
-				else
-				{
-					$ledger_list[$new_date]['total_purchase'] = array();
-				}
-				$payment_details = $this->account_model->all_payment($new_date,$new_date,$distributor_id);
-				if($payment_details)
-				{
-					$ledger_list[$new_date]['total_payment'] = $payment_details->result_array();
-				}
-				else
-				{
-					$ledger_list[$new_date]['total_payment'] = array();
-				}
-			
-				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
-			}
-		}
-		else if($purpose_id ==1)
-		{
-			$sale_total_amount = $this->account_model->sale_total_amount($start,$customer_id);
-
-			if($sale_total_amount)
-			{
-				$ledger_list2['total_sale_amount'] = $sale_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list2['total_sale_amount'] = array();
-			}
-			$sale_collection_total_amount = $this->account_model->sale_collection_total_amount($start,$customer_id);
-
-			if($sale_collection_total_amount)
-			{
-				$ledger_list2['total_sale_collection_amount'] = $sale_collection_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list2['total_sale_collection_amount'] = array();
-			}
-			
-			if($customer_id!='')
-			{
-				$balance_total_amount = $this->account_model->balance_amount_customer($customer_id);
-
-				if($balance_total_amount)
-				{
-					$ledger_list2['total_balance_amount_customer'] = $balance_total_amount->result_array();
-				}
-				else
-				{
-					$ledger_list2['total_balance_amount_customer'] = array();
-				}
-			}
-			else
-			{
-				$ledger_list2['total_balance_amount_customer'] = 0;
-			}
-			while($new_date <= $end)
-			{
-				$sale_details = $this->account_model->all_sale($new_date,$new_date,$customer_id);
-				if($sale_details)
-				{
-					$ledger_list2[$new_date]['total_sale'] = $sale_details->result_array();
-				}
-				else
-				{
-					$ledger_list2[$new_date]['total_sale'] = array();
-				}
-				$collection_details = $this->account_model->all_collection($new_date,$new_date,$customer_id);
-				if($collection_details)
-				{
-					$ledger_list2[$new_date]['total_collection'] = $collection_details->result_array();
-				}
-				else
-				{
-					$ledger_list2[$new_date]['total_collection'] = array();
-				}
-				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
-			}
-		}
-		else if($purpose_id ==2)
-		{
-			$expense_total_amount = $this->account_model->expense_total_amount($start,$type_id,$employee_id);
-
-			if($expense_total_amount)
-			{
-				$ledger_list3['total_expense_amount'] = $expense_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list3['total_expense_amount'] = array();
-			}
-			$expense_payment_total_amount = $this->account_model->expense_payment_total_amount($start,$type_id,$employee_id);
-
-			if($expense_payment_total_amount)
-			{
-				$ledger_list3['total_expense_payment_amount'] = $expense_payment_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list3['total_expense_payment_amount'] = array();
-			}
-			while($new_date <= $end)
-			{
-				$expense_details = $this->account_model->all_expense($new_date,$new_date,$type_id,$employee_id);
-				if($expense_details)
-				{
-					$ledger_list3[$new_date]['total_expense'] = $expense_details->result_array();
-				}
-				else
-				{
-					$ledger_list3[$new_date]['total_expense'] = array();
-				}
-				$expense_payment_details = $this->account_model->all_expense_payment($new_date,$new_date,$type_id,$employee_id);
-				if($expense_payment_details)
-				{
-					$ledger_list3[$new_date]['total_expense_payment'] = $expense_payment_details->result_array();
-				}
-				else
-				{
-					$ledger_list3[$new_date]['total_expense_payment'] = array();
-				}
-
-				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
-			}
-		}
-		else if($purpose_id ==4)
-		{
-			$to_bank_total_amount = $this->account_model->to_bank_total_amount($start,$transfer_type);
-
-			if($to_bank_total_amount)
-			{
-				$ledger_list4['total_to_bank_amount'] = $to_bank_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list4['total_to_bank_amount'] = array();
-			}
-			$from_bank_total_amount = $this->account_model->from_bank_total_amount($start,$transfer_type);
-
-			if($from_bank_total_amount)
-			{
-				$ledger_list4['total_from_bank_amount'] = $from_bank_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list4['total_from_bank_amount'] = array();
-			}
-			while($new_date <= $end)
-			{
-				$to_bank_details = $this->account_model->all_to_bank($new_date,$new_date,$transfer_type);
-				if($to_bank_details)
-				{
-					$ledger_list4[$new_date]['total_to_bank'] = $to_bank_details->result_array();
-				}
-				else
-				{
-					$ledger_list4[$new_date]['total_to_bank'] = array();
-				}
-				$from_bank_details = $this->account_model->all_from_bank($new_date,$new_date,$transfer_type);
-				if($from_bank_details)
-				{
-					$ledger_list4[$new_date]['total_from_bank'] = $from_bank_details->result_array();
-				}
-				else
-				{
-					$ledger_list4[$new_date]['total_from_bank'] = array();
-				}
-
-				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
-			}
-		}
-		else if($purpose_id ==5)
-		{
-			$to_owner_total_amount = $this->account_model->to_owner_total_amount($start,$owner_transfer_type);
-
-			if($to_owner_total_amount)
-			{
-				$ledger_list5['total_to_owner_amount'] = $to_owner_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list5['total_to_owner_amount'] = array();
-			}
-			$from_owner_total_amount = $this->account_model->from_owner_total_amount($start,$owner_transfer_type);
-
-			if($from_owner_total_amount)
-			{
-				$ledger_list5['total_from_owner_amount'] = $from_owner_total_amount->result_array();
-			}
-			else
-			{
-				$ledger_list5['total_from_owner_amount'] = array();
-			}
-			while($new_date <= $end)
-			{
-				$to_owner_details = $this->account_model->all_to_owner($new_date,$new_date,$owner_transfer_type);
-				if($to_owner_details)
-				{
-					$ledger_list5[$new_date]['total_to_owner'] = $to_owner_details->result_array();
-				}
-				else
-				{
-					$ledger_list5[$new_date]['total_to_owner'] = array();
-				}
-				$from_owner_details = $this->account_model->all_from_owner($new_date,$new_date,$owner_transfer_type);
-				if($from_owner_details)
-				{
-					$ledger_list5[$new_date]['total_from_owner'] = $from_owner_details->result_array();
-				}
-				else
-				{
-					$ledger_list5[$new_date]['total_from_owner'] = array();
-				}
-
-				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
-			}
-		}
-		echo json_encode(array("ledger_list"=>$ledger_list,"ledger_list2"=>$ledger_list2,"ledger_list3"=>$ledger_list3,"ledger_list4"=>$ledger_list4,"ledger_list5"=>$ledger_list5));
 	}
 
 	function all_ledger_report_preview()
