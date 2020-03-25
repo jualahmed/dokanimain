@@ -146,7 +146,7 @@ class Product extends MY_Controller {
 	public function all($rowno=0)
 	{	
 		$pageg=$rowno;
-		$rowperpage = 12;
+		$rowperpage = 10;
         if($rowno != 0){
           $rowno = ($rowno-1) * $rowperpage;
         }
@@ -155,8 +155,8 @@ class Product extends MY_Controller {
         }
         $allcount = $this->db->count_all('product_info');
         $this->db->limit($rowperpage, $rowno);
-        $this->db->join('catagory_info', 'catagory_info.catagory_id = product_info.catagory_id');
-        $this->db->join('company_info', 'company_info.company_id = product_info.company_id');
+        $this->db->join('catagory_info', 'catagory_info.catagory_id = product_info.catagory_id','left');
+        $this->db->join('company_info', 'company_info.company_id = product_info.company_id','left');
         $this->db->order_by('product_id', 'desc');
         $users_record = $this->db->get('product_info')->result_array();
         $config['base_url'] = base_url().'product';
@@ -467,15 +467,15 @@ class Product extends MY_Controller {
 		echo json_encode('Success');
 	}
 
-  public function updateolddata()
-  {
-    $cat=$this->db->get('company_info')->result();
-    foreach ($cat as $value) {
-      $this->db->set('company_id',$value->company_id);
-      $this->db->where('company_id', $value->company_name);
-      $this->db->update('product_info');
-    }
-  }
+	public function updateolddata()
+	{
+	    $cat=$this->db->get('unit_info')->result();
+	    foreach ($cat as $value) {
+	      $this->db->set('unit_id',22);
+	      $this->db->where('unit_id', '');
+	      $this->db->update('product_info');
+	    }
+	}
 }
 
 /* End of file Product.php */
