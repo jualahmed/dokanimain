@@ -46,16 +46,11 @@
 
 			  <div class="col-md-3">
 				<div class="info-box">
-				  <span class="info-box-text bg-yellow" style="text-align:center;"><!--img style="color:white; height:50px; width:50px;" src="<?php echo base_url();?>assets2/512/model-s.png"--> Purchase
+				  <span class="info-box-text bg-yellow" style="text-align:center;"> Purchase
 					<span class="info-box-number" style="text-align:center;">
-					  <?php
-						echo '<big style = "font-size: 11px; font-weight:bold;"> &#2547; </big> '.round($purchase_info, 2);
-						if($purchase_info == round($purchase_info, 0))
-						  echo'.00';
-						else if(round($purchase_info, 1) == round($purchase_info, 2))
-						  echo'.00';
-						echo nbs(2); 
-					  ?>
+					<?php
+						echo number_format((float)$purchase_info, 2, '.', '');
+					?>
 					</span>
 				  </span>
 				</div>

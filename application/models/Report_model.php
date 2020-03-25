@@ -1014,17 +1014,15 @@ class Report_model extends CI_model{
 	/***************************************************
 	* Calculate Purchase Amount of Specific date      **
 	* **************************************************/
-	public function specific_date_purchase_amount_calculation( $start, $end )
+	public function specific_date_purchase_amount_calculation()
 	{
-		$query = $this -> db -> select( 'SUM( final_amount + transport_cost ) AS grand_total' )
-							 -> from('purchase_receipt_info')
-							 -> where('receipt_date >= "'.$start.'"')
-							 -> where('receipt_date <= "'.$end.'"')
-							 -> where('shop_id', $this->tank_auth->get_shop_id())
-							 -> get();
+		$query = $this->db->select( 'SUM( final_amount + transport_cost ) AS grand_total' )
+							-> from('purchase_receipt_info')
+							-> where('shop_id', $this->tank_auth->get_shop_id())
+							-> get();
 		$grand_total = 0;
 		foreach($query -> result() as $result):
-				$grand_total = $result -> grand_total;
+				$grand_total = $result->grand_total;
 		endforeach;
 		return $grand_total;
 	}

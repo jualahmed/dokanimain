@@ -41,7 +41,7 @@ class admin extends MY_controller{
 		
 		$data[ 'cash_return_info' ] = $this->report_model->specific_date_cash_return_calculation( $data['bd_date']  ,  $data['bd_date']  );
 		
-		$data[ 'purchase_info' ] = $this->report_model->specific_date_purchase_amount_calculation( $data['bd_date']  ,  $data['bd_date']  );
+		$data[ 'purchase_info' ] = $this->report_model->specific_date_purchase_amount_calculation();
 		
 		$data['expense_info' ] = $this->report_model->specific_date_expense_amount_calculation( $data['bd_date']  ,  $data['bd_date']  );
 		

@@ -15,25 +15,34 @@ new Vue({
 		amount:0,
 		samount:0,
 		loding:false,
-		isLoading: false
+		isLoading: false,
+		xhr:'ToCancelPrevReq'
 	},
 	methods:{
 		asyncFind (query) {
 			var self = this;
 		    this.isLoading = true
-		    $.ajax({
-		      	url: this.base_url+'product/query/'+query,
-		    })
-		    .done(function(re) {
-		      	self.product=JSON.parse(re)
-		      	self.isLoading=false
-		    })
-		    .fail(function() {
-		      	console.log("error");
-		    })
-		    .always(function() {
-		      	console.log("complete");
-		    });
+			if(query.length>2){
+				this.countries=[];
+				var self=this;
+				this.xhr = $.ajax({
+					url: this.base_url+'product/query/'+query,
+					beforeSend : function() {
+						if(self.xhr != 'ToCancelPrevReq' && self.xhr.readyState < 4) {
+							self.xhr.abort();
+						}
+					},
+					success: function(re) {
+						self.product=JSON.parse(re)
+		      			self.isLoading=false
+					},
+					error: function(xhr, ajaxOptions, thrownError) {
+						if(thrownError == 'abort' || thrownError == 'undefined') return;
+						alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+					}
+				})
+			}
+			self.isLoading = false
 	    },
 		stockreport(){
 			var am=$("#lock77").val();

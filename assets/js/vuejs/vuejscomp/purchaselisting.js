@@ -32,11 +32,11 @@ const vm = new Vue({
 		methods: {
 			dateformate(date){
 				var today =date;
-			var dd = String(today.getDate()).padStart(2, '0');
-			var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-			var yyyy = today.getFullYear();
-			today = yyyy + '-' + mm + '-' + dd;
-			return today;
+				var dd = String(today.getDate()).padStart(2, '0');
+				var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+				var yyyy = today.getFullYear();
+				today = yyyy + '-' + mm + '-' + dd;
+				return today;
 			},
 			submit(){
 				var purchase_receipt_id=this.selected1.receipt_id;
@@ -70,30 +70,29 @@ const vm = new Vue({
 			},
 			asyncFind (query) {
 				if(query.length>2){
-						this.isLoading = true
-						this.countries=[];
-						var self=this;
-						this.xhr = $.ajax({
-							url: this.base_url+'/product/search',
-							data: {query: query},
-							beforeSend : function() {
-												if(self.xhr != 'ToCancelPrevReq' && self.xhr.readyState < 4) {
-														self.xhr.abort();
-												}
-										},
-										success: function(re) {
-												var re=jQuery.parseJSON(re);
-								self.countries = re
-								self.isLoading = false
-										},
-										error: function(xhr, ajaxOptions, thrownError) {
-														if(thrownError == 'abort' || thrownError == 'undefined') return;
-														alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-										}
-						})
-
-						self.isLoading = false
-					}
+					this.isLoading = true
+					this.countries=[];
+					var self=this;
+					this.xhr = $.ajax({
+						url: this.base_url+'/product/search',
+						data: {query: query},
+						beforeSend : function() {
+							if(self.xhr != 'ToCancelPrevReq' && self.xhr.readyState < 4) {
+								self.xhr.abort();
+							}
+						},
+						success: function(re) {
+							var re=jQuery.parseJSON(re);
+							self.countries = re
+							self.isLoading = false
+						},
+						error: function(xhr, ajaxOptions, thrownError) {
+							if(thrownError == 'abort' || thrownError == 'undefined') return;
+							alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+						}
+					})
+					self.isLoading = false
+				}
 			},
 			clearAll () {
 				this.selectedCountries = []
