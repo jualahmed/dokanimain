@@ -11,10 +11,6 @@ class Sale extends MY_Controller
 		$this->load->model('bankcard_model');
 		$this->load->library('numbertoword');
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		if(!$this->access_control_model->my_access($data['user_type'], 'sale', ''))
-		{
-			redirect('admin/noaccess');
-		}
 	}
 
 	public function is_logged_in() {
