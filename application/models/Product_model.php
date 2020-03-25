@@ -58,7 +58,7 @@ class Product_model extends CI_model{
 
 	public function search($query='')
 	{
-		return $this->db->query("SELECT * FROM product_info WHERE (`product_name` RLIKE ' +$query') OR `product_name` LIKE '$query%'")->result();
+		return $this->db->query("SELECT * FROM product_info WHERE (`product_name` RLIKE ' +$query') OR `product_name` LIKE '$query%' LIMIT 50")->result();
 	}
 
 	public function fatch_all_purchase_receipt_id()
