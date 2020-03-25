@@ -37,12 +37,18 @@
 								<br><br><br>
 								<label for="inputEmail3" class="col-sm-1 control-label">Product</label>
 								<div class="col-sm-3">
-									<select name="" class="form-control" v-model="product_id">
-										<option value="0">Select a Product</option>
-										<?php foreach ($product_info as $value): ?>
-											<option value="<?php echo $value->product_id ?>"><?php echo $value->product_name ?></option>
-										<?php endforeach ?>
-									</select>
+									<multiselect 
+									  	id="ajax" 
+									  	:searchable="true"
+									  	v-model="selectproduct"
+									  	:options="product"
+									  	label="product_name"
+									  	track-by="product_name"
+									  	placeholder="Select a Product"
+										@search-change="asyncFind"
+									  	>
+									  	
+									  	</multiselect>
 								</div>
 								
 								<label for="inputEmail3" class="col-sm-1 control-label">Customer</label>

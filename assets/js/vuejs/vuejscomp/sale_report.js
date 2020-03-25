@@ -1,9 +1,13 @@
+Vue.component('multiselect', window.VueMultiselect.default)
 new Vue({
 	el:"#vue_app",
 	data:{
+		selectproduct:[],
+		product:[],
 		alldata:[],
 		invoice_id:0,
 		customer_id:0,
+		base_url:base_url,
 		product_id:0,
 		seller_id:0,
 		start_date:0,
@@ -18,6 +22,23 @@ new Vue({
 		loding:false,
 	},
 	methods:{
+		asyncFind (query) {
+			var self = this;
+		    this.isLoading = true
+		    $.ajax({
+		      	url: this.base_url+'product/query/'+query,
+		    })
+		    .done(function(re) {
+		      	self.product=JSON.parse(re)
+		      	console.log(self.product)
+		    })
+		    .fail(function() {
+		      	console.log("error");
+		    })
+		    .always(function() {
+		      	console.log("complete");
+		    });
+	    },
 		result(){
 			this.start_date=($("#datepickerrr").val());
 			this.end_date=($("#datepickerr").val());
@@ -31,7 +52,7 @@ new Vue({
 			url: base_url+'Report/all_sale_report_find',
 			type: 'POST',
 			dataType: 'json',
-			data: {company_id:this.company_id,category_id:this.category_id,saletype:this.saletype,invoice_id:this.invoice_id,customer_id:this.customer_id,product_id:this.product_id,seller_id:this.seller_id,start_date:this.start_date,end_date:this.end_date},
+			data: {company_id:this.company_id,category_id:this.category_id,saletype:this.saletype,invoice_id:this.invoice_id,customer_id:this.customer_id,product_id:this.selectproduct.product_id,seller_id:this.seller_id,start_date:this.start_date,end_date:this.end_date},
 			success: function(result) { 
 					self.alldata=result;
 					self.loding=!self.loding;

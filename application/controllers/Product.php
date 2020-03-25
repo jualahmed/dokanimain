@@ -23,6 +23,12 @@ class Product extends MY_Controller {
 		}
 	}
 
+	public function query($value='')
+	{
+		$data=$this->product_model->search($value);
+		echo json_encode($data);
+	}
+
 	public function index()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
