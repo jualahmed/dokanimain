@@ -26,6 +26,7 @@ const vm = new Vue({
         totalqty:0,
         unit_buy_price:0,
         tunit_buy_price:0,
+        xhr:'ToCancelPrevReq'
       };
     },
     methods: {
@@ -68,23 +69,31 @@ const vm = new Vue({
 	      return `and ${count} other countries`
 	    },
 	    asyncFind (query) {
-	      this.isLoading = true
-	      this.countries=[];
-	      var self=this;
-	      $.ajax({
-	      	url: this.base_url+'/product/search',
-	      	data: {query: query},
-	      })
-	      .done(function(re) {
-	      	var re=jQuery.parseJSON(re);
-	      	self.countries = re
-	        self.isLoading = false
-	      })
-	      .fail(function() {
-	      	console.log("error");
-	      })
-	        self.isLoading = false
+	    	if(query.length>2){
+			      this.isLoading = true
+			      this.countries=[];
+			      var self=this;
+			      this.xhr = $.ajax({
+			      	url: this.base_url+'/product/search',
+			      	data: {query: query},
+			      	beforeSend : function() {
+                        if(self.xhr != 'ToCancelPrevReq' && self.xhr.readyState < 4) {
+                            self.xhr.abort();
+                        }
+                    },
+                    success: function(re) {
+                        var re=jQuery.parseJSON(re);
+				      	self.countries = re
+				        self.isLoading = false
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                            if(thrownError == 'abort' || thrownError == 'undefined') return;
+                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+			      })
 
+			      self.isLoading = false
+	        }
 	    },
 	    clearAll () {
 	      this.selectedCountries = []
