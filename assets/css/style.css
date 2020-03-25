@@ -1,3 +1,7 @@
+html,body,lable{
+  font-weight: 100!important;
+  font-family: arial!important;
+}
 input{
   text-transform: none!important;
 }

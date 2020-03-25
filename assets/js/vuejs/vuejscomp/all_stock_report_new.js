@@ -26,7 +26,7 @@ new Vue({
 		    })
 		    .done(function(re) {
 		      	self.product=JSON.parse(re)
-		      	console.log(self.product)
+		      	self.isLoading=false
 		    })
 		    .fail(function() {
 		      	console.log("error");

@@ -20,6 +20,7 @@ new Vue({
 		isinvoice:0,
 		quantity:0,
 		loding:false,
+		isLoading:false,
 	},
 	methods:{
 		asyncFind (query) {
@@ -30,7 +31,7 @@ new Vue({
 		    })
 		    .done(function(re) {
 		      	self.product=JSON.parse(re)
-		      	console.log(self.product)
+		      	self.isLoading=false
 		    })
 		    .fail(function() {
 		      	console.log("error");
