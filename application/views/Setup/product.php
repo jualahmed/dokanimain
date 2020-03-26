@@ -134,6 +134,59 @@
 		</div>
 		<br>
 		<br>
+		<form action="">
+			<div class="row">
+				<div class="col-md-3">
+					<input type="text" name="product_name" placeholder="Product name" class="form-control">
+				</div>
+				<div class="col-md-2">
+					<input type="submit" class="btn btn-success" value="Search">
+					<a href="<?php echo base_url().'product' ?>" class="btn btn-success">Clear</a>
+				</div>
+			</div>
+		</form>
+		<br>
+	
+		<?php
+		if(isset($_GET['product_name'])){
+			$this->db->like('product_name', $_GET['product_name'], 'BOTH');
+			$this->db->join('catagory_info', 'catagory_info.catagory_id = product_info.catagory_id','left');
+       		$this->db->join('company_info', 'company_info.company_id = product_info.company_id','left');
+       		$this->db->limit(100);
+			$data = $this->db->get('product_info')->result();
+		?>
+		<table class="table table-bordred table-striped" align="left">
+			<tr align="left">
+				<th>No.</th>
+				<th style="text-align: center;">Images</th>
+				<th>Product Name</th>
+				<th>Product Category</th>
+				<th>Product Company</th>
+				<th align="center">Action</th>
+			</tr>
+			<?php foreach ($data as $key => $var): ?>
+			<tr align="left"> 
+				<td><?php echo $key+1 ?></td>
+				<td align="center">
+					<?php if ($var->img): ?>
+					<div><img src="<?php echo $var->img ?>" width="50px" class="img-circle"></div>
+					<?php else: ?>
+					<div><img src="<?php echo base_url()."assets/img/avatar.png" ?>" width="50px" class="img-circle"></div>
+					<?php endif ?>
+				</td>
+				<td style="white-space: normal!important;"><?php echo $var->product_name ?></td>
+				<td><?php echo $var->catagory_name ?></td>
+				<td><?php echo $var->company_name ?></td>
+				<td>
+					<a data-toggle="modal" product_id="<?php echo $var->product_id ?>" data-target="#EditModel" class="btn edit btn-sm btn-success" ><i class="fa fa-edit"></i> Edit</a>
+					<a onclick="return confirm('Are you sure your want to delete?')" href="<?php echo base_url() ?>'product/destroy/'<?php echo $var->product_id ?>" class="btn btn-sm btn-danger" >
+						<i class="fa fa-trash"></i> Delete
+					</a>
+				</td>
+			</tr>
+			<?php endforeach ?>
+		</table>
+		<?php }else{ ?>
 		<table class="table table-bordred table-striped" align="left">
 			<tr align="left">
 				<th>No.</th>
@@ -162,6 +215,7 @@
 			<tr><td colspan="9" style="text-align: left;"><b>{{ rowperpage }}  Out Of {{ total }}</b></td></tr>
 		</table>
 		<div id='pagination' v-html="pagination[0]"></div>
+		<?php } ?>
 	</section> 
 </div>
 
