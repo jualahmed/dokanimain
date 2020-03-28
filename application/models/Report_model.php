@@ -19,8 +19,6 @@ class Report_model extends CI_model{
 				if($category1!=0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
 				if($company1!=0){$this->db->where('product_info.company_name = "'.$company1.'" ');}
 				if($product_amount!=0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-				$this->db->order_by('product_info.product_id','asc'); 
-				$this->db->order_by('product_info.product_name','asc'); 
 				$query = $this->db->get('product_info');
 				return $query;
 			}
@@ -32,8 +30,6 @@ class Report_model extends CI_model{
 				if($category1!=0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
 				if($company1!=0){$this->db->where('product_info.company_id = "'.$company1.'" ');}
 				if($product_amount!=0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-				$this->db->order_by('product_info.product_id','asc'); 
-				$this->db->order_by('product_info.product_name','asc'); 
 				$query = $this->db->get('product_info');
 				return $query;
 			}
@@ -46,23 +42,18 @@ class Report_model extends CI_model{
 				if($category1!=0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
 				if($company1!=0){$this->db->where('product_info.company_id = "'.$company1.'" ');}
 				if($product_amount!=0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-				$this->db->order_by('product_info.product_id','asc'); 
-				$this->db->order_by('product_info.product_name','asc'); 
 				$query = $this->db->get();
 				return $query;
 			}
 		}
 		else
 		{
-			$this->db->from('product_info,bulk_stock_info');
-			$this->db->where('product_info.product_id = bulk_stock_info.product_id');
 			if($product_id!=0)$this->db->where('product_info.product_id = ',$product_id);
 			if($category1!=0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
 			if($company1!=0){$this->db->where('product_info.company_id = "'.$company1.'" ');}
 			if($product_amount!=0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-			$this->db->order_by('product_info.product_id','asc'); 
-			$this->db->order_by('product_info.product_name','asc'); 
-			$query = $this->db->get();
+    		$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id');
+			$query = $this->db->get('product_info');
 			return $query;
 		}
 	}	

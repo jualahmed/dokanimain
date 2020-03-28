@@ -17,6 +17,7 @@ jQuery(document).ready(function($) {
     $('#search_by_product_name').on('keyup', function(ev){
 		var is_sale_active   = $('#is_sale_active').val();
 		var allow_negative_stock   = $('#allow_negative_stock').val();
+
 		if(!is_sale_active && $(this).val().length > 2)
 		{
 			$('#search_by_product_name').val('');
@@ -27,7 +28,7 @@ jQuery(document).ready(function($) {
 			  );
 		}
 	  	var value = $(this).val();
-		if(is_sale_active)
+		if(is_sale_active && $(this).val().length>1)
 		{
 			$("#search_by_product_name").autocomplete({
 			   	source: function( request, response ) {
@@ -42,8 +43,6 @@ jQuery(document).ready(function($) {
 								return{
 								  id              : item.id,
 								  label           : item.product_name,
-								  company_name    : item.company_name,
-								  catagory_name   : item.catagory_name,
 								  product_size    : item.product_size,
 								  product_model   : item.product_model,
 								  sale_price      : item.sale_price,
@@ -104,10 +103,6 @@ jQuery(document).ready(function($) {
 		    };
 
 		}
-		else{
-			$(this).val('');
-			alert('Plz select or create a sale');
-		}
     });
 
     $('#search_by_warran_product_model').on('keyup', function(ev)
@@ -140,8 +135,6 @@ jQuery(document).ready(function($) {
 								return{
 								  id              : item.id,
 								  label           : item.product_name,
-								  company_name    : item.company_name,
-								  catagory_name   : item.catagory_name,
 								  product_size    : item.product_size,
 								  product_model   : item.product_model,
 								  sale_price      : item.sale_price,

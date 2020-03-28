@@ -52,7 +52,7 @@
 							<div class="form-group">
 								  <label for="inputEmail3" class="col-sm-1 control-label">Type<span>*</span></label>
 								  <div class="col-sm-2">
-										<select class="form-control select2" name="type_wise" v-model="type" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" id="type_wise" tabindex="-1" aria-hidden="true" required>
+										<select class="form-control select2" name="type_wise" v-model="type_wise" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" id="type_wise" tabindex="-1" aria-hidden="true" required>
 											<option value="0">Select Type</option>
 											<option value="available">Available Stock</option>
 											<option value="not_available">Not Available Stock</option>

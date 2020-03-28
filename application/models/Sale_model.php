@@ -30,7 +30,7 @@ class Sale_model extends CI_model{
     }
 
     public function search_product($query){
-        return $this->db->query("SELECT * FROM product_info INNER JOIN catagory_info ON catagory_info.catagory_id = product_info.catagory_id INNER JOIN company_info ON company_info.company_id = product_info.company_id INNER JOIN bulk_stock_info ON bulk_stock_info.product_id = product_info.product_id WHERE (product_info.product_warranty=0) AND (`product_name` RLIKE +'$query' OR `product_name` LIKE '$query%')")->result();
+        return $this->db->query("SELECT * FROM product_info INNER JOIN bulk_stock_info ON bulk_stock_info.product_id = product_info.product_id WHERE (product_info.product_warranty=0) AND (`product_name` RLIKE +'$query' OR `product_name` LIKE '$query%') LIMIT 50")->result();
     }
 
     public function search_warranty_product_and_add_to_my_list($serial_no)
