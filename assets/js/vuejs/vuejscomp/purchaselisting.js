@@ -42,7 +42,7 @@ const vm = new Vue({
 				var purchase_receipt_id=this.selected1.receipt_id;
 				var self=this;
 				this.totalqty=parseInt(this.totalqty)+parseInt(this.quantity);
-				this.tunit_buy_price=parseInt(this.tunit_buy_price)+parseInt(this.total_buy_price);
+				this.tunit_buy_price=parseFloat(this.tunit_buy_price)+parseFloat(this.total_buy_price);
 				$.ajax({
 					url: this.base_url+'purchaselisting/createlisting',
 					type: 'POST',
@@ -117,8 +117,8 @@ const vm = new Vue({
 					self.purchase_info.push(re);
 					re.forEach( function(element, index) {
 						self.totalqty= parseInt(self.totalqty) + parseInt(element.purchase_quantity);
-						self.unit_buy_price= parseInt(self.unit_buy_price) + parseInt(element.unit_buy_price);
-						self.tunit_buy_price= parseInt(self.tunit_buy_price) + parseInt(element.purchase_quantity*element.unit_buy_price);
+						self.unit_buy_price= parseFloat(self.unit_buy_price) + parseFloat(element.unit_buy_price);
+						self.tunit_buy_price= parseFloat(self.tunit_buy_price) + parseFloat(element.purchase_quantity*element.unit_buy_price);
 					});
 				})
 				.fail(function() {
@@ -155,8 +155,8 @@ const vm = new Vue({
 					self.purchase_info.push(re);
 					re.forEach( function(element, index) {
 						self.totalqty= parseInt(self.totalqty) + parseInt(element.purchase_quantity);
-						self.unit_buy_price= parseInt(self.unit_buy_price) + parseInt(element.unit_buy_price);
-						self.tunit_buy_price= parseInt(self.tunit_buy_price) + parseInt(element.purchase_quantity*element.unit_buy_price);
+						self.unit_buy_price= parseFloat(self.unit_buy_price) + parseFloat(element.unit_buy_price);
+						self.tunit_buy_price= parseFloat(self.tunit_buy_price) + parseFloat(element.purchase_quantity*element.unit_buy_price);
 					});
 				})
 				.fail(function() {
@@ -284,11 +284,12 @@ jQuery(document).ready(function($) {
 			})
 			.done(function(re) {
 				var re= jQuery.parseJSON(re);
-			$("#purchase_id").val(re.purchase_id);
-			$("#qty").val(re.purchase_quantity);
-			$("#u_b_p").val(re.unit_buy_price);
-			$("#g_b_p").val(re.general_unit_sale_price);
-			$("#e_b_p").val(re.bulk_unit_sale_price);
+				$("#purchase_id").val(re.purchase_id);
+				$("#qty").val(re.purchase_quantity);
+				$("#u_b_p").val(re.unit_buy_price);
+				$("#g_b_p").val(re.general_unit_sale_price);
+				$("#e_b_p").val(re.bulk_unit_sale_price);
+				$("#total_buy_price").val(re.unit_buy_price*re.purchase_quantity);
 			})
 			.fail(function() {
 				console.log("error");
@@ -367,7 +368,9 @@ jQuery(document).ready(function($) {
 });
 
 
-
+function calculate(value) {
+	$("#u_b_p").val(value/$("#qty").val());
+}
 
 
 

@@ -133,9 +133,10 @@
 			  </div-->
 			  <div class="col-md-3">
 				<div class="info-box">
-				  <span class="info-box-text bg-maroon color-palette" style="text-align:center;"><!--img style="color:white; height:50px; width:50px;" src="<?php echo base_url();?>assets2/512/clipboard.png"--> Stock
+				  <span class="info-box-text bg-maroon color-palette" style="text-align:center;">
+				  	Stock
 					<span class="info-box-number" style="text-align:center;">
-					  <?php echo '&#2547; '.round($total_stock_price);?>
+					  <?php echo number_format((float)$total_stock_price, 2, '.', ''); ?>
 					</span>
 				  </span>
 				</div>

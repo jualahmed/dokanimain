@@ -235,8 +235,8 @@
 									<td style="width: 6%;">Pr. ID</td>
 									<td style="text-align: left; width: 35%;">Product Name</td>
 									<td style="text-align: center; width: 6%;">Qnt.</td>
-									<td style="text-align: center;width: 10%;">U.BP</td>
-									<td style="text-align: center; width: 10%;">TP.</td>
+									<td style="text-align: center;width: 10%;">U.B.P</td>
+									<td style="text-align: center; width: 10%;">T.P</td>
 									<td style="text-align: center; width: 7%;" ><i class="fa fa-edit"></i></td>
 								</tr>
 								<tr v-for="(p,index) in purchase_info[0]">
@@ -300,6 +300,12 @@
 			              			<td style="vertical-align: middle;">Quantity: </td>
 			              			<td>
 			              				<input type="text" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+			              			</td>
+			              		</tr>
+			              		<tr>
+			              			<td style="vertical-align: middle;">Total Buy Price: </td>
+			              			<td>
+			              				<input type="text" oninput="calculate(this.value)" class="form-control" id="total_buy_price" name="total_buy_price" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
 			              			</td>
 			              		</tr>
 			              		<tr>
