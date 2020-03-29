@@ -68,7 +68,7 @@
 								<div class="col-sm-4 mt-2">
 									<button type="submit" class="btn btn-success btn-sm" @click.prevent="stockreport" name="search_random"><i class="fa fa-fw fa-search"></i> Search</button>
 									<button type="reset" id="reset_btn" class="btn btn-warning btn-sm"><i class="fa fa-fw fa-refresh"></i> Reset</button>
-									<a :href="base_url+'Report/stock_report_print/'+catagory_id+'/'+product_id+'/'+company_id+'/'+type" id="down" target="_blank" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fa fa-download"></i> Download</a>
+									<a :href="base_url+'Report/stock_report_print/'+catagory_id+'/'+product_id+'/'+company_id+'/'+type_wise" id="down" target="_blank" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fa fa-download"></i> Download</a>
 								</div>
 							</div>
 						</form>
