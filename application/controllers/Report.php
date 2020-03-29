@@ -240,7 +240,6 @@ class Report extends MY_controller
 		$product_amount=$this->input->post('product_amount');
 		$category1 = rawurldecode($catagory_id);
 		$company1 = rawurldecode($company_id);
-		echo $type_wise;
 		$temp = $this->report_model->get_stock_info_by_multi($category1,$product_id,$company1,$type_wise,$product_amount);
 		echo json_encode($temp->result());
 	}

@@ -9,7 +9,7 @@ new Vue({
 		stockqty:0,
 		amount:0,
 		catagory_id:0,
-		type_wise:1,
+		type_wise:0,
 		product_id:0,
 		company_id:0,
 		amount:0,
