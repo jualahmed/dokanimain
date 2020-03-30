@@ -648,32 +648,33 @@ class Report_model extends CI_model{
 
 	public function specific_date_total_cash_calculation( $start, $end )
 	{
-		$query = $this -> db -> select_sum('transaction_amount')
-							 -> from('transaction_details')
+		$query = $this -> db -> select_sum('amount')
+							 -> from('transaction_info')
 							 -> where('transaction_mode = "cash"')
-							 -> where('transaction_type = "in"')
-							 -> where('transaction_doc >= "'.$start.'"')
-							 -> where('transaction_doc <= "'.$end.'"')
+							 -> where('transaction_purpose = "collection"')
+							 -> where('created_at >= "'.$start.'"')
+							 -> where('created_at <= "'.$end.'"')
 							 -> get();
 		foreach($query -> result() as $result):
-				$transaction_amount = $result -> transaction_amount;
+				$amount = $result -> amount;
 		endforeach;
-		return $transaction_amount;
+
+		return $amount;
 	}
 
 	public function specific_date_total_cash_out_calculation( $start, $end )
 	{
-		$query = $this -> db -> select_sum('transaction_amount')
+		$query = $this -> db -> select_sum('amount')
 							 -> from('transaction_details')
 							 -> where('transaction_mode = "cash"')
-							 -> where('transaction_type = "out"')
-							 -> where('transaction_doc >= "'.$start.'"')
-							 -> where('transaction_doc <= "'.$end.'"')
+							 -> where('transaction_purpose = "purchase_payment"')
+							 -> where('created_at >= "'.$start.'"')
+							 -> where('created_at <= "'.$end.'"')
 							 -> get();
 		foreach($query -> result() as $result):
-				$transaction_amount = $result -> transaction_amount;
+				$amount = $result -> amount;
 		endforeach;
-		return $transaction_amount;
+		return $amount;
 	}
 
 	function specific_date_total_card_collection_calculation( $start, $end )
@@ -742,21 +743,16 @@ class Report_model extends CI_model{
 
 	public function specific_date_total_credit_collection_calculation( $start, $end )
 	{
-		$query = $this -> db -> select_sum('transaction_amount')
-							 -> from('transaction_ref_details')
+		$query = $this -> db -> select_sum('amount')
+							 -> from('transaction_info')
 							 -> where('transaction_purpose = "credit_collection"')
-							 -> where('transaction_type = "in"')
-							 //-> where('transaction_details.transaction_reference_id = transaction_ref_details.transaction_ref_details_id' )
-							 //-> where('transaction_receipt_id != "0"')
-							 -> where('transaction_ref_details_doc >= "'.$start.'"')
-							 -> where('transaction_ref_details_doc <= "'.$end.'"')
-							// -> where('invoice_info.grand_total > invoice_info.total_paid' )
-							 //-> where('shop_id', $this->tank_auth->get_shop_id())
+							 -> where('created_at >= "'.$start.'"')
+							 -> where('created_at <= "'.$end.'"')
 							 -> get();
 		foreach($query -> result() as $result):
-				$transaction_amount = $result -> transaction_amount;
+				$amount = $result->amount;
 		endforeach;
-		return $transaction_amount;
+		return $amount;
 	}
 
 	public function specific_date_cash_return_calculation( $start, $end )

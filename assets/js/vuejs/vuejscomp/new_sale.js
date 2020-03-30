@@ -221,8 +221,8 @@ jQuery(document).ready(function($) {
 			var value_added_tax = parseFloat($('#value_added_tax').val());
 			if(qnty != '' && !isNaN(qnty) && qnty > 0 && $("#temp_pro_data").val() != '')
 			{
-				tmp_sub_total       = Math.round(tmp_sub_total);
-				total_vat           = Math.round(total_vat);
+				tmp_sub_total       = tmp_sub_total;
+				total_vat           = total_vat;
 				var old_qnty        = "";
 				var price           = "";
 				var new_qnty        = "";
@@ -241,7 +241,7 @@ jQuery(document).ready(function($) {
 				}
 				var vat = ((pro_price * rstock *  value_added_tax) / 100);
 				if(str_total_vat != '')vat += total_vat;
-				vat = Math.round(vat);
+				vat =vat;
 				var selected_producted  = $("#pro_name").val();
 				var flg                 = false;
 				$('#selected_products tr').each(function() {
@@ -255,9 +255,9 @@ jQuery(document).ready(function($) {
 						new_qnty      = rstock + old_qnty;
 						temp_amount = rstock * pro_price;
 						if(str_sub_total != '')temp_amount += tmp_sub_total;
-						temp_amount = Math.round (temp_amount);
-						total_2 = Math.round (temp_amount + vat);
-						new_price     = Math.round(price * new_qnty);
+						temp_amount =temp_amount;
+						total_2 = temp_amount + vat;
+						new_price     = price * new_qnty;
 					}
 				});
 
@@ -306,8 +306,8 @@ jQuery(document).ready(function($) {
 								var temp_data   = $("#temp_pro_data").val();
 								num_of_tr += 1;
 								var tmp_amount = rstock * pro_price;
-								tmp_amount  = Math.round(tmp_amount);
-								var total   = Math.round (tmp_amount + vat);
+								tmp_amount  =tmp_amount;
+								var total   = tmp_amount + vat;
 								$.ajax({
 									url       : base_url+'sale/addProductToSale',
 									type      : 'POST',
@@ -329,8 +329,8 @@ jQuery(document).ready(function($) {
 					num_of_tr += 1;
 					var tmp_amount = rstock * pro_price;
 					if(str_sub_total != '')tmp_amount += tmp_sub_total;
-					tmp_amount  = Math.round(tmp_amount);
-					var total   = Math.round (tmp_amount + vat);
+					tmp_amount  = tmp_amount;
+					var total   = tmp_amount + vat;
 					$('#sub_total').val(tmp_amount);
 					$('#vat').val(vat);
 					$('#total').val(total);
@@ -338,7 +338,7 @@ jQuery(document).ready(function($) {
 					
 					if(return_adjust != '' && !isNaN(return_adjust)){
 						return_adjust = parseFloat(return_adjust);
-						var pybl        = Math.round(total - return_adjust)
+						var pybl        =total - return_adjust
 						if(pybl > 0)$('#payable').val(pybl);
 						else $('#payable').val(0);
 					}
@@ -443,11 +443,11 @@ $(function(){
          $('#sub_total').val(j);
          $('#vat').val(k);
          var re_ajd = $('#hid_return_adjust').val();
-         var tmp = Math.round((parseFloat(j) + parseFloat(k)));
+         var tmp = (parseFloat(j) + parseFloat(k));
 
          if(re_ajd != 0){
-           re_ajd    = Math.round(re_ajd);
-           var pybl  = Math.round(tmp - re_ajd);
+           re_ajd    = re_ajd;
+           var pybl  = tmp - re_ajd;
 
            $('#return_adjust').val(re_ajd);
            if(pybl > 0)$('#payable').val(pybl);
@@ -991,13 +991,13 @@ $('#credit_sale').on('click', function(e){
 			var disc_in_p       = $('#disc_in_p').val();
 			var disc_in_f       = $('#disc_in_f').val();
 			var disc_amount     = parseFloat($('#disc_amount').val());
-			var delivery_charge     = parseFloat($('#delivery_charge').val());
+			var delivery_charge = parseFloat($('#delivery_charge').val());
 			var customer_name   = $('#customer_name').val();
 			var customer_phn    = $('#customer_phone').val();
 			var return_adjust   = $('#return_adjust').val();
 			var change          = $('#change').val();
-			var payable          = $('#payable').val();
-			var return_id          = $('#hid_return_id').val();
+			var payable         = $('#payable').val();
+			var return_id       = $('#hid_return_id').val();
 			if(disc_amount > total)
 			{
 				swal(
@@ -1023,7 +1023,7 @@ $('#credit_sale').on('click', function(e){
 							disc_in_f       : disc_in_f,
 							disc_amount     : disc_amount,
 							received        : received,
-							delivery_charge        : delivery_charge,
+							delivery_charge : delivery_charge,
 							change          : change,
 							customer_name   : customer_name,
 							customer_phn    : customer_phn,
@@ -1100,7 +1100,7 @@ $('#master_id').on('click', function(e){
 			var vat             = $('#vat').val();
 			var total           = $('#total').val();
 			var received        = $('#received').val();
-			var delivery_charge        = $('#delivery_charge').val();
+			var delivery_charge = $('#delivery_charge').val();
 			var customer_id     = $('#selected_customer_id').val();
 			var disc_in_p       = $('#disc_in_p').val();
 			var disc_in_f       = $('#disc_in_f').val();
@@ -1450,7 +1450,7 @@ $('#american_express_id').on('click', function(e){
 			var vat             = $('#vat').val();
 			var total           = $('#total').val();
 			var received        = $('#received').val();
-			var delivery_charge        = $('#delivery_charge').val();
+			var delivery_charge = $('#delivery_charge').val();
 			var customer_id     = $('#selected_customer_id').val();
 			var disc_in_p       = $('#disc_in_p').val();
 			var disc_in_f       = $('#disc_in_f').val();
@@ -1655,11 +1655,11 @@ $("#disc_in_p").on('keyup', function(e){
             
         $('#disc_in_f').val("");
             
-        $('#disc_amount').val(Math.round(disc_amount));
+        $('#disc_amount').val(disc_amount);
             
         if(return_adjust != '')var tmp_re_ad   = parseFloat(return_adjust);
-        var payable = Math.round(((sub_total - disc_amount) + vat)-tmp_re_ad);
-        var total   = Math.round(((sub_total - disc_amount) + vat));
+        var payable = ((sub_total - disc_amount) + vat)-tmp_re_ad;
+        var total   = ((sub_total - disc_amount) + vat);
             
         if(!isNaN(total)){
             $('#total').val(total);
@@ -1676,8 +1676,8 @@ $("#disc_in_p").on('keyup', function(e){
         var str_vat         = $('#vat').val();              var vat         = parseFloat(str_vat);
             
         if(return_adjust != '')var tmp_re_ad   = parseFloat(return_adjust);
-        var payable         = Math.round((sub_total + vat)-tmp_re_ad);
-        var total           = Math.round((sub_total + vat));
+        var payable         = (sub_total + vat)-tmp_re_ad;
+        var total           = (sub_total + vat);
 
         if(!isNaN(total)){
             $('#total').val(total);
@@ -1709,7 +1709,7 @@ $("#disc_in_f").on('keyup', function(){
             var total   = (sub_total - disc_val) + vat;
             
             if(!isNaN(total)){
-                payable   = Math.round(total - tmp_re_ad);
+                payable   = total - tmp_re_ad;
                 $('#total').val(total);
                 if(return_adjust != '')$('#payable').val(payable);
 
@@ -1726,11 +1726,11 @@ $("#disc_in_f").on('keyup', function(){
             var str_vat         = $('#vat').val();              var vat         = parseFloat(str_vat);
             
             if(return_adjust != '')var tmp_re_ad   = parseFloat(return_adjust);
-            total         = Math.round(sub_total + vat);
+            total         = sub_total + vat;
             var payable   = total - tmp_re_ad;
             
             if(!isNaN(total)){
-                payable       = Math.round(payable);
+                payable       = payable;
                 $('#total').val(total);
                 if(return_adjust != '')$('#payable').val(payable);
 
@@ -1754,7 +1754,7 @@ $('#received').on('keyup', function()
 	{
       if(str_received != '' && str_total != '' && !isNaN(str_received) && int_received > 0)
 	  {
-          $('#change').val(Math.round(int_received - payable));
+          $('#change').val(int_received - payable);
       }
       if(str_received == '')$('#change').val("");
     }
@@ -1763,7 +1763,7 @@ $('#received').on('keyup', function()
 	{
       if(str_received != '' && str_total != '' && !isNaN(str_received) && int_received > 0)
 	  {
-          $('#change').val(Math.round(int_received - int_total));
+          $('#change').val(int_received - int_total);
       }
       if(str_received == '')$('#change').val("");
     }

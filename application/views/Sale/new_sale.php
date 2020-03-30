@@ -300,7 +300,7 @@
 									<input type="hidden" id="sale_id<?php echo $i_num;?>" value="<?php echo $tmp->general_unit_sale_price; ?>">
 									<input type="hidden" id="buy_id<?php echo $i_num;?>" value="<?php echo $tmp->unit_buy_price; ?>">
 									<input type="hidden" id="quantti_id<?php echo $i_num;?>" value="<?php echo $tmp->sale_quantity; ?>">
-									<input type="hidden" id="temp_details_modal<?php echo $i_num;?>" value="<?php echo $tmp -> temp_sale_details_id; ?>">
+									<input type="hidden" id="temp_details_modal<?php echo $i_num;?>" value="<?php echo $tmp->temp_sale_details_id; ?>">
 									<td style="display: none;"><?php echo $tmp->product_id . "<>" . $qnty ."<>". $sale_price; ?></td>
 								</tr>
 
