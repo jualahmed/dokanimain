@@ -310,8 +310,8 @@
 			                    $sub_to     = ($sub_to + ($qnty * $sale_price));
 			                    $vat        = 0;
 	                 		}
-	                 		$sub_to  = round($sub_to);
-	                 		$vat     = round($vat);
+	                 		$sub_to  = $sub_to;
+	                 		$vat     = $vat;
 	                 ?>
 			                <input type="hidden" value="<?php echo $total_qnty; 	?>"     id="hid_qty" >
 			                <input type="hidden" value="<?php echo $sub_to;     	?>"     id="hid_sub_to" >
