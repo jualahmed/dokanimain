@@ -1,7 +1,7 @@
 <?php
 	$ci = &get_instance();
   	$ci->db->get('bulk_stock_info')->result();
-	$config['VAT'] = 1;
+	$config['VAT'] = 0;
 	$config['tp_price_purchase'] = 0; /** Allow=1, Not Allow = 0 **/
 	$config['tp_price_vat_purchase'] = 0; /** Allow=1, Not Allow = 0 **/
 	$config['allow_negative_stock'] = 0; /** Allow=1, Not Allow = 0 **/
