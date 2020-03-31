@@ -27,16 +27,16 @@
 								<tr v-for="(d,index) in alldata">
 									<td><?php echo $key+1 ?></td> 
 									<td><?php echo $var->product_name ?></td>
-									<td><?php echo $var->stock_amount ?></td>
-									<td><?php echo $var->bulk_unit_buy_price ?></td>
-									<td><?php echo $var->general_unit_sale_price ?></td>
+									<td class="text-right"><?php echo $var->stock_amount ?></td>
+									<td class="text-right"><?php echo $var->bulk_unit_buy_price ?></td>
+									<td class="text-right"><?php echo $var->general_unit_sale_price ?></td>
 								</tr>
 							<?php endforeach ?>
 							<tr>
 								<td colspan="2"><b></b></td>
-								<td colspan="1"><b>Total Quantity: <?php echo $stockqty ?></b> </td>
-								<td colspan="1"><b>Total Stock Amount: <?php echo $amount ?></b></td>
-								<td colspan="1"><b>Total Sale Amount: <?php echo $samount ?></b></td>
+								<td class="text-right"><b>Total Quantity: <?php echo $stockqty ?></b> </td>
+								<td class="text-right"><b>Total Stock Amount: <?php echo $amount ?></b></td>
+								<td class="text-right"><b>Total Sale Amount: <?php echo $samount ?></b></td>
 							</tr>
 						</table>
 						<?php } else{?>

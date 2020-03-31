@@ -5,6 +5,10 @@ html,body,lable{
 input{
   text-transform: none!important;
 }
+,
+.text-right{
+  text-align: right!important;
+}
 #d-nodedsd{
   display: none;
 }

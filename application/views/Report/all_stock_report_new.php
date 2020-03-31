@@ -98,15 +98,15 @@
   				<tr v-for="(d,index) in alldata">
   					<td>{{ index+1 }}</td> 
   					<td style="white-space: normal!important;">{{ d.product_name }}</td>
-  					<td>{{ d.stock_amount }}</td>
-  					<td>{{ d.bulk_unit_buy_price }}</td>
-  					<td>{{ d.general_unit_sale_price }}</td>
+  					<td class="text-right">{{ d.stock_amount }}</td>
+  					<td class="text-right">{{ d.bulk_unit_buy_price }}</td>
+  					<td class="text-right">{{ d.general_unit_sale_price }}</td>
   				</tr>
   				<tr>
   					<td colspan="2"><b></b></td>
-  					<td colspan="1"><b>Total Quantity: {{ stockqty }}</b> </td>
-  					<td colspan="1"><b>Total Stock Amount: {{ amount }}</b></td>
-  					<td colspan="1"><b>Total Sale Amount: {{ samount }}</b></td>
+  					<td class="text-right"><b>Total Quantity: {{ stockqty }}</b> </td>
+  					<td class="text-right"><b>Total Stock Amount: {{ amount }}</b></td>
+  					<td class="text-right"><b>Total Sale Amount: {{ samount }}</b></td>
   				</tr>
   			</tbody>
   		</table>

@@ -69,13 +69,13 @@ new Vue({
 					console.log(result)
 					result.forEach( function(element, index) {
 						if(self.saletype==2){
-							self.amount=parseInt(self.amount)+parseInt(element.unit_buy_price*element.sale_quantity);  
-							self.samount=parseInt(self.samount)+parseInt((element.actual_sale_price*element.sale_quantity));
-							self.quantity=parseInt(self.quantity)+parseInt((element.sale_quantity));
+							self.amount=parseFloat(self.amount)+parseFloat(element.unit_buy_price*element.sale_quantity);  
+							self.samount=parseFloat(self.samount)+parseFloat((element.actual_sale_price*element.sale_quantity));
+							self.quantity=parseFloat(self.quantity)+parseFloat((element.sale_quantity));
 						}else{
-							self.amount=parseInt(self.amount)+parseInt(element.grand_total);  
-							self.samount=parseInt(self.samount)+parseInt((element.total_paid));
-							self.quantity=parseInt(self.quantity)+parseInt((element.delivery_charge));
+							self.amount=parseFloat(self.amount)+parseFloat(element.grand_total);  
+							self.samount=parseFloat(self.samount)+parseFloat((element.total_paid));
+							self.quantity=parseFloat(self.quantity)+parseFloat((element.delivery_charge));
 						}
 
 					});

@@ -101,13 +101,13 @@
 							  <td>{{ a.company_name }}</td>
 							  <td>{{ a.catagory_name }}</td>
 							  <td style="white-space: normal!important;">{{ a.product_name }}</td>
-							  <td title="Purchase Quantity">{{ a.purchase_quantity }}</td>
-							  <td>{{ a.unit_buy_price }}</td>
+							  <td class="text-right" title="Purchase Quantity">{{ a.purchase_quantity }}</td>
+							  <td class="text-right">{{ a.unit_buy_price }}</td>
 							</tr>
 							<tr>
 								<td colspan="6"><b></b></td>
-								<td colspan="1"><b>Total Quantity: {{ stockqty }}</b> </td>
-								<td colspan="1"><b>Total Stock Amount: {{ samount }}</b></td>
+								<td class="text-right"><b>Total Quantity: {{ stockqty }}</b> </td>
+								<td class="text-right"><b>Total Stock Amount: {{ samount }}</b></td>
 							</tr>
 						</tbody>
 					</table>

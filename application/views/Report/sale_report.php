@@ -151,16 +151,16 @@
 						<td align="right" v-if="isinvoice==1">{{ i.total_paid }}</td>
 						<td align="right" v-if="isinvoice==1">{{ i.grand_total-i.total_paid }}</td>
 						<th v-if="isinvoice!=1">{{ i.sale_quantity }}</th>
-						<td align="right" v-if="isinvoice!=1">{{ parseInt(i.unit_buy_price) }}</td>
-						<td align="right" v-if="isinvoice!=1">{{ parseInt(i.actual_sale_price) }}</td>
+						<td align="right" v-if="isinvoice!=1">{{ parseFloat(i.unit_buy_price) }}</td>
+						<td align="right" v-if="isinvoice!=1">{{ parseFloat(i.actual_sale_price) }}</td>
 						<td>{{ i.username }}</td>
 						<td v-if="isinvoice==1"><a :href="base_url+'invoice/index/'+i.sid" target="_blank" class="btn btn-secondary">Print</a></td>
 					</tr>
 					<tr>
 						<td colspan="8"></td>
 						<td><b>Total: {{ quantity }}</b></td>
-						<td><b>Total: {{ amount }}</b></td>
-						<td><b>Total:{{ samount }}</b></td>
+						<td class="text-right"><b>Total: {{ amount }}</b></td>
+						<td class="text-right"><b>Total:{{ samount }}</b></td>
 					</tr>
 				</tbody>
 			</table>
