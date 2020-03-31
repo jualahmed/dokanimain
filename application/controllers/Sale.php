@@ -595,7 +595,7 @@ class Sale extends MY_Controller
 																$view_array['sale_price'],$view_array['pro_mrp_price'], $view_array['buy_price'], 
 																$view_array['product_specification'], $view_array['pro_quantity'], 
 																$view_array['product_stock'], $currrent_temp_sale_id);
-		$this->load->view('sale/addProductToSale', $view_array);     
+		$this->load->view('Sale/addProductToSale', $view_array);     
 	}
 
 	public function change_sale_quantity2()
