@@ -34,6 +34,8 @@ class admin extends MY_controller{
 		$data[ 'total_price_info' ] = 0;
 		$data['total_stock_price'] = $this->site_model->total_stock_price();
 		$data['total_stock_quantity'] = $this->site_model->total_stock_quantity();
+		$prevdate = date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))));
+		$data['statment']=Dailystatementm::where('date',$prevdate)->get();
 		$this->__renderview('home', $data);
 	}
 
@@ -94,7 +96,7 @@ class admin extends MY_controller{
 		}
 	}
 
-	public function dailystatement($value='')
+	public function dailystatement()
 	{
 		$Dailystatementm = new Dailystatementm();
 	}
