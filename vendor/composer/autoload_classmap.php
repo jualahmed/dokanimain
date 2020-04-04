@@ -26,6 +26,7 @@ return array(
     'Exchange_model' => $baseDir . '/application/models/Exchange_model.php',
     'Expense_invoice_model' => $baseDir . '/application/models/Expense_invoice_model.php',
     'Expense_model' => $baseDir . '/application/models/Expense_model.php',
+    'Invoicem' => $baseDir . '/application/models/Invoicem.php',
     'Joy_model' => $baseDir . '/application/models/Joy_model.php',
     'Loanm' => $baseDir . '/application/models/Loanm.php',
     'Login_attempts' => $baseDir . '/application/models/tank_auth/Login_attempts.php',

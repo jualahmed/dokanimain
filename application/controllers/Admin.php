@@ -98,7 +98,29 @@ class admin extends MY_controller{
 
 	public function dailystatement()
 	{
-		$Dailystatementm = new Dailystatementm();
+		$date = date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))));
+		$dailystatementm = new Dailystatementm();
+		$dailystatementm->date = $date;
+		$dailystatementm->purchase =Transactionm::where('transaction_purpose','purchase')->where('date',$date)->sum('amount');
+		$dailystatementm->expense =Transactionm::where('transaction_purpose','expense')->where('date',$date)->sum('amount');
+		$dailystatementm->sale =Transactionm::where('transaction_purpose','sale')->where('date',$date)->sum('amount');
+		$dailystatementm->sale_discount =Invoicem::where('invoice_doc',$date)->sum('discount_amount');
+		$dailystatementm->receivable_gift =Purchasereceiptinfom::where('receipt_date',$date)->sum('transport_cost');
+		$dailystatementm->transport_cost =Purchasereceiptinfom::where('receipt_date',$date)->sum('gift_on_purchase');
+		$cstock = Bulkstockinfom::selectRaw('SUM(bulk_unit_buy_price * stock_amount) as total')->pluck('total')[0];
+		$totalsale = Invoicem::where('invoice_doc',$date)->sum('total_price');
+		$totalpurchase = Purchaseinfom::selectRaw('SUM(unit_buy_price * purchase_quantity) as total')->pluck('total')[0];
+		$dailystatementm->stock_current =$cstock;
+		$dailystatementm->stock_opening =($cstock+$totalsale)-$totalpurchase;
+		$dailystatementm->stock_opening =($cstock+$totalsale)-$totalpurchase;
+		$cahsin = Cashbook::where('transaction_type','in')->sum('amount');
+		$cahsout = Cashbook::where('transaction_type','out')->sum('amount');
+		$dailystatementm->cash_in_hand =$cahsin-$cahsout;
+		$bankin = Bankbook::where('transaction_type','in')->sum('amount');
+		$bankout = Bankbook::where('transaction_type','out')->sum('amount');
+		$dailystatementm->cash_in_bank =$bankin-$bankout;
+		var_dump($dailystatementm->stock_current);
+		// redirect('/admin','refresh');
 	}
 
 	public function download_database(){

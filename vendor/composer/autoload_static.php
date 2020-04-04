@@ -108,6 +108,7 @@ class ComposerStaticInitef4e5afef088b92d22e1407d70c2861e
         'Exchange_model' => __DIR__ . '/../..' . '/application/models/Exchange_model.php',
         'Expense_invoice_model' => __DIR__ . '/../..' . '/application/models/Expense_invoice_model.php',
         'Expense_model' => __DIR__ . '/../..' . '/application/models/Expense_model.php',
+        'Invoicem' => __DIR__ . '/../..' . '/application/models/Invoicem.php',
         'Joy_model' => __DIR__ . '/../..' . '/application/models/Joy_model.php',
         'Loanm' => __DIR__ . '/../..' . '/application/models/Loanm.php',
         'Login_attempts' => __DIR__ . '/../..' . '/application/models/tank_auth/Login_attempts.php',
