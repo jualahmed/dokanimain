@@ -18,6 +18,7 @@ return array(
     'Company_model' => $baseDir . '/application/models/Company_model.php',
     'Customer_model' => $baseDir . '/application/models/Customer_model.php',
     'Customerm' => $baseDir . '/application/models/Customerm.php',
+    'Dailystatementm' => $baseDir . '/application/models/Dailystatementm.php',
     'Damageproduct_model' => $baseDir . '/application/models/Damageproduct_model.php',
     'Distributor_model' => $baseDir . '/application/models/Distributor_model.php',
     'Employee_model' => $baseDir . '/application/models/Employee_model.php',

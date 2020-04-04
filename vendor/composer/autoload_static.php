@@ -100,6 +100,7 @@ class ComposerStaticInitef4e5afef088b92d22e1407d70c2861e
         'Company_model' => __DIR__ . '/../..' . '/application/models/Company_model.php',
         'Customer_model' => __DIR__ . '/../..' . '/application/models/Customer_model.php',
         'Customerm' => __DIR__ . '/../..' . '/application/models/Customerm.php',
+        'Dailystatementm' => __DIR__ . '/../..' . '/application/models/Dailystatementm.php',
         'Damageproduct_model' => __DIR__ . '/../..' . '/application/models/Damageproduct_model.php',
         'Distributor_model' => __DIR__ . '/../..' . '/application/models/Distributor_model.php',
         'Employee_model' => __DIR__ . '/../..' . '/application/models/Employee_model.php',

@@ -454,6 +454,11 @@ class Report extends MY_controller
 		$data['bd_date'] = date ('Y-m-d');
 		$data['start_date'] = $this->input->post('start_date');
 		$data['end_date'] = $this->input->post('end_date');
+		if( $this->input->post('specific_date')){
+		    $data['start_date'] = $this->input->post('specific_date');
+		    $data['end_date'] = $this->input->post('specific_date');
+	    }
+	    $data['allstatment'] = Dailystatementm::whereBetween('date', [$data['start_date'], $data['end_date']])->get();
 		$this->__renderview('Report/financial_statement',$data);
 	}
 	

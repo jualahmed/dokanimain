@@ -619,11 +619,8 @@ class Report_model extends CI_model{
 	{
 		$query = $this -> db -> select_sum( 'grand_total')
 							 -> from('invoice_info')
-							 //-> where('payment_mode = "cash"')
 							 -> where('invoice_doc >= "'.$start.'"')
 							 -> where('invoice_doc <= "'.$end.'"')
-							// -> where('invoice_info.invoice_id = sale_details.invoice_id' )
-							 //-> where('shop_id', $this->tank_auth->get_shop_id())
 							 -> get();
 		foreach($query -> result() as $result):
 				$total_sale = $result -> grand_total;

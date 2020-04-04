@@ -25,12 +25,8 @@ class admin extends MY_controller{
 		$start_date = date ('Y-m-d');
 		$end_date = date ('Y-m-d 23:59:59');
 		$data['previous_date'] = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 30, date("y")));
-
-
 		$data[ 'sale_price_info' ] = $this->report_model->specific_date_sale_price_calculation(  $start_date  ,  $end_date  );
 		$data[ 'main_cash_info' ] = $this->report_model->specific_date_total_cash_calculation(  $start_date  ,  $end_date  );
-
-
 		$data[ 'purchase_info' ] = $this->report_model->specific_date_purchase_amount_calculation();
 		$data['expense_info' ] = $this->report_model->specific_date_expense_amount_calculation( $start_date  ,  $end_date  );
 		$data[ 'main_credit_receive_info' ] = $this->report_model->specific_date_total_credit_collection_calculation(  $start_date  ,  $end_date  );
@@ -96,6 +92,11 @@ class admin extends MY_controller{
 				$this->__renderview('user_modification_form_view', $data);
 			}
 		}
+	}
+
+	public function dailystatement($value='')
+	{
+		$Dailystatementm = new Dailystatementm();
 	}
 
 	public function download_database(){
