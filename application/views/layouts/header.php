@@ -48,7 +48,6 @@
 							<!-- User image -->
 							<li class="user-header">
 								<img src="<?php echo base_url();?>assets/img/avatar.png" class="img-circle" alt="User Image">
-
 								<p>
 									<?php echo $user_name; ?>
 									<small><?php echo ucfirst($user_type); ?></small>
@@ -56,7 +55,7 @@
 							</li>
 							<li class="user-footer">
 								<div class="pull-left" style="margin:0px 0px 0px 90px;">
-					<a href="<?php echo base_url();?>auth/logout" class="btn btn-default btn-flat">Sign out</a>
+									<a href="<?php echo base_url();?>auth/logout" class="btn btn-default btn-flat">Sign out</a>
 								</div>
 							</li>
 						</ul>
@@ -280,6 +279,9 @@
 						</li>
 						<li class="<?php echo active_link_function('Report','delivery_charge_report'); ?>">
 							<a href="<?php echo base_url();?>Report/delivery_charge_report"><i class="fa fa-search-plus"></i>Delivery Charge Report</a>
+						</li>
+						<li class="<?php echo active_link_function('Report','financial_statement'); ?>">
+							<a href="<?php echo base_url();?>Report/financial_statement"><i class="fa fa-search-plus"></i>Financial Statement</a>
 						</li>
 						<li class="<?php echo active_link_function('Report','damage_report'); ?>">
 							<a href="<?php echo base_url();?>Report/damage_report"><i class="fa fa-search-plus"></i>Damage Report </a>
