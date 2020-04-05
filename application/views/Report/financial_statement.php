@@ -1,13 +1,21 @@
 <?php 
-$sale_price_info=0;
-$sale_return_info=0;
+$purchase=0;
+$sale=0;
 $opening_stock=0;
-$purchase_total_amount=0;
-$purchase_total_amount_for_transport1=0;
 $closing_stock=0;
-$cost_sale=0;
+$cash_in_hand=0;
+$cash_in_bank=0;
+$gross_profit=0;
 foreach ($allstatment as $key => $value): ?>
-	
+	<?php
+		$purchase=$purchase+$value->purchase;
+		$sale=$sale+$value->sale;
+		$opening_stock=$opening_stock+$value->stock_opening;
+		$closing_stock=$closing_stock+$value->stock_current;
+		$cash_in_hand=$cash_in_hand+$value->stock_current;
+		$cash_in_bank=$cash_in_bank+$value->cash_in_bank;
+		$gross_profit=$gross_profit+$value->gross_profit;
+	?>
 <?php endforeach ?>
 	
 <div class="content-wrapper">
@@ -49,69 +57,67 @@ foreach ($allstatment as $key => $value): ?>
 				<div class="box">
 					<div class="box-body">
 						<div class="wrap-1">
-							<div class="inner_table_2">
-								<table class="new_data">
+							<div class="table-responsive">
+								<table class="teble w-100">
 									<tr>
 									  <td colspan="1">S.Date</td>
-									  <td colspan="2"><?php echo date("d-m-Y", strtotime($start_date)).nbs(5); ?></td>
+									  <th colspan="2"><?php echo date("d-m-Y", strtotime($start_date)).nbs(5); ?></th>
 									  <td colspan="1">E.Date</td>
-									  <td colspan="2"><?php echo date("d-m-Y", strtotime($end_date)); ?></td>
-									  <td colspan="2"></td>
+									  <th colspan="2"><?php echo date("d-m-Y", strtotime($end_date)); ?></th>
 									</tr>
 								</table>
 							</div>
 						</div>
-						<div class="inner_table_222">
-						<div class = "Field_Container_Box">
-							<p>Revenue</p>
-								<?php 
-									echo number_format((float)$sale_price_info - $sale_return_info, 2, '.', '');
-								?>
-						</div>
-						<div id = "mid_box_left" style="width:496px;margin: 0px 0px 0px 64px;" >
-							<div class = "TitleBox">
-								<div class ="pp">Cost of Sales</div>
-							</div>
-
-								<div class = "Field_Container_Box" >
-									<div class = "purpose_controller"> Opening Inventory</div>	
-									<?php 
-										echo '<div class = "h8">'.nbs(10).'<big style = "font-size: 11px; font-weight:bold;"> &#2547; </big> '.$opening_stock.'</div>'; 
-									?> 
-								</div>
-								<div class = "Field_Container_Box" >
-									<div class = "purpose_controller">Purchase</div>
-									<?php 
-										echo number_format((float)$purchase_total_amount, 2, '.', '');
-									?> 
-								</div>
-									
-								<div class = "Field_Container_Box" >
-									<div class = "purpose_controller">Carriage Inward</div>
-									<?php 
-										echo number_format((float)$purchase_total_amount_for_transport1, 2, '.', '');
-									?>  
-								</div>
-								<div class = "Field_Container_Box" >
-									<p style="width:217px; margin-top:0px; font-size:12px;">Cost of Goods Available for Sale</p>
-									<?php
-										echo number_format((float)$opening_stock + $purchase_total_amount + $purchase_total_amount_for_transport1, 2, '.', '');
-									?>
-								</div>
-								<div class = "Field_Container_Box">
-									<div class = "purpose_controller"> (-) Closing Stock.</div>	
-									<?php 
-										echo $closing_stock;
-									?>
-								</div>
-								<div class = "Field_Container_Box">
-									<p>Cost of Goods Sold</p>
-									<?php
-										echo number_format((float)$cost_sale - $closing_stock, 2, '.', '');
-									?>
-								</div>
-						</div>	 <!--End of mid box left-->
-					
+						<br>
+						<div>
+							<table class="table table-bordered">
+								<tr>
+									<th>Purchase</th>
+									<th>&#2547; <?php 
+											echo number_format((float)$purchase,2, '.', '');
+										?></th>
+								</tr>
+								<tr>
+									<th>Opening Stock</th>
+									<td>&#2547;
+										<?php 
+											echo $opening_stock; 
+										?> 
+									</td>
+								</tr>
+								<tr>
+									<th>(-) Closing Stock.</th>
+									<td>&#2547;
+										<?php 
+											echo $closing_stock;
+										?>
+									</td>
+								</tr>
+								<tr>
+									<th>Cash in hand</th>
+									<td>&#2547;
+										<?php
+											echo number_format((float)$cash_in_hand, 2, '.', '');
+										?>
+									</td>
+								</tr>
+								<tr>
+									<th>Cash in bank</th>
+									<td>&#2547;
+										<?php
+											echo number_format((float)$cash_in_bank, 2, '.', '');
+										?>
+									</td>
+								</tr>
+								<tr>
+									<th>Profit</th>
+									<td>&#2547;
+										<?php
+											echo number_format((float)$gross_profit, 2, '.', '');
+										?>
+									</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>

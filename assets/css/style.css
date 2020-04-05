@@ -1,3 +1,6 @@
+.w-100{
+  width: 100%;
+}
 html,body,lable{
   font-weight: 100!important;
   font-family: arial!important;
