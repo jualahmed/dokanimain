@@ -11,7 +11,7 @@
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-2 control-label">Product <span class="text-danger">*</span></label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control product_name" title="Product Name" name="product_name" id="lockk3" placeholder="Product Name" autofocus="on">
+									<input type="text" class="form-control product_name" name="product_name" id="lockk3" placeholder="Product Name" autofocus="on">
 									<input type="hidden" id="pro_id" name="pro_id">
 									<input type="hidden" id="stock_id" name="stock_id">
 								</div>
@@ -20,22 +20,22 @@
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-2 control-label">Buy <span class="text-danger">*</span></label>
 								<div class="col-sm-2">
-									<input type="text" class="form-control buy_price" title="Product Name" name="buy_price" id="buy" placeholder="Buy" readonly>
+									<input type="text" class="form-control buy_price" name="buy_price" id="buy" placeholder="Buy" readonly>
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label">Sale</label>
 								<div class="col-sm-2">
-									<input type="text" class="form-control" title="Product Name" name="sale" id="sale" placeholder="Sale" readonly>
+									<input type="text" class="form-control" name="sale" id="sale" placeholder="Sale" readonly>
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label">Stock</label>
 								<div class="col-sm-2">
-									<input type="text" class="form-control" title="Product Name" name="stock" id="stock" placeholder="Stock" readonly>
+									<input type="text" class="form-control" name="stock" id="stock" placeholder="Stock" readonly>
 								</div>
 							</div>
 							<br>
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-2 control-label">Damage <span class="text-danger">*</span></label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control damage_quantity" title="Product Name" name="damage_quantity" id="product_quantity" placeholder="Damage Quantity">
+									<input type="text" class="form-control damage_quantity" name="damage_quantity" id="product_quantity" placeholder="Damage Quantity">
 								</div>
 							</div>
 						</div>

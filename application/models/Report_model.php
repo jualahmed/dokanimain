@@ -85,7 +85,6 @@ class Report_model extends CI_model{
 		if($distributor_id!=0){$this->db->where(' distributor_info.distributor_id',$distributor_id);}
 		if($start_date!=0){$this->db->where('purchase_receipt_info.receipt_date >= "'.$start_date.'"');}
 		if($end_date!=0){$this->db->where('purchase_receipt_info.receipt_date <= "'.$end_date.'"');}
-		if($start_date!=''){$this->db->where('purchase_receipt_info.receipt_date <= "'.$start_date.'"');}
 		$query = $this->db->get('purchase_info');
 		return $query;	
 	} 
@@ -577,43 +576,39 @@ class Report_model extends CI_model{
 		$start_date=$this->input->post('start_date');
 		$end_date=$this->input->post('end_date');
 		$end_date=date("Y-m-d",strtotime($end_date.'+1 day'));
-		$this->db->select('product_info.product_id,product_info.product_name, product_info.company_id, product_info.catagory_id,damage_product.damage_id,damage_product.damage_quantity,damage_product.doc,damage_product.unit_buy_price');
-		$this->db->from('damage_product,product_info');
-		$this->db->where('product_info.product_id = damage_product.product_id');
+
+		$this->db->join('product_info', 'product_info.product_id = damage_product.product_id', 'left');
+		$this->db->join('catagory_info', 'product_info.catagory_id = catagory_info.catagory_id', 'left');
+		$this->db->join('company_info', 'product_info.company_id = company_info.company_id', 'left');
 		if($pro_id!=''){$this->db->where('product_info.product_id',$pro_id);}
 		if($catagory_id!=''){$this->db->where('product_info.catagory_id',$catagory_id);}
 		if($company_id!=''){$this->db->where('product_info.company_id',$company_id);}
 		if($start_date!=''){$this->db->where('damage_product.doc >= "'.$start_date.'"');}
 		if($end_date!=''){$this->db->where('damage_product.doc <= "'.$end_date.'"');}
-		$query = $this->db->get();
+		$query = $this->db->get('damage_product');
 		return $query;	
-	} 	
+	} 		
 	
 	public function print_data_damage()
 	{
 		$pro_id = $this->uri->segment(3);
-		$catagory_name = $this->uri->segment(4);
-		$company_name = $this->uri->segment(5);
+		$catagory_id = $this->uri->segment(4);
+		$company_id = $this->uri->segment(5);
 		$start_date = $this->uri->segment(6);
 		$end_date = $this->uri->segment(7);
 		$end_date=date("Y-m-d",strtotime($end_date."+1 day"));
-		$category1 = rawurldecode($catagory_name);
-		$company1 = rawurldecode($company_name);
-		$this->db->select('product_info.product_id,product_info.product_name, product_info.company_id, product_info.catagory_id,damage_product.damage_id,damage_product.damage_quantity,damage_product.doc,damage_product.unit_buy_price');
-		$this->db->from('damage_product,product_info');
-		$this->db->where('product_info.product_id = damage_product.product_id');
-		if($pro_id!='' && $pro_id!= 'null'){$this->db->where('product_info.product_id',$pro_id);}
-		if($category1!='' && $category1!= 'null'){$this->db->where('product_info.catagory_id',$category1);}
-		if($company1!='' && $company1!= 'null'){$this->db->where('product_info.company_id',$company1);}
-		if($start_date!='' && $start_date!= 'null'){$this->db->where('damage_product.doc >= "'.$start_date.'"');}
-		if($end_date!='' && $end_date!= 'null'){$this->db->where('damage_product.doc <= "'.$end_date.'"');}
-		else if($start_date!='' && $start_date!= 'null'){$this->db->where('damage_product.doc <= "'.$start_date.'"');}
-		$this->db->group_by('damage_product.damage_id');
-		$this->db->order_by('damage_product.damage_id','asc'); 
-		$this->db->order_by('damage_product.doc','asc'); 
-		$query = $this->db->get();
+
+		$this->db->join('product_info', 'product_info.product_id = damage_product.product_id', 'left');
+		$this->db->join('catagory_info', 'product_info.catagory_id = catagory_info.catagory_id', 'left');
+		$this->db->join('company_info', 'product_info.company_id = company_info.company_id', 'left');
+		if($pro_id!='null'){$this->db->where('product_info.product_id',$pro_id);}
+		if($catagory_id!='null'){$this->db->where('product_info.catagory_id',$catagory_id);}
+		if($company_id!='null'){$this->db->where('product_info.company_id',$company_id);}
+		if($start_date!='null'){$this->db->where('damage_product.doc >= "'.$start_date.'"');}
+		if($end_date!='null'){$this->db->where('damage_product.doc <= "'.$end_date.'"');}
+		$query = $this->db->get('damage_product');
 		return $query;	
-	}	
+	}
 
 	public function specific_date_grand_sale_price_calculation( $start, $end )
 	{

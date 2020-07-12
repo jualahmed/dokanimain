@@ -18,12 +18,18 @@
 								<div class="col-sm-3">
 									<select id="category" class="form-control" name="catagory_id">
 										<option value="">Select a Catagory</option>
+										<?php foreach ($catagory as $key => $var): ?>
+											<option value="<?php echo $var->catagory_id ?>"><?php echo $var->catagory_name ?></option>
+										<?php endforeach ?>
 									</select>
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label">Company</label>
 								<div class="col-sm-3">
 									<select id="company" class="form-control" name="company_id">
 										<option value="">Select a Company</option>
+										<?php foreach ($company as $key => $var): ?>
+											<option value="<?php echo $var->company_id ?>"><?php echo $var->company_name ?></option>
+										<?php endforeach ?>
 									</select>
 								</div>
 							</div>
@@ -75,6 +81,7 @@
 								  <td>Category</td>
 								  <td style="text-align:center;">Quantity</td>
 								  <td style="text-align:right;">Buy Price</td>
+								  <td style="text-align:right;">Total Price</td>
 								</tr>
 								</thead>
 								<tbody class="inner_table" id="search_data"></tbody>

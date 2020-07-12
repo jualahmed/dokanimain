@@ -68,6 +68,14 @@ const vm = new Vue({
 			limitText (count) {
 				return `and ${count} other countries`
 			},
+			selectaproduct(e){
+		    	this.total_buy_price=e.bulk_unit_buy_price;
+		    	this.unit_buy_price_purchase=e.bulk_unit_buy_price;
+		    	this.general_sale_price=e.bulk_unit_sale_price;
+		    	this.exclusive_sale_price=e.bulk_unit_sale_price;
+		    	this.quantity=1;
+		    	console.log(e)
+		    },
 			asyncFind (query) {
 				if(query.length>2){
 					this.isLoading = true
@@ -129,7 +137,7 @@ const vm = new Vue({
 		watch:{
 			quantity: function (val) {
 				this.quantity=parseInt(val);
-				this.total_buy_price = val;
+				this.total_buy_price = val*this.unit_buy_price_purchase;
 				this.unit_buy_price_purchase = this.total_buy_price/val;
 			},
 			total_buy_price: function (val) {

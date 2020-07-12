@@ -906,17 +906,16 @@ class Sale_model extends CI_model{
 		return true;
     }
 
-    public function getSoldProducts($invoice_id)
+   public function getSoldProducts($invoice_id)
     {
-    	$this->db->join('users', 'users.id = invoice_info.invoice_creator');
-    	$this->db->join('sale_details','sale_details.invoice_id = invoice_info.invoice_id');
-    	$this->db->join('customer_info', 'customer_info.customer_id = invoice_info.customer_id');
-    	$this->db->join('product_info', 'product_info.product_id = sale_details.product_id');
-    	$data   =  $this->db->where('invoice_info.invoice_id', $invoice_id)->get('invoice_info');
+    	$this->db->join('users', 'users.id = invoice_info.invoice_creator','left');
+    	$this->db->join('sale_details','sale_details.invoice_id = invoice_info.invoice_id','left');
+    	$this->db->join('customer_info', 'customer_info.customer_id = invoice_info.customer_id','left');
+    	$this->db->join('product_info', 'product_info.product_id = sale_details.product_id','left');
+    	$data   =  $this->db->where('invoice_info.invoice_id', $invoice_id)->get('invoice_info','left');
         if($data->num_rows() > 0)return $data;
         else return FALSE;
     }
-
 
     public function getSoldProducts_warranty($invoice_id)
     {

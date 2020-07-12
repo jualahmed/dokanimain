@@ -310,12 +310,10 @@ $(document).ready(function()
         if(value ==2)
         {
             $(".war_peri").show();
-            $(".barcode").hide();
         }
         else
         {
             $(".war_peri").hide();
-            $(".barcode").show();
         }
         
     });

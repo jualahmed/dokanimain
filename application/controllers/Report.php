@@ -473,6 +473,8 @@ class Report extends MY_controller
 			$data['alarming_level'] = FALSE;
 			$data['user_name'] = $this->tank_auth->get_username();
 			$data['status'] = '';
+			$data['catagory'] = $this->category_model->all();
+			$data['company'] = $this->company_model->all();
 			$data['vuejscomp'] = 'all_damage_report_new.js';
 			$this->__renderview('Report/all_damage_report_new', $data);
 		}

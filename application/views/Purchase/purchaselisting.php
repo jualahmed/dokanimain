@@ -132,10 +132,9 @@
 						<br>
 						
 						<div class="row">
-							<div class="col-md-6"></div>
-							<div class="col-sm-6">
+							<div class="col-sm-12">
 								<div>
-								  <multiselect v-model="selectedCountries" id="ajax" label="product_name" track-by="product_name" placeholder="search product by name" open-direction="bottom" :options="countries" :searchable="true" :loading="isLoading" :internal-search="false" :clear-on-select="false" :close-on-select="true" :options-limit="300" :limit="3" :limit-text="limitText" :max-height="600" :show-no-results="false" :hide-selected="false" @search-change="asyncFind">
+								  <multiselect v-model="selectedCountries" id="ajax" label="product_name" track-by="product_name" placeholder="search product by name" open-direction="bottom" :options="countries" :searchable="true" :loading="isLoading" :internal-search="false" :clear-on-select="false" :close-on-select="true" :options-limit="300" :limit="3" :limit-text="limitText" :max-height="600" :show-no-results="false" :hide-selected="false" @search-change="asyncFind" @select="selectaproduct">
 								    <template slot="tag" slot-scope="{ option, remove }"><span class="custom__tag"><span>{{ option.product_name }}</span><span class="custom__remove" @click="remove(option)">❌</span></span></template>
 								    <template slot="clear" slot-scope="props">
 								      <div class="multiselect__clear" v-if="selectedCountries && selectedCountries.length" @mousedown.prevent.stop="clearAll(props.search)"></div>

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2020 at 03:48 AM
--- Server version: 10.1.40-MariaDB
--- PHP Version: 7.3.5
+-- Generation Time: Jun 15, 2020 at 07:51 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dokanimain`
+-- Database: `onik`
 --
 
 -- --------------------------------------------------------
@@ -58,7 +57,7 @@ CREATE TABLE `bank_book` (
   `creator` int(8) NOT NULL,
   `doc` date NOT NULL,
   `dom` date NOT NULL,
-  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -99,8 +98,8 @@ CREATE TABLE `bank_card_info` (
   `card_name` varchar(20) NOT NULL,
   `status` tinyint(8) NOT NULL,
   `creator` int(4) NOT NULL,
-  `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -115,12 +114,12 @@ CREATE TABLE `bank_info` (
   `bank_name` varchar(250) NOT NULL,
   `bank_account_no` varchar(100) NOT NULL,
   `bank_account_name` varchar(250) NOT NULL,
-  `bank_description` text,
+  `bank_description` text DEFAULT NULL,
   `card_account` varchar(2) DEFAULT NULL,
   `bank_status` varchar(50) NOT NULL,
   `bank_creator` int(20) NOT NULL,
-  `bank_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `bank_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `bank_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `bank_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -135,7 +134,7 @@ CREATE TABLE `barcode_print` (
   `quantity` float NOT NULL,
   `barcode` varchar(250) NOT NULL,
   `sale_price` int(11) NOT NULL,
-  `print_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `print_doc` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -170,7 +169,7 @@ CREATE TABLE `bulk_stock_info` (
   `last_buy_price` float NOT NULL,
   `warranty_period` int(3) DEFAULT NULL,
   `product_specification` int(1) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -186,14 +185,14 @@ INSERT INTO `bulk_stock_info` (`bulk_id`, `stock_amount`, `product_id`, `shop_id
 (5, 0, 5, 1, 0, 0, 0, 100, 640, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
 (6, 0, 6, 1, 0, 0, 0, 100, 620, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
 (7, 0, 7, 1, 0, 0, 0, 100, 780, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
-(8, 99, 8, 1, 210, 210, 270, 100, 840, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
+(8, 98, 8, 1, 210, 210, 270, 100, 840, NULL, NULL, '2020-03-09 02:10:55', '0000-00-00 00:00:00'),
 (9, 1000, 9, 1, 0, 250, 250, 100, 0, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
 (10, 500, 10, 1, 0, 100, 100, 100, 0, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
 (11, 98, 11, 1, 0, 50, 50, 100, 0, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
 (12, 494, 13, 1, 0.00201613, 199.599, 199.599, 100, 1, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
 (13, 514, 12, 1, 0, 50, 50, 100, 0, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
 (14, 500, 14, 1, 0, 50, 50, 100, 0, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
-(15, 485, 15, 1, 0, 50, 50, 100, 0, NULL, NULL, '2020-03-08 02:35:55', '0000-00-00 00:00:00'),
+(15, 494, 15, 1, 0, 50, 50, 100, 0, NULL, NULL, '2020-03-09 02:11:14', '0000-00-00 00:00:00'),
 (16, 500, 16, 1, 0, 50, 50, 100, 0, NULL, NULL, '2020-03-07 03:26:44', '0000-00-00 00:00:00'),
 (17, 2980, 17, 1, 25, 300, 30, 100, 75000, NULL, NULL, '2020-03-07 03:26:54', '2020-03-07 03:26:54');
 
@@ -211,8 +210,8 @@ CREATE TABLE `cash_book` (
   `date` date NOT NULL,
   `status` varchar(10) NOT NULL,
   `creator` int(8) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -221,7 +220,9 @@ CREATE TABLE `cash_book` (
 
 INSERT INTO `cash_book` (`cb_id`, `transaction_id`, `transaction_type`, `amount`, `date`, `status`, `creator`, `created_at`, `updated_at`) VALUES
 (1, 2, 'in', 100, '2020-03-07', 'active', 12, '2020-03-07 03:13:13', '0000-00-00 00:00:00'),
-(2, 5, 'in', 50, '2020-03-07', 'active', 12, '2020-03-07 03:17:14', '0000-00-00 00:00:00');
+(2, 5, 'in', 50, '2020-03-07', 'active', 12, '2020-03-07 03:17:14', '0000-00-00 00:00:00'),
+(3, 7, 'in', 270, '2020-03-09', 'active', 12, '2020-03-09 02:11:01', '0000-00-00 00:00:00'),
+(4, 9, 'in', 50, '2020-03-09', 'active', 12, '2020-03-09 02:11:20', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -234,8 +235,8 @@ CREATE TABLE `catagory_info` (
   `catagory_name` varchar(250) CHARACTER SET utf8 NOT NULL,
   `catagory_description` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
   `catagory_creator` int(15) NOT NULL,
-  `catagory_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `catagory_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `catagory_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `catagory_dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -322,8 +323,8 @@ CREATE TABLE `commison_info` (
   `com_amount` float NOT NULL,
   `status` int(1) NOT NULL,
   `creator` int(8) NOT NULL,
-  `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -340,8 +341,8 @@ CREATE TABLE `company_info` (
   `company_email` varchar(250) CHARACTER SET utf8 NOT NULL,
   `company_description` text CHARACTER SET utf8 NOT NULL,
   `company_creator` varchar(250) CHARACTER SET utf8 NOT NULL,
-  `company_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `company_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `company_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `company_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -350,6 +351,23 @@ CREATE TABLE `company_info` (
 
 INSERT INTO `company_info` (`company_id`, `company_name`, `company_address`, `company_contact_no`, `company_email`, `company_description`, `company_creator`, `company_doc`, `company_dom`) VALUES
 (1, 'gilgkhl', 'gig', 1735652358, 'gh@gmil.com', '', '12', '2019-12-30 05:56:23', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ctoc`
+--
+
+CREATE TABLE `ctoc` (
+  `id` int(11) NOT NULL,
+  `from` int(11) NOT NULL,
+  `to` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `remarks` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `amount` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -369,8 +387,8 @@ CREATE TABLE `customer_info` (
   `customer_email` varchar(250) DEFAULT NULL,
   `int_balance` float NOT NULL,
   `customer_creator` varchar(250) NOT NULL,
-  `customer_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `customer_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `customer_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `customer_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -426,7 +444,8 @@ CREATE TABLE `daily_statement` (
   `gift_total` varchar(8) NOT NULL,
   `gross_profit` varchar(16) NOT NULL,
   `total_expense` varchar(8) NOT NULL,
-  `net_profit` varchar(20) NOT NULL
+  `net_profit` varchar(20) NOT NULL,
+  `date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -442,8 +461,8 @@ CREATE TABLE `damage_product` (
   `damage_quantity` int(5) NOT NULL,
   `unit_buy_price` varchar(20) NOT NULL,
   `creator` int(8) NOT NULL,
-  `doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -532,8 +551,8 @@ CREATE TABLE `distributor_info` (
   `distributor_description` varchar(250) NOT NULL,
   `int_balance` float NOT NULL,
   `distributor_creator` varchar(250) NOT NULL,
-  `distributor_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `distributor_dom` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+  `distributor_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `distributor_dom` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -558,8 +577,8 @@ CREATE TABLE `employee_info` (
   `employee_email` varchar(250) DEFAULT NULL,
   `int_balance` float NOT NULL,
   `employee_creator` varchar(250) NOT NULL,
-  `employee_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `employee_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `employee_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `employee_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -576,7 +595,7 @@ CREATE TABLE `employee_salary` (
   `reduced_amount` double DEFAULT NULL,
   `salary_status` tinyint(1) NOT NULL,
   `salary_creator` int(4) NOT NULL,
-  `salary_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `salary_doc` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -594,7 +613,7 @@ CREATE TABLE `employee_salary_log` (
   `salary_month` char(5) NOT NULL,
   `salary_year` int(4) NOT NULL,
   `mode` char(10) NOT NULL,
-  `salary_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `salary_doc` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `salary_creator` int(4) NOT NULL,
   `salary_status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -648,8 +667,8 @@ CREATE TABLE `expense_info` (
   `expense_details` varchar(250) NOT NULL,
   `total_paid` float DEFAULT NULL,
   `expense_creator` varchar(250) NOT NULL,
-  `expense_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `expense_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `expense_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `expense_dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -718,8 +737,8 @@ CREATE TABLE `income_info` (
   `income_details` varchar(255) NOT NULL,
   `total_paid` float DEFAULT NULL,
   `income_creator` int(11) NOT NULL,
-  `income_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `income_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `income_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `income_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -779,10 +798,11 @@ CREATE TABLE `invoice_info` (
   `sale_return_amount` float NOT NULL,
   `return_money` float DEFAULT NULL,
   `payment_mode` varchar(300) NOT NULL,
+  `remarks` text DEFAULT NULL,
   `invoice_creator` varchar(300) NOT NULL,
   `invoice_doc` date NOT NULL,
   `invoice_dom` date NOT NULL,
-  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `point_info_id` int(11) NOT NULL,
   `point_discount` int(11) NOT NULL,
   `current_point` int(11) NOT NULL
@@ -792,10 +812,12 @@ CREATE TABLE `invoice_info` (
 -- Dumping data for table `invoice_info`
 --
 
-INSERT INTO `invoice_info` (`invoice_id`, `shop_id`, `customer_id`, `total_price`, `discount`, `discount_type`, `cash_commision`, `discount_amount`, `delivery_charge`, `grand_total`, `total_paid`, `sale_return_amount`, `return_money`, `payment_mode`, `invoice_creator`, `invoice_doc`, `invoice_dom`, `date_time`, `point_info_id`, `point_discount`, `current_point`) VALUES
-(1, 1, 1, 100, 0, 0, 0, 0, 0, 100, 100, 0, 0, 'cash', '12', '2020-03-07', '2020-03-07', '2020-03-07 03:13:13', 0, 0, 0),
-(2, 1, 1, 270, 0, 0, 0, 0, 0, 270, 0, 0, 0, 'cash', '12', '2020-03-07', '2020-03-07', '2020-03-07 03:16:54', 0, 0, 0),
-(3, 1, 1, 50, 0, 0, 0, 0, 0, 50, 50, 0, 0, 'cash', '12', '2020-03-07', '2020-03-07', '2020-03-07 03:17:14', 0, 0, 0);
+INSERT INTO `invoice_info` (`invoice_id`, `shop_id`, `customer_id`, `total_price`, `discount`, `discount_type`, `cash_commision`, `discount_amount`, `delivery_charge`, `grand_total`, `total_paid`, `sale_return_amount`, `return_money`, `payment_mode`, `remarks`, `invoice_creator`, `invoice_doc`, `invoice_dom`, `date_time`, `point_info_id`, `point_discount`, `current_point`) VALUES
+(1, 1, 1, 100, 0, 0, 0, 0, 0, 100, 100, 0, 0, 'cash', NULL, '12', '2020-03-07', '2020-03-07', '2020-03-07 03:13:13', 0, 0, 0),
+(2, 1, 1, 270, 0, 0, 0, 0, 0, 270, 0, 0, 0, 'cash', NULL, '12', '2020-03-07', '2020-03-07', '2020-03-07 03:16:54', 0, 0, 0),
+(3, 1, 1, 50, 0, 0, 0, 0, 0, 50, 50, 0, 0, 'cash', NULL, '12', '2020-03-07', '2020-03-07', '2020-03-07 03:17:14', 0, 0, 0),
+(4, 1, 1, 270, 0, 0, 0, 0, 0, 270, 270, 0, 0, 'cash', '', '12', '2020-03-09', '2020-03-09', '2020-03-09 02:11:01', 0, 0, 0),
+(5, 1, 1, 50, 0, 0, 0, 0, 0, 50, 50, 0, 0, 'cash', 'asas', '12', '2020-03-09', '2020-03-09', '2020-03-09 02:11:20', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -807,8 +829,8 @@ CREATE TABLE `loans` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -821,7 +843,7 @@ CREATE TABLE `login_attempts` (
   `id` int(100) NOT NULL,
   `ip_address` varchar(250) COLLATE utf8_bin NOT NULL,
   `login` varchar(250) COLLATE utf8_bin NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -843,7 +865,7 @@ CREATE TABLE `owner_book` (
   `creator` int(8) NOT NULL,
   `doc` date NOT NULL,
   `dom` date NOT NULL,
-  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -900,10 +922,10 @@ CREATE TABLE `product_info` (
   `product_specification` int(3) NOT NULL,
   `product_warranty` int(11) NOT NULL,
   `product_creator` int(10) DEFAULT NULL,
-  `product_status` tinyint(1) DEFAULT '1',
+  `product_status` tinyint(1) DEFAULT 1,
   `img` varchar(255) NOT NULL,
-  `product_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `product_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `product_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `product_dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -943,11 +965,11 @@ CREATE TABLE `purchase_info` (
   `unit_buy_price` float NOT NULL,
   `bulk_unit_sale_price` int(11) NOT NULL,
   `general_unit_sale_price` int(11) NOT NULL,
-  `purchase_expire_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `purchase_expire_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `purchase_description` text NOT NULL,
   `purchase_creator` varchar(250) NOT NULL,
-  `purchase_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `purchase_dom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `purchase_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `purchase_dom` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -991,8 +1013,8 @@ CREATE TABLE `purchase_receipt_info` (
   `total_paid` float NOT NULL,
   `receipt_date` date NOT NULL,
   `receipt_creator` int(100) NOT NULL,
-  `receipt_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `receipt_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `receipt_doc` timestamp NOT NULL DEFAULT current_timestamp(),
+  `receipt_dom` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1074,7 +1096,9 @@ CREATE TABLE `sale_details` (
 INSERT INTO `sale_details` (`sale_details_id`, `invoice_id`, `product_id`, `stock_id`, `sale_quantity`, `sale_type`, `discount_info_id`, `discount`, `discount_type`, `unit_sale_price`, `general_sale_price`, `unit_buy_price`, `actual_sale_price`, `product_specification`, `exact_sale_price`, `sale_details_status`) VALUES
 (1, 1, 15, 0, 2, 1, 0, 0, 0, 50, 50, 0, 50, '', 50, 1),
 (2, 2, 8, 0, 1, 1, 0, 0, 0, 270, 270, 210, 270, '', 270, 1),
-(3, 3, 15, 0, 1, 1, 0, 0, 0, 50, 50, 0, 50, '', 50, 1);
+(3, 3, 15, 0, 1, 1, 0, 0, 0, 50, 50, 0, 50, '', 50, 1),
+(4, 4, 8, 0, 1, 1, 0, 0, 0, 270, 270, 210, 270, '', 270, 1),
+(5, 5, 15, 0, 1, 1, 0, 0, 0, 50, 50, 0, 50, '', 50, 1);
 
 -- --------------------------------------------------------
 
@@ -1164,7 +1188,7 @@ CREATE TABLE `sale_return_receipt_tbl` (
   `creator` varchar(100) NOT NULL,
   `sale_return_doc` varchar(20) NOT NULL,
   `sale_return_dom` varchar(20) NOT NULL,
-  `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1238,7 +1262,7 @@ CREATE TABLE `shop_setup` (
   `one_point_equal` int(20) NOT NULL,
   `one_taka_equal` int(20) NOT NULL,
   `shop_creator` int(10) NOT NULL,
-  `shop_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `shop_doc` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1293,13 +1317,6 @@ CREATE TABLE `temp_sale_details` (
   `stock` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `temp_sale_details`
---
-
-INSERT INTO `temp_sale_details` (`temp_sale_details_id`, `temp_sale_id`, `product_id`, `stock_id`, `sale_quantity`, `product_specification`, `sale_type`, `discount_info_id`, `discount`, `discount_type`, `unit_buy_price`, `unit_sale_price`, `general_unit_sale_price`, `actual_sale_price`, `temp_sale_details_status`, `item_name`, `stock`) VALUES
-(3, 5, 15, 0, 10, '', 1, 0, 0, 0, 0, 50, 50, 50, 1, 'Horse Ride', '485');
-
 -- --------------------------------------------------------
 
 --
@@ -1316,7 +1333,7 @@ CREATE TABLE `temp_sale_info` (
   `return_id` int(11) NOT NULL,
   `return_adjust_amount` float NOT NULL,
   `pre_invoice_status` varchar(20) NOT NULL,
-  `temp_sale_doc` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `temp_sale_doc` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1324,7 +1341,7 @@ CREATE TABLE `temp_sale_info` (
 --
 
 INSERT INTO `temp_sale_info` (`temp_sale_id`, `temp_sale_shop_id`, `temp_sale_type`, `temp_customer_id`, `temp_sale_creator`, `temp_sale_status`, `return_id`, `return_adjust_amount`, `pre_invoice_status`, `temp_sale_doc`) VALUES
-(5, 1, '', 0, 12, 1, 0, 0, '', '2020-03-08 02:35:36');
+(6, 1, '', 0, 12, 1, 0, 0, '', '2020-03-09 02:11:02');
 
 -- --------------------------------------------------------
 
@@ -1462,8 +1479,8 @@ CREATE TABLE `transaction_info` (
   `date` date NOT NULL,
   `status` varchar(10) NOT NULL,
   `creator` int(8) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1475,7 +1492,11 @@ INSERT INTO `transaction_info` (`transaction_id`, `transaction_purpose`, `transa
 (2, 'collection', 'cash', 1, 1, 0, '', 100, '2020-03-07', 'active', 12, '2020-03-07 03:13:13', '0000-00-00 00:00:00'),
 (3, 'sale', '', 1, 2, 0, '', 270, '2020-03-07', 'active', 12, '2020-03-07 03:16:54', '0000-00-00 00:00:00'),
 (4, 'sale', '', 1, 3, 0, '', 50, '2020-03-07', 'active', 12, '2020-03-07 03:17:14', '0000-00-00 00:00:00'),
-(5, 'collection', 'cash', 1, 3, 0, '', 50, '2020-03-07', 'active', 12, '2020-03-07 03:17:14', '0000-00-00 00:00:00');
+(5, 'collection', 'cash', 1, 3, 0, '', 50, '2020-03-07', 'active', 12, '2020-03-07 03:17:14', '0000-00-00 00:00:00'),
+(6, 'sale', '', 1, 4, 0, '', 270, '2020-03-09', 'active', 12, '2020-03-09 02:11:01', '0000-00-00 00:00:00'),
+(7, 'collection', 'cash', 1, 4, 0, '', 270, '2020-03-09', 'active', 12, '2020-03-09 02:11:01', '0000-00-00 00:00:00'),
+(8, 'sale', '', 1, 5, 0, 'asas', 50, '2020-03-09', 'active', 12, '2020-03-09 02:11:20', '0000-00-00 00:00:00'),
+(9, 'collection', 'cash', 1, 5, 0, 'asas', 50, '2020-03-09', 'active', 12, '2020-03-09 02:11:20', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1558,8 +1579,8 @@ CREATE TABLE `users` (
   `user_full_name` varchar(250) COLLATE utf8_bin NOT NULL,
   `user_address` varchar(250) COLLATE utf8_bin NOT NULL,
   `email` varchar(250) COLLATE utf8_bin NOT NULL,
-  `activated` tinyint(1) NOT NULL DEFAULT '1',
-  `banned` tinyint(1) NOT NULL DEFAULT '0',
+  `activated` tinyint(1) NOT NULL DEFAULT 1,
+  `banned` tinyint(1) NOT NULL DEFAULT 0,
   `ban_reason` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `new_password_key` varchar(250) COLLATE utf8_bin DEFAULT NULL,
   `new_password_requested` datetime DEFAULT NULL,
@@ -1568,7 +1589,7 @@ CREATE TABLE `users` (
   `last_ip` varchar(250) COLLATE utf8_bin NOT NULL,
   `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -1576,7 +1597,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `password2`, `shop_id`, `user_type`, `user_full_name`, `user_address`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `last_login`, `created`, `modified`) VALUES
-(12, 'admin', '$2a$08$jtgIWmApi2qjF9YbBC6bKeq22ZpWEZrBXtmHUAKmblCTRFS1pfb1a', '1234', 1, 'superadmin', 'Admin', 'Sylhet', '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2020-03-08 08:12:48', '2017-06-14 15:46:54', '2020-03-08 02:12:48'),
+(12, 'admin', '$2a$08$jtgIWmApi2qjF9YbBC6bKeq22ZpWEZrBXtmHUAKmblCTRFS1pfb1a', '1234', 1, 'superadmin', 'Admin', 'Sylhet', '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2020-06-15 11:13:47', '2017-06-14 15:46:54', '2020-06-15 05:13:47'),
 (18, 'seller_1', '$2a$08$prLzr7wcRZ.YNn2wkLZa/uzis/TLpfqfdjvgJTSVH.o3R7vAzjkuG', '', 1, 'seller', 'Seller', 'Sylhet', '123456', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-01-05 17:44:14', '2017-05-05 05:24:51', '2019-02-05 06:27:48'),
 (19, 'demo_user', '$2a$08$.WllJN10vRH/2KrVzzb5/eBtY1QeUkX7DInLPk155PW.bIEg4gsw6', '123456', 1, 'customer', 'demo user', '', '12345678945', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-03-18 16:47:21', '0000-00-00 00:00:00', '2019-03-18 10:47:21'),
 (20, 'Admin1', '$2a$08$7lW4OgQeMK7oTtjSy4Y6E.bXUKJXqyNuCH.04gL0xRF9S6ADCWe06', '123456', 1, 'superadmin', 'Admin1', 'ad', '1234', 1, 0, NULL, NULL, NULL, NULL, NULL, '::1', '2019-03-19 10:59:08', '2019-03-19 10:58:16', '2019-07-27 05:51:26'),
@@ -1592,10 +1613,10 @@ INSERT INTO `users` (`id`, `username`, `password`, `password2`, `shop_id`, `user
 
 CREATE TABLE `user_autologin` (
   `key_id` char(32) COLLATE utf8_bin NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT 0,
   `user_agent` varchar(150) COLLATE utf8_bin NOT NULL,
   `last_ip` varchar(40) COLLATE utf8_bin NOT NULL,
-  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -1623,14 +1644,14 @@ CREATE TABLE `warranty_product_list` (
   `purchase_receipt_id` int(11) DEFAULT NULL,
   `sl_no` int(20) NOT NULL,
   `invoice_id` int(11) DEFAULT NULL,
-  `status` int(1) DEFAULT '1',
+  `status` int(1) DEFAULT 1,
   `purchase_date` date NOT NULL,
   `purchase_price` float NOT NULL,
   `sale_price` float DEFAULT NULL,
   `sale_date` date DEFAULT NULL,
   `creator` int(8) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1714,6 +1735,12 @@ ALTER TABLE `commison_info`
 --
 ALTER TABLE `company_info`
   ADD PRIMARY KEY (`company_id`);
+
+--
+-- Indexes for table `ctoc`
+--
+ALTER TABLE `ctoc`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `customer_info`
@@ -2127,7 +2154,7 @@ ALTER TABLE `bulk_stock_info`
 -- AUTO_INCREMENT for table `cash_book`
 --
 ALTER TABLE `cash_book`
-  MODIFY `cb_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cb_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `catagory_info`
@@ -2158,6 +2185,12 @@ ALTER TABLE `commison_info`
 --
 ALTER TABLE `company_info`
   MODIFY `company_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `ctoc`
+--
+ALTER TABLE `ctoc`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `customer_info`
@@ -2283,7 +2316,7 @@ ALTER TABLE `investor_info`
 -- AUTO_INCREMENT for table `invoice_info`
 --
 ALTER TABLE `invoice_info`
-  MODIFY `invoice_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `invoice_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `loans`
@@ -2349,7 +2382,7 @@ ALTER TABLE `purchase_return_warranty_product`
 -- AUTO_INCREMENT for table `sale_details`
 --
 ALTER TABLE `sale_details`
-  MODIFY `sale_details_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `sale_details_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sale_price_info`
@@ -2415,13 +2448,13 @@ ALTER TABLE `stock_info`
 -- AUTO_INCREMENT for table `temp_sale_details`
 --
 ALTER TABLE `temp_sale_details`
-  MODIFY `temp_sale_details_id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `temp_sale_details_id` int(12) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `temp_sale_info`
 --
 ALTER TABLE `temp_sale_info`
-  MODIFY `temp_sale_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `temp_sale_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tmp_cash_sale_return_details_tbl`
@@ -2469,7 +2502,7 @@ ALTER TABLE `transaction_details`
 -- AUTO_INCREMENT for table `transaction_info`
 --
 ALTER TABLE `transaction_info`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `transaction_receipt_info`

@@ -84,8 +84,8 @@ $(document).ready(function()
     success: function(result) {
       $(".modal").hide();
       for(i=0; i<result.length; i++){   
-        var unit_buy_price1  =parseFloat(Math.round(result[i].unit_buy_price)).toFixed(2);
-        output2+='<tr><td style="width: 3%;">'+k+'</td><td style="width: 4%;">'+result[i].doc+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;width: 20%;" title="'+result[i].product_name+'">'+result[i].product_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].company_name+'">'+result[i].company_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].catagory_name+'">'+result[i].catagory_name+'</td><td style="text-align:center;">'+result[i].damage_quantity+'</td><td style="text-align:right;">'+unit_buy_price1+'</td></tr>';
+        var unit_buy_price1  =result[i].unit_buy_price;
+        output2+='<tr><td style="width: 3%;">'+k+'</td><td style="width: 4%;">'+result[i].doc+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;width: 20%;" title="'+result[i].product_name+'">'+result[i].product_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].company_name+'">'+result[i].company_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].catagory_name+'">'+result[i].catagory_name+'</td><td style="text-align:center;">'+result[i].damage_quantity+'</td><td style="text-align:right;">'+unit_buy_price1+'</td><td style="text-align:right;">'+result[i].damage_quantity*unit_buy_price1+'</td></tr>';
         k++;
 
       }

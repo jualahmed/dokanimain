@@ -46,16 +46,6 @@
 							<input type="text" class="form-control" id="search_invoice" placeholder="Search for Invoice.." title="Search for Invoice..">
 						</div>
 						<div class="wrap">
-							<table class="table">
-								<tr>
-									<td style="text-align:center;">No</td> 
-									<td style="text-align:center;">Invoice ID</td>
-									<td style="text-align:center;">Invoice Date</td>
-									<td style="text-align:center;">Invoice Amount</td>
-									<td style="text-align:center;">Invoice Creator</td>
-									<td style="text-align:center;">Action</td>
-								</tr>
-							</table>
 							<div class="inner_table new_data_2" id="search_data"></div>
 						</div>
 					</div>

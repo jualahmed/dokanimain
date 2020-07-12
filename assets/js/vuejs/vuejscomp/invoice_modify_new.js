@@ -19,7 +19,16 @@ $(document).ready(function()
 		var submiturl = $(this).attr('action');
 		var methods = $(this).attr('method');
 		var output = '';
-		var output2 = '';
+		var output2 = `<table class="table table-bordered">
+						<tr>
+							<th style="text-align:center;">No</th> 
+							<th style="text-align:center;">Invoice ID</th>
+							<th style="text-align:center;">Invoice Date</th>
+							<th style="text-align:center;">Invoice Amount</th>
+							<th style="text-align:center;">Invoice Creator</th>
+							<th style="text-align:center;">Action</th>
+						</tr>
+					`;
 		var output3 = '';
 		var i=0;
 		var k= 1;
@@ -34,9 +43,12 @@ $(document).ready(function()
 			success: function(result) {	
 				$(".modal1234").hide();
 				for(i=0; i<result.length; i++){	  
-					output2+='<table class="table" id="myTable"><tr><td style="text-align:center;">'+k+'</td><td style="text-align:center;">'+result[i].invoice_id+'</td><td style="text-align:center;overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].invoice_doc+'">'+result[i].invoice_doc+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].total_price+'" >'+result[i].total_price+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].user_full_name+'" >'+result[i].user_full_name+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></tr></table>';
+					output2+='<tr><td style="text-align:center;">'+k+'</td><td style="text-align:center;">'+result[i].invoice_id+'</td><td style="text-align:center;overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].invoice_doc+'">'+result[i].invoice_doc+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].total_price+'" >'+result[i].total_price+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].user_full_name+'" >'+result[i].user_full_name+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></tr>';
 					k++;
 				}
+
+				output2+='<table>';
+
 				if(output2 != '')
 				{
 					$('#search_data').html(output2);
