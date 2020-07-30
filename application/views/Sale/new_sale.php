@@ -28,9 +28,8 @@
 								$Tmp_name = 'Cart';
 							}
         					if($current_sale == $tmp->temp_sale_id)
-          						echo "<button id=sale_new" . $tmp->temp_sale_id . " class=\"sale_selection btn btn-success \" onclick=\"getSaleId(this.id)\"> <i class=\"fa fa-spinner fa-spin\"> </i> <i class=\"fa fa-fw fa-cart-arrow-down\"> </i> ".$Tmp_name.' '. ++$ind . "</button>&nbsp;";
-
-        					else echo "<button id=sale_new" . $tmp->temp_sale_id . " class=\"sale_selection btn btn-info\" onclick=\"getSaleId(this.id)\"> <i class=\"fa fa-fw fa-cart-arrow-down\"> </i>" .$Tmp_name.' '. ++$ind . "</button>&nbsp;";
+          						echo '<button id="sale_new' . $tmp->temp_sale_id . '" class="sale_selection btn btn-success" onclick="getSaleId(this.id)"> <i class="fa fa-spinner fa-spin"> </i> <i class="fa fa-fw fa-cart-arrow-down"> </i> '.$Tmp_name.' '. ++$ind . '</button>&nbsp;';
+        					else echo '<button id="sale_new' . $tmp->temp_sale_id . '" class="sale_selection btn btn-info" onclick="getSaleId(this.id)"> <i class="fa fa-fw fa-cart-arrow-down"> </i>' .$Tmp_name.' '. ++$ind . '</button>&nbsp;';
       					}
 					}
 				?>

@@ -46,7 +46,19 @@ const vm = new Vue({
 				$.ajax({
 					url: this.base_url+'purchaselisting/createlisting',
 					type: 'POST',
-					data: {allworrantyproduct:this.allworrantyproduct,purchase_receipt_id: purchase_receipt_id,product_id:this.selectedCountries.product_id,expiredate:this.expiredate,tp_total:this.tp_total,vat_total:this.vat_total,quantity:this.quantity,total_buy_price:this.total_buy_price,unit_buy_price_purchase:this.unit_buy_price_purchase,exclusive_sale_price:this.exclusive_sale_price,general_sale_price:this.general_sale_price},
+					data: {
+						allworrantyproduct:this.allworrantyproduct,
+						purchase_receipt_id: purchase_receipt_id,
+						product_id:this.selectedCountries.product_id,
+						expiredate:this.expiredate,
+						tp_total:this.tp_total,
+						vat_total:this.vat_total,
+						quantity:this.quantity,
+						total_buy_price:this.total_buy_price,
+						unit_buy_price_purchase:this.unit_buy_price_purchase,
+						exclusive_sale_price:this.exclusive_sale_price,
+						general_sale_price:this.general_sale_price
+					},
 				})
 				.done(function(re) {
 					if(re=='exceed'){

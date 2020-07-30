@@ -1,5 +1,15 @@
 $(document).ready(function()
 {	
+	$("#receipt_type").select2();
+	$("#payment_mode").select2();
+	$("#expense_type").select2();
+	$("#customer_id").select2();
+	$("#distributor_id").select2();
+	$("#service_provider_id").select2();
+	$("#card_id").select2();
+	$("#my_bank").select2();
+	$("#to_bank").select2();
+
 	$("#expense_type").on("change",function()
 	{
 		var expense_type = $(this).val();

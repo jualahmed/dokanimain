@@ -94,6 +94,25 @@ $(document).ready(function()
 			window.open(submiturl,'_self');
 		}
 	});
+	$("#product_id").select2({
+		ajax: {
+			url: `${base_url}product/search_by_name`,
+			type: 'POST',
+			dataType: 'JSON',
+			data: function (params) {
+				return {
+					query: params.term
+				};
+			},
+			processResults: function (response) {
+				return {
+					results: response
+				};
+			},
+			cache: true
+		},
+		allowClear: true
+	});
 	$("#product_id").on("change",function()
 	{
 		var product_id = $(this).val();

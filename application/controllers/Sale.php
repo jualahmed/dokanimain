@@ -51,12 +51,12 @@ class Sale extends MY_Controller
 	public function search_product2()
 	{
 		$data['current_sale'] 	= '';        
-			$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
-			if($data['current_sale'] != ''){
-					$key=$this->input->post('term');
-					$data 	= $this->sale_model->search_product($key);
-					$info=[];
-					if(count($data)>0){
+		$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
+		if($data['current_sale'] != ''){
+			$key=$this->input->post('term');
+			$data 	= $this->sale_model->search_product($key);
+			$info=[];
+			if(count($data)>0){
 			foreach($data as $tmp){
 				if($tmp->stock_amount == '')$stock = 0;
 				else $stock = $tmp->stock_amount;
@@ -451,15 +451,15 @@ class Sale extends MY_Controller
 		public function cancelSale()
 		{
 			$current_sale_id 	   		= $this->tank_auth->get_current_temp_sale();
-		$creator 			   		= $this->tank_auth->get_user_id();
+			$creator 			   		= $this->tank_auth->get_user_id();
 
-		$datddd=$this->db->get('temp_sale_info')->result();
-		if(count($datddd)>1){
-					$this->sale_model->cancelSale($current_sale_id, $creator);
+			$datddd=$this->db->get('temp_sale_info')->result();
+			if(count($datddd)>1){
+				$this->sale_model->cancelSale($current_sale_id, $creator);
 			}
 
-				$this->tank_auth->unset_current_temp_sale();
-				$this->tank_auth->unset_current_sale_return_id();
+			$this->tank_auth->unset_current_temp_sale();
+			$this->tank_auth->unset_current_sale_return_id();
 		}
 
 	public function cancelcashSalereturn()
@@ -612,29 +612,102 @@ class Sale extends MY_Controller
 
 	public function doQuotation()
 	{
-		$number_of_product 		= $this->input->post('number_of_product');
-		if(is_numeric($number_of_product) && $number_of_product !='' && $this->tank_auth->get_current_temp_sale() != ''){
-			echo 1;
+		$data['current_sale_id'] 	   		= $this->tank_auth->get_current_temp_sale();
+		$current_sale_return_id 	        = $this->tank_auth->get_current_sale_return_id();
+		$data['creator'] 			   		= $this->tank_auth->get_user_id(); 
+		$discount_in_percentage 	        = (Float)$this->input->post('disc_in_p');
+		$discount_in_f          	        = (Float)$this->input->post('disc_in_f');
+		$discount               	        = 0;
+		$data['discount_type']              = 0;
+		$data['vat']                    	= (Float)$this->input->post('vat');     
+		if($discount_in_percentage != ''){ 
+				$discount       = $discount_in_percentage; 
+				$data['discount_type']  = 2; 
 		}
-		else{
-			echo 0;
+		else if($discount_in_f != ''){
+				$discount       = $discount_in_f;
+				$data['discount_type']  = 1;
+		}
+		$data['sub_total']      = (Float)$this->input->post('sub_total');                 // (included vat) 
+		$data['grand_total']    = (Float)$this->input->post('total_');
+		$data['cash_commission'] = (Float)$discount;
+		$data['disc_amount']    = (Float)$this->input->post('disc_amount');
+		$data['delivery_charge']= (Float)$this->input->post('delivery_charge');
+		$data['customer_id']= $this->input->post('customer_id');
+
+		$quotation_id = $this->sale_model->doQuotationInfoTask($data);
+
+		$products = $this->sale_model->getAllTmpProduct($this->tank_auth->get_current_temp_sale());
+		$products_warranty = $this->sale_model->getAllTmpProduct_warranty($this->tank_auth->get_current_temp_sale());
+
+		if($products != FALSE)
+		{
+			$this->sale_model->doQuotationDetailsTask($quotation_id, $data, $products);         
+			$this->sale_model->cancelSale($data['current_sale_id'], $data['creator']);
+			$this->tank_auth->unset_current_temp_sale();
+			$this->tank_auth->unset_current_sale_return_id();
+			echo $quotation_id;     
+		}
+		else
+		{
+			echo 'Nothing Found';
 		}
 	}
 
 	public function printQuotation()
 	{	
-		$data['date'] 		= date ('Y-m-d');
-		$data['creator'] 	= $this->tank_auth->get_user_id();
-		$current_sale_id 	   		= $this->tank_auth->get_current_temp_sale();
-		$current_sale_return_id 	= $this->tank_auth->get_current_sale_return_id();
-		$creator 			   		= $this->tank_auth->get_user_id();
-		$this->tank_auth->unset_current_temp_sale();
-		if($this->uri->segment(3) == 1)
+		$data['creator'] 	= $this->tank_auth->get_user_full_name();
+		$quotation_id = $this->uri->segment(3);
+		if($quotation_id)
 		{	
-			$data['listed_product']  	= $this->sale_model->getAllTmpProduct($current_sale_id);
-			$this->sale_model->cancelSale($current_sale_id, $current_sale_return_id, $creator);
+			$data['quotation'] = $this->sale_model->fetchQuotationInfo($quotation_id);
+			$data['quotationDetails']  	= $this->sale_model->getAllQuotationProduct($quotation_id);
 			$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
 		}
 		else show_404();
+	}
+
+	public function deleteQuotation()
+	{
+		$quotation_id = $this->input->post('quotation_id');
+		$result = $this->sale_model->deleteQuotation($quotation_id);
+		if($result) echo true;
+		else echo false;
+	}
+
+	public function addQuotationToSale($quotation_id) 
+	{
+		$currrent_temp_sale_id 	= $this->sale_model->createNewSaleFromQuotation($this->tank_auth->get_user_id(), $this->tank_auth->get_shop_id());
+		$this->tank_auth->set_current_temp_sale($currrent_temp_sale_id);
+		$quotationDetails = $this->sale_model->getAllQuotationProduct($quotation_id);
+		if ($quotationDetails->num_rows() > 0) {
+			foreach ($quotationDetails->result() as $product) {
+				$stock_amount = $product->stock_amount - $product->quotation_quantity;
+				$data = array(
+					'temp_sale_id'              => $currrent_temp_sale_id,
+					'product_id'                => $product->product_id,
+					'stock_id'                  => 0,
+					'sale_quantity'             => $product->quotation_quantity,
+					'product_specification'     => $product->product_specification,
+					'sale_type'                 => 1,
+					'discount_info_id'          => 0,
+					'discount'                  => $product->discount,
+					'discount_type'             => $product->discount_type,
+					'unit_buy_price'            => $product->unit_buy_price,
+					'unit_sale_price'           => $product->unit_sale_price,
+					'general_unit_sale_price'   => $product->general_sale_price,
+					'actual_sale_price'         => $product->actual_sale_price,
+					'temp_sale_details_status'  => 1,
+					'item_name'                 => $product->product_name,
+					'stock'                     => $stock_amount
+				);
+				$this->db->insert('temp_sale_details', $data);
+				$result = $this->db->where('product_id', $product_id)->limit(1)
+				->update('bulk_stock_info', array('stock_amount' => $stock_amount));
+				if ($result) {
+					redirect(base_url().'sale/new_sale');
+				}
+			}
+		}
 	}
 }

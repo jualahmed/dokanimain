@@ -1,3 +1,12 @@
+<style>
+	.select2-container {
+		width: 100% !important;
+	}
+	.select2-container .select2-selection--single {
+		height: 34px;
+	}
+</style>
+
 <div class="content-wrapper">
 	<section class="content">
 		<div class="row">
@@ -54,17 +63,20 @@
 						</div>
 						<div class="wrap">
 							<table class="table">
-								<tr>
-									<td style="text-align:center;">No</td> 
-									<td style="text-align:center;">Transaction</td>
-									<td style="text-align:center;">Purpose</td>
-									<td style="text-align:center;">Ledger Name</td>
-									<td style="text-align:right;">Amount</td>
-									<td style="text-align:center;">Date</td>
-									<td style="text-align:center;">Action</td>
-								</tr>
+								<thead>
+									<tr>
+										<td style="text-align:center;">No</td> 
+										<td>Transaction</td>
+										<td>Purpose</td>
+										<td>Ledger Name</td>
+										<td style="text-align:right;">Amount</td>
+										<td style="text-align:center;">Date</td>
+										<td style="text-align:center;">Action</td>
+									</tr>
+								</thead>
+								<tbody id="search_data">
+								</tbody>
 							</table>
-							<div class="inner_table new_data_2" id="search_data"></div>
 						</div>
 					</div>
 				</div>

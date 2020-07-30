@@ -27,6 +27,19 @@ class Sale_model extends CI_model{
             return $this->db->insert_id();
         }
         else return false;
+	}
+	
+	public function createNewSaleFromQuotation($current_user, $current_shop)
+    {
+        $data = array(
+            'temp_sale_shop_id'     => $current_shop,
+            'temp_sale_creator'     => $current_user,
+            'return_adjust_amount'  => 0,
+            'temp_sale_status'      => 0,
+        );
+        if ($this ->db->insert('temp_sale_info', $data)) 
+            return $this->db->insert_id();
+        return false;
     }
 
     public function search_product($query){
@@ -206,7 +219,99 @@ class Sale_model extends CI_model{
             return $row_data->return_adjust_amount;
         }
         else return 0;
-    }  
+	}  
+
+	public function fetchQuotationInfo($quotation_id)
+	{
+		return $this->db->select('*')
+			->from('quotation_info')
+			->where('quotation_id', $quotation_id)
+			->get()
+			->row();
+	}
+	
+	public function doQuotationInfoTask($data)
+    {
+		$query = array(
+			'shop_id'           	        => $this->tank_auth->get_shop_id(),
+			'customer_id'       	        => $data['customer_id'],
+			'quotation_total_price'       	=> $data['sub_total'],
+			'quotation_discount_type'   	=> $data['discount_type'],
+			'quotation_cash_commission'     => $data['cash_commission'],
+			'quotation_discount_amount'   	=> $data['disc_amount'],
+			'quotation_delivery_charge'   	=> $data['delivery_charge'],
+			'quotation_vat'               	=> $data['vat'],
+			'quotation_grand_total'       	=> $data['grand_total'],
+			'quotation_creator'             => $this->tank_auth->get_user_id(),
+			'quotation_valid_till'  		=> date('Y-m-d'),
+			'quotation_status' 				=> 0,
+			'created_at'       				=> date('Y-m-d H:i:s'),
+		);
+					
+		if($this->db->insert('quotation_info', $query))
+				return $this->db->insert_id();
+					
+		else return FALSE;
+	} 
+	
+	public function doQuotationDetailsTask($quotation_id, $data, $products)
+	{
+        $this->db->where('quotation_id',$quotation_id);
+		$que = $this->db->get('quotation_info');
+		$quotation = $que->row();
+        foreach($products->result() as $tmp)
+        {
+			if($data['cash_commission'] !='0')
+			{
+				$ratio = $data['disc_amount']/$quotation->quotation_total_price;
+				$exact_sale_price = $tmp -> general_unit_sale_price - ( $tmp -> general_unit_sale_price * $ratio);
+			}
+			else
+			{
+				$exact_sale_price = $tmp -> general_unit_sale_price;
+				
+			}
+            $query = array(
+                'quotation_id'                   => $quotation_id,
+                'product_id'                     => $tmp->product_id,
+                'quotation_quantity'             => $tmp->sale_quantity,
+                'discount'                       => $data['disc_amount'],
+                'discount_type'                  => $data['discount_type'],
+                'unit_sale_price'                => $tmp->unit_sale_price,
+                'general_sale_price'             => $tmp->general_unit_sale_price,
+                'unit_buy_price'                 => $tmp->unit_buy_price,
+                'actual_sale_price'              => $tmp->general_unit_sale_price,
+                'product_specification'          => $tmp->product_specification,
+                'exact_sale_price'               => $exact_sale_price,
+                'quotation_details_status'       => 1,
+
+            );
+            $this->db->insert('quotation_details_info', $query);
+        }
+	}
+	
+	public function getAllQuotationProduct($quotation_id)
+	{
+		$data = $this->db->select('quotation_details_info.*,bulk_stock_info.stock_amount,product_info.product_name,product_info.product_size,product_info.product_model')
+                        ->from('quotation_details_info')
+                        ->join('product_info', 'quotation_details_info.product_id = product_info.product_id', 'left')
+                        ->join('bulk_stock_info', 'bulk_stock_info.product_id = product_info.product_id', 'left')
+                        ->where('quotation_id', $quotation_id)
+                        ->get();
+        if($data->num_rows() > 0)return $data;
+        return FALSE;
+	}
+
+	public function deleteQuotation($quotation_id)
+	{
+		if($quotation_id != '') {
+			$this->db->where('quotation_id', $quotation_id);
+			$this->db->delete('quotation_details_info');
+
+			$this->db->where('quotation_id', $quotation_id);
+			return $this->db->delete('quotation_info');
+		}
+	}
 
     public function doInvoiceInfoTask($customer_id,$sub_total,$cash_commision,$disc_amt,$disc_type,$grand_total,$total_paid,$return_money, $return_adjust,$payable,$delivery_charge)
     {

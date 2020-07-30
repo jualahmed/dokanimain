@@ -1,5 +1,7 @@
-	$(document).ready(function() {
-		$("#form_6").submit(function(event) {
+$(document).ready(function() {
+	$("#lp_id").select2();
+
+	$("#form_6").submit(function(event) {
 		event.preventDefault();
 		var submiturl = $(this).attr('action');
 		var methods = $(this).attr('method');

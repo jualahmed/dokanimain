@@ -23,8 +23,7 @@
 							  	track-by="product_name"
 							  	placeholder="Select a Product"
 								@search-change="asyncFind"
-								:loading="isLoading"
-							  	>
+								:loading="isLoading">
 							  	
 							  	</multiselect>
 

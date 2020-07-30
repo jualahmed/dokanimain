@@ -1,3 +1,11 @@
+<style>
+	.select2-container {
+		width: 100% !important;
+	}
+	.select2-container .select2-selection--single {
+		height: 34px;
+	}
+</style>
 <div class="content-wrapper">
 	<br>
 	<section class="content">
@@ -10,19 +18,18 @@
 					<form class="form-horizontal">
 						<div class="box-body">	
 							<div class="form-group">
-								<div class="col-sm-4">
+								<div class="col-sm-5">
 									<div class="input-group">
 										<span class="input-group-addon">Receipt Type</span>
-										<select class="form-control select22 catagory_name" id="receipt_type" style="width: 100%;"tabindex="-1" aria-hidden="true" required="required">
-											<option value="3" selected>Credit Collection Receipt</option>
-										</select>
+										<input type="hidden" id="receipt_type" value="3">
+										<input type="text" class="form-control select22 catagory_name" style="width: 100%;"tabindex="-1" aria-hidden="true" required="required" value="Credit Collection Receipt" readonly>
 									</div>
 								</div>
-								<div class="col-sm-4">
+								<div class="col-sm-3">
 									<div class="input-group">
 										<span class="input-group-addon">Payment By</span>
 										<select class="form-control select2" name="payment_mode" id="payment_mode" style="width:100%;">
-											<option value="">Select Mode</option>
+											<option value="">Select...</option>
 											<option value="1">Cash</option>
 											<option value="2">Cheque</option>
 											<option value="3">Card</option>

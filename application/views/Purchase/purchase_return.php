@@ -37,21 +37,7 @@
 									<td>
 										<select class="form-control select2 sel_dist" name="product_id" id="product_id" style="width: 100%;" required>
 											<option value="">Select Product</option>
-											<?php
-											if(count($product_info)>0)
-											{
-												foreach($product_info as $field)
-												{ 
-											?>	
-												<?php if ($this->uri->segment(4)==$field->product_id): ?>
-													<option selected value="<?php echo $field->product_id;?>"><?php echo $field->product_name;?></option>
-												<?php else: ?>
-													<option value="<?php echo $field->product_id;?>"><?php echo $field->product_name;?></option>
-												<?php endif ?>
-											<?php 
-												}
-											}
-											?>
+											
 										</select>
 									</td>
 								</tr>

@@ -48,9 +48,12 @@ return array(
     'Setup_model' => $baseDir . '/application/models/Setup_model.php',
     'Shop_model' => $baseDir . '/application/models/Shop_model.php',
     'Site_model' => $baseDir . '/application/models/Site_model.php',
+    'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
     'Transactionm' => $baseDir . '/application/models/Transactionm.php',
+    'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
     'Unit_model' => $baseDir . '/application/models/Unit_model.php',
     'User_Autologin' => $baseDir . '/application/models/tank_auth/User_autologin.php',
     'Users' => $baseDir . '/application/models/tank_auth/Users.php',
+    'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     'Web_model' => $baseDir . '/application/models/Web_model.php',
 );

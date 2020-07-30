@@ -13,7 +13,7 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">Person Name</label>
 								<div class="col-sm-7">
-									<select class="form-control select22" tabindex="-1" aria-hidden="true" name="lp_id" required="on">
+									<select class="form-control select22" id="lp_id" tabindex="-1" aria-hidden="true" name="lp_id" required="on">
 										<option value="">Select Type</option>
 										<?php foreach ($loan_person_info as $key => $value): ?>
 											<option value="<?php echo $value->customer_id ?>"><?php echo $value->customer_name ?></option>

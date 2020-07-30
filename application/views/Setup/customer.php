@@ -67,22 +67,22 @@
 								<input type="text" name="customer_name" value="" class="form-control customer_name" placeholder="Customer Name" autocomplete="off">
 							</div>
 							<div class="form-group">
-							  	<label class="control-label">Number <span class="text-danger">*</span></label>
-								<input type="text" name="customer_contact_no" value="" class="form-control customer_contact_no" placeholder="Contact Number" autocomplete="off">
+								<label class="control-label">Email </label>
+								<input type="text" name="customer_email" value="" class="form-control customer_email text-lowercase" placeholder="Email Address" autocomplete="off">
 							</div>
-						  <div class="form-group">
-                  <label class="control-label">Email </label>
-                <input type="text" name="customer_email" value="" class="form-control customer_email text-lowercase" placeholder="Email Address" autocomplete="off">
-              </div>
-						</div>
-						<div class="col-md-6 right">
 							<div class="form-group">
 							    <label class="control-label">Balance</label>
 								<input type="text" name="int_balance" value="" class="form-control int_balance" placeholder="Balance" autocomplete="off">
 							</div>
+						</div>
+						<div class="col-md-6 right">
+							<div class="form-group">
+							  	<label class="control-label">Contact No. <span class="text-danger">*</span></label>
+								<input type="text" name="customer_contact_no" value="" class="form-control customer_contact_no" placeholder="Contact Number" autocomplete="off">
+							</div>
 							<div class="form-group">
 							    <label class="control-label">Address</label>
-								<textarea name="customer_address" cols="10" rows="1" class="form-control customer_address" maxlength="300" placeholder="Customer Address"></textarea>
+								<textarea name="customer_address" rows="4" class="form-control customer_address" maxlength="300" placeholder="Customer Address"></textarea>
 							</div>
 						</div>
 					</div>
@@ -126,23 +126,24 @@
 							<input type="text" name="customer_name" value="" class="form-control" id="customer_name" placeholder="customer Name" autocomplete="off">
 						</div>
 						<div class="form-group">
-							<label class="form-control-label">Customer address </label>
-							<textarea name="customer_address" cols="10" rows="2" class="form-control" id="customer_address" maxlength="100" placeholder="customer address"></textarea>
-						</div>
-						<div class="form-group">
-							<label class="form-control-label">Customer contact no <span class="text-danger">*</span></label>
-							<input type="text" name="customer_contact_no" value="" class="form-control" id="customer_contact_no" placeholder="customer contact no" autocomplete="off">
-						</div>
-					</div>
-					<div class="col-md-6 right">
-						<div class="form-group">
 							<label class="form-control-label">Customer Email</label>
-							<input type="text" name="customer_email" value="" class="form-control text-lowercase" id="customer_email" placeholder="customer Email" autocomplete="off">
+							<input type="text" name="customer_email" id="customer_email" value="" class="form-control text-lowercase" id="customer_email" placeholder="customer Email" autocomplete="off">
 						</div>
 						<div class="form-group">
 						    <label for="inputEmail3" class="control-label">Balance </label>
 							<input type="text" name="int_balance" value="" class="form-control" id="int_balance" placeholder="Balance" autocomplete="off">
 						</div>
+					</div>
+					<div class="col-md-6 right">
+						<div class="form-group">
+							<label class="form-control-label">Contact No. <span class="text-danger">*</span></label>
+							<input type="text" name="customer_contact_no" value="" class="form-control" id="customer_contact_no" placeholder="customer contact no" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label class="form-control-label">Customer address </label>
+							<textarea name="customer_address" rows="4" class="form-control" id="customer_address" maxlength="100" placeholder="customer address"></textarea>
+						</div>
+						
 					</div>
 				</div>
 			</div>

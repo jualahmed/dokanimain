@@ -1,3 +1,11 @@
+<style>
+	.select2-container {
+		width: 100% !important;
+	}
+	.select2-container .select2-selection--single {
+		height: 34px;
+	}
+</style>
 <div class="content-wrapper" id="vuejsapp">
     <section class="content">
         <div class="row">
@@ -13,12 +21,17 @@
 					              	<tr>
 					              		<td style="vertical-align: middle;"><b>Distributor: <span class="text-danger">*</span></b></td>
 					              		<td>
-					              			<select class="form-control select2 sel_dist distrib" name="distributor_id" id="distributor_id">
-							                    <option value="" selected="selected">Select a distributor</option>
-								                <?php foreach($distributor_info as $tmp){ ?>
-								                	<option value="<?php echo $tmp->distributor_id; ?>"><?php echo $tmp->distributor_name; ?></option>
-								                <?php }?>
-					                		</select>
+										  	<div class="input-group input-group-md">
+												<select class="form-control select2 sel_dist distrib" name="distributor_id" id="distributor_id">
+													<option value="" selected="selected">Select a distributor</option>
+													<?php foreach($distributor_info as $tmp){ ?>
+														<option value="<?php echo $tmp->distributor_id; ?>"><?php echo $tmp->distributor_name; ?></option>
+													<?php }?>
+												</select>
+											  	<span class="input-group-btn">
+													<button type="button" data-toggle="modal" data-target="#distributorModal" class="btn btn-block btn-primary add_distributor"> <i class="fa fa-plus"></i></button>
+												</span>
+											</div>
 					              		</td>
 					              	</tr>
 					              	<tr>
@@ -74,9 +87,9 @@
 											<select class="form-control select2" name="card_id" id="card_id" style="width:100%;"></select>
 										</td>
 					              	</tr>
-									<tr id="result_cheque" style="display:none;">
+									<tr class="result_cheque" style="display:none;">
 										<td>My</td>
-										<td style="width:25%;">
+										<td>
 											<select class="form-control select2" name="my_bank" style="width:100%;" id="my_bank">
 												<option value="">Select Bank</option>
 												<?php 
@@ -90,8 +103,10 @@
 												?>
 											</select>
 										</td>
+					              	</tr>
+									<tr class="result_cheque" style="display:none;">
 										<td>To</td>
-										<td style="width:20%;">
+										<td>
 											<select class="form-control select2" name="to_bank" style="width:100%;" id="to_bank">
 												<option value="">Select Bank</option>
 												<?php 
@@ -105,14 +120,18 @@
 												?>
 											</select>
 										</td>
+									</tr>
+									<tr class="result_cheque" style="display:none;">
 										<td>Cheque</td>
 										<td>
 											<input type="text" name="cheque_no" class="form-control" id="cheque_no_id" placeholder="Cheque No" title="Cheque No" autocomplete="off"></td>
+									</tr>
+									<tr class="result_cheque" style="display:none;">
 										<td>Date</td>
 										<td>
 											<input type="text" class="form-control" name="cheque_date" id="datedate" placeholder="Cheque Date" title="Cheque Date" autocomplete="off">
 										</td>
-					              	</tr>
+									</tr>
 	             	 			</table>
 								<div class="box-footer text-right">
 									<div class="col-sm-22">
@@ -161,6 +180,67 @@
     </section>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="distributorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form id="distributor" action="<?php echo base_url();?>distributor/create" method="post" class="form-horizontal">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <div class="row">
+	        	<div class="col-md-6">
+	        		<h3 class="modal-title" id="exampleModalLabel">Create a new distributor</h3>
+	        	</div>
+	        	<div class="col-md-6">
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+	        	</div>
+	        </div>
+	      </div>
+	      <div class="modal-body">
+		  	<div class="box-body">
+				<div class="row">
+					<div class="col-md-6 left">
+						<div class="form-group">
+							<label for="inputEmail3" class="control-label">Distributor Name <span class="text-danger">*</span></label>
+							<input type="text" name="distributor_name" value="" class="form-control distributor_name" placeholder="Distributor Name" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label for="inputEmail3" class="control-label">Distributor Number <span class="text-danger">*</span></label>
+							<input type="text" name="distributor_contact_no" value="" class="form-control distributor_contact_no" placeholder="Contact Number" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label for="inputEmail3" class="control-label">Distributor Email</label>
+							<input type="email" name="distributor_email" value="" class="form-control distributor_email text-lowercase" placeholder="Email Address" autocomplete="off">
+						</div>
+					</div>
+					<div class="col-md-6 right">
+						<div class="form-group">
+							<label for="inputEmail3" class="control-label">Distributor Address</label>
+							<textarea name="distributor_address" cols="10" rows="1" class="form-control distributor_address" maxlength="300" placeholder="Distributor Address"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="inputEmail3" class="control-label">Distributor Description</label>
+							<textarea name="distributor_description" cols="10" rows="1" class="form-control distributor_description" maxlength="300" placeholder="Distributor Description"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="inputEmail3" class="control-label">Initial Balance</label>
+							<input type="number" name="int_balance" value="" class="form-control int_balance" placeholder="Initial Balance" autocomplete="off">
+						</div>
+					</div>
+				</div>
+			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-success" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
+			<button type="reset" id="reset_btn" class="btn btn-warning"><i class="fa fa-fw fa-refresh"></i> Reset</button>
+	      </div>
+	    </div>
+	  </div>
+  </form>
+</div>
 
 
 <!-- <?php //echo validation_errors(); ?> -->

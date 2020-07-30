@@ -1,5 +1,9 @@
 $(document).ready(function()
 {
+	$("#transfer_type").select2();
+	$("#owner_id").select2();
+	$("#lp_id").select2();
+
 	$("#transfer_type").on("change",function()
 	{
 		var transfer_type = $(this).val();

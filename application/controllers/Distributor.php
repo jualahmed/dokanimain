@@ -40,34 +40,30 @@ class Distributor extends MY_Controller {
 	    $rules = array(
 	      array(
 	        'field' => 'distributor_name',
-	        'label' => 'distributor_name',
+	        'label' => 'Name',
 	        'rules' => 'required|is_unique[distributor_info.distributor_name]'
 	      ),
 	      array(
 	        'field' => 'distributor_contact_no',
-	        'label' => 'distributor_contact_no',
+	        'label' => 'Contact No.',
 	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'distributor_email',
-	        'label' => 'distributor_email'
+	        'label' => 'Distributor Email'
 	      ),
 	      array(
 	        'field' => 'distributor_address',
-	        'label' => 'distributor_address'
+	        'label' => 'Address'
 	      ),
 	      array(
 	        'field' => 'int_balance',
-	        'label' => 'int_balance'
+	        'label' => 'Initial Balance'
 	      ),
 	      array(
 	        'field' => 'distributor_description',
-	        'label' => 'distributor_description'
+	        'label' => 'Description'
 	      ),
-	      array(
-	        'field' => 'distributor_description',
-	        'label' => 'distributor_description',
-	      )
 	    );
 
 		$creator = $this->tank_auth->get_user_id();
@@ -87,7 +83,8 @@ class Distributor extends MY_Controller {
 	      $id = $this->distributor_model->create($data);
 	      $output = '';
 	      if ($id != -1) {
-	        $jsonData['success'] = true;
+			$jsonData['success'] = true;
+			$jsonData['output'] = $this->distributor_model->find($id);
 	      }
 	    }else {
 	      foreach ($_POST as $key => $value) {

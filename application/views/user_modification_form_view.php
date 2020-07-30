@@ -116,7 +116,7 @@
 												 'superadmin' => 'Superadmin'
 												 );
 											}
-									echo form_dropdown('new_user_type', $temp,'','class="form-control select2" style="width: 100%;" tabindex="-1" aria-hidden="true"');
+									echo form_dropdown('new_user_type', $temp,'','class="form-control select2" id="new_user_type" style="width: 100%;" tabindex="-1" aria-hidden="true"');
 								?>
 							</div>
 							<label for="inputEmail3" class="col-sm-2 control-label">Contact No</label>
@@ -180,3 +180,8 @@
 	   }		
 	?>
 </div>
+<script>
+	$(function () {
+		$("#new_user_type").select2();
+	});
+</script>

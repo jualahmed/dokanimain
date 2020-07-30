@@ -219,6 +219,12 @@ class Company extends MY_Controller {
 			redirect('company','refresh');
 		}
 	}
+
+	public function fetchAllActive()
+	{
+		$companies = $this->company_model->all();
+		echo json_encode($companies);
+	}
 }
 
 /* End of file Company.php */

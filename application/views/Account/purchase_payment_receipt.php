@@ -1,4 +1,11 @@
-
+<style>
+	.select2-container {
+		width: 100% !important;
+	}
+	.select2-container .select2-selection--single {
+		height: 34px;
+	}
+</style>
 <div class="content-wrapper">
 	<br>
 	<section>
@@ -11,19 +18,18 @@
 					<form class="form-horizontal">
 						<div class="box-body">	
 							<div class="form-group">
-								<div class="col-sm-4">
+								<div class="col-sm-5">
 									<div class="input-group">
 										<span class="input-group-addon">Receipt Type</span>
-										<select class="form-control select22 catagory_name" id="receipt_type" style="width: 100%;"tabindex="-1" aria-hidden="true" required="required">
-											<option value="1" selected>Purchase Payment Receipt</option>
-										</select>
+										<input type="hidden" id="receipt_type" value="1">
+										<input type="text" class="form-control select22 catagory_name" style="width: 100%;"tabindex="-1" aria-hidden="true" required="required" value="Purchase Payment Receipt" readonly>
 									</div>
 								</div>
-								<div class="col-sm-4">
+								<div class="col-sm-3">
 									<div class="input-group">
 										<span class="input-group-addon">Payment By</span>
 										<select class="form-control select2" name="payment_mode" id="payment_mode" style="width:100%;">
-											<option value="">Select Mode</option>
+											<option value="">Select...</option>
 											<option value="1">Cash</option>
 											<option value="2">Cheque</option>
 											<option value="3">Card</option>
@@ -67,15 +73,27 @@
 									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">My</label>
 										<div class="col-sm-2">
-											<?php 	
-												echo form_dropdown('my_bank', $bank_info, '' ,'class="form-control select22" id="my_bank" style="width: 100%;" tabindex="-1" aria-hidden="true" required="required"');
-											?>
+											<select name="my_bank" id="my_bank" class="form-control">
+												<option value="">Select a bank</option>
+												<?php
+													if($bank_info) { 
+														foreach ($bank_info as $key => $value) { ?>
+													<option value="<?php echo $value->bank_id ?>"><?php echo $value->bank_account_name ?></option>
+												<?php } 
+													} ?>
+											</select>
 										</div>
 										<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Bank</label>
 										<div class="col-sm-2">
-											<?php 	
-												echo form_dropdown('to_bank', $bank_info, '' ,'class="form-control select22" id="to_bank" style="width: 100%;" tabindex="-1" aria-hidden="true" required="required"');
-											?>
+											<select name="to_bank" id="to_bank" class="form-control">
+												<option value="">Select a bank</option>
+												<?php
+													if($bank_info) { 
+														foreach ($bank_info as $key => $value) { ?>
+													<option value="<?php echo $value->bank_id ?>"><?php echo $value->bank_account_name ?></option>
+												<?php } 
+													} ?>
+											</select>
 										</div>
 										<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Cheque</label>
 										<div class="col-sm-2">

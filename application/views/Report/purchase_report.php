@@ -11,7 +11,7 @@
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-1 control-label">Challan No</label>
 								<div class="col-sm-2">
-									<select name="catagory_id" class="form-control" v-model="receipt">
+									<select id="receipt_id" name="receipt_id" class="form-control" v-model="receipt">
 										<option value="0">Select a purchase receipt</option>
 										<?php foreach ($purchase_receipt as $key => $value): ?>
 											<option value="<?php echo $value->receipt_id ?>"><?php echo $value->distributor_name ?></option>
@@ -25,7 +25,7 @@
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label">Catagory</label>
 								<div class="col-sm-2">
-									<select name="catagory_id" class="form-control" v-model="category">
+									<select name="catagory_id" id="catagory_id" class="form-control" v-model="category">
 										<option value="0">Select a Category</option>
 										<?php foreach ($catagory as $key => $value): ?>
 											<option value="<?php echo $value->catagory_id ?>"><?php echo $value->catagory_name ?></option>

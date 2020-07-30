@@ -1,3 +1,11 @@
+<style>
+	.select2-container {
+		width: 100% !important;
+	}
+	.select2-container .select2-selection--single {
+		height: 34px;
+	}
+</style>
 <div class="content-wrapper">
 	<section class="content">
 		<div class="row">
@@ -23,7 +31,7 @@
 								<label class="col-sm-3 control-label">Person Name</label>
 								<div class="col-sm-7">
 									<div class="input-group input-group-md">
-										<select class="form-control select22" tabindex="-1" aria-hidden="true" name="lp_id" required="on">
+										<select class="form-control select22" tabindex="-1" aria-hidden="true" id="lp_id" name="lp_id" required="on">
 											<option value="">Select Type</option>
 											<?php foreach ($loan_person_info as $key => $value): ?>
 												<option value="<?php echo $value->customer_id ?>"><?php echo $value->customer_name ?></option>

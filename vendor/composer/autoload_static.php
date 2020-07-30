@@ -8,12 +8,14 @@ class ComposerStaticInitef4e5afef088b92d22e1407d70c2861e
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Component\\Translation\\' => 30,
@@ -32,7 +34,7 @@ class ComposerStaticInitef4e5afef088b92d22e1407d70c2861e
         ),
         'D' => 
         array (
-            'Doctrine\\Common\\Inflector\\' => 26,
+            'Doctrine\\Inflector\\' => 19,
         ),
         'C' => 
         array (
@@ -41,6 +43,10 @@ class ComposerStaticInitef4e5afef088b92d22e1407d70c2861e
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Php80\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -77,9 +83,9 @@ class ComposerStaticInitef4e5afef088b92d22e1407d70c2861e
         array (
             0 => __DIR__ . '/..' . '/illuminate/container',
         ),
-        'Doctrine\\Common\\Inflector\\' => 
+        'Doctrine\\Inflector\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
         ),
         'Carbon\\' => 
         array (
@@ -130,10 +136,13 @@ class ComposerStaticInitef4e5afef088b92d22e1407d70c2861e
         'Setup_model' => __DIR__ . '/../..' . '/application/models/Setup_model.php',
         'Shop_model' => __DIR__ . '/../..' . '/application/models/Shop_model.php',
         'Site_model' => __DIR__ . '/../..' . '/application/models/Site_model.php',
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Transactionm' => __DIR__ . '/../..' . '/application/models/Transactionm.php',
+        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'Unit_model' => __DIR__ . '/../..' . '/application/models/Unit_model.php',
         'User_Autologin' => __DIR__ . '/../..' . '/application/models/tank_auth/User_autologin.php',
         'Users' => __DIR__ . '/../..' . '/application/models/tank_auth/Users.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
         'Web_model' => __DIR__ . '/../..' . '/application/models/Web_model.php',
     );
 

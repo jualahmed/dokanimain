@@ -1,3 +1,12 @@
+<style>
+	.select2-container {
+		width: 100% !important;
+	}
+	.select2-container .select2-selection--single {
+		height: 34px;
+	}
+</style>
+
 <div class="content-wrapper">
 	<br>
 	<section>
@@ -82,15 +91,27 @@
 									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">My</label>
 										<div class="col-sm-2">
-											<?php 	
-												echo form_dropdown('my_bank', $bank_info, '' ,'class="form-control select22" id="my_bank" style="width: 100%;" tabindex="-1" aria-hidden="true" required="required"');
-											?>
+											<select name="my_bank" id="my_bank" class="form-control">
+												<option value="">Select a bank</option>
+												<?php
+													if($bank_info) { 
+														foreach ($bank_info as $key => $value) { ?>
+													<option value="<?php echo $value->bank_id ?>"><?php echo $value->bank_account_name ?></option>
+												<?php } 
+													} ?>
+											</select>
 										</div>
 										<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Bank</label>
 										<div class="col-sm-2">
-											<?php 	
-												echo form_dropdown('to_bank', $bank_info, '' ,'class="form-control select22" id="to_bank" style="width: 100%;" tabindex="-1" aria-hidden="true" required="required"');
-											?>
+											<select name="to_bank" id="to_bank" class="form-control">
+												<option value="">Select a bank</option>
+												<?php
+													if($bank_info) { 
+														foreach ($bank_info as $key => $value) { ?>
+													<option value="<?php echo $value->bank_id ?>"><?php echo $value->bank_account_name ?></option>
+												<?php } 
+													} ?>
+											</select>
 										</div>
 										<label for="inputEmail3" class="col-sm-1 control-label" style="color:white;">Cheque</label>
 										<div class="col-sm-2">

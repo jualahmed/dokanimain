@@ -1,5 +1,13 @@
 $(document).ready(function()
 {
+	$("#payment_mode").select2();
+	$("#customer_id").select2();
+	$("#distributor_id").select2();
+	$("#service_provider_id").select2();
+	$("#card_id").select2();
+	$("#my_bank").select2();
+	$("#to_bank").select2();
+
 	$("#distributor_id").on("change",function()
 	{
 		var distributor_id = $(this).val();
@@ -305,8 +313,6 @@ $(document).ready(function()
 						$('#distributor_id').select2();
 						$('#payment_mode').val('');
 						$('#payment_mode').select2();
-						$('#receipt_type').val('');
-						$('#receipt_type').select2();
 						$('#card_id').val('');
 						$('#card_id').select2();
 						$('.payment_input').val("");

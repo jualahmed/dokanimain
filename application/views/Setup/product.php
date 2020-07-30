@@ -11,7 +11,7 @@
 					<div class="box-header with-border">
 						<h3 class="box-title">Product Setup</h3>
 					</div>
-					<form id="product" action="<?php echo base_url();?>product/create" method="post" class="form-horizontal" enctype="multipart/form-data">
+					<form id="product" action="<?php echo base_url();?>product/create" autocomplete="off" method="post" class="form-horizontal" enctype="multipart/form-data">
 						<div class="box-body">	
 							<div class="row">
 								<label for="inputEmail3" class="col-sm-2 control-label">Catagory Name 
@@ -73,13 +73,18 @@
 										</span>
 									</div>
 								</div>
-								<label for="inputEmail3" class="col-sm-2 control-label">Product Barcode <span class="text-danger">*</span></label>
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Barcode<span class="text-danger">*</span></label>
 								<div class="col-sm-4">
-									<?php 
-										$data = $last_id['product_id'];
-										echo form_input('barcode', $data, 'class= "form-control barcode_id barcode"   placeholder="'.$data.'" id="eight" autocomplete="off"');	
-										
-									?>
+									<div class="input-group input-group-md">
+										<?php 
+											$data = $last_id['product_id'];
+											echo form_input('barcode', $data, 'class= "form-control barcode_id barcode"   placeholder="'.$data.'" id="eight" autocomplete="off"');	
+											
+										?>
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-block btn-primary clear_barcode">Clear</button>
+										</span>
+									</div>
 								</div>
 								<input type="hidden" name="barcode`" value="<?php echo $data ?>" class="barcode_id1">
 							</div>
@@ -104,10 +109,6 @@
 										echo form_input('alarming_stock', '0', 'class= "form-control" id="six" autocomplete="off"');
 									?>
 								</div>
-								
-							</div>
-							<br>
-							<div class="row">
 								<label for="inputEmail3" class="col-sm-2 control-label">Genral / Warranty </label>
 								<div class="col-sm-4">
 									<select class="select2 form-control" name="product_specification" required="on" id="product_specification">
@@ -116,16 +117,23 @@
 										<option value="2">Warranty</option>
 									</select>
 								</div>
+							</div>
+							<br>
+							<div class="row">
 								<label for="inputEmail3" class="col-sm-2 control-label war_peri" style="display:none;">Warranty Period(In Month)</label>
 								<div class="col-sm-4 war_peri" style="display:none;">
 									<input type="number" name="product_warranty" class="form-control" placeholder="N/A" id="nine" autocomplete="off">
 								</div>
+								<label for="inputEmail3" class="col-sm-2 control-label war_peri" style="display:none;">Has Serial No.</label>
+								<label class="col-sm-4 checkbox-inline serial_checkbox" style="padding-left: 35px;display:none;">
+									<input id="has_serial_no" name="has_serial_no" type="checkbox">Yes
+								</label>
 							</div>
 						</div> 
 						<div class="box-footer text-right">
-							<div class="col-sm-22">
-								<button type="submit" class="btn btn-success btn-sm" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
-								<button type="reset" id="reset_btn" class="btn btn-warning btn-sm"><i class="fa fa-fw fa-refresh"></i> Reset</button>
+							<div class="col-sm-4 text-center">
+								<button type="submit" class="btn btn-success" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
+								<button type="reset" id="reset_btn" class="btn btn-warning"><i class="fa fa-fw fa-refresh"></i> Reset</button>
 							</div>
 						</div>
 					</form>
@@ -358,27 +366,26 @@
 <!-- product edit model -->
 <!-- Unit -->
 <div class="modal fade" id="EditModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <form id="productedit" action="<?php echo base_url();?>product/update" method="post" class="form-horizontal" enctype="multipart/form-data">
-	  	<input type="hidden" name="product_id" class="product_id">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-		    <div class="modal-header">
-		        <div class="row">
-		        	<div class="col-md-6">
-		        		<h3 class="modal-title" id="exampleModalLabel">Edit Product</h3>
-		        	</div>
-		        	<div class="col-md-6">
-		        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-		        	</div>
-		        </div>
-		    </div>
-			<div class="box-body">	
-				<div class="row">
-					<div class="col-sm-6">
-						<label for="inputEmail3" class="control-label">Catagory Name <span class="text-danger">*</span></label>
-						<div class="input-group input-group-md">
+	<form id="productedit" action="<?php echo base_url();?>product/update" method="post" class="form-horizontal" enctype="multipart/form-data">
+		<input type="hidden" name="product_id" class="product_id">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="row">
+						<div class="col-md-6">
+							<h3 class="modal-title" id="exampleModalLabel">Edit Product</h3>
+						</div>
+						<div class="col-md-6">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="box-body">	
+					<div class="row">
+						<div class="col-sm-6">
+							<label for="inputEmail3" class="control-label">Catagory Name <span class="text-danger">*</span></label>
 							<select name="catagory_id"  class="form-control abccatagory_id catagory_id">
 								<option value="">Select a Catagory</option>
 								<?php foreach ($catagory as $value) { ?>
@@ -386,24 +393,17 @@
 								<?php } ?>
 							</select>
 						</div>
-					</div>
 
-					<div class="col-sm-6">
-						<label for="inputEmail3" class="control-label">Product Name <span class="text-danger">*</span></label>
-						<input type="text" name="product_name" value="" class="form-control abcproduct_name product_name"  id=" edvalue" onkeypress="edValueKeyPress()" onkeyup="edValueKeyPress()" placeholder="Product Name" autocomplete="off">
-						<span id="user-availability-status1" style="display:none;"></span>
-						<span id="user-availability-status2" style="display:none;"></span>
+						<div class="col-sm-6">
+							<label for="inputEmail3" class="control-label">Product Name <span class="text-danger">*</span></label>
+							<input type="text" name="product_name" value="" class="form-control abcproduct_name product_name"  id=" edvalue" onkeypress="edValueKeyPress()" onkeyup="edValueKeyPress()" placeholder="Product Name" autocomplete="off">
+							<span id="user-availability-status1" style="display:none;"></span>
+							<span id="user-availability-status2" style="display:none;"></span>
+						</div>
 					</div>
-
-					<div class="col-sm-6">
-						<label for="inputEmail3" class="control-label">Product Model</label>
-						<input type="text" name="product_model" value="" class="form-control abcproduct_model product_model placeholder=" product="" autocomplete="off">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<label class="control-label">Company Name</label>
-						<div class="input-group input-group-md">
+					<div class="row">
+						<div class="col-sm-4">
+							<label class="control-label">Company Name</label>
 							<select name="company_id" id="" class="form-control abccompany_id company_id">
 								<option value="">Select a Company</option>
 								<?php foreach ($company as $value) { ?>
@@ -411,10 +411,21 @@
 								<?php } ?>
 							</select>
 						</div>
-					</div>
-					<div class="col-sm-6">
-						<label class="control-label">Unit Name</label>
-						<div class="input-group">
+						<div class="col-sm-4">
+							<label for="inputEmail3" class="control-label">Product Model</label>
+							<input type="text" name="product_model" value="" class="form-control abcproduct_model product_model placeholder=" product="" autocomplete="off">
+						</div>
+						<div class="col-sm-4">
+							<label class="ccontrol-label">Product Image</label>
+							<div class="">
+								<input type="file" placeholder="Profile" id="file1" name="file" class="form-control">
+							</div>
+						</div>
+						<br>
+					</div> 
+					<div class="row">
+						<div class="col-sm-4">
+							<label class="control-label">Unit Name</label>
 							<select name="unit_id" id="" class="form-control abcunit_id unit_id">
 								<option value="">Select a Unit</option>
 								<?php foreach ($unit as $value) { ?>
@@ -422,26 +433,40 @@
 								<?php } ?>
 							</select>
 						</div>
-					</div>
-					<div class="col-sm-6">
-						<label class="control-label">Product Size</label>
-						<input type="text" name="product_size" value="" class="form-control abcproduct_size product_size" placeholder="Product Size" id="product_size" autocomplete="off">
-					</div>
-					<div class="col-sm-6">
-						<label class="ccontrol-label">Product Image</label>
-						<div class="">
-							<input type="file" placeholder="Profile" id="file1" name="file" class="form-control">
+						<div class="col-sm-4">
+							<label class="control-label">Product Size</label>
+							<input type="text" name="product_size" value="" class="form-control abcproduct_size product_size" placeholder="Product Size" id="product_size" autocomplete="off">
+						</div>
+						<div class="col-sm-4">
+							<label for="alarming_stock" class="">Alarm Level</label>
+							<input type="number" placeholder="Profile" name="alarming_stock" class="form-control alarming_stock">
 						</div>
 					</div>
-				<br>
-			</div> 
-	        <div class="modal-footer">
-	        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        	<button type="submit" class="btn btn-success " name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
-				<button type="reset" id="reset_btn" class="btn btn-warning "><i class="fa fa-fw fa-refresh"></i> Reset</button>
-	        </div>
-	    </div>
-	  </div>
-	</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<label for="">Genral / Warranty </label>
+							<select class="select2 form-control product_specification" name="product_specification" required="on" id="product_specification">
+								<option value="">Select Type</option>
+								<option value="1" selected>General</option>
+								<option value="2">Warranty</option>
+							</select>
+						</div>
+						<div class="col-sm-4">
+							<label for="inputEmail3" class="war_peri" style="display:none;">Warranty Period(In Month)</label>
+							<input type="number" name="product_warranty" class="war_peri form-control product_warranty" placeholder="N/A" id="nine" autocomplete="off">
+						</div>
+						<div class="col-sm-4">
+							<label class="col-12 war_peri checkbox-inline serial_checkbox" style="display:none;padding-left: 35px;padding-top: 30px;">
+								<input class="has_serial_no" name="has_serial_no" type="checkbox">Has Serial No.
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-success " name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Update</button>
+				</div>
+			</div>
+		</div>
 	</form>
 </div>

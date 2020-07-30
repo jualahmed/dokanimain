@@ -870,8 +870,8 @@ class Account_model extends CI_model{
 				'date' => $bd_date,
 				'status' => 'active',
 				'creator' => $creator,
-				'doc' => $bd_date,
-				'dom' => $bd_date
+				'created_at' => $bd_date,
+				'updated_at' => $bd_date
 			);
 			$this -> db -> insert('transaction_info',$to_bank_transaction_info);
 			$transaction_id = $this->db->insert_id();
@@ -882,8 +882,8 @@ class Account_model extends CI_model{
 				'date' => $bd_date,
 				'status' => 'active',
 				'creator' => $creator,
-				'doc' => $bd_date,
-				'dom' => $bd_date
+				'created_at' => $bd_date,
+				'updated_at' => $bd_date
 			);
 			$insert = $this -> db -> insert('cash_book',$to_bank_cash_book);
 			$to_bank_bank_book = array(
@@ -909,8 +909,8 @@ class Account_model extends CI_model{
 				'date' => $bd_date,
 				'status' => 'active',
 				'creator' => $creator,
-				'doc' => $bd_date,
-				'dom' => $bd_date
+				'created_at' => $bd_date,
+				'updated_at' => $bd_date
 			);
 			$this -> db -> insert('transaction_info',$from_bank_transaction_info);
 			$transaction_id = $this->db->insert_id();
@@ -921,8 +921,8 @@ class Account_model extends CI_model{
 				'date' => $bd_date,
 				'status' => 'active',
 				'creator' => $creator,
-				'doc' => $bd_date,
-				'dom' => $bd_date
+				'created_at' => $bd_date,
+				'updated_at' => $bd_date
 			);
 			$insert = $this -> db -> insert('cash_book',$from_bank_cash_book);
 			$from_bank_bank_book = array(

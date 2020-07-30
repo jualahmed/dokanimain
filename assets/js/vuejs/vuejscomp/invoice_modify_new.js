@@ -24,7 +24,7 @@ $(document).ready(function()
 							<th style="text-align:center;">No</th> 
 							<th style="text-align:center;">Invoice ID</th>
 							<th style="text-align:center;">Invoice Date</th>
-							<th style="text-align:center;">Invoice Amount</th>
+							<th style="text-align:right;">Invoice Amount</th>
 							<th style="text-align:center;">Invoice Creator</th>
 							<th style="text-align:center;">Action</th>
 						</tr>
@@ -43,7 +43,7 @@ $(document).ready(function()
 			success: function(result) {	
 				$(".modal1234").hide();
 				for(i=0; i<result.length; i++){	  
-					output2+='<tr><td style="text-align:center;">'+k+'</td><td style="text-align:center;">'+result[i].invoice_id+'</td><td style="text-align:center;overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].invoice_doc+'">'+result[i].invoice_doc+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].total_price+'" >'+result[i].total_price+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].user_full_name+'" >'+result[i].user_full_name+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></tr>';
+					output2+='<tr><td style="text-align:center;">'+k+'</td><td style="text-align:center;">'+result[i].invoice_id+'</td><td style="text-align:center;overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].invoice_doc+'">'+result[i].invoice_doc+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].total_price+'" >'+parseFloat(result[i].total_price).toFixed(2)+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].user_full_name+'" >'+result[i].user_full_name+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></tr>';
 					k++;
 				}
 

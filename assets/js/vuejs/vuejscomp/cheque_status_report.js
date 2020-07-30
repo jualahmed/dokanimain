@@ -1,5 +1,7 @@
 $(document).ready(function() 
 {
+	$("#cheque_status").select2();
+	
 	$("#form_6").submit(function(event) 
 	{
 		event.preventDefault();

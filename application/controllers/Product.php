@@ -103,6 +103,7 @@ class Product extends MY_Controller {
 	        'barcode' => $this->input->post('barcode'),
 	        'product_specification' => $this->input->post('product_specification'),
 	        'product_warranty' => $this->input->post('product_warranty'),
+	        'has_serial_no' => isset($_POST['has_serial_no']) ? 1 : 0,
 	        'product_creator' => $creator
 	      );
 	      $id = $this->product_model->create($data);
@@ -266,7 +267,10 @@ class Product extends MY_Controller {
 	        'company_id' => $this->input->post('company_id'),
 	        'product_size' => $this->input->post('product_size'),
 	        'product_model' => $this->input->post('product_model'),
-	        'unit_id' => $this->input->post('unit_id'),
+			'unit_id' => $this->input->post('unit_id'),
+			'product_specification' => $this->input->post('product_specification'),
+	        'product_warranty' => $this->input->post('product_warranty'),
+	        'has_serial_no' => isset($_POST['has_serial_no']) ? 1 : 0,
 	        'product_creator' => $creator
 	      );
 	      $id = $this->product_model->update($product_id,$data);
@@ -297,6 +301,18 @@ class Product extends MY_Controller {
 		$query=$this->input->get('query');
 		$data=$this->product_model->search($query);
 		echo json_encode($data);
+	}
+
+	public function search_by_name()
+	{	
+		$query=$this->input->post('query');
+		$data=$this->product_model->search($query);
+		$format = array();
+		foreach ($data as $key => $product) {
+			$format[$key]['id'] = $product->product_id;
+			$format[$key]['text'] = $product->product_name;
+		}
+		echo json_encode($format);
 	}
 
 	public function search_product(){

@@ -3,6 +3,11 @@
 <head>
   <title> Dokani : IT Lab Solutions </title>
   <link rel="icon" href="<?php echo base_url(); ?>images/favicon.ico"  type="image/x-icon"/>
+  <style>
+  @media print {
+
+  }
+  </style>
 </head>
 <body class="text-center"> 
 <div class="page-header" style="text-align: center">
@@ -15,7 +20,7 @@
     			for( $i=0;$i < $row ->quantity; $i++) 
     			{
     			?>
-    				<div style="width:9%;float: left;"> 
+    				<div style="width:20%;float: left;margin:20px 0px;"> 
     					<center style="margin:0px; padding:0px;">
     						<p style="font-size: 12px; font-weight:bold; font-family:arial; line-height: 5px; margin:5px 0px 5px 0px"><?php echo $this->tank_auth->get_shop_name();?></p>
     						<img id="image1" src="<?php echo base_url().'barcode/'.$row ->barcode; ?>" style="    width:100%;height: 1cm;margin: 0px 0px 0px 0px;float: left;" />

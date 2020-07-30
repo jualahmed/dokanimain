@@ -150,13 +150,13 @@
 			              	<table class="table table-bordered reduce_space">
 			              		<tbody>
 			              			<tr>
-			              				<td>
-			              					<b>Quantity:</b>
+			              				<td style="vertical-align: middle;font-weight: bold;">
+										  Quantity:
 			              				</td>
 			              				<td>
 			              					<input type="" class="form-control custom_form_control quantity" v-model="quantity" id="quantity" name="" placeholder="Ex: 10" autocomplete="off" required>
 			              				</td>
-			              				<td style="width: 25%; vertical-align: middle;">Expire Date:</td>
+			              				<td style="width: 25%; vertical-align: middle;font-weight: bold;">Expire Date:</td>
 			              				<td>
 			              					<input type="text" id="datepicker" class="form-control custom_form_control" v-model="expiredate" name="" placeholder="Ex: 14-12-2016" autocomplete="off">
 			              				</td>
@@ -166,39 +166,39 @@
 										{
 									?>
 									<tr>
-			              				<td style="width: 25%; vertical-align: middle;" >
+			              				<td style="width: 25%; vertical-align: middle;font-weight: bold;" >
 			              				 <b>TP:</b>
 			              				</td>
 			              				<td>
 			              					<input type="" class="form-control custom_form_control tp_total" v-model="tp_total" style="text-align: right;" id="tp_total" name="" placeholder="Ex: 10" autocomplete="off">
 			              				</td>
-			              				<td style="width: 25%; vertical-align: middle;">VAT:</td>
+			              				<td style="width: 25%; vertical-align: middle;font-weight: bold;">VAT:</td>
 			              				<td>
 			              					<input type="" class="form-control custom_form_control vat_total" v-model="vat_total" style="text-align: right;" id="vat_total" name="" placeholder="Ex: 10" autocomplete="off">
 			              				</td>
 			              			</tr>
 										<?php } ?>
 			              			<tr>
-			              				<td style="vertical-align: middle;">
+			              				<td style="vertical-align: middle;font-weight: bold;">
 			              					Total Buy Price:
 			              				</td>
 			              				<td>
 			              					<input  class="form-control custom_form_control total_buy_price" v-model="total_buy_price" style="text-align: right;">
 			              				</td >
-			              				<td style="vertical-align: middle;">General Sale Price:</td>
+			              				<td style="vertical-align: middle;font-weight: bold;">MRP:</td>
 			              				<td style="text-align: right;">
 			              					<input type="" class="form-control custom_form_control" v-model="general_sale_price" style="text-align: right;" placeholder="Ex: 15" autocomplete="off" required>
 			              				</td>
 			              			</tr>
 
 			              			<tr>
-			              				<td style="vertical-align: middle;">
+			              				<td style="vertical-align: middle;font-weight: bold;">
 			              					Unit Buy Price:
 			              				</td>
 			              				<td>
 			              					<input type="" class="form-control custom_form_control" v-model="unit_buy_price_purchase" style="text-align: right;" placeholder="Ex: 10" autocomplete="off">
 			              				</td>
-			              				<td style="width: 20%; vertical-align: middle;">Exclusive Sale Price:</td>
+			              				<td style="width: 20%; vertical-align: middle;font-weight: bold;">Sale Price:</td>
 			              				<td>
 			              					<input type="" class="form-control custom_form_control" v-model="exclusive_sale_price" style="text-align: right;" autocomplete="off" placeholder="Ex: 12">
 			              				</td>
@@ -246,7 +246,10 @@
 									<td style="text-align: center;width: 10%;">{{ p.unit_buy_price }}</td>
 									<td style="text-align: center;width: 10%;">{{ p.purchase_quantity*p.unit_buy_price }}</td>
 									<td style="text-align: center;width: 6%;" v-if="p.product_specification==1">
-									  <i
+									<!-- Disable purchase listing product edit option. 
+									but not removed permanently, 
+									cause in future it will be added -->
+									  <!-- <i
 									  	data-toggle="modal" data-target="#edit_modal" 
 									    class="fa fa-fw fa-edit css_for_cursor"
 									    style="color: #db8b0b; "
@@ -254,7 +257,7 @@
 									    title="Edit"
 									    :id="p.product_id"
 									    :purchase_id="p.purchase_id"
-									  ></i>
+									  ></i> -->
 									  <i
 									    class="fa fa-fw fa-remove css_for_cursor"
 									    style="color: red; "
@@ -281,59 +284,61 @@
 	      	</div>
 			
  				<div class="modal" id="edit_modal">
-		          <div class="modal-dialog" style="width: 60%;">
-		          	<form id="edit_modal_form" class="form-horizontal">
-			            <div class="modal-content">
-			              <div class="modal-header">
-			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			                  <span aria-hidden="true">&times;</span></button>
-			                <h4 class="modal-title">
-			                	<span class="glyphicon glyphicon-edit" style="color: #db8b0b;"></span>
-			                	Edit
-			                </h4>
-			              </div>
-			              <div class="modal-body">
-			              	<input type="hidden" class="form-control" name="purchase_id" id="purchase_id" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
-			              	<table class="table table-bordered serial_qnt_price" >
-			              		<tr>
-			              			<td style="vertical-align: middle;">Quantity: </td>
-			              			<td>
-			              				<input type="text" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
-			              			</td>
-			              		</tr>
-			              		<tr>
-			              			<td style="vertical-align: middle;">Total Buy Price: </td>
-			              			<td>
-			              				<input type="text" oninput="calculate(this.value)" class="form-control" id="total_buy_price" name="total_buy_price" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-			              			</td>
-			              		</tr>
-			              		<tr>
-			              			<td style="vertical-align: middle;">Unit Buy Price: </td>
-			              			<td>
-			              				<input type="text" class="form-control" id="u_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-			              			</td>
-			              		</tr>
-			              		<tr>
-			              			<td style="vertical-align: middle;"> General Sale Price: </td>
-			              			<td>
-			              				<input type="text" class="form-control" id="g_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-			              			</td>
-			              		</tr>
-			              		<tr>
-			              			<td style="vertical-align: middle;">Exclusive Sale Price: </td>
-			              			<td>
-			              				<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-			              			</td>
-			              		</tr>
-			              	</table>
-			              </div>
-			              <div class="modal-footer">
-			                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-			                <input type="submit" class="btn btn-info" id="save_change" value="Save">
-			              </div>
-			            </div>
-			            <!-- modal-content -->
-		            </form>
+		          <div class="modal-dialog modal-lg" style="width: 60%;">
+		          	<div class="modal-content">
+						<form id="edit_modal_form" class="form-horizontal">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title">
+										<span class="glyphicon glyphicon-edit" style="color: #db8b0b;"></span>
+										Edit
+									</h4>
+								</div>
+								<div class="modal-body">
+									<input type="hidden" class="form-control" name="purchase_id" id="purchase_id" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+									<table class="table table-bordered serial_qnt_price" >
+										<tr>
+											<td style="vertical-align: middle;font-weight: bold;">Quantity: </td>
+											<td>
+												<input type="text" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+											</td>
+										</tr>
+										<tr>
+											<td style="vertical-align: middle;font-weight: bold;">Total Buy Price: </td>
+											<td>
+												<input type="text" oninput="calculate(this.value)" class="form-control" id="total_buy_price" name="total_buy_price" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+											</td>
+										</tr>
+										<tr>
+											<td style="vertical-align: middle;font-weight: bold;">Unit Buy Price: </td>
+											<td>
+												<input type="text" class="form-control" id="u_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+											</td>
+										</tr>
+										<tr>
+											<td style="vertical-align: middle;font-weight: bold;"> General Sale Price: </td>
+											<td>
+												<input type="text" class="form-control" id="g_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+											</td>
+										</tr>
+										<tr>
+											<td style="vertical-align: middle;font-weight: bold;">Exclusive Sale Price: </td>
+											<td>
+												<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+									<input type="submit" class="btn btn-info" id="save_change" value="Save">
+								</div>
+								</div>
+								<!-- modal-content -->
+							</form>  
+					</div>
 		          </div>
 		          <!-- modal-dialog -->
 		        </div>

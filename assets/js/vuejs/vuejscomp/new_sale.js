@@ -1793,40 +1793,114 @@ function do_calculation(product_price)
 }
 
 /*Start: Quotation. */
-$('#quotation').on('click', function(event){
-    event.preventDefault();
-    var number_of_product   = $('#number_of_products').val();
-    var id                  = $('#is_sale_active').val();
-    if(id == ''){
-      swal(
-        'Oops...!',
-        'Please select a sale!',
-        'info'
-      );
-    }
-    else{
-      if(number_of_product != ''){
+$('#quotation').on('click', function(e){
+	e.preventDefault();
+    quotation();
+});
+function quotation()
+{
+	//e.defaultPrevented;
+    var is_sale_active   = $('#is_sale_active').val();
 
-        $.ajax({
-          url     : base_url+'sale/doQuotation',
-          type    : "POST",
-          data    : {number_of_product   : number_of_product},
-          success : function(result){
-            window.open(base_url+"sale/printQuotation/" + result);
-            location.reload();
-          }
-
-        });
-      }
-      else{
+    if(!is_sale_active)
+	{
         swal(
           'Oops...!',
-          'Please select product(s)!',
+          'Please select a sale!',
           'info'
         );
-      }
     }
-});
+    else
+    {
+        swal({
+          title               : 'Are You Sure About Quotation?',
+          text                : "You won't be able to revert this!",
+          type                : 'warning',
+          showCancelButton    : true,
+          confirmButtonColor  : '#db8b0b',
+          cancelButtonColor   : '#008d4c',
+          confirmButtonText   : 'Yes',
+          cancelButtonText    : 'No'
+        }).then(function() 
+		{
+			var sub_total       = parseFloat($('#sub_total').val());
+			var total           = parseFloat($('#total').val());
+			var vat             = parseFloat($('#vat').val());
+			var disc_in_p       = parseFloat($('#disc_in_p').val());
+			var disc_in_f       = parseFloat($('#disc_in_f').val());
+			var disc_amount     = parseFloat($('#disc_amount').val());
+			var delivery_charge = parseFloat($('#delivery_charge').val());
+			var discount_limit  = $('#discount_limit').val();
+			var customer_id  = $('#select_customer').val();
+			
+			if(disc_amount > total && discount_limit==0)
+			{
+				swal(
+					'Oops...!',
+					'Discount Amount is Greater Than Total Amount!',
+					'warning'
+				  );
+			}
+			else
+			{
+				if(sub_total != '' && total != '')
+				{
+					$.ajax({
+						url: base_url+'sale/doQuotation',
+						type: "POST",
+						cache: false,
+						async: false,
+						data: { 
+							sub_total       : sub_total, 
+							total_          : total, 
+							disc_in_p       : disc_in_p, 
+							disc_in_f       : disc_in_f,
+							disc_amount     : disc_amount,
+							vat             : vat,
+							delivery_charge : delivery_charge,
+							customer_id : customer_id,
+						},
+						success:function(result)
+						{
+							//alert(result);
+							$('#sub_total').val("");
+							$('#vat').val("");
+							$('#disc_in_p').val("");
+							$('#disc_in_f').val("");
+							$('#disc_amount').val("");
+							$('#total').val("");
+							$('#received').val("");
+							$('#delivery_charge').val("");
+							$('#change').val("");
+							$('#number_of_products').val("");
+							$('#select_customer').val("");
+							$('#customer_name').val("");
+							$('#customer_phone').val("");
+							$('#inword').val("");
+							$('#return_id').val("");
+							$("#selected_products").empty();
+							$("#sale_return_list").empty();
+							
+							location.reload(); 
+							$('#search_by_product_name').focus();
+							window.open(base_url+"sale/printQuotation/" + result, '_blank');          
+						}  
+					});
+						
+				}
+			
+				else 
+				{
+				  swal(
+					'Oops...!',
+					'Data Missing!',
+					'warning'
+				  );
+				}
+			}
+		});
+    }
+}
 
 $('#return_adjust').on('change', function(){
     alert('OK');

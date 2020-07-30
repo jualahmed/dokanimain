@@ -11,6 +11,7 @@ $('#search_member').keyup(function()
 
 $(document).ready(function() 
 {
+	$("#purpose_id").select2();
 	$("#form_4").submit(function(event) 
 	{
 		event.preventDefault();
@@ -38,7 +39,7 @@ $(document).ready(function()
 				{
 					for(i=0; i<result.length; i++)
 					{	  
-						output+='<table class="table" id="myTable"><tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].ledger_name+'">'+result[i].ledger_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'">'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'">'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr></table>';
+						output+='<tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].ledger_name+'">'+result[i].ledger_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'">'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'">'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr>';
 						k++;
 					}
 				}
@@ -46,7 +47,7 @@ $(document).ready(function()
 				{
 					for(i=0; i<result.length; i++)
 					{	  
-						output1+='<table class="table" id="myTable"><tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].ledger_name+'">'+result[i].ledger_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'" >'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'" >'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr></table>';
+						output1+='<tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].ledger_name+'">'+result[i].ledger_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'" >'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'" >'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr>';
 						k++;
 					}
 				}
@@ -54,7 +55,7 @@ $(document).ready(function()
 				{
 					for(i=0; i<result.length; i++)
 					{	  
-						output2+='<table class="table" id="myTable"><tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].ledger_name+'">'+result[i].ledger_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'" >'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'" >'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr></table>';
+						output2+='<tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].ledger_name+'">'+result[i].ledger_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'" >'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'" >'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr>';
 						k++;
 					}
 				}
@@ -62,7 +63,7 @@ $(document).ready(function()
 				{
 					for(i=0; i<result.length; i++)
 					{	  
-						output3+='<table class="table" id="myTable"><tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="N/A">N/A</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'" >'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'" >'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr></table>';
+						output3+='<tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="N/A">N/A</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'" >'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'" >'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr>';
 						k++;
 					}
 				}
@@ -70,7 +71,7 @@ $(document).ready(function()
 				{
 					for(i=0; i<result.length; i++)
 					{	  
-						output4+='<table class="table" id="myTable"><tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].ledger_name+'">'+result[i].ledger_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'">'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'" >'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr></table>';
+						output4+='<tr><td>'+k+'</td><td>'+result[i].transaction_id+'</td><td>'+result[i].transaction_purpose+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].ledger_name+'">'+result[i].ledger_name+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:right;" title="'+result[i].amount+'">'+result[i].amount+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;text-align:center;" title="'+result[i].date+'" >'+result[i].date+'</td><td style="text-align:center;"><a class="btnDelete" style="cursor:pointer;"><i class="fa fa-fw fa-close"></i></a></td></tr>';
 						k++;
 					}
 				}

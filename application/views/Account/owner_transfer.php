@@ -1,3 +1,11 @@
+<style>
+	.select2-container {
+		width: 100% !important;
+	}
+	.select2-container .select2-selection--single {
+		height: 34px;
+	}
+</style>
 
 <div class="content-wrapper">
 	<section class="content">

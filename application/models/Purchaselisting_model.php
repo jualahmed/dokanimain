@@ -67,56 +67,71 @@ class Purchaselisting_model extends CI_Model {
 
 	public function removeProductFromPurchase($purchase_receipt_id, $product_id,$purchase_id)
 	{
-		$tmp =$this->db->where('purchase_id',$purchase_id)
+		$purchaseInfo =$this->db->where('purchase_id',$purchase_id)
 			    	   ->get('purchase_info')->row();
 
 		$this->db->where('product_id' , $product_id);
-		$query_2 = $this->db->get('bulk_stock_info');
-		$tmp_2 = $query_2->row();
+		$bulkProduct = $this->db->get('bulk_stock_info')->row();
 
-		if($tmp->purchase_quantity <= $tmp_2->stock_amount)
+		if($purchaseInfo->purchase_quantity <= $bulkProduct->stock_amount)
 		{
-			$pre_total_price = $tmp_2->stock_amount * $tmp_2->bulk_unit_buy_price;
-			$new_total_purchase_price = $tmp->purchase_quantity * $tmp->unit_buy_price;
-			$new_stock = $tmp_2->stock_amount - $tmp->purchase_quantity;
-			$new_buy_price = $pre_total_price - $new_total_purchase_price;
+			// calculate final buy price
+			/* final_buy_price = (previous_total_purchase_price - new_total_purchase_price) 
+							/ 
+						(previous_total_stock - new_total_stock)
+			*/
+			$pre_total_price = $bulkProduct->stock_amount * $bulkProduct->bulk_unit_buy_price; //previous_total_purchase_price
+			$new_total_purchase_price = $purchaseInfo->purchase_quantity * $purchaseInfo->unit_buy_price; //new_total_purchase_price
+			$new_stock = $bulkProduct->stock_amount - $purchaseInfo->purchase_quantity; //previous_total_stock - new_total_stock
+			$new_buy_price = $pre_total_price - $new_total_purchase_price; //final_buy_price
 			if($new_buy_price==0 || $new_stock==0){
 				$final_buy_price=0;
 			}else{
 				$final_buy_price = $new_buy_price / $new_stock;
 			}
 
-			$pre_total_price1 = $tmp_2->stock_amount * $tmp_2->bulk_unit_sale_price;
-			$new_total_purchase_price1 = $tmp->purchase_quantity * $tmp->bulk_unit_sale_price;
-			$new_stock1 = $tmp_2->stock_amount - $tmp->purchase_quantity;
-			$new_buy_price1 = $pre_total_price1 - $new_total_purchase_price1;
+			// calculate final sale price
+			/* final_sale_price = (previous_total_sale_price - new_total_sale_price) 
+							/ 
+						(previous_total_stock - new_total_stock)
+			*/
+			$pre_total_price1 = $bulkProduct->stock_amount * $bulkProduct->bulk_unit_sale_price; //previous_total_sale_price
+			$new_total_purchase_price1 = $purchaseInfo->purchase_quantity * $purchaseInfo->bulk_unit_sale_price; //new_total_sale_price
+			$new_stock1 = $bulkProduct->stock_amount - $purchaseInfo->purchase_quantity; //previous_total_stock - new_total_stock
+			$new_buy_price1 = $pre_total_price1 - $new_total_purchase_price1; //final_sale_price
 
 			if($new_buy_price1==0 || $new_stock1==0){
-				$final_buy_price1=0;
+				$final_sale_price=0;
 			}else{
-				$final_buy_price1 = $new_buy_price / $new_stock;
+				$final_sale_price = $new_buy_price / $new_stock;
 			}
 
-			$pre_total_price2 = $tmp_2->stock_amount * $tmp_2->general_unit_sale_price;
-			$new_total_purchase_price2 = $tmp->purchase_quantity * $tmp->general_unit_sale_price;
-			$new_stock2 = $tmp_2->stock_amount - $tmp->purchase_quantity;
-			$new_buy_price2 = $pre_total_price2 - $new_total_purchase_price2;
+			// calculate final general sale price
+			/* final_general_sale_price = (previous_total_general_sale_price - new_total_general_sale_price) 
+							/ 
+						(previous_total_stock - new_total_stock)
+			*/
+			$pre_total_price2 = $bulkProduct->stock_amount * $bulkProduct->general_unit_sale_price; //previous_total_general_sale_price
+			$new_total_purchase_price2 = $purchaseInfo->purchase_quantity * $purchaseInfo->general_unit_sale_price; //new_total_general_sale_price
+			$new_stock2 = $bulkProduct->stock_amount - $purchaseInfo->purchase_quantity; //previous_total_stock - new_total_stock
+			$new_buy_price2 = $pre_total_price2 - $new_total_purchase_price2; //final_general_sale_price
 
 			if($new_buy_price2==0 || $new_stock2==0){
-				$final_buy_price2=0;
+				$final_general_sale_price=0;
 			}else{
-				$final_buy_price2 = $new_buy_price2 / $new_stock2;
+				$final_general_sale_price = $new_buy_price2 / $new_stock2;
 			}
 
+			// finally update bulk_stock_info
 			$data = array(
 				'bulk_unit_buy_price' => $final_buy_price,
-				'bulk_unit_sale_price' => $final_buy_price1,
-				'general_unit_sale_price' => $final_buy_price2
+				'bulk_unit_sale_price' => $final_sale_price,
+				'general_unit_sale_price' => $final_general_sale_price
 			);
 			$this->db->where('product_id' , $product_id);
 			$this->db->update('bulk_stock_info',$data);
 
-			$this->db->set('stock_amount', 'stock_amount - ' . $tmp->purchase_quantity, FALSE);
+			$this->db->set('stock_amount', 'stock_amount - ' . $purchaseInfo->purchase_quantity, FALSE);
 			$this->db->where('product_id' , $product_id);
 			$this->db->update('bulk_stock_info');
 			return $this->db->where('purchase_id', $purchase_id)->delete('purchase_info');

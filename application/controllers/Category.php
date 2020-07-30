@@ -177,6 +177,12 @@ class Category extends MY_Controller {
 		}
 	}
 
+	public function fetchAllActive()
+	{
+		$categories = $this->category_model->all();
+		echo json_encode($categories);
+	}
+
 }
 
 /* End of file Category.php */

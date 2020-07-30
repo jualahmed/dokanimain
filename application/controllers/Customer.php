@@ -40,25 +40,36 @@ class Customer extends MY_Controller {
 	    $rules = array(
 	      array(
 	        'field' => 'customer_name',
-	        'label' => 'customer_name',
-	        'rules' => 'required'
+	        'label' => 'Customer Name',
+			'rules' => 'required',
+			'errors' => array(
+				'required' => 'Customer name is required'
+			)
 	      ),
 	      array(
 	        'field' => 'customer_contact_no',
-	        'label' => 'customer_contact_no',
-	        'rules' => 'required|integer|min_length[11]|max_length[11]'
+	        'label' => 'Customer contact no.',
+			'rules' => 'required|integer|min_length[11]|max_length[11]',
+			'errors' => array(
+				'required' => 'Customer contact no. is required',
+				'integer' => 'Contact no. must be numeric character',
+				'min_length' => 'Contact no. not less than 11 character',
+				'max_length' => 'Contact no. not greater than 14 character',
+			)
 	      ),
 	      array(
 	        'field' => 'customer_email',
-	        'label' => 'customer_email'
+			'label' => 'Customer email',
+			'rules' => 'callback_email_check',
 	      ),
 	      array(
 	        'field' => 'customer_address',
-	        'label' => 'customer_address'
+	        'label' => 'Customer address'
 	      ),
 	      array(
 	        'field' => 'int_balance',
-	        'label' => 'int_balance'
+			'label' => 'Initial balance',
+			'rules' => 'callback_int_balance_check'
 	      )
 	    );
 		$creator = $this->tank_auth->get_user_id();
@@ -155,25 +166,27 @@ class Customer extends MY_Controller {
 	    $rules = array(
 	      array(
 	        'field' => 'customer_name',
-	        'label' => 'customer_name',
+	        'label' => 'Customer Name',
 	        'rules' => 'required'
 	      ),
 	      array(
 	        'field' => 'customer_contact_no',
-	        'label' => 'customer_contact_no',
+	        'label' => 'Customer contact No.',
 	        'rules' => 'required|integer|min_length[11]|max_length[11]'
 	      ),
 	      array(
 	        'field' => 'customer_email',
-	        'label' => 'customer_email'
+			'label' => 'Customer Email',
+			'rules' => 'callback_email_check'
 	      ),
 	      array(
 	        'field' => 'customer_address',
-	        'label' => 'customer_address'
+	        'label' => 'Customer Address'
 	      ),
 	      array(
 	        'field' => 'int_balance',
-	        'label' => 'int_balance'
+			'label' => 'int_balance',
+			'rules' => 'callback_int_balance_check'
 	      )
 	    );
 	    $customer_id=$this->input->post('customer_id');
@@ -210,6 +223,24 @@ class Customer extends MY_Controller {
 			$this->session->set_flashdata('success', 'customer Delete successfully');
 			redirect('customer','refresh');
 		}
+	}
+
+	public function int_balance_check($balance)
+	{
+		if(!empty($balance) && !is_numeric($balance)) {
+			$this->form_validation->set_message('int_balance_check', 'Invalid Initial Amount');
+			return false;
+		}
+		return true;
+	}
+
+	public function email_check($str)
+	{
+		if(!empty($str) && !filter_var($str, FILTER_VALIDATE_EMAIL)) {
+			$this->form_validation->set_message('email_check', 'Invalid Email Address');
+			return false;
+		}
+		return true;
 	}
 
 }

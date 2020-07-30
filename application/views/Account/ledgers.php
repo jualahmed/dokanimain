@@ -23,7 +23,7 @@
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label" style="display:none;" id="dist_label">Ledger</label>
 								<div class="col-sm-2" style="display:none;" id="dist_list">
-									<select class="form-control" name="distributor_id">
+									<select class="form-control" name="distributor_id" id="distributor_id">
 										<option>Select a distributor</option>
 										<?php foreach ($distributor_info as $key => $var): ?>
 											<option value=" <?php echo $var->distributor_id ?> "><?php echo $var->distributor_name ?></option>
@@ -33,7 +33,7 @@
 
 								<label for="inputEmail3" style="display:none;" class="col-sm-1 control-label" id="cust_label">Ledger</label>
 								<div class="col-sm-2" style="display:none;" id="cust_list">
-									<select class="form-control" name="customer_id">
+									<select class="form-control" name="customer_id" id="customer_id">
 										<option>Select a Customer</option>
 										<?php foreach ($customer as $key => $var): ?>
 											<option value=" <?php echo $var->customer_id ?> "><?php echo $var->customer_name ?></option>
@@ -80,7 +80,7 @@
 								</div>
 								
 							</div>
-							<div class="form-group text-right">
+							<div class="form-group">
 								<div class="col-sm-12">
 									<button type="submit" class="btn btn-success btn-sm" name="search_random" id="form_submit"><i class="fa fa-fw fa-search"></i> Search</button>
 									<a href="<?php echo base_url();?>account/all_ledger_report_print" id="down" style="display:none;" target="_blank" class="btn btn-primary btn-sm down"><i class="fa fa-download"></i> Print</a>

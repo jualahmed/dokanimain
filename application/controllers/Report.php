@@ -384,6 +384,25 @@ class Report extends MY_controller
 		else redirect('Product/product/noaccess');
 	}
 
+	public function quotation_report()
+	{
+	    $data['user_type'] = $this->tank_auth->get_usertype();
+		if($this->access_control_model->my_access($data['user_type'], 'Product', 'product_entry'))
+		{
+			$bd_date = date('Y-m-d');
+			$data['bd_date'] = $bd_date;
+			$data['last_id'] = $this->product_model->getLastInserted();
+			$data['user_name'] = $this->tank_auth->get_username();
+			$data['status'] = '';
+			$data['customer_name'] = $this->customer_model->all();
+			$data['seller'] = $this->db->get('users')->result();
+			$data['unit_name'] = $this->product_model->unit_name();
+			$data['vuejscomp'] = 'quotation_report.js';
+			$this->__renderview('Report/quotation_report', $data);
+		}
+		else redirect('Product/product/noaccess');
+	}
+
 	public function all_sale_report_find()
 	{
 		$invoice_id= $this->input->post('invoice_id');
@@ -401,6 +420,17 @@ class Report extends MY_controller
 			$temp2 = $this->report_model->get_sale_info_by_multi($invoice_id,$customer_id,$product_id,$seller_id,$start_date,$end_date,$company_id,$category_id);
 		}
 		echo json_encode($temp2);
+	}
+
+	public function all_quotation_report_find()
+	{
+		$data['quotation_id']= $this->input->post('quotation_id');
+		$data['seller_id']=$this->input->post('seller_id');
+		$data['customer_id']=$this->input->post('customer_id');
+		$data['start_date']=$this->input->post('start_date');
+		$data['end_date']=$this->input->post('end_date');
+		$quotations = $this->report_model->get_quotation_info($data);
+		echo json_encode($quotations);
 	}
 
 	public function download_data_sale($value='')

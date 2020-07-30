@@ -126,6 +126,22 @@ class Report_model extends CI_model{
 		return $query;
 	}
 
+	public function get_quotation_info($data)
+	{
+		$this->db->select('users.username,customer_info.customer_name,customer_info.customer_contact_no,
+		customer_info.customer_address,quotation_info.*, quotation_info.quotation_id as qid');
+		$this->db->join('customer_info', 'quotation_info.customer_id = customer_info.customer_id', 'left');
+		$this->db->join('users', 'users.id = quotation_info.quotation_creator', 'left');
+		if($data['quotation_id']!=0){$this->db->where('quotation_info.quotation_id', $data['quotation_id']);} 
+		if($data['seller_id']!=0){$this->db->where('quotation_info.quotation_creator',$data['seller_id']);}
+		if($data['customer_id']!=0){$this->db->where('quotation_info.customer_id',$data['customer_id']);}
+		if($data['start_date']!=0){$this->db->where('quotation_info.created_at >="'.$data['start_date'].'"');}
+		if($data['end_date']!=0){$this->db->where('quotation_info.created_at <= "'.$data['end_date'].'"');}
+		$this->db->order_by('quotation_info.quotation_id','asc'); 
+		$query = $this->db->get('quotation_info')->result();
+		return $query;
+	}
+
 
 	/**************************************************
 	 * Calculate Sale Price of a Specific date     **

@@ -38,6 +38,11 @@ var vuejsapp = new Vue({
 
 
 jQuery(document).ready(function($) {
+    $("#distributor_id").select2();
+    $("#payment_mode").select2();
+    $("#my_bank").select2();
+    $("#to_bank").select2();
+    $("#card_id").select2();
 	$('#pagination').on('click','.page-link',function(e){
        e.preventDefault(); 
        var pageno = $(this).children().attr('data-ci-pagination-page');
@@ -48,6 +53,41 @@ jQuery(document).ready(function($) {
 
 // purchase_form
 $(document).ready(function () {
+	$('#distributor').submit(function (e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function (res){
+                if (res.check == true) {
+                    $('#distributor').find('div.form-group').removeClass('has-error').removeClass('has-success');
+                    $('#distributor').find('p.text-danger').remove();
+                    if (res.success == true) {
+						$('#distributor')[0].reset();
+						$("#distributorModal").modal('hide');
+						$("#distributor_id").append(`<option value="${res.output.distributor_id}">${res.output.distributor_name}</option>`);
+						$("#distributor_id").val(res.output.distributor_id);
+                        swal({
+                            title: "Good job!",
+                            text: "Distributor Created successfully!",
+                            icon: "success",
+                        });
+                    }
+                }else {
+                    $.each(res.errors, function (key, value){
+                        var el = $('.'+key);
+                        el.removeClass('has-error').addClass(value.length > 0 ? 'has-error':'has-success').siblings('p.text-danger').remove();
+                        el.after(value);
+                    });
+                }
+            }
+        });
+	});
+	
     $('#purchase').submit(function (e) {
         e.preventDefault();
         var data = $(this).serialize();
@@ -150,7 +190,7 @@ $(document).ready(function()
 		var receipt_type = $('#receipt_type').val();
 		if(payment_mode_id==2) 
 		{	
-			$("#result_cheque").show(); 		
+			$(".result_cheque").show(); 		
 			$("#card_id_list").hide(); 		
 		}
 		else if(payment_mode_id==3) 
@@ -172,7 +212,7 @@ $(document).ready(function()
 					}
 					$("#card_id_list").show(); 
 					$("#card_id").html(outputs);
-					$("#result_cheque").hide();
+					$(".result_cheque").hide();
 				},
 				error: function (jXHR, textStatus, errorThrown) {}
 			});
@@ -181,12 +221,12 @@ $(document).ready(function()
 		else if(payment_mode_id==1) 
 		{
 			$("#card_id_list").hide(); 
-			$("#result_cheque").hide(); 							
+			$(".result_cheque").hide(); 							
 		}
 		else 
 		{
 			$("#card_id_list").hide(); 
-			$("#result_cheque").hide(); 							
+			$(".result_cheque").hide(); 							
 		}
 	});
 		

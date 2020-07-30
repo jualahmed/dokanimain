@@ -46,7 +46,7 @@ class Purchase extends MY_Controller
 	    $rules = array(
 	      array(
 	        'field' => 'purchase_amount',
-	        'label' => 'purchase_amount',
+	        'label' => 'Purchase Amount',
 	        'rules' => 'required'
 	      )
 	    );
@@ -88,33 +88,33 @@ class Purchase extends MY_Controller
 	    $rules = array(
 	      array(
 	        'field' => 'distributor_id',
-	        'label' => 'distributor_id',
+	        'label' => 'Distributor Id',
 	        'rules' => 'required'
 	      ),
 	      array(
 	        'field' => 'purchase_amount',
-	        'label' => 'purchase_amount',
+	        'label' => 'Purchase Amount',
 	        'rules' => 'required|integer'
 	      ),
 	      array(
 	        'field' => 'transport_cost',
-	        'label' => 'transport_cost',
+	        'label' => 'Transport Cost',
 	      ),
 	      array(
 	        'field' => 'gift_on_purchase',
-	        'label' => 'gift_on_purchase',
+	        'label' => 'Gift on Purchase',
 	      ),
 	      array(
 	        'field' => 'final_amount',
-	        'label' => 'final_amount',
+	        'label' => 'Final Amount',
 	      ),
 	      array(
 	        'field' => 'payment_amount',
-	        'label' => 'payment_amount',
+	        'label' => 'Payment Amount',
 	      ),
 	      array(
 	        'field' => 'receipt_date',
-	        'label' => 'receipt_date',
+	        'label' => 'Receipt Date',
 	        'rules' => 'required'
 	      )
 	    );
@@ -359,8 +359,8 @@ class Purchase extends MY_Controller
 		   'date'                   			=> date('Y-m-d'),
 		   'status'        						=> 'active',
 		   'creator'        					=> $creator,
-		   'doc'   								=> $bd_date,
-		   'dom'    							=> $bd_date
+		   'created_at'   						=> $bd_date,
+		   'updated_at'    						=> $bd_date
 		);
 		$this->db->insert('transaction_info', $transaction_info);
 
@@ -395,6 +395,7 @@ class Purchase extends MY_Controller
 				$this->db->where('ip_id', $tmp2->ip_id);
 				$this->db->where('product_id', $tmp2->product_id);
 				$this->db->delete('warranty_product_list');
+				
 				$this->db->set('status', 'status+' . 1, FALSE);
 				$this->db->where('status="'.$zero.'"');
 				$this->db->where('prwp_id', $tmp2->prwp_id);

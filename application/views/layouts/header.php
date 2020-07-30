@@ -277,6 +277,9 @@
 						<li class="<?php echo active_link_function('Report','sale_report'); ?>">
 							<a href="<?php echo base_url();?>Report/sale_report"><i class="fa fa-search-plus"></i>Sale Report</a>
 						</li>
+						<li class="<?php echo active_link_function('Report','quotation_report'); ?>">
+							<a href="<?php echo base_url();?>Report/quotation_report"><i class="fa fa-search-plus"></i>Quotation Report</a>
+						</li>
 						<li class="<?php echo active_link_function('Report','delivery_charge_report'); ?>">
 							<a href="<?php echo base_url();?>Report/delivery_charge_report"><i class="fa fa-search-plus"></i>Delivery Charge Report</a>
 						</li>

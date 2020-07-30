@@ -68,7 +68,7 @@
 						<div class="col-md-6 left">
 							<div class="form-group">
 							   <label for="inputEmail3" class="control-label">Distributor Name <span class="text-danger">*</span></label>
-							   <input type="text" name="distributor_name" value="" class="form-control distributor_name" placeholder="distributor Name" autocomplete="off">
+							   <input type="text" name="distributor_name" value="" class="form-control distributor_name" placeholder="Distributor Name" autocomplete="off">
 							</div>
 							<div class="form-group">
 							  	<label for="inputEmail3" class="control-label">Distributor Number <span class="text-danger">*</span></label>
@@ -82,15 +82,15 @@
 						<div class="col-md-6 right">
 							<div class="form-group">
 							    <label for="inputEmail3" class="control-label">Distributor Address</label>
-								<textarea name="distributor_address" cols="10" rows="1" class="form-control distributor_address" maxlength="300" placeholder="distributor Address"></textarea>
+								<textarea name="distributor_address" cols="10" rows="1" class="form-control distributor_address" maxlength="300" placeholder="Distributor Address"></textarea>
 							</div>
 							<div class="form-group">
 								<label for="inputEmail3" class="control-label">Distributor Description</label>
-								<textarea name="distributor_description" cols="10" rows="1" class="form-control distributor_description" maxlength="300" placeholder="distributor Description"></textarea>
+								<textarea name="distributor_description" cols="10" rows="1" class="form-control distributor_description" maxlength="300" placeholder="Distributor Description"></textarea>
 							</div>
 							<div class="form-group">
 							    <label for="inputEmail3" class="control-label">int balance</label>
-								<input type="number" name="int_balance" value="" class="form-control int_balance" placeholder="int_balance" autocomplete="off">
+								<input type="number" name="int_balance" value="" class="form-control int_balance" placeholder="Initial Balance" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -131,15 +131,15 @@
 						<input type="hidden" name="distributor_id" id="distributor_id">
 		 				<div class="form-group">
 							<label class="form-control-label">Distributor Name <span class="text-danger">*</span></label>
-							<input type="text" name="distributor_name" value="" class="form-control" id="distributor_name" placeholder="distributor Name" autocomplete="off">
+							<input type="text" name="distributor_name" value="" class="form-control" id="distributor_name" placeholder="Distributor Name" autocomplete="off">
 						</div>
             <div class="form-group">
               <label class="form-control-label">Distributor Number <span class="text-danger">*</span></label>
-              <input type="text" name="distributor_contact_no" value="" class="form-control" id="distributor_contact_no" placeholder="distributor contact no" autocomplete="off">
+              <input type="text" name="distributor_contact_no" value="" class="form-control" id="distributor_contact_no" placeholder="Distributor Contact No." autocomplete="off">
             </div>
 						<div class="form-group">
 							<label class="form-control-label">Distributor address </label>
-							<textarea name="distributor_address" cols="10" rows="2" class="form-control" id="distributor_address" maxlength="100" placeholder="distributor address"></textarea>
+							<textarea name="distributor_address" cols="10" rows="2" class="form-control" id="distributor_address" maxlength="100" placeholder="Distributor Address"></textarea>
 						</div>
 					</div>
 					<div class="col-md-6 right">
@@ -149,11 +149,11 @@
 						</div>
 						<div class="form-group">
 							<label class="form-control-label">Distributor Description </label>
-							<input type="text" name="distributor_description" value="" class="form-control" id="distributor_description" placeholder="distributor Description" autocomplete="off">
+							<input type="text" name="distributor_description" value="" class="form-control" id="distributor_description" placeholder="Distributor Description" autocomplete="off">
 						</div>
 						<div class="form-group">
-						    <label for="inputEmail3" class="control-label">int balance </label>
-							<input type="number" name="int_balance" value="" class="form-control" id="int_balance" placeholder="int_balance" autocomplete="off">
+						    <label for="inputEmail3" class="control-label">Initial balance </label>
+							<input type="number" name="int_balance" value="" class="form-control" id="int_balance" placeholder="Initial Balance" autocomplete="off">
 						</div>
 					</div>
 				</div>

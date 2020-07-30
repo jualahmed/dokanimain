@@ -1,4 +1,11 @@
 $(document).ready(function(){
+	$("#purpose_id").select2();
+	$("#distributor_id").select2();
+	$("#customer_id").select2();
+	$("#type_id").select2();
+	$("#transfer_type").select2();
+	$("#owner_transfer_type").select2();
+
 	$("#purpose_id").on("change",function(){
 		var purpose_id = $(this).val();
 		if(purpose_id == 3) 

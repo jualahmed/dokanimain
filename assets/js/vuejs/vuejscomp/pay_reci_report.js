@@ -1,5 +1,6 @@
 $(document).ready(function() 
 {
+	$("#type").select2();
 	$("#form_6").submit(function(event) 
 	{
 		event.preventDefault();

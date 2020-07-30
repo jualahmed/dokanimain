@@ -54,6 +54,12 @@ jQuery(document).ready(function($) {
 
 // product_form
 $(document).ready(function () {
+    $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+    });
     $('#product').submit(function (e) {
         e.preventDefault();
         var data = $(this).serialize();
@@ -218,6 +224,11 @@ $(document).ready(function () {
         });
     });
 
+    // This event clear barcode
+    $('.clear_barcode').on('click', function () {
+        $('.barcode_id').val('');
+    });
+
     $(document).on('click', '.edit', function (e){
         e.preventDefault();
         $('#EditModel').modal('show');
@@ -235,6 +246,17 @@ $(document).ready(function () {
                 $('#productedit .company_id').val(res.company_id);
                 $('#productedit .product_size').val(res.product_size);
                 $('#productedit .unit_id').val(res.unit_id);
+                $('#productedit .alarming_stock').val(res.alarming_stock);
+                $('#productedit .product_specification').val(res.product_specification);
+                if (res.product_specification == 2) {
+                    $(".war_peri").show();
+                    $('#productedit .product_warranty').val(res.product_warranty);
+                    $('#productedit .has_serial_no').prop('checked', true);
+                }else {
+                    $(".war_peri").hide();
+                    $('#productedit .product_warranty').val('');
+                    $('#productedit .has_serial_no').prop('checked', false);
+                }
             }
         });
     });
@@ -305,6 +327,25 @@ function edValueKeyPress()
 $(document).ready(function()
 {
     $("#product_specification").change(function()
+    { 
+        var value = $(this).val();
+        if(value ==2)
+        {
+            $(".war_peri").show();
+            $(".serial_checkbox").show();
+        }
+        else
+        {
+            $(".war_peri").hide();
+            $(".serial_checkbox").hide();
+        }
+        
+    });
+});
+
+$(document).ready(function()
+{
+    $(".product_specification").change(function()
     { 
         var value = $(this).val();
         if(value ==2)

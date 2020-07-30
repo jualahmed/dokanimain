@@ -13,7 +13,7 @@
               <div class="form-group">
                 <label for="inputEmail3" class="col-sm-1 control-label">Product</label>
                 <div class="col-sm-2">
-                  <select name="product_id" class="form-control" v-model="product_id">
+                  <select name="product_id" id="product_id" class="form-control" v-model="product_id">
                     <option value="0">Select a Product</option>
                     <?php foreach ($product as $key => $value): ?>
                       <option value="<?php echo $value->product_id ?>"><?php echo $value->product_name ?></option>
@@ -40,8 +40,8 @@
             <th>Product</th>
             <th title="Purchase Quantity">Quantity</th>
             <th>SL</th>
-            <th>BP</th>
-            <th>SP</th>
+            <th style="text-align: right;">BP</th>
+            <th style="text-align: right;">SP</th>
              <th>Company</th>
             <th>Category</th>
         </tr>
@@ -51,16 +51,16 @@
             <td>{{ p.product_name }}</td>
             <td title="Purchase Quantity">1</td>
             <td>{{ p.sl_no }}</td>
-            <td>{{ p.bulk_unit_buy_price }}</td>
-            <td>{{ p.general_unit_sale_price }}</td>
+            <td style="text-align: right;">{{ p.bulk_unit_buy_price }}</td>
+            <td style="text-align: right;">{{ p.general_unit_sale_price }}</td>
             <td>{{ p.company_name }}</td>
             <td>{{ p.catagory_name }}</td>
         </tr>
         <tr>
           <td colspan="4"><b></b></td>
-          <td colspan="1"><b>Total Quantity: {{ stockqty }}</b></td>
-          <td colspan="1"><b>Total Amount: {{ amount }}</b></td>
-          <td colspan="1"><b>Total Sale Amount: {{ samount  }}</b></td>
+          <td colspan="1" style="text-align: right;"><b>Total Quantity: {{ stockqty }}</b></td>
+          <td colspan="1" style="text-align: right;"><b>Total Amount: {{ amount }}</b></td>
+          <td colspan="1" style="text-align: right;"><b>Total Sale Amount: {{ samount  }}</b></td>
         </tr>
       </table>
     </div>

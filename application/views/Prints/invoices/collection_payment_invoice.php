@@ -6,7 +6,7 @@
 </head>
 <body> 
 	<div class="text-center">
-		<div style="width: 400px;margin: left;border: 2px solid">
+		<div style="width: 400px;margin: left;border: 2px solid;padding: 10px;">
 			<div id = "invoice" style="text-align: center;">
 				<?php
 					$shop_id=$this->tank_auth->get_shop_id();
