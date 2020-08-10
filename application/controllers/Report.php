@@ -427,8 +427,8 @@ class Report extends MY_controller
 		$data['quotation_id']= $this->input->post('quotation_id');
 		$data['seller_id']=$this->input->post('seller_id');
 		$data['customer_id']=$this->input->post('customer_id');
-		$data['start_date']=$this->input->post('start_date');
-		$data['end_date']=$this->input->post('end_date');
+		$data['start_date']=$this->input->post('start_date').' 00:00:00';
+		$data['end_date']=$this->input->post('end_date').' 23:59:59';
 		$quotations = $this->report_model->get_quotation_info($data);
 		echo json_encode($quotations);
 	}

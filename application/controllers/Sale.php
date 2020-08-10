@@ -682,10 +682,11 @@ class Sale extends MY_Controller
 		$quotationDetails = $this->sale_model->getAllQuotationProduct($quotation_id);
 		if ($quotationDetails->num_rows() > 0) {
 			foreach ($quotationDetails->result() as $product) {
+				$product_id = $product->product_id;
 				$stock_amount = $product->stock_amount - $product->quotation_quantity;
 				$data = array(
 					'temp_sale_id'              => $currrent_temp_sale_id,
-					'product_id'                => $product->product_id,
+					'product_id'                => $product_id,
 					'stock_id'                  => 0,
 					'sale_quantity'             => $product->quotation_quantity,
 					'product_specification'     => $product->product_specification,

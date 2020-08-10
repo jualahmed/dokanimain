@@ -1,3 +1,8 @@
+<style>
+    .table-scroll .table {
+        min-width: 100% !important;
+    }
+</style>
 <div class="content-wrapper" id="vueapp">
 	<section class="content">
 		<div class="row">
@@ -5,14 +10,14 @@
 			  <div class="box">
 					<div class="box-header with-border">
 						<h3 class="box-title">Stock Report</h3>
-						<h3 class="box-title"> ( Total Stock Amount: <?php echo sprintf("%.2f",$total_stock_price);?> )</h3>
+						<h3 class="box-title"> ( Total Stock Value: <?php echo sprintf("%.2f",$total_stock_price);?> )</h3>
 						<h3 class="box-title"> ( Stock Quantity: <?php echo $total_stock_quantity;?> )</h3>
 					</div>
 					<div class="box-body">
 						<form action ="<?php echo base_url();?>Report/all_stock_report_find" class="form-horizontal" method="post" id="form_2" autocomplete="off">
 							<div class="form-group">
 							  <label for="inputEmail3" class="col-sm-1 control-label">Product</label>
-							  <div class="col-sm-3">
+							  <div class="col-sm-5">
 
 							  	<multiselect 
 							  	id="ajax" 
@@ -58,7 +63,7 @@
 											<option value="all">All Stock</option>
 										</select>
 								  </div>
-								  <label for="inputEmail3" class="col-sm-1 control-label">Amount</label>
+								  <label for="inputEmail3" class="col-sm-1 control-label">Quantity</label>
 								  <div class="col-sm-2">
 										<?php 
 											echo form_input('product_amount','','class ="form-control seven" id="lock77" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" placeholder="Stock Amount" autocomplete="off"');
@@ -98,14 +103,14 @@
   					<td>{{ index+1 }}</td> 
   					<td style="white-space: normal!important;">{{ d.product_name }}</td>
   					<td class="text-right">{{ d.stock_amount }}</td>
-  					<td class="text-right">{{ d.bulk_unit_buy_price }}</td>
-  					<td class="text-right">{{ d.general_unit_sale_price }}</td>
+  					<td class="text-right">{{ d.bulk_unit_buy_price | shortFloatNumber }}</td>
+  					<td class="text-right">{{ d.general_unit_sale_price | shortFloatNumber }}</td>
   				</tr>
   				<tr>
   					<td colspan="2"><b></b></td>
   					<td class="text-right"><b>Total Quantity: {{ stockqty }}</b> </td>
-  					<td class="text-right"><b>Total Stock Amount: {{ amount }}</b></td>
-  					<td class="text-right"><b>Total Sale Amount: {{ samount }}</b></td>
+  					<td class="text-right"><b>Total Stock Amount: {{ amount | shortFloatNumber }}</b></td>
+  					<td class="text-right"><b>Total Sale Amount: {{ samount | shortFloatNumber }}</b></td>
   				</tr>
   			</tbody>
   		</table>

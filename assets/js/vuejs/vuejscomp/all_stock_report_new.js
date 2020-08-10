@@ -72,4 +72,9 @@ new Vue({
 		});
 		}
 	},
+	filters: {
+		shortFloatNumber(value) {
+			return parseFloat(value).toFixed(2);
+		}
+	}
 })
