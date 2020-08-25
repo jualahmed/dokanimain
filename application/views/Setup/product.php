@@ -11,7 +11,7 @@
 					<div class="box-header with-border">
 						<h3 class="box-title">Product Setup</h3>
 					</div>
-					<form id="product" action="<?php echo base_url();?>product/create" autocomplete="off" method="post" class="form-horizontal" enctype="multipart/form-data">
+					<form id="product" autocomplete="off" action="<?php echo base_url();?>product/create" autocomplete="off" method="post" class="form-horizontal" enctype="multipart/form-data">
 						<div class="box-body">	
 							<div class="row">
 								<label for="inputEmail3" class="col-sm-2 control-label">Catagory Name 
@@ -229,7 +229,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="cModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form id="categoryinsertformproduct" action="<?php echo base_url();?>category/create" method="post" class="form-horizontal">
+    <form id="categoryinsertformproduct" autocomplete="off" action="<?php echo base_url();?>category/create" method="post" class="form-horizontal">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -267,7 +267,7 @@
 </div>
 <!-- company -->
 <div class="modal fade" id="comModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <form id="conpamyinsertformproduct" action="<?php echo base_url();?>company/create" method="post" class="form-horizontal">
+  <form id="conpamyinsertformproduct" autocomplete="off" action="<?php echo base_url();?>company/create" method="post" class="form-horizontal">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -292,7 +292,7 @@
 								<input type="text" name="company_name" value="" class="form-control company_name" placeholder="Company Name" autocomplete="off">
 							</div>
 							<div class="form-group">
-							  	<label for="inputEmail3" class="control-label">Number <span class="text-danger">*</span></label>
+							  	<label for="inputEmail3" class="control-label">Number</label>
 								<input type="text" name="company_contact_no" value="" class="form-control company_contact_no" placeholder="Contact Number" autocomplete="off">
 							</div>
 							<div class="form-group">
@@ -325,7 +325,7 @@
 </div>
 <!-- Unit -->
 <div class="modal fade" id="unitModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form id="unit" action="<?php echo base_url();?>unit/create" method="post" class="form-horizontal">
+    <form id="unit" autocomplete="off" action="<?php echo base_url();?>unit/create" method="post" class="form-horizontal">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -347,7 +347,7 @@
 						<div class="col-md-12">
 							<div class="form-group">
 							   <label for="inputEmail3" class="control-label">Name <span class="text-danger">*</span></label>
-							<input type="text" name="unit_name" value="" class="form-control unit_name" placeholder="unit Name" autocomplete="off">
+							<input type="text" name="unit_name" value="" class="form-control unit_name" placeholder="Unit Name" autocomplete="off">
 							</div>
 						</div>
 					</div>

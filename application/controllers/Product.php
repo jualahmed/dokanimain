@@ -52,40 +52,52 @@ class Product extends MY_Controller {
 	      array(
 	        'field' => 'product_name',
 	        'label' => 'product_name',
-	        'rules' => 'required|is_unique[product_info.product_name]'
+			'rules' => 'required|is_unique[product_info.product_name]',
+			'errors' => array(
+				'required' => 'Product name is required',
+				'is_unique' => 'Product name is already provided'
+			)
 	      ),
 	      array(
 	        'field' => 'catagory_id',
 	        'label' => 'catagory_id',
-	        'rules' => 'required'
+			'rules' => 'required',
+			'errors' => array(
+				'required' => 'Product category is required',
+			)
 	      ),
 	      array(
 	        'field' => 'company_id',
 	        'label' => 'company_id',
-	        'rules' => 'required'
+			'rules' => 'required',
+			'errors' => array(
+				'required' => 'Company is required',
+			)
 	      ),
 	      array(
 	        'field' => 'product_specification',
 	        'label' => 'product_specification',
-	        'rules' => 'required'
+			'rules' => 'required',
+			'errors' => array(
+				'required' => 'Product specification is required',
+			)
 	      ),
 	      array(
 	        'field' => 'unit_id',
 	        'label' => 'unit_id',
-	        'rules' => 'required'
-	      ),
-	      array(
-	        'field' => 'product_model',
-	        'label' => 'product_model'
-	      ),
-	      array(
-	        'field' => 'product_size',
-	        'label' => 'product_size'
+			'rules' => 'required',
+			'errors' => array(
+				'required' => 'Product unit is required',
+			)
 	      ),
 	      array(
 	        'field' => 'barcode',
 	        'label' => 'barcode',
-	        'rules' => 'required|is_unique[product_info.barcode]'
+			'rules' => 'required|is_unique[product_info.barcode]',
+			'errors' => array(
+				'required' => 'Barcode is required',
+				'is_unique' => 'Barcode is already provided'
+			)
 	      )   
 	    );
 		$creator = $this->tank_auth->get_user_id();
@@ -109,6 +121,7 @@ class Product extends MY_Controller {
 	      $id = $this->product_model->create($data);
 	      $output = '';
 	      if ($id != -1) {
+			$jsonData['product'] = $this->product_model->find($id);
 	        $jsonData['success'] = true;
 	        $jsonData['id'] = $id;
 	      }

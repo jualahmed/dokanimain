@@ -57,7 +57,7 @@
 						<div class="col-md-12">
 							<div class="form-group">
 							    <label for="inputEmail3" class="control-label">Name <span class="text-danger">*</span></label>
-								<input type="text" name="unit_name" value="" class="form-control unit_name" placeholder="unit Name" autocomplete="off">
+								<input type="text" name="unit_name" value="" class="form-control unit_name" placeholder="Unit Name" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -98,7 +98,7 @@
 						<input type="hidden" name="unit_id" id="unit_id">
 		 				<div class="form-group">
 							<label class="form-control-label">unit Name <span class="text-danger">*</span> </label>
-							<input type="text" name="unit_name" value="" class="form-control" id="unit_name" placeholder="unit Name" autocomplete="off">
+							<input type="text" name="unit_name" value="" class="form-control" id="unit_name" placeholder="Unit Name" autocomplete="off">
 						</div>
 					</div>
 				</div>

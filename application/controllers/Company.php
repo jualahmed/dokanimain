@@ -40,29 +40,12 @@ class Company extends MY_Controller {
 	      array(
 	        'field' => 'company_name',
 	        'label' => 'company_name',
-	        'rules' => 'required|is_unique[company_info.company_name]'
+			'rules' => 'required|is_unique[company_info.company_name]',
+			'errors' => array(
+				'required' => 'Company name is required',
+				'is_unique' => 'This name is already exists',
+			)
 	      ),
-	      array(
-	        'field' => 'company_contact_no',
-	        'label' => 'company_contact_no',
-	        'rules' => 'required|integer|min_length[11]|max_length[11]'
-	      ),
-	      array(
-	        'field' => 'company_email',
-	        'label' => 'company_email'
-	      ),
-	      array(
-	        'field' => 'company_address',
-	        'label' => 'company_address'
-	      ),
-	      array(
-	        'field' => 'company_description',
-	        'label' => 'company_description'
-	      ),
-	      array(
-	        'field' => 'company_description',
-	        'label' => 'company_description',
-	      )
 	    );
 
 		$creator = $this->tank_auth->get_user_id();
@@ -160,29 +143,11 @@ class Company extends MY_Controller {
 	      array(
 	        'field' => 'company_name',
 	        'label' => 'company_name',
-	        'rules' => 'required'
+			'rules' => 'required',
+			'errors' => array(
+				'required' => 'Company name is required'
+			)
 	      ),
-	      array(
-	        'field' => 'company_contact_no',
-	        'label' => 'company_contact_no',
-	        'rules' => 'required|integer|min_length[11]|max_length[11]'
-	      ),
-	      array(
-	        'field' => 'company_email',
-	        'label' => 'company_email'
-	      ),
-	      array(
-	        'field' => 'company_address',
-	        'label' => 'company_address'
-	      ),
-	      array(
-	        'field' => 'company_description',
-	        'label' => 'company_description'
-	      ),
-	      array(
-	        'field' => 'company_description',
-	        'label' => 'company_description',
-	      )
 	    );
 	    $company_id=$this->input->post('company_id');
 		$creator = $this->tank_auth->get_user_id();

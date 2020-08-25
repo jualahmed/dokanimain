@@ -37,12 +37,12 @@ class Category extends MY_Controller {
 	      array(
 	        'field' => 'catagory_name',
 	        'label' => 'catagory_name',
-	        'rules' => 'required|is_unique[catagory_info.catagory_name]'
+			'rules' => 'required|is_unique[catagory_info.catagory_name]',
+			'errors' => array(
+				'required' => 'Category name is required',
+				'is_unique' => 'This name already exists',
+			)
 	      ),
-	      array(
-	        'field' => 'catagory_description',
-	        'label' => 'catagory_description',
-	      )
 	    );
 
 		$creator = $this->tank_auth->get_user_id();
@@ -137,12 +137,11 @@ class Category extends MY_Controller {
 	      array(
 	        'field' => 'catagory_name',
 	        'label' => 'catagory_name',
-	        'rules' => 'required'
+			'rules' => 'required',
+			'errors' => array(
+				'required' => 'Category name is required'
+			)
 	      ),
-	      array(
-	        'field' => 'catagory_description',
-	        'label' => 'catagory_description',
-	      )
 	    );
 	    $catagory_id=$this->input->post('catagory_id');
 		$creator = $this->tank_auth->get_user_id();

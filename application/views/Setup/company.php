@@ -72,7 +72,7 @@
 								<textarea name="company_address" cols="10" rows="1" class="form-control company_address" maxlength="300" placeholder="Company Address"></textarea>
 							</div>
 							<div class="form-group">
-							  	<label for="inputEmail3" class="control-label">Company contact no <span class="text-danger">*</span></label>
+							  	<label for="inputEmail3" class="control-label">Company Contact No.</label>
 								<input type="text" name="company_contact_no" value="" class="form-control company_contact_no" placeholder="Contact Number" autocomplete="off">
 							</div>
 						</div>
@@ -132,7 +132,7 @@
 							<textarea name="company_address" cols="10" rows="2" class="form-control" id="company_address" maxlength="100" placeholder="Company address"></textarea>
 						</div>
 						<div class="form-group">
-							<label class="form-control-label">Company contact no <span class="text-danger">*</span></label>
+							<label class="form-control-label">Company Contact No.</label>
 							<input type="text" name="company_contact_no" value="" class="form-control" id="company_contact_no" placeholder="Company contact no" autocomplete="off">
 						</div>
 					</div>

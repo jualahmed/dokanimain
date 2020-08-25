@@ -11,6 +11,10 @@ class Purchaselisting extends MY_Controller {
 		$this->is_logged_in();
 		$this->load->model('purchaselisting_model');
 		$this->load->model('report_model');
+		$this->load->model('company_model');
+		$this->load->model('category_model');
+		$this->load->model('unit_model');
+		$this->load->model('product_model');
 	}
 
 	public function is_logged_in()
@@ -26,6 +30,20 @@ class Purchaselisting extends MY_Controller {
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
 		$data['user_name'] = $this->tank_auth->get_username();
+		$data['user_type'] = $this->tank_auth->get_usertype();
+
+		// For Product create start
+		$data['sale_status'] = '';
+		$data['alarming_level'] = FALSE;
+		$data['status'] = '';
+		$data['user_name'] = $this->tank_auth->get_username();
+		$data['company'] = $this->company_model->all();
+		$data['catagory'] = $this->category_model->all();
+		$data['unit'] = $this->unit_model->all();
+		$data['product_specification'] = $this->product_model->product_specification();
+		$data['last_id'] = $this->product_model->getLastInserted();
+		// For Product create end
+
 		$data['vuejscomp'] = 'purchaselisting.js';
 		$this->__renderview('Purchase/purchaselisting',$data);
 	}
@@ -42,29 +60,32 @@ class Purchaselisting extends MY_Controller {
 		$unit_buy_price_purchase=$this->input->post('unit_buy_price_purchase');
 		$exclusive_sale_price=$this->input->post('exclusive_sale_price');
 		$general_sale_price=$this->input->post('general_sale_price');
-		$allworrantyproduct=$this->input->post('allworrantyproduct');
+		$allworrantyproduct = $this->input->post('allworrantyproduct');
 		$creator = $this->tank_auth->get_user_id();
 		// Bulk stoke info table
 		$this->db->where('product_id', $product_id);
-		$alddata=$this->db->get('bulk_stock_info')->row();
+		$alddata = $this->db->get('bulk_stock_info')->row();
 
 		$total_unit_buy_price=0;
-		$purchaseinfoma=Purchaseinfom::where('purchase_receipt_id',$purchase_receipt_id)->get();
+		$purchaseinfoma = Purchaseinfom::where('purchase_receipt_id',$purchase_receipt_id)->get();
 		foreach ($purchaseinfoma as $key => $value) {
-			$total_unit_buy_price+=($value->purchase_quantity*$value->unit_buy_price);
+			$total_unit_buy_price+=($value->purchase_quantity * $value->unit_buy_price);
 		}
-		$totalprice=Purchasereceiptinfom::find($purchase_receipt_id);
+		$totalprice = Purchasereceiptinfom::find($purchase_receipt_id);
 		$this->load->config('custom_config'); 
 		$allow_purchase_exceed = $this->config->item('allow_purchase_exceed');
-		if($allow_purchase_exceed==0 && ($total_unit_buy_price+$total_buy_price)>$totalprice->final_amount){
+		if($allow_purchase_exceed == 0 && ($total_unit_buy_price + $total_buy_price) > $totalprice->final_amount){
 			echo "exceed";
 		}else{
 			if($alddata){
-				$oldquantity=$alddata->stock_amount;
-				$totalquantity=$quantity+$oldquantity;
-				$unit_buy_price_purchase1=(($alddata->bulk_unit_buy_price*$oldquantity)+($unit_buy_price_purchase*$quantity))/($oldquantity+$quantity);
-				$exclusive_sale_price1=(($alddata->bulk_unit_sale_price*$oldquantity)+($exclusive_sale_price*$quantity))/($oldquantity+$quantity);
-				$general_unit_sale_price1=(($alddata->general_unit_sale_price*$oldquantity)+($general_sale_price*$quantity))/($oldquantity+$quantity);
+				$oldquantity = $alddata->stock_amount;
+				$totalquantity = $quantity + $oldquantity;
+				$unit_buy_price_purchase1 = (($alddata->bulk_unit_buy_price * $oldquantity) + 
+					($unit_buy_price_purchase * $quantity)) / $totalquantity;
+				$exclusive_sale_price1 = (($alddata->bulk_unit_sale_price * $oldquantity) + 
+					($exclusive_sale_price * $quantity)) / $totalquantity;
+				$general_unit_sale_price1 = (($alddata->general_unit_sale_price * $oldquantity) + 
+					($general_sale_price * $quantity)) / $totalquantity;
 				$object=[
 					'stock_amount'=>$totalquantity,
 					'bulk_unit_buy_price'=>$unit_buy_price_purchase1,
@@ -122,6 +143,60 @@ class Purchaselisting extends MY_Controller {
 			$this->db->join('product_info', 'product_info.product_id = purchase_info.product_id');
 			$alldata= $this->db->get('purchase_info')->result();
 		  	echo json_encode($alldata);
+		}
+	}
+
+	public function removePurchaseItem()
+	{
+		$purchase_id = $this->input->post('purchase_id');
+		$purchase = $this->purchaselisting_model->find($purchase_id);
+		$product = $this->product_model->find($purchase->product_id);
+		if ($product->has_serial_no) {
+			$this->db->where(array(
+				'product_id' => $purchase->product_id,
+				'purchase_receipt_id' => $purchase->purchase_receipt_id,
+			))->delete('warranty_product_list');
+		}
+
+		// Bulk stoke info table
+		$this->db->where('product_id', $purchase->product_id);
+		$productOldData = $this->db->get('bulk_stock_info')->row();
+		if($productOldData){
+			$quantity = $purchase->purchase_quantity;
+			$oldQuantity = $productOldData->stock_amount;
+			$totalQuantity = $oldQuantity - $quantity;
+			if ($totalQuantity == 0) {
+				$newBulkUnitBuyPrice = 0.00;
+				$newBulkUnitSalePrice = 0.00;
+				$newGeneralUnitPrice = 0.00;
+			} else {
+				$newBulkUnitBuyPrice = (($productOldData->bulk_unit_buy_price * $oldQuantity) - 
+					($purchase->unit_buy_price * $quantity)) / $totalQuantity ;
+				$newBulkUnitSalePrice = (($productOldData->bulk_unit_sale_price * $oldQuantity) - 
+					($purchase->bulk_unit_sale_price * $quantity)) / $totalQuantity;
+				$newGeneralUnitPrice = (($productOldData->general_unit_sale_price * $oldQuantity) - 
+					($purchase->general_unit_sale_price * $quantity)) / $totalQuantity;
+			}
+			$total_buy_price = $quantity * $newBulkUnitBuyPrice;
+			
+			
+			$object=[
+				'stock_amount' => $totalQuantity,
+				'bulk_unit_buy_price' => $newBulkUnitBuyPrice,
+				'bulk_unit_sale_price' => $newBulkUnitSalePrice,
+				'general_unit_sale_price' => $newGeneralUnitPrice,
+				'last_buy_price' => $total_buy_price
+			];
+			$this->db->where('bulk_id', $productOldData->bulk_id);
+			$this->db->update('bulk_stock_info',$object);
+
+			$result = $this->db->where('purchase_id', $purchase_id)->delete('purchase_info');
+			if ($result) {
+				echo json_encode(['success' => true]);
+			}
+			else {
+				echo json_encode(['success' => false]);
+			}
 		}
 	}
 

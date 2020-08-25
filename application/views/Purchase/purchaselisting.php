@@ -31,7 +31,13 @@
 			            				  :loading="isLoading" 
 			            				  :internal-search="true" 
 			            				  :clear-on-select="false" 
-			            				  :close-on-select="true" :options-limit="300" :limit="3" :limit-text="limitText" :max-height="600" :show-no-results="false" :hide-selected="false">
+			            				  :close-on-select="true" 
+										  :options-limit="300" 
+										  :limit="3" 
+										  :limit-text="limitText" 
+										  :max-height="600" 
+										  :show-no-results="false" 
+										  :hide-selected="false">
 										    <template slot="tag" slot-scope="{ option, remove }"><span class="custom__tag"><span>{{ option.product_name }} {{ option.receipt_id }}</span><span class="custom__remove" @click="remove(option)">❌</span></span></template>
 										     <template slot="option" slot-scope="props">
 										      <div class="option__desc">
@@ -133,13 +139,37 @@
 						
 						<div class="row">
 							<div class="col-sm-12">
-								<div>
-								  <multiselect v-model="selectedCountries" id="ajax" label="product_name" track-by="product_name" placeholder="search product by name" open-direction="bottom" :options="countries" :searchable="true" :loading="isLoading" :internal-search="false" :clear-on-select="false" :close-on-select="true" :options-limit="300" :limit="3" :limit-text="limitText" :max-height="600" :show-no-results="false" :hide-selected="false" @search-change="asyncFind" @select="selectaproduct">
-								    <template slot="tag" slot-scope="{ option, remove }"><span class="custom__tag"><span>{{ option.product_name }}</span><span class="custom__remove" @click="remove(option)">❌</span></span></template>
-								    <template slot="clear" slot-scope="props">
-								      <div class="multiselect__clear" v-if="selectedCountries && selectedCountries.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
-								    </template><span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
-								  </multiselect>
+								<div class="input-group input-group-md">
+									<multiselect 
+										v-model="selectedCountries" 
+										id="ajax" 
+										label="product_name" 
+										track-by="product_name" 
+										placeholder="type product name" 
+										open-direction="bottom" 
+										:options="countries" 
+										:searchable="true" 
+										:loading="isLoading" 
+										:internal-search="false" 
+										:clear-on-select="false" 
+										:close-on-select="true" 
+										:options-limit="300" 
+										:limit="3" 
+										:disabled="selected1 == ''"
+										:limit-text="limitText" 
+										:max-height="600" 
+										:show-no-results="false" 
+										:hide-selected="false" 
+										@search-change="asyncFind" 
+										@select="selectaproduct">
+										<template slot="tag" slot-scope="{ option, remove }"><span class="custom__tag"><span>{{ option.product_name }}</span><span class="custom__remove" @click="remove(option)">❌</span></span></template>
+										<template slot="clear" slot-scope="props">
+										<div class="multiselect__clear" v-if="selectedCountries && selectedCountries.length" @mousedown.prevent.stop="clearAll(props.search)"></div>
+										</template><span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+									</multiselect>	
+									<span class="input-group-btn">
+										<button type="button" data-toggle="modal" data-target="#productModel" class="btn btn-block btn-primary add_product"> <i class="fa fa-plus"></i></button>
+									</span>
 								</div>
 							</div>
 						</div>
@@ -208,7 +238,7 @@
 							<div class="box-footer" style="background: #0f77ab;">
 								<center>
 									<div class="col-sm-22">
-										<button v-if="(selectedCountries && (selectedCountries.product_warranty==0 || allworrantyproduct.length==quantity) && selected1 && selectedCountries.product_id && quantity && exclusive_sale_price && general_sale_price)" type="button" @click="submit" class="btn btn-success btn-sm" name="search_random" id="submit"><i class="fa fa-fw fa-save"></i> Create</button>
+										<button v-if="isReadyToCreate" type="button" @click="submit" class="btn btn-success btn-sm" name="search_random" id="submit"><i class="fa fa-fw fa-save"></i> Create</button>
 										<button v-else type="button" @click="submit" class="btn btn-success btn-sm" name="search_random" id="submit" disabled><i class="fa fa-fw fa-save"></i> Create</button>
 										<button type="reset" id="reset" class="btn btn-warning btn-sm"><i class="fa fa-fw fa-refresh"></i> Reset</button>
 										<button type="button" id="delete_purchase_invoice" class="btn btn-danger btn-sm"><i class="fa fa-close"></i> Delete</button>
@@ -243,26 +273,13 @@
 									<td style="width: 6%;">{{ p.purchase_id }}</td>
 									<td style="width: 35%;">{{ p.product_name }}</td>
 									<td style="text-align: center; width: 6%;">{{ p.purchase_quantity }}</td>
-									<td style="text-align: center;width: 10%;">{{ p.unit_buy_price }}</td>
-									<td style="text-align: center;width: 10%;">{{ p.purchase_quantity*p.unit_buy_price }}</td>
-									<td style="text-align: center;width: 6%;" v-if="p.product_specification==1">
-									<!-- Disable purchase listing product edit option. 
-									but not removed permanently, 
-									cause in future it will be added -->
-									  <!-- <i
-									  	data-toggle="modal" data-target="#edit_modal" 
-									    class="fa fa-fw fa-edit css_for_cursor"
-									    style="color: #db8b0b; "
-									    name="edit"
-									    title="Edit"
-									    :id="p.product_id"
-									    :purchase_id="p.purchase_id"
-									  ></i> -->
+									<td style="text-align: center;width: 10%;">{{ parseFloat(p.unit_buy_price).toFixed(2) }}</td>
+									<td style="text-align: center;width: 10%;">{{ parseFloat(p.purchase_quantity*p.unit_buy_price).toFixed(2) }}</td>
+									<td style="text-align: center;width: 6%;">
 									  <i
 									    class="fa fa-fw fa-remove css_for_cursor"
 									    style="color: red; "
-									    :id="p.product_id"
-									    :purchase_id="p.purchase_id"
+									    @click="removePurchaseItem(p.purchase_id)"
 									    name="remove"
 									    title="Remove"
 									  ></i>
@@ -274,7 +291,7 @@
 									<td style="width: 35%;text-align: right;">Total</td>
 									<td style="width: 6%;text-align: center;">{{ totalqty }}</td>
 									<td style="text-align: center; width: 10%;"></td>
-									<td style="text-align: center;width: 10%;">{{ tunit_buy_price }}</td>
+									<td style="text-align: center;width: 10%;">{{ parseFloat(tunit_buy_price).toFixed(2) }}</td>
 									<td style="text-align: center; width: 7%;" ></td>
 								</tr>	
 							</table>
@@ -282,66 +299,347 @@
 		            </div>
 		        </div>
 	      	</div>
-			
- 				<div class="modal" id="edit_modal">
-		          <div class="modal-dialog modal-lg" style="width: 60%;">
-		          	<div class="modal-content">
-						<form id="edit_modal_form" class="form-horizontal">
-							<div class="modal-content">
-								<div class="modal-header">
+			<!-- Modal -->
+			<div class="modal fade" id="productModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<form id="product_form" autocomplete="off" action="<?php echo base_url();?>product/create" method="post" class="form-horizontal" enctype="multipart/form-data">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+						<div class="modal-header">
+							<div class="row">
+								<div class="col-md-6">
+									<h3 class="modal-title" id="exampleModalLabel">Create a new Product</h3>
+								</div>
+								<div class="col-md-6">
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span></button>
-									<h4 class="modal-title">
-										<span class="glyphicon glyphicon-edit" style="color: #db8b0b;"></span>
-										Edit
-									</h4>
+									<span aria-hidden="true">&times;</span>
+									</button>
 								</div>
-								<div class="modal-body">
-									<input type="hidden" class="form-control" name="purchase_id" id="purchase_id" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
-									<table class="table table-bordered serial_qnt_price" >
-										<tr>
-											<td style="vertical-align: middle;font-weight: bold;">Quantity: </td>
-											<td>
-												<input type="text" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
-											</td>
-										</tr>
-										<tr>
-											<td style="vertical-align: middle;font-weight: bold;">Total Buy Price: </td>
-											<td>
-												<input type="text" oninput="calculate(this.value)" class="form-control" id="total_buy_price" name="total_buy_price" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-											</td>
-										</tr>
-										<tr>
-											<td style="vertical-align: middle;font-weight: bold;">Unit Buy Price: </td>
-											<td>
-												<input type="text" class="form-control" id="u_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-											</td>
-										</tr>
-										<tr>
-											<td style="vertical-align: middle;font-weight: bold;"> General Sale Price: </td>
-											<td>
-												<input type="text" class="form-control" id="g_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-											</td>
-										</tr>
-										<tr>
-											<td style="vertical-align: middle;font-weight: bold;">Exclusive Sale Price: </td>
-											<td>
-												<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-											</td>
-										</tr>
-									</table>
+							</div>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<label for="inputEmail3" class="col-sm-2 control-label">Catagory Name 
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<div class="input-group input-group-md catagory_id">
+										<select name="catagory_id" class="form-control">
+											<option value="">Select a Catagory</option>
+											<?php foreach ($catagory as $value) { ?>
+												<option value="<?php echo $value->catagory_id ?>"><?php echo $value->catagory_name ?></option>
+											<?php } ?>
+										</select>
+										<span class="input-group-btn">
+											<button type="button" data-toggle="modal" data-target="#cModel" class="btn btn-block btn-primary add_unit"> <i class="fa fa-plus"></i></button>
+										</span>
+									</div>
 								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-									<input type="submit" class="btn btn-info" id="save_change" value="Save">
+
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Name <span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<input type="text" name="product_name" onkeypress="edValueKeyPress()" class="form-control product_name" id="edValue">
 								</div>
+							</div>
+							<br>
+							<div class="row">
+								<label for="inputEmail3" class="col-sm-2 control-label">Company Name <span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<div class="input-group input-group-md company_id">
+										<select name="company_id" id="" class="form-control">
+											<option value="">Select a Company</option>
+											<?php foreach ($company as $value) { ?>
+												<option value="<?php echo $value->company_id ?>"><?php echo $value->company_name ?></option>
+											<?php } ?>
+										</select>
+										<span class="input-group-btn">
+											<button type="button" data-toggle="modal" data-target="#comModel" class="btn btn-block btn-primary add_unit"> <i class="fa fa-plus"></i></button>
+										</span>
+									</div>
 								</div>
-								<!-- modal-content -->
-							</form>  
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Model</label>
+								<div class="col-sm-4">
+									<input type="text" name="product_model" value="" placeholder="N/A" id="nine" autocomplete="off" class="form-control product_model has-success">
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<label for="inputEmail3" class="col-sm-2 control-label">Unit Name <span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<div class="input-group input-group-md unit_id">
+										<select name="unit_id" id="" class="form-control">
+											<option value="">Select a Unit</option>
+											<?php foreach ($unit as $value) { ?>
+												<option value="<?php echo $value->unit_id ?>"><?php echo $value->unit_name ?></option>
+											<?php } ?>
+										</select>
+										<span class="input-group-btn">
+											<button type="button" data-toggle="modal" data-target="#unitModel" class="btn btn-block btn-primary add_unit"> <i class="fa fa-plus"></i></button>
+										</span>
+									</div>
+								</div>
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Barcode<span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<div class="input-group input-group-md">
+										<?php 
+											$data = $last_id['product_id'];
+											echo form_input('barcode', $data, 'class= "form-control barcode_id barcode"   placeholder="'.$data.'" id="eight" autocomplete="off"');	
+											
+										?>
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-block btn-primary clear_barcode">Clear</button>
+										</span>
+									</div>
+								</div>
+								<input type="hidden" name="barcode`" value="<?php echo $data ?>" class="barcode_id1">
+							</div>
+							<br>
+							<div class="row">
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Size</label>
+								<div class="col-sm-4">
+									<?php 
+										echo form_input('product_size', '','class ="form-control product_size" placeholder="Product Size" id="seven" autocomplete="off"');
+									?>
+								</div>
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Image</label>
+								<div class="col-md-4">
+									<input type="file" placeholder="Profile" id="file" name="file" class="form-control">
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<label for="inputEmail3" class="col-sm-2 control-label">Alarm Level</label>
+								<div class="col-sm-4">
+									<?php 	
+										echo form_input('alarming_stock', '0', 'class= "form-control" id="six" autocomplete="off"');
+									?>
+								</div>
+								<label for="inputEmail3" class="col-sm-2 control-label">Genral / Warranty </label>
+								<div class="col-sm-4">
+									<select class="select2 form-control" name="product_specification" required="on" id="product_specification">
+										<option value="">Select Type</option>
+										<option value="1" selected>General</option>
+										<option value="2">Warranty</option>
+									</select>
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<label for="inputEmail3" class="col-sm-2 control-label war_peri" style="display:none;">Warranty Period(In Month)</label>
+								<div class="col-sm-4 war_peri" style="display:none;">
+									<input type="number" name="product_warranty" class="form-control" placeholder="N/A" id="nine" autocomplete="off">
+								</div>
+								<label for="inputEmail3" class="col-sm-2 control-label war_peri" style="display:none;">Has Serial No.</label>
+								<label class="col-sm-4 checkbox-inline serial_checkbox" style="padding-left: 35px;display:none;">
+									<input id="has_serial_no" name="has_serial_no" type="checkbox">Yes
+								</label>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-success" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
+							<button type="reset" id="reset_btn" class="btn btn-warning"><i class="fa fa-fw fa-refresh"></i> Reset</button>
+						</div>
+						</div>
 					</div>
-		          </div>
-		          <!-- modal-dialog -->
-		        </div>
+				</form>
+			</div>
+			<!-- Product Category Modal -->
+			<div class="modal fade" id="cModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<form id="categoryinsertformproduct" autocomplete="off" action="<?php echo base_url();?>category/create" method="post" class="form-horizontal">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+						<div class="modal-header">
+							<div class="row">
+								<div class="col-md-6">
+									<h3 class="modal-title" id="exampleModalLabel">Create a new Category</h3>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="modal-body">
+							<div class="box-body">
+								<div class="form-group">
+									<label class="form-control-label">Category Name <span class="text-danger">*</span></label>
+									<input type="text" name="catagory_name" value="" class="form-control" id="catagory_name" placeholder="Category Name" autocomplete="off">
+								</div>
+								<div class="form-group">
+									<label class="form-control-label">Category Description</label>
+									<textarea name="catagory_description" cols="10" rows="2" id="catagory_description" class="form-control" maxlength="100" placeholder="Category Description"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-success" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
+							<button type="reset" id="reset_btn" class="btn btn-warning"><i class="fa fa-fw fa-refresh"></i> Reset</button>
+						</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- Product company -->
+			<div class="modal fade" id="comModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<form id="conpamyinsertformproduct" autocomplete="off" action="<?php echo base_url();?>company/create" method="post" class="form-horizontal">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+						<div class="modal-header">
+							<div class="row">
+								<div class="col-md-6">
+									<h3 class="modal-title" id="exampleModalLabel">Create a new Company</h3>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="modal-body">
+							<div class="box-body">
+								<div class="box-body">
+									<div class="row">
+										<div class="col-md-6 left">
+											<div class="form-group">
+											<label for="inputEmail3" class="control-label">Name <span class="text-danger">*</span></label>
+												<input type="text" name="company_name" value="" class="form-control company_name" placeholder="Company Name" autocomplete="off">
+											</div>
+											<div class="form-group">
+												<label for="inputEmail3" class="control-label">Number </label>
+												<input type="text" name="company_contact_no" value="" class="form-control company_contact_no" placeholder="Contact Number" autocomplete="off">
+											</div>
+											<div class="form-group">
+												<label for="inputEmail3" class="control-label">Email</label>
+												<input type="text" name="company_email" value="" class="form-control company_email text-lowercase" placeholder="Email Address" autocomplete="off">
+											</div>
+										</div>
+										<div class="col-md-6 right">
+											<div class="form-group">
+												<label for="inputEmail3" class="control-label">Address</label>
+												<textarea name="company_address" cols="10" rows="1" class="form-control company_address" maxlength="300" placeholder="Company Address"></textarea>
+											</div>
+											<div class="form-group">
+												<label for="inputEmail3" class="control-label">Description </label>
+												<textarea name="company_description" cols="10" rows="1" class="form-control company_description" maxlength="300" placeholder="Company Description"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-success" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
+							<button type="reset" id="reset_btn" class="btn btn-warning"><i class="fa fa-fw fa-refresh"></i> Reset</button>
+						</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- Product Unit -->
+			<div class="modal fade" id="unitModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<form id="unit" autocomplete="off" action="<?php echo base_url();?>unit/create" method="post" class="form-horizontal">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+						<div class="modal-header">
+							<div class="row">
+								<div class="col-md-6">
+									<h3 class="modal-title" id="exampleModalLabel">Create a new unit</h3>
+								</div>
+								<div class="col-md-6">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="modal-body">
+							<div class="box-body">
+								<div class="box-body">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+											<label for="inputEmail3" class="control-label">Name <span class="text-danger">*</span></label>
+											<input type="text" name="unit_name" value="" class="form-control unit_name" placeholder="Unit Name" autocomplete="off">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-success" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
+							<button type="reset" id="reset_btn" class="btn btn-warning"><i class="fa fa-fw fa-refresh"></i> Reset</button>
+						</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			<div class="modal" id="edit_modal">
+				<div class="modal-dialog modal-lg" style="width: 60%;">
+				<div class="modal-content">
+					<form id="edit_modal_form" class="form-horizontal">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">
+									<span class="glyphicon glyphicon-edit" style="color: #db8b0b;"></span>
+									Edit
+								</h4>
+							</div>
+							<div class="modal-body">
+								<input type="hidden" class="form-control" name="purchase_id" id="purchase_id" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+								<table class="table table-bordered serial_qnt_price" >
+									<tr>
+										<td style="vertical-align: middle;font-weight: bold;">Quantity: </td>
+										<td>
+											<input type="text" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+										</td>
+									</tr>
+									<tr>
+										<td style="vertical-align: middle;font-weight: bold;">Total Buy Price: </td>
+										<td>
+											<input type="text" oninput="calculate(this.value)" class="form-control" id="total_buy_price" name="total_buy_price" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+										</td>
+									</tr>
+									<tr>
+										<td style="vertical-align: middle;font-weight: bold;">Unit Buy Price: </td>
+										<td>
+											<input type="text" class="form-control" id="u_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+										</td>
+									</tr>
+									<tr>
+										<td style="vertical-align: middle;font-weight: bold;"> General Sale Price: </td>
+										<td>
+											<input type="text" class="form-control" id="g_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+										</td>
+									</tr>
+									<tr>
+										<td style="vertical-align: middle;font-weight: bold;">Exclusive Sale Price: </td>
+										<td>
+											<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+								<input type="submit" class="btn btn-info" id="save_change" value="Save">
+							</div>
+							</div>
+							<!-- modal-content -->
+						</form>  
+				</div>
+				</div>
+				<!-- modal-dialog -->
+
+			</div>
 	    </div>
     </section>
 </div>

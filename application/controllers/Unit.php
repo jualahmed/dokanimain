@@ -39,7 +39,11 @@ class Unit extends MY_Controller {
 	      array(
 	        'field' => 'unit_name',
 	        'label' => 'unit_name',
-	        'rules' => 'required|is_unique[unit_info.unit_name]'
+			'rules' => 'required|is_unique[unit_info.unit_name]',
+			'errors' => array(
+				'required' => 'Unit name is required',
+				'is_unique' => 'This name is already exists'
+			)
 	      )
 	    );
 
@@ -114,7 +118,10 @@ class Unit extends MY_Controller {
 	      array(
 	        'field' => 'unit_name',
 	        'label' => 'unit_name',
-	        'rules' => 'required'
+			'rules' => 'required',
+			'errors' => array(
+				'required' => 'Unit name is required',
+			)
 	      )
 	    );
 	    $unit_id=$this->input->post('unit_id');
