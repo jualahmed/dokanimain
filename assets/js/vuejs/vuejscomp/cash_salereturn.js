@@ -94,25 +94,34 @@ $(document).ready(function()
 			window.open(submiturl,'_self');
 		}
 	});
-	$("#product_id").select2({
-		ajax: {
-			url: `${base_url}product/search_by_name`,
-			type: 'POST',
-			dataType: 'JSON',
-			data: function (params) {
-				return {
-					query: params.term
-				};
-			},
-			processResults: function (response) {
-				return {
-					results: response
-				};
-			},
-			cache: true
-		},
-		allowClear: true
+	
+	initProduct(`${base_url}product/search_by_name`);
+	$("#invoice_id").change(function () {
+		var invoice_id = $("#invoice_id").val();
+		var url = `${base_url}product/search_by_invoice/${invoice_id}`;
+		initProduct(url);
 	});
+	function initProduct(url) {
+		$("#product_id").select2({
+			ajax: {
+				url: url,
+				type: 'POST',
+				dataType: 'JSON',
+				data: function (params) {
+					return {
+						query: params.term
+					};
+				},
+				processResults: function (response) {
+					return {
+						results: response
+					};
+				},
+				cache: true
+			},
+			allowClear: true
+		});
+	}
 	$("#product_id").on("change",function()
 	{
 		var product_id = $(this).val();

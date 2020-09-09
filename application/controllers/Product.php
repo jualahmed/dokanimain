@@ -328,6 +328,43 @@ class Product extends MY_Controller {
 		echo json_encode($format);
 	}
 
+	public function search_by_distributor($distributor_id = '')
+	{
+		$query=$this->input->post('query');
+		$this->db->distinct()->select('product_info.*')->from('purchase_receipt_info');
+		$this->db->join('purchase_info', 'purchase_info.purchase_receipt_id=purchase_receipt_info.receipt_id', 'left');
+		$this->db->join('product_info', 'product_info.product_id=purchase_info.product_id', 'left');
+		$this->db->where('purchase_receipt_info.distributor_id', $distributor_id);
+		if(!empty($query)) $this->db->like('product_info.product_name', $query);
+		$this->db->order_by('product_info.product_name', 'asc');
+		$this->db->limit(100);
+		$data = $this->db->get()->result();
+		$format = array();
+		foreach ($data as $key => $product) {
+			$format[$key]['id'] = $product->product_id;
+			$format[$key]['text'] = $product->product_name;
+		}
+		echo json_encode($format);
+	}
+
+	public function search_by_invoice($invoice_id = '')
+	{
+		$query=$this->input->post('query');
+		$this->db->distinct()->select('product_info.*')->from('sale_details');
+		$this->db->join('product_info', 'product_info.product_id=sale_details.product_id', 'left');
+		$this->db->where('sale_details.invoice_id', $invoice_id);
+		if(!empty($query)) $this->db->like('product_info.product_name', $query);
+		$this->db->order_by('product_info.product_name', 'asc');
+		$this->db->limit(100);
+		$data = $this->db->get()->result();
+		$format = array();
+		foreach ($data as $key => $product) {
+			$format[$key]['id'] = $product->product_id;
+			$format[$key]['text'] = $product->product_name;
+		}
+		echo json_encode($format);
+	}
+
 	public function search_product(){
         $product_name			= $this->input->post('term');
 		$data 	= true;

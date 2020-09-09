@@ -882,78 +882,87 @@ function quick(e)
 			var payable         = parseFloat($('#payable').val());
 			var return_id       = $('#hid_return_id').val();
 			var discount_limit  = $('#discount_limit').val();
-			
+
+			var is_valid = true;
+			var message = '';
+			console.log(customer_id);
 			if(disc_amount > total && discount_limit==0)
 			{
-				swal(
-					'Oops...!',
-					'Discount Amount is Greater Than Total Amount!',
-					'warning'
-				  );
+				message = 'Discount Amount is Greater Than Total Amount!';
+				is_valid = false;
 			}
-			else
-			{
-				if(sub_total != '' && total != '')
-				{
-					$.ajax({
-						url: base_url+'sale/doSale',
-						type: "POST",
-						cache: false,
-						async: false,
-						data: { 
-							sub_total       : sub_total, 
-							total_          : total, 
-							customer_id     : customer_id, 
-							disc_in_p       : disc_in_p, 
-							disc_in_f       : disc_in_f,
-							disc_amount     : disc_amount,
-							received        : received,
-							delivery_charge : delivery_charge,
-							change          : change,
-							customer_name   : customer_name,
-							customer_phn    : customer_phn,
-							return_adjust   : return_adjust,
-							payable   		: payable,
-							return_id   	: return_id,
-							flg             : 1             /// for quick sale it is 1.
-						},
-						success:function(result)
-						{
-							//alert(result);
-							$('#sub_total').val("");
-							$('#vat').val("");
-							$('#disc_in_p').val("");
-							$('#disc_in_f').val("");
-							$('#disc_amount').val("");
-							$('#total').val("");
-							$('#received').val("");
-							$('#delivery_charge').val("");
-							$('#change').val("");
-							$('#number_of_products').val("");
-							$('#select_customer').val("");
-							$('#customer_name').val("");
-							$('#customer_phone').val("");
-							$('#inword').val("");
-							$('#return_id').val("");
-							$("#selected_products").empty();
-							$("#sale_return_list").empty();
-							
-							location.reload(); 
-							$('#search_by_product_name').focus();
-							window.open(base_url+"invoice/index/" + result, '_blank');          
-						}  
-					});
-						
-				}
+			if (sub_total == '') {
+				is_valid = false;
+				message = 'Sub-total should not be empty';
+			}
+			if (received < total) {
+				is_valid = false;
+				message = 'Received amount must be greater then or equal to total price';
+			}
+			if (total == '') {
+				is_valid = false;
+				message = 'Total price should not be empty';
+			}
 			
-				else 
-				{
-				  swal(
-					'Oops...!',
-					'Data Missing!',
-					'warning'
-				  );
-				}
+			if(is_valid)
+			{
+				$.ajax({
+					url: base_url+'sale/doSale',
+					type: "POST",
+					cache: false,
+					async: false,
+					data: { 
+						sub_total       : sub_total, 
+						total_          : total, 
+						customer_id     : customer_id, 
+						disc_in_p       : disc_in_p, 
+						disc_in_f       : disc_in_f,
+						disc_amount     : disc_amount,
+						received        : received,
+						delivery_charge : delivery_charge,
+						change          : change,
+						customer_name   : customer_name,
+						customer_phn    : customer_phn,
+						return_adjust   : return_adjust,
+						payable   		: payable,
+						return_id   	: return_id,
+						flg             : 1             /// for quick sale it is 1.
+					},
+					success:function(result)
+					{
+						//alert(result);
+						$('#sub_total').val("");
+						$('#vat').val("");
+						$('#disc_in_p').val("");
+						$('#disc_in_f').val("");
+						$('#disc_amount').val("");
+						$('#total').val("");
+						$('#received').val("");
+						$('#delivery_charge').val("");
+						$('#change').val("");
+						$('#number_of_products').val("");
+						$('#select_customer').val("");
+						$('#customer_name').val("");
+						$('#customer_phone').val("");
+						$('#inword').val("");
+						$('#return_id').val("");
+						$("#selected_products").empty();
+						$("#sale_return_list").empty();
+						
+						location.reload(); 
+						$('#search_by_product_name').focus();
+						window.open(base_url+"invoice/index/" + result, '_blank');          
+					}  
+				});
+					
+			}
+			else 
+			{
+				swal(
+				'Oops...!',
+				message,
+				'warning'
+				);
 			}
 		})
     }
@@ -987,7 +996,7 @@ $('#credit_sale').on('click', function(e){
 			var vat             = $('#vat').val();
 			var total           = parseFloat($('#total').val());
 			var received        = $('#received').val();
-			var customer_id     = $('#selected_customer_id').val();
+			var customer_id     = $('#select_customer').val();
 			var disc_in_p       = $('#disc_in_p').val();
 			var disc_in_f       = $('#disc_in_f').val();
 			var disc_amount     = parseFloat($('#disc_amount').val());
@@ -998,73 +1007,82 @@ $('#credit_sale').on('click', function(e){
 			var change          = $('#change').val();
 			var payable         = $('#payable').val();
 			var return_id       = $('#hid_return_id').val();
+
+			var is_valid = true;
+			var message = '';
+			console.log(customer_id);
 			if(disc_amount > total)
 			{
+				message = 'Discount Amount is Greater Than Total Amount!';
+				is_valid = false;
+			}
+			if (sub_total == '') {
+				is_valid = false;
+				message = 'Sub-total should not be empty';
+			}
+			if (customer_id == '') {
+				is_valid = false;
+				message = 'Please select a customer';
+			}
+			if (total == '') {
+				is_valid = false;
+				message = 'Total price should not be empty';
+			}
+
+			if (is_valid) {
+				$.ajax({
+					url: base_url+'sale/doSale_credit',
+					type: "POST",
+					cache: false,
+					async: false,
+					data: { 
+						sub_total       : sub_total, 
+						total_          : total, 
+						customer_id     : customer_id, 
+						disc_in_p       : disc_in_p, 
+						disc_in_f       : disc_in_f,
+						disc_amount     : disc_amount,
+						received        : received,
+						delivery_charge : delivery_charge,
+						change          : change,
+						customer_name   : customer_name,
+						customer_phn    : customer_phn,
+						return_adjust   : return_adjust,
+						payable   		: payable,
+						return_id   	: return_id,
+						flg             : 1             /// for quick sale it is 1.
+					},
+					success:function(result)
+					{
+						$('#sub_total').val("");
+						$('#vat').val("");
+						$('#disc_in_p').val("");
+						$('#disc_in_f').val("");
+						$('#disc_amount').val("");
+						$('#total').val("");
+						$('#received').val("");
+						$('#delivery_charge').val("");
+						$('#change').val("");
+						$('#number_of_products').val("");
+						$('#select_customer').val("");
+						$('#customer_name').val("");
+						$('#customer_phone').val("");
+						$('#inword').val("");
+						$('#return_id').val("");
+						$("#selected_products").empty();
+						$("#sale_return_list").empty();
+						
+						location.reload(); 
+						$('#search_by_product_name').focus();
+						window.open(base_url+"invoice/index/" + result, '_blank');          
+					}  
+				});
+			} else {
 				swal(
 					'Oops...!',
-					'Discount Amount is Greater Than Total Amount!',
+					message,
 					'warning'
 				  );
-			}
-			else
-			{
-				if(sub_total != '' && total != '' && customer_id!='')
-				{
-					$.ajax({
-						url: base_url+'sale/doSale_credit',
-						type: "POST",
-						cache: false,
-						async: false,
-						data: { 
-							sub_total       : sub_total, 
-							total_          : total, 
-							customer_id     : customer_id, 
-							disc_in_p       : disc_in_p, 
-							disc_in_f       : disc_in_f,
-							disc_amount     : disc_amount,
-							received        : received,
-							delivery_charge : delivery_charge,
-							change          : change,
-							customer_name   : customer_name,
-							customer_phn    : customer_phn,
-							return_adjust   : return_adjust,
-							payable   		: payable,
-							return_id   	: return_id,
-							flg             : 1             /// for quick sale it is 1.
-						},
-						success:function(result)
-						{
-							$('#sub_total').val("");
-							$('#vat').val("");
-							$('#disc_in_p').val("");
-							$('#disc_in_f').val("");
-							$('#disc_amount').val("");
-							$('#total').val("");
-							$('#received').val("");
-							$('#delivery_charge').val("");
-							$('#change').val("");
-							$('#number_of_products').val("");
-							$('#select_customer').val("");
-							$('#customer_name').val("");
-							$('#customer_phone').val("");
-							$('#inword').val("");
-							$('#return_id').val("");
-							$("#selected_products").empty();
-							$("#sale_return_list").empty();
-							
-							location.reload(); 
-							$('#search_by_product_name').focus();
-							window.open(base_url+"invoice/index/" + result, '_blank');          
-						}  
-					});
-				}
-				else {
-				  swal(
-					'Oops...!',
-					'Data Missing!',
-					'warning'
-				  );
-				}
 			}
 		})
     }
@@ -1881,9 +1899,9 @@ function quotation()
 							$("#selected_products").empty();
 							$("#sale_return_list").empty();
 							
-							location.reload(); 
 							$('#search_by_product_name').focus();
-							window.open(base_url+"sale/printQuotation/" + result, '_blank');          
+							window.open(base_url+"sale/printQuotation/" + result, '_blank');  
+							location.reload(); 
 						}  
 					});
 						

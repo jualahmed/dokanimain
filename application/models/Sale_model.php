@@ -985,11 +985,9 @@ class Sale_model extends CI_model{
         $this->db->where('temp_sale_id', $currrent_temp_sale_id);
         $this->db->delete('temp_sale_info');
 		
-		$data = array
-		(
-		
-		'invoice_id' =>0,
-		'status' =>1,
+		$data = array(
+			'invoice_id' =>0,
+			'status' =>1,
 		);
 		$this->db->where('invoice_id', $currrent_temp_sale_id);
 		$this->db->where('status', 2);

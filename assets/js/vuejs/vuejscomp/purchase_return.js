@@ -8,9 +8,18 @@ $(document).ready(function()
 		var submiturl 	= base_url+'purchase/purchase_return/'+distributor_id;
 		window.open(submiturl,'_self');
 	});
+	var currentUrl = window.location.href;
+	var params = currentUrl.split('/');
+	var distributor_id = '';
+	if(params.length == 7) {
+		distributor_id = params[params.length - 1];
+	} 
+	else if (params.length == 8) {
+		distributor_id = params[params.length - 2];
+	}
 	$("#product_id").select2({
 		ajax: {
-			url: `${base_url}product/search_by_name`,
+			url: `${base_url}product/search_by_distributor/${distributor_id}`,
 			type: 'POST',
 			dataType: 'JSON',
 			data: function (params) {

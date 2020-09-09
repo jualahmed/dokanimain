@@ -50,14 +50,14 @@
 						<div>
 							<table class="table table-bordered table_1">
 								<tr>
-									<td style="width: 25%; text-align: right;">Quotation ID:</td>
-									<td style="width: 25%; text-align: center;"></td>
+									<td style="width: 25%; text-align: right;">Quotation ID: </td>
+									<td style="width: 25%; text-align: center;"><?php echo $quotation->quotation_id; ?></td>
 									<td style="width: 25%; text-align: right;">Date:</td>
 									<td style="width: 25%; text-align: center;"><?php echo date('d-m-Y', strtotime($quotation->created_at)); ?></td>
 								</tr>
 								<tr>
-									<td style="text-align: right;">Customer ID: </td>
-									<td style="text-align: center;"><?php echo $quotation->customer_id; ?></td>
+									<td></td>
+									<td></td>
 									<td style="text-align: right;">Creator:</td>
 									<td style="text-align: center;"><?php echo $creator; ?></td>
 								</tr>

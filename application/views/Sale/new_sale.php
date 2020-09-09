@@ -151,7 +151,7 @@
 								?>
 								<input type="hidden" id="selected_customer_id" value="<?php echo $customer_id;?>">
 								<select id="select_customer" class="form-control customer_name">
-									<option>Select Customer</option>
+									<option value="">Select Customer</option>
 									<option value="<?php echo $customer_id;?>" selected><?php echo $customer_id;?>. <?php echo $customer_name;?> (<?php echo $customer_contact_no;?>)</option>
 									<?php
 									foreach ($customer_info as $tmp)
@@ -171,7 +171,7 @@
 								 <input type="hidden" id="selected_customer_id">
 								 <div style="display: flex;">
 									<select name="customer_name" id="select_customer" class="form-control customer_name" style="width:92%;">
-										<option>Select Customer</option>
+										<option value="">Select Customer</option>
 										<?php
 										foreach ($customer_info as $tmp)
 										{

@@ -57,50 +57,49 @@ class Sale extends MY_Controller
 			$data 	= $this->sale_model->search_product($key);
 			$info=[];
 			if(count($data)>0){
-			foreach($data as $tmp){
-				if($tmp->stock_amount == '')$stock = 0;
-				else $stock = $tmp->stock_amount;
+				foreach($data as $tmp){
+					if($tmp->stock_amount == '')$stock = 0;
+					else $stock = $tmp->stock_amount;
+					$info[] = array(
+						'id' 						=> $tmp->product_id,
+						'product_name' 				=> $tmp->product_name,
+						'product_size' 				=> $tmp->product_size,
+						'product_model' 			=> $tmp->product_model,
+						'mrp_price' 				=> $tmp->bulk_unit_sale_price,
+						'sale_price' 				=> $tmp->general_unit_sale_price,
+						'buy_price' 				=> $tmp->bulk_unit_buy_price,
+						'stock' 					=> $stock,
+						'generic_name' 				=> $tmp->group_name,
+						'barcode' 					=> $tmp->barcode,
+						'product_specification' 	=> $tmp->product_specification,
+						'temp_pro_data' 			=> $tmp->product_id . '<>' . 
+														$tmp->product_name . '<>' .
+														$tmp->stock_amount . '<>' .
+														$tmp->general_unit_sale_price . '<>' .
+														$tmp->bulk_unit_buy_price . '<>' .
+														$tmp->product_specification
+					);
+				}
+			}
+			else{
 				$info[] = array(
-					'id' 						=> $tmp->product_id,
-					'product_name' 				=> $tmp->product_name,
-					'product_size' 				=> $tmp->product_size,
-					'product_model' 			=> $tmp->product_model,
-					'mrp_price' 				=> $tmp->bulk_unit_sale_price,
-					'sale_price' 				=> $tmp->general_unit_sale_price,
-					'buy_price' 				=> $tmp->bulk_unit_buy_price,
-					'stock' 					=> $stock,
-					'generic_name' 				=> $tmp->group_name,
-					'barcode' 					=> $tmp->barcode,
-					'product_specification' 	=> $tmp->product_specification,
-					'temp_pro_data' 			=> $tmp->product_id . '<>' . 
-													 $tmp->product_name . '<>' .
-													 $tmp->stock_amount . '<>' .
-													 $tmp->general_unit_sale_price . '<>' .
-													 $tmp->bulk_unit_buy_price . '<>' .
-													 $tmp->product_specification
+					'id' 						=> '',
+					'product_name' 				=> 'Nothing Found',
+					'company_name' 				=> '',
+					'product_model' 			=> '',
+					'mrp_price' 				=> '',
+					'product_size' 				=> '',
+					'sale_price' 				=> '',
+					'buy_price' 				=> '',
+					'stock' 					=> '',
+					'generic_name' 				=> '',
+					'barcode' 					=> '',
+					'product_specification' 	=> '',
+					'temp_pro_data' 			=> ''
 				);
 			}
+			echo json_encode($info);
 		}
-		else{
-			$info[] = array(
-				'id' 						=> '',
-				'product_name' 				=> 'Nothing Found',
-				'company_name' 				=> '',
-				'product_model' 			=> '',
-				'mrp_price' 				=> '',
-				'product_size' 				=> '',
-				'sale_price' 				=> '',
-				'buy_price' 				=> '',
-				'stock' 					=> '',
-				'generic_name' 				=> '',
-				'barcode' 					=> '',
-				'product_specification' 	=> '',
-				'temp_pro_data' 			=> ''
-			);
-		}
-
-					echo json_encode($info);
-			}
 	}
 
 	public function search_product_warranty()
@@ -452,9 +451,9 @@ class Sale extends MY_Controller
 		{
 			$current_sale_id 	   		= $this->tank_auth->get_current_temp_sale();
 			$creator 			   		= $this->tank_auth->get_user_id();
-
+			
 			$datddd=$this->db->get('temp_sale_info')->result();
-			if(count($datddd)>1){
+			if(count($datddd) > 0){
 				$this->sale_model->cancelSale($current_sale_id, $creator);
 			}
 
