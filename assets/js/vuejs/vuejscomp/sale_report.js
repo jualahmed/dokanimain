@@ -26,12 +26,13 @@ new Vue({
 	methods:{
 		asyncFind (query) {
 			var self = this;
+			var invoice_id = self.invoice_id;
 		    this.isLoading = true
-			if(query.length>2){
+			if((query.length>2 && invoice_id == 0) || invoice_id != 0){
 				this.countries=[];
 				var self=this;
 				this.xhr = $.ajax({
-					url: this.base_url+'product/query/'+query,
+					url: this.base_url+'product/query/'+query+'/'+invoice_id,
 					beforeSend : function() {
 						if(self.xhr != 'ToCancelPrevReq' && self.xhr.readyState < 4) {
 							self.xhr.abort();

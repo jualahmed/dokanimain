@@ -282,7 +282,7 @@ class Report extends MY_controller
 	      $data['product_type'] = $this->product_model->product_type();
 	      $data['unit_name'] = $this->product_model->unit_name();
 	      $data['posts']= array();
-	      $data['reportdata']=$this->report_model->stock_details();
+	      $data['reportdata'] = $this->report_model->stock_details();
 	      $data['vuejscomp'] = 'stock_details.js';
 	      $this->__renderview('Report/stock_details', $data);
 	    }
@@ -300,7 +300,7 @@ class Report extends MY_controller
 
 	public function stock_details_print()
 	{
-	    $data['reportdata']=$this->report_model->stock_details();
+	    $data['reportdata'] = $this->report_model->stock_details();
 	    $this->__renderviewprint('Prints/report/stock_details', $data);
 	}
 
@@ -424,11 +424,11 @@ class Report extends MY_controller
 
 	public function all_quotation_report_find()
 	{
-		$data['quotation_id']= $this->input->post('quotation_id');
-		$data['seller_id']=$this->input->post('seller_id');
-		$data['customer_id']=$this->input->post('customer_id');
-		$data['start_date']=$this->input->post('start_date').' 00:00:00';
-		$data['end_date']=$this->input->post('end_date').' 23:59:59';
+		$data['quotation_id'] = $this->input->post('quotation_id');
+		$data['seller_id'] = $this->input->post('seller_id');
+		$data['customer_id'] = $this->input->post('customer_id');
+		$data['start_date'] = $this->input->post('start_date');
+		$data['end_date'] = $this->input->post('end_date');
 		$quotations = $this->report_model->get_quotation_info($data);
 		echo json_encode($quotations);
 	}

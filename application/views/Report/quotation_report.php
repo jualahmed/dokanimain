@@ -81,7 +81,7 @@
 				<tbody>
 					<tr v-for="(i,index) in alldata">
 						<td>{{ index+1 }}</td>
-						<td align="center">{{ i.sid }}</td>
+						<td align="center">{{ i.quotation_id }}</td>
 						<td>{{ formatDate(i.created_at) }}</td>
 						<td>{{ i.customer_name }}</td>
 						<td>{{ i.customer_contact_no }}</td>

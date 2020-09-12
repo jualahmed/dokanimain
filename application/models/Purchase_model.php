@@ -10,9 +10,8 @@ class Purchase_model extends CI_model
 		$this->bdDate = date ('Y-m-d');
 	}
 
-	public function create(array $data,$ddd)
+	public function create(array $data,$purchaseDate)
 	{	
-		$dd=$ddd;
 		$insert = $this->db->insert('purchase_receipt_info',$data);
 		$ref_id= $this->db->insert_id();
 		/* transport_cost is an expance */
@@ -36,7 +35,7 @@ class Purchase_model extends CI_model
 			   'ledger_id'         					=> 1,
 			   'common_id'         					=> $ref_id,
 			   'amount'     						=> $data['transport_cost'],
-			   'date'                   			=> $dd,
+			   'date'                   			=> $purchaseDate,
 			   'status'        						=> 'active',
 			   'creator'        					=> $data['receipt_creator'],
 			);
@@ -50,7 +49,7 @@ class Purchase_model extends CI_model
 		   'ledger_id'         					=> $data['distributor_id'],
 		   'common_id'         					=> $ref_id,
 		   'amount'     						=> $data['final_amount'],
-		   'date'                   			=> $dd,
+		   'date'                   			=> $purchaseDate,
 		   'status'        						=> 'active',
 		   'creator'        					=> $data['receipt_creator'],
 		);
@@ -64,7 +63,7 @@ class Purchase_model extends CI_model
 		$to_bank = $this->input->post('to_bank');
 		$cheque_no = $this->input->post('cheque_no');
 		$cheque_date = $this->input->post('cheque_date');
-		$bd_date=$dd;
+		$bd_date=$purchaseDate;
 		if($payment_mode !='')
 		{
 			if($payment_mode==1 && $payment_amount>0)

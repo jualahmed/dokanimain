@@ -1,46 +1,51 @@
- $("#lock22").autocomplete({
-      source    : function( request, response ) {
-        $.ajax( {
-          url       : base_url+"product/search_product",
-          dataType  : "json",
-          type      : "POST",
-          data      : { term: request.term, flag: 1},
-          success   : function( result ) { 
-              response( $.map(result, function(item){
-                return{
-                  id              : item.id,
-                  label           : item.product_name,
-                  company_name    : item.company_name,
-                  catagory_name   : item.catagory_name,
-                  sale_price      : item.sale_price,
-                  stock           : item.stock,
-                  generic_name    : item.generic_name,
-                  temp_pro_data   : item.temp_pro_data
-                }
-              }));
-            }
-          });
-          },
-          minLength     : 3,
-          select        : function (event, ui) {
-            var stock   = ui.item.stock;
-            if(stock == 0){
-                $('#lock22').val("");
-                alert("Stock unavailable");
-                $('#lock22').focus();
-            }
-            else{
-              $('#pro_id').val(ui.item.id);
-              $('#price').val(ui.item.sale_price);
-              $("#pro_name").val(ui.item.label);
-              $("#temp_pro_data").val(ui.item.temp_pro_data);
-              $("#temp_pro_qty").val(ui.item.stock);
-              $("#product_quantity").focus();
-            }
-                   
-            },
-
-          });
+$(function () {
+  $("#lock22").autocomplete({
+    source    : function( request, response ) {
+      $.ajax( {
+        url       : base_url+"product/search_product",
+        dataType  : "json",
+        type      : "POST",
+        data      : { term: request.term, flag: 1},
+        success   : function( result ) { 
+            response( $.map(result, function(item){
+              return{
+                id              : item.id,
+                label           : item.product_name,
+                company_name    : item.company_name,
+                catagory_name   : item.catagory_name,
+                sale_price      : item.sale_price,
+                stock           : item.stock,
+                generic_name    : item.generic_name,
+                temp_pro_data   : item.temp_pro_data
+              }
+          }));
+        }
+      });
+    },
+    minLength     : 3,
+    select        : function (event, ui) {
+      var stock   = ui.item.stock;
+      if(stock == 0){
+          $('#lock22').val("");
+          alert("Stock unavailable");
+          $('#lock22').focus();
+      }
+      else{
+        $('#pro_id').val(ui.item.id);
+        $('#price').val(ui.item.sale_price);
+        $("#pro_name").val(ui.item.label);
+        $("#temp_pro_data").val(ui.item.temp_pro_data);
+        $("#temp_pro_qty").val(ui.item.stock);
+        $("#product_quantity").focus();
+      }           
+    },
+  });
+  
+  $( "#lock22" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $(`<li style="border-bottom: 1px solid gray; hover: red;">` )
+    .append(`<div><span class="label_style">${item.label} </span><br><span> Stock : </span>${item.stock}<br> <span> Price : </span>${ parseFloat(item.sale_price * item.stock).toFixed(2) }</div>`).appendTo(ul);
+  };
+});
 
 $(document).ready(function() {
   $("#lock22").keyup(function(){

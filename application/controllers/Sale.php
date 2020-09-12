@@ -2,6 +2,7 @@
 	
 class Sale extends MY_Controller
 {
+	private $appInfo;
 	public function __construct()
 	{
 		parent::__construct();
@@ -9,8 +10,10 @@ class Sale extends MY_Controller
 		$this->load->model('sale_model');
 		$this->load->model('customer_model');
 		$this->load->model('bankcard_model');
+		$this->load->model('app_model');
 		$this->load->library('numbertoword');
 		$data['user_type'] = $this->tank_auth->get_usertype();
+		$this->appInfo = $this->app_model->getAppInfo();
 	}
 
 	public function is_logged_in() {
@@ -627,12 +630,15 @@ class Sale extends MY_Controller
 				$discount       = $discount_in_f;
 				$data['discount_type']  = 1;
 		}
+		$customer_id = $this->input->post('customer_id'); 
+		$customer_id = empty($customer_id) ? 1 : $customer_id;
+
 		$data['sub_total']      = (Float)$this->input->post('sub_total');                 // (included vat) 
 		$data['grand_total']    = (Float)$this->input->post('total_');
 		$data['cash_commission'] = (Float)$discount;
 		$data['disc_amount']    = (Float)$this->input->post('disc_amount');
 		$data['delivery_charge']= (Float)$this->input->post('delivery_charge');
-		$data['customer_id']= $this->input->post('customer_id');
+		$data['customer_id']= $customer_id;
 
 		$quotation_id = $this->sale_model->doQuotationInfoTask($data);
 
@@ -656,6 +662,7 @@ class Sale extends MY_Controller
 	public function printQuotation()
 	{	
 		$data['creator'] 	= $this->tank_auth->get_user_full_name();
+		$data['app_info'] = $this->appInfo;
 		$quotation_id = $this->uri->segment(3);
 		if($quotation_id)
 		{	

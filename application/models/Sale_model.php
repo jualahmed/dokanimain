@@ -223,7 +223,9 @@ class Sale_model extends CI_model{
 
 	public function fetchQuotationInfo($quotation_id)
 	{
-		return $this->db->select('*')
+		return $this->db->select('quotation_info.*, users.user_full_name, customer_info.customer_name')
+			->join('users', 'users.id=quotation_info.quotation_creator', 'left')
+			->join('customer_info', 'customer_info.customer_id=quotation_info.customer_id', 'left')
 			->from('quotation_info')
 			->where('quotation_id', $quotation_id)
 			->get()

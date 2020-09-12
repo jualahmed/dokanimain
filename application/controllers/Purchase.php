@@ -120,7 +120,7 @@ class Purchase extends MY_Controller
 	    );
 
 		$creator = $this->tank_auth->get_user_id();
-		$ffffffff=$this->input->post('receipt_date');
+		$receiptDate=$this->input->post('receipt_date');
 	    $this->form_validation->set_rules($rules);
 	    $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
 	    if ($this->form_validation->run() == TRUE) {
@@ -133,12 +133,12 @@ class Purchase extends MY_Controller
 	        'final_amount' => $this->input->post('final_amount'),
 	        'shop_id' 		=> $this->tank_auth->get_shop_id(), 
 	        'receipt_status' 	=> 'unpaid',
-			    'total_paid' 		=> $this->input->post('payment_amount'),
-	        'receipt_date	' => $ffffffff,
+			'total_paid' 		=> $this->input->post('payment_amount'),
+	        'receipt_date	' => $receiptDate,
 	        'receipt_creator' => $creator,
 	      );
 	      // $id = 4;
-	      $id = $this->purchase_model->create($data,$ffffffff);
+	      $id = $this->purchase_model->create($data,$receiptDate);
 	      $output = '';
 	      if ($id != -1) {
 	        $jsonData['data'] = $this->purchase_model->all($data);
@@ -250,7 +250,7 @@ class Purchase extends MY_Controller
 			$i=1;
 			foreach($ip_id as $ip)
 			{	
-				$this->db->set('stock_amount', 'stock_amount-'. 1, FALSE);
+				$this->db->set('stock_amount', 'stock_amount-1', FALSE);
 				$this->db->where('product_id', $pro_id);
 				$this->db->update('bulk_stock_info');
 
@@ -276,7 +276,7 @@ class Purchase extends MY_Controller
 					'dom' =>$bd_date
 				);
 				$this->db->insert('purchase_return_warranty_product', $warranty_data);
-				$this->db->set('return_quantity', 'return_quantity+' . 1, FALSE);
+				$this->db->set('return_quantity', 'return_quantity+1', FALSE);
 				$this->db->where('prmp_id', $insert_id);
 				$this->db->update('purchase_return_main_product');
 				$i++;	
@@ -285,7 +285,7 @@ class Purchase extends MY_Controller
 		}
 		else
 		{
-			$this->db->set('stock_amount', 'stock_amount-' . $return_amount, FALSE);
+			$this->db->set('stock_amount',  "stock_amount-$return_amount", FALSE);
 			$this->db->where('product_id', $pro_id);
 			$this->db->update('bulk_stock_info');
 			$main_data = array(

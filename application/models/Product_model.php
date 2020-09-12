@@ -56,15 +56,33 @@ class Product_model extends CI_model{
 		 return false;
 	}
 
-	public function search($query='')
+	public function search($query = '', $invoice_id = '')
 	{
-		return $this->db->query("SELECT * FROM product_info 
-		LEFT JOIN (
-			SELECT bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.product_id as pid 
-			FROM bulk_stock_info
-			) bulk_stock_info 
-		ON bulk_stock_info.pid = product_info.product_id 
-		WHERE (`product_name` RLIKE ' +$query') OR `product_name` LIKE '$query%' LIMIT 30;")->result();
+		if (empty($invoice_id)) {
+			return $this->db->query("SELECT * FROM product_info 
+			LEFT JOIN (
+				SELECT bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.product_id as pid 
+				FROM bulk_stock_info
+				) bulk_stock_info 
+			ON bulk_stock_info.pid = product_info.product_id 
+			WHERE (`product_name` RLIKE ' +$query') OR `product_name` LIKE '$query%' LIMIT 30;")->result();
+		}
+		$products = $this->db->select('product_id')
+			->from('sale_details')
+			->where('invoice_id', $invoice_id)
+			->get()
+			->result();
+		$productIds = array_map(function ($product) {
+			return $product->product_id;
+		}, $products);
+		return $this->db->select('product_info.*, bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.product_id as pid')
+			->from('product_info')
+			->join('bulk_stock_info', 'bulk_stock_info.product_id = product_info.product_id')
+			->where_in('product_info.product_id', $productIds)
+			->where("product_info.product_name LIKE '$query%'")
+			->limit(30)
+			->get()
+			->result();
 	}
 
 	public function fatch_all_purchase_receipt_id()

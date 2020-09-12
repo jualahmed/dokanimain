@@ -56,10 +56,10 @@
 									<td style="width: 25%; text-align: center;"><?php echo date('d-m-Y', strtotime($quotation->created_at)); ?></td>
 								</tr>
 								<tr>
-									<td></td>
-									<td></td>
+								<td style="width: 25%; text-align: right;">Customer: </td>
+									<td style="width: 25%; text-align: center;"><?php echo $quotation->customer_name; ?></td>
 									<td style="text-align: right;">Creator:</td>
-									<td style="text-align: center;"><?php echo $creator; ?></td>
+									<td style="text-align: center;"><?php echo $quotation->user_full_name; ?></td>
 								</tr>
 							</table>
 						</div>
@@ -137,9 +137,7 @@
 						</div>
 						<!--end table-->
 						<div style="text-align: center; border-bottom: 1px solid #c3c3c3; font-size: 12px; padding-bottom: 5%;">
-							Sold products can be exchanged within 3(three) days. <br>
-							Please remember to bring this receipt.<br>
-							Thank You For Shopping.
+							<?php echo $app_info->product_return_expire_msg; ?>
 						</div>
 						<div style="text-align: center; background-color:; line-height: 12px; font-size: 10px; padding: 2%, 0%; ">
 							Software Developed By:<br>IT Lab Solutions Ltd. Call: 8801842485222
