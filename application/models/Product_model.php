@@ -272,7 +272,8 @@ class Product_model extends CI_model{
         ->from('product_info')
         ->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id','left')
         ->join('catagory_info','catagory_info.catagory_id = product_info.catagory_id')
-        ->join('company_info','company_info.company_id = product_info.company_id')
+		->join('company_info','company_info.company_id = product_info.company_id')
+		->order_by('product_name', 'asc')
         ->get();
         if($data->num_rows() > 0)return $data;
         else return false;

@@ -225,33 +225,38 @@ class Account extends MY_controller{
 		$start =$this->input->post('start_date');
 		$end = $this->input->post('end_date');
 
-		if(!isset($start))$start = date("Y-m-d");
-		if(!isset($end))$end = date("Y-m-d");
+		if (!isset($start)) $start = date('Y-m-d');
+		if (!isset($end)) $end = date('Y-m-d');
 
 		$customer_id =$this->input->post('customer_id');
 		$distributor_id =$this->input->post('distributor_id');
+
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['user_type'] = $this->tank_auth->get_usertype();
 		$data['distributor_info'] = $this->distributor_model->all();       
     	$data['employee_info'] = $this->employee_model->all();        
-		$data['expense_type'] = $this->expense_model->typeall();				
-		$data['customer'] = Customerm::all();							
+		$data['expense_type'] = $this->expense_model->typeall();											
 		$data['service_provider_info'] = $this->account_model->service_provider_info();							
 		$data['owner_info'] = $this->account_model->owner_info();
-		$data['customer'] = Customerm::all();		
+		$data['customer'] = Customerm::all();		 
 
 		if(isset($customer_id)){
-			$data['ledgerdata']=Transactionm::where(function ($query) {
+			$transactions = Transactionm::where(function ($query) {
 								    		$query->where('transaction_purpose', '=', 'sale')
 								         	 ->orWhere('transaction_purpose', '=', 'collection');
-										})->where('ledger_id',$customer_id)->whereBetween('date',[$start, $end])->get();
+										})->where('ledger_id',$customer_id);
 		}
 
 		if(isset($distributor_id)){
-					$data['ledgerdata']=Transactionm::where(function ($query) {
-								    		$query->where('transaction_purpose', '=', 'purchase')
-								         	 ->orWhere('transaction_purpose', '=', 'payment');
-										})->where('ledger_id',$distributor_id)->whereBetween('date',[$start, $end])->get();
+			$transactions = Transactionm::where(function ($query) {
+									$query->where('transaction_purpose', '=', 'purchase')
+										->orWhere('transaction_purpose', '=', 'payment');
+								})->where('ledger_id',$distributor_id);
+		}
+
+		if ($transactions) {
+			$transactions = $transactions->whereBetween('date', [$start, $end]);
+			$data['ledgerdata'] = $transactions->get();
 		}
 
 		$data['vuejscomp'] = 'ledgers.js';

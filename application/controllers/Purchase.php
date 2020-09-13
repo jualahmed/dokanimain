@@ -124,16 +124,21 @@ class Purchase extends MY_Controller
 	    $this->form_validation->set_rules($rules);
 	    $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
 	    if ($this->form_validation->run() == TRUE) {
-	      $jsonData['check'] = true;
+		  $jsonData['check'] = true;
+		  $purchaseAmount = $this->input->post('purchase_amount');
+		  $transportCost = $this->input->post('transport_cost');
+		  $paidAmount = $this->input->post('payment_amount');
+		  $giftCost = $this->input->post('gift_on_purchase');
+		  $finalAmount = $this->input->post('final_amount');
 	      $data = array(
 	        'distributor_id' => $this->input->post('distributor_id'),
-	        'purchase_amount' => $this->input->post('purchase_amount'),
-	        'transport_cost' => $this->input->post('transport_cost'),
-	        'gift_on_purchase' => $this->input->post('gift_on_purchase'),
-	        'final_amount' => $this->input->post('final_amount'),
+	        'purchase_amount' => $purchaseAmount,
+	        'transport_cost' => $transportCost,
+	        'gift_on_purchase' => $giftCost,
+	        'final_amount' => $finalAmount ,
 	        'shop_id' 		=> $this->tank_auth->get_shop_id(), 
-	        'receipt_status' 	=> 'unpaid',
-			'total_paid' 		=> $this->input->post('payment_amount'),
+	        'receipt_status' 	=> $finalAmount - $paidAmount == 0 ? 'paid' : 'unpaid',
+			'total_paid' 		=> $paidAmount,
 	        'receipt_date	' => $receiptDate,
 	        'receipt_creator' => $creator,
 	      );

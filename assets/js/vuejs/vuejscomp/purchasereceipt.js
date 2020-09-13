@@ -232,33 +232,39 @@ $(document).ready(function()
 		
 	$('#purchase_amount').on('keyup', function()
 	{
-		  var purchase_amount   = $(this).val();
-		  purchase_amount       = parseFloat(purchase_amount);
-		  if(!isNaN(purchase_amount)){
-			$('#final_amount').val(purchase_amount);
-		  }
+		  calculateFinalAmount();
 	});
 
 	$('#transport_cost').on('keyup', function(){
-		$(this).val();
+        calculateFinalAmount();
 	});
 
 	$('#gift_on_purchase').on('keyup', function(){
-		var discount        = 0;
+        calculateFinalAmount();
+    });
+    
+    function calculateFinalAmount() {
+        var discount  = $("#gift_on_purchase").val();
 		var purchase_amount = $('#purchase_amount').val();
+        var transport_cost = $('#transport_cost').val();
+        var final_amount = 0;
 
-		if(purchase_amount != ''){
-		  purchase_amount   = parseFloat(purchase_amount);
-		  var tmp_discount  = $(this).val();
-		  discount          = parseFloat(tmp_discount);
+        discount  = parseFloat(discount);
+		purchase_amount = parseFloat(purchase_amount);
+        transport_cost = parseFloat(transport_cost);
 
-		  if(!isNaN(purchase_amount) && !isNaN(discount)){
+        if (!isNaN(purchase_amount)) {
+            final_amount += purchase_amount;
+        }
 
-			var discount_amount   = ((purchase_amount * discount)/100);
-			var final_amount      = (purchase_amount - discount);
-			
-			$('#final_amount').val(final_amount);
-		  }
-		}
-	});
+        if (!isNaN(transport_cost)) {
+            final_amount += transport_cost;
+        }
+
+        if (!isNaN(discount)) {
+            final_amount -= discount;
+        }
+
+        $('#final_amount').val(final_amount);
+    }
 });

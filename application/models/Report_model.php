@@ -9,51 +9,28 @@ class Report_model extends CI_model{
 
 	public function get_stock_info_by_multi($category1='',$product_id='',$company1='',$type_wise='',$product_amount='')
 	{
-		if($type_wise !=0)
+		$this->db->select('*')->from('product_info');
+		if($product_id != 0){$this->db->where('product_info.product_id = "'.$product_id.'" ');}
+		if($category1 != 0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
+		if($company1 != 0){$this->db->where('product_info.company_name = "'.$company1.'" ');}
+		if($product_amount != 0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
+		
+		$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id', 'left');
+
+		if($type_wise  != '0')
 		{
-			if($type_wise =='available')
+			if($type_wise == 'available')
 			{
-				if($product_id!=0){$this->db->where('product_info.product_id = "'.$product_id.'" ');}
-				if($category1!=0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
-				if($company1!=0){$this->db->where('product_info.company_name = "'.$company1.'" ');}
-				if($product_amount!=0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-				$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id');
-				$query = $this->db->get('product_info');
-				return $query;
+				$this->db->where('bulk_stock_info.stock_amount > 0'); 
 			}
-			else if($type_wise =='not_available')
+			elseif($type_wise =='not_available')
 			{
-				$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id','left');
 				$this->db->where('bulk_stock_info.stock_amount <= 0'); 
-				if($product_id!=0){$this->db->where('product_info.product_id = "'.$product_id.'" ');}
-				if($category1!=0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
-				if($company1!=0){$this->db->where('product_info.company_id = "'.$company1.'" ');}
-				if($product_amount!=0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-				$query = $this->db->get('product_info');
-				return $query;
-			}
-			else if($type_wise =='all')
-			{
-				$this->db->from('product_info,bulk_stock_info');
-				$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id','left');
-				if($product_id!=0){$this->db->where('product_info.product_id = "'.$product_id.'" ');}
-				if($category1!=0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
-				if($company1!=0){$this->db->where('product_info.company_id = "'.$company1.'" ');}
-				if($product_amount!=0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-				$query = $this->db->get('product_info');
-				return $query;
 			}
 		}
-		else
-		{
-			if($product_id!=0)$this->db->where('product_info.product_id = ',$product_id);
-			if($category1!=0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
-			if($company1!=0){$this->db->where('product_info.company_id = "'.$company1.'" ');}
-			if($product_amount!=0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-    		$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id');
-			$query = $this->db->get('product_info');
-			return $query;
-		}
+
+		$query = $this->db->get();
+		return $query;
 	}	
 
   public function stock_details($catagory_id='',$product_id='',$company_id='')
