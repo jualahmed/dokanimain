@@ -25,7 +25,9 @@ const vm = new Vue({
 			allworrantyproduct:[],
 			totalqty:0,
 			unit_buy_price:0,
+			original_unit_buy_price: 0,
 			tunit_buy_price:0,
+			original_total_buy_price: 0,
 			xhr:'ToCancelPrevReq'
 		};
 	},
@@ -115,10 +117,11 @@ const vm = new Vue({
 		selectaproduct(e){
 			this.total_buy_price=e.bulk_unit_buy_price;
 			this.unit_buy_price_purchase=e.bulk_unit_buy_price;
+			this.original_total_buy_price=e.bulk_unit_buy_price;
+			this.original_unit_buy_price_purchase=e.bulk_unit_buy_price;
 			this.general_sale_price=e.bulk_unit_sale_price;
 			this.exclusive_sale_price=e.bulk_unit_sale_price;
 			this.quantity=1;
-			console.log(e)
 		},
 		isReadyToCreate() {
 			return (this.selectedCountries && 
@@ -190,14 +193,22 @@ const vm = new Vue({
 	watch:{
 		quantity: function (val) {
 			this.quantity=parseInt(val);
-			this.total_buy_price = val*this.unit_buy_price_purchase;
-			this.unit_buy_price_purchase = this.total_buy_price/val;
+			if (!isNaN(this.quantity) && this.quantity != 0) {
+				this.total_buy_price = this.quantity * parseFloat(this.unit_buy_price_purchase);
+				this.unit_buy_price_purchase = parseFloat(this.total_buy_price) / this.quantity;
+			}else {
+				this.total_buy_price = this.unit_buy_price_purchase;
+			}
 		},
 		total_buy_price: function (val) {
-			this.unit_buy_price_purchase = this.total_buy_price/this.quantity;
+			if (!isNaN(this.quantity)) {
+				this.unit_buy_price_purchase = parseFloat(this.total_buy_price) / parseFloat(this.quantity);
+			}
 		},
 		unit_buy_price_purchase: function (val) {
-			this.total_buy_price = this.quantity*val;
+			if (!isNaN(this.quantity)) {
+				this.total_buy_price = this.quantity * val;
+			}
 		},
 		selected1:function(val){
 			this.purchase_info=[];
@@ -244,9 +255,20 @@ const vm = new Vue({
 	},
 });
 
-
+$("#qty").keyup(function () {
+	var quantity = $(this).val();
+	if (quantity == '') {
+		quantity = 1;
+		$(this).val(quantity);
+	}
+});
 function calculate(value) {
-	$("#u_b_p").val(value/$("#qty").val());
+	var quantity = $("#qty").val();
+	quantity = parseFloat(quantity);
+
+	if (!isNaN(quantity)) {
+		$("#u_b_p").val(value/quantity);
+	}
 }
 
 

@@ -66,6 +66,8 @@ class Sale extends MY_Controller
 					$info[] = array(
 						'id' 						=> $tmp->product_id,
 						'product_name' 				=> $tmp->product_name,
+						'company_name' 				=> $tmp->company_name,
+						'catagory_name' 			=> $tmp->catagory_name,
 						'product_size' 				=> $tmp->product_size,
 						'product_model' 			=> $tmp->product_model,
 						'mrp_price' 				=> $tmp->bulk_unit_sale_price,
@@ -75,7 +77,7 @@ class Sale extends MY_Controller
 						'generic_name' 				=> $tmp->group_name,
 						'barcode' 					=> $tmp->barcode,
 						'product_specification' 	=> $tmp->product_specification,
-						'temp_pro_data' 			=> $tmp->product_id . '<>' . 
+						'temp_pro_data' 			=> 	$tmp->product_id . '<>' . 
 														$tmp->product_name . '<>' .
 														$tmp->stock_amount . '<>' .
 														$tmp->general_unit_sale_price . '<>' .
@@ -89,9 +91,10 @@ class Sale extends MY_Controller
 					'id' 						=> '',
 					'product_name' 				=> 'Nothing Found',
 					'company_name' 				=> '',
+					'catagory_name' 			=> '',
+					'product_size' 				=> '',
 					'product_model' 			=> '',
 					'mrp_price' 				=> '',
-					'product_size' 				=> '',
 					'sale_price' 				=> '',
 					'buy_price' 				=> '',
 					'stock' 					=> '',

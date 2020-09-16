@@ -44,6 +44,8 @@ jQuery(document).ready(function($) {
 								  id              : item.id,
 								  label           : item.product_name,
 								  product_size    : item.product_size,
+								  company_name    : item.company_name,
+								  catagory_name    : item.catagory_name,
 								  product_model   : item.product_model,
 								  sale_price      : item.sale_price,
 								  mrp_price       : item.mrp_price,
@@ -98,9 +100,13 @@ jQuery(document).ready(function($) {
 			});
 
 			$( "#search_by_product_name" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
-		      return $(`<li style="border-bottom: 1px solid gray; hover: red;">` )
-		      .append(`<div><span class="label_style">${item.label} </span><br><span> Stock : </span>${item.stock}<br> <span> Size : </span>${ item.product_size }</div>`).appendTo(ul);
-		    };
+				return $( "<li style=\"border-bottom: 2px solid gray; hover: red;\">" )
+				.append( "<div><span class=\"label_style\">" + item.label +' '+item.catagory_name +' '+item.product_size + 
+				"</span><br>" + item.generic_name + "    " +item.catagory_name + 
+				"    <span style='color:#00cd6e;'> (Stock: "+ item.stock + 
+				")</span> <span style='color:#00cd6e;'> (Pack: "+ item.product_model + ")</span><br>" + 
+				item.company_name + "</div>" ).appendTo( ul );
+			};
 
 		}
     });

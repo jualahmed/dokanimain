@@ -184,7 +184,7 @@
 										  Quantity:
 			              				</td>
 			              				<td>
-			              					<input type="" class="form-control custom_form_control quantity" v-model="quantity" id="quantity" name="" placeholder="Ex: 10" autocomplete="off" required>
+			              					<input type="number" min="1" class="form-control custom_form_control quantity" v-model="quantity" id="quantity" name="" placeholder="Ex: 10" autocomplete="off" required>
 			              				</td>
 			              				<td style="width: 25%; vertical-align: middle;font-weight: bold;">Expire Date:</td>
 			              				<td>
@@ -599,7 +599,7 @@
 									<tr>
 										<td style="vertical-align: middle;font-weight: bold;">Quantity: </td>
 										<td>
-											<input type="text" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+											<input type="number" min="1" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
 										</td>
 									</tr>
 									<tr>

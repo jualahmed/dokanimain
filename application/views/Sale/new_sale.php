@@ -8,6 +8,22 @@
 	$product_sale_return = $this->config->item('product_sale_return');
 ?>
 <div class="content-wrapper">
+<style type="text/css">
+	.sale_table_custom_styl tbody tr td {
+		padding: 2px 5px !important;
+		font-size: 12px;
+	}
+	.box table .form-control {
+		height: 25px;
+		padding: 0px 2px;
+		font-size: 12px;
+		border-radius: 0px;
+		border: none !important;
+	}
+	.btn-y-0 {
+		padding: 0px 12px;
+	}
+</style>
 	<section class="content">	
 		<input type="hidden" id="allow_negative_stock" value="<?php echo $allow_negative_stock; ?>">
 		<input type="hidden" id="value_added_tax" value="<?php echo $value_added_tax; ?>">
@@ -185,7 +201,7 @@
 									<?php
 										}
 									?>
-									<button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#exampleModal">+</button>
+									<button type="button" class="btn btn-info pull-right btn-y-0" data-toggle="modal" data-target="#exampleModal">+</button>
 								</div>
 			                  </td>
 			                </tr>
