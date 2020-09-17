@@ -127,9 +127,9 @@ class Purchase extends MY_Controller
 		  $jsonData['check'] = true;
 		  $purchaseAmount = $this->input->post('purchase_amount');
 		  $transportCost = $this->input->post('transport_cost');
-		  $paidAmount = $this->input->post('payment_amount');
+		  $paidAmount = (float) $this->input->post('payment_amount');
 		  $giftCost = $this->input->post('gift_on_purchase');
-		  $finalAmount = $this->input->post('final_amount');
+		  $finalAmount = (float) $this->input->post('final_amount');
 	      $data = array(
 	        'distributor_id' => $this->input->post('distributor_id'),
 	        'purchase_amount' => $purchaseAmount,
@@ -217,7 +217,7 @@ class Purchase extends MY_Controller
 		}
 		$distributor_id = $this->uri->segment(3);
 		$product_id = $this->uri->segment(4);
-		if($distributor_id!='' || $product_id!='')
+		if($distributor_id != '' || $product_id != '')
 		{
 			$data['product_info'] 	= $this->product_model->all();
 			$data['product_info_details'] 	= $this->purchase_model->product_info_details($product_id);

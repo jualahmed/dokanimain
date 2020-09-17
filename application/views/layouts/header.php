@@ -107,7 +107,7 @@
 					<li class="<?php echo active_link_function('employee','index') ?>"><a href="<?php echo base_url();?>employee"><i class="fa fa-gear"></i>Employee Setup</a></li>
 					<li class="<?php echo active_link_function('unit','index') ?>"><a href="<?php echo base_url();?>unit"><i class="fa fa-gear"></i>Unit Setup</a></li>
 					<li class="<?php echo active_link_function('comission','index') ?>">
-						<a href="<?php echo base_url();?>comission/index"><i class="fa fa-bank"></i>Commission Setup</a>
+						<!-- <a href="<?php echo base_url();?>comission/index"><i class="fa fa-bank"></i>Commission Setup</a> -->
 					</li>
 					<li class="<?php echo active_link_function('bankcard','bank_entry') ?>">
 						<a href="<?php echo base_url();?>bankcard/bank_entry"><i class="fa fa-bank"></i>Bank Entry</a>

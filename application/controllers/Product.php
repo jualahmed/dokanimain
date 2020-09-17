@@ -115,6 +115,7 @@ class Product extends MY_Controller {
 	        'barcode' => $this->input->post('barcode'),
 	        'product_specification' => $this->input->post('product_specification'),
 	        'product_warranty' => $this->input->post('product_warranty'),
+	        'alarming_stock' => $this->input->post('alarming_stock'),
 	        'has_serial_no' => isset($_POST['has_serial_no']) ? 1 : 0,
 	        'product_creator' => $creator
 	      );
@@ -283,6 +284,7 @@ class Product extends MY_Controller {
 			'unit_id' => $this->input->post('unit_id'),
 			'product_specification' => $this->input->post('product_specification'),
 	        'product_warranty' => $this->input->post('product_warranty'),
+	        'alarming_stock' => $this->input->post('alarming_stock'),
 	        'has_serial_no' => isset($_POST['has_serial_no']) ? 1 : 0,
 	        'product_creator' => $creator
 	      );

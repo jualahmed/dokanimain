@@ -439,7 +439,7 @@
 						</div>
 						<div class="col-sm-4">
 							<label for="alarming_stock" class="">Alarm Level</label>
-							<input type="number" placeholder="Profile" name="alarming_stock" class="form-control alarming_stock">
+							<input type="number" placeholder="Alarm Level" name="alarming_stock" class="form-control alarming_stock">
 						</div>
 					</div>
 					<div class="row">

@@ -184,7 +184,7 @@
 										  Quantity:
 			              				</td>
 			              				<td>
-			              					<input type="number" min="1" class="form-control custom_form_control quantity" v-model="quantity" id="quantity" name="" placeholder="Ex: 10" autocomplete="off" required>
+			              					<input type="number" min="1" class="form-control custom_form_control quantity" :class="[errors.quantity ? 'has-error' : '']" v-model="quantity" id="quantity" name="" placeholder="Ex: 10" autocomplete="off" required>
 			              				</td>
 			              				<td style="width: 25%; vertical-align: middle;font-weight: bold;">Expire Date:</td>
 			              				<td>
@@ -213,11 +213,11 @@
 			              					Total Buy Price:
 			              				</td>
 			              				<td>
-			              					<input  class="form-control custom_form_control total_buy_price" v-model="total_buy_price" style="text-align: right;">
+			              					<input type="number" step="3" class="form-control custom_form_control total_buy_price" :class="[errors.total_buy_price ? 'has-error' : '']" v-model="total_buy_price" style="text-align: right;">
 			              				</td >
 			              				<td style="vertical-align: middle;font-weight: bold;">MRP:</td>
 			              				<td style="text-align: right;">
-			              					<input type="" class="form-control custom_form_control" v-model="general_sale_price" style="text-align: right;" placeholder="Ex: 15" autocomplete="off" required>
+			              					<input type="number" step="3" class="form-control custom_form_control" :class="[errors.general_sale_price ? 'has-error' : '']" v-model="general_sale_price" style="text-align: right;" placeholder="Ex: 15" autocomplete="off" required>
 			              				</td>
 			              			</tr>
 
@@ -226,11 +226,11 @@
 			              					Unit Buy Price:
 			              				</td>
 			              				<td>
-			              					<input type="" class="form-control custom_form_control" v-model="unit_buy_price_purchase" style="text-align: right;" placeholder="Ex: 10" autocomplete="off">
+			              					<input type="number" step="3" class="form-control custom_form_control" :class="[errors.unit_buy_price_purchase ? 'has-error' : '']" v-model="unit_buy_price_purchase" style="text-align: right;" placeholder="Ex: 10" autocomplete="off">
 			              				</td>
 			              				<td style="width: 20%; vertical-align: middle;font-weight: bold;">Sale Price:</td>
 			              				<td>
-			              					<input type="" class="form-control custom_form_control" v-model="exclusive_sale_price" style="text-align: right;" autocomplete="off" placeholder="Ex: 12">
+			              					<input type="number" step="3" class="form-control custom_form_control" :class="[errors.exclusive_sale_price ? 'has-error' : '']" v-model="exclusive_sale_price" style="text-align: right;" autocomplete="off" placeholder="Ex: 12">
 			              				</td>
 			              			</tr>
 			              		</tbody>
@@ -246,7 +246,7 @@
 								</center>
 							</div>
 		              	</form>
-		              	<ul class="list-group" v-if="selectedCountries && selectedCountries.product_warranty>0">
+		              	<ul class="list-group" v-if="selectedCountries && selectedCountries.has_serial_no == 1 && selectedCountries.product_warranty > 0">
 		              		<li class="list-group-item" v-for="i in quantity"><b>Serial no:</b> <input v-model="allworrantyproduct[i-1]" style="display: inline;width:80%;" type="text" class="form-control" placeholder="Serial no"></li>
 		              	</ul>
 		            </div>

@@ -28,7 +28,8 @@ const vm = new Vue({
 			original_unit_buy_price: 0,
 			tunit_buy_price:0,
 			original_total_buy_price: 0,
-			xhr:'ToCancelPrevReq'
+			xhr:'ToCancelPrevReq',
+			errors: {}
 		};
 	},
 	methods: {
@@ -77,51 +78,77 @@ const vm = new Vue({
 			var self=this;
 			this.totalqty=parseInt(this.totalqty)+parseInt(this.quantity);
 			this.tunit_buy_price=parseFloat(this.tunit_buy_price)+parseFloat(this.total_buy_price);
-			$.ajax({
-				url: this.base_url+'purchaselisting/createlisting',
-				type: 'POST',
-				data: {
-					allworrantyproduct:this.allworrantyproduct,
-					purchase_receipt_id: purchase_receipt_id,
-					product_id:this.selectedCountries.product_id,
-					expiredate:this.expiredate,
-					tp_total:this.tp_total,
-					vat_total:this.vat_total,
-					quantity:this.quantity,
-					total_buy_price:this.total_buy_price,
-					unit_buy_price_purchase:this.unit_buy_price_purchase,
-					exclusive_sale_price:this.exclusive_sale_price,
-					general_sale_price:this.general_sale_price
-				},
-			})
-			.done(function(re) {
-				if(re=='exceed'){
-					alert("Purchase Priced Exceed Not Allow")
-				}else{
-					var re = jQuery.parseJSON(re);
-					self.purchase_info[0].push(re[0]);
-					self.general_sale_price=0;
-					self.exclusive_sale_price=0;
-					self.unit_buy_price_purchase=0;
-					self.total_buy_price=0;
-					self.quantity=0;
-				}
-			})
-			.fail(function() {
-				console.log("error");
-			})
+			var flag = true;
+			if (this.quantity == '' || isNaN(this.quantity) || parseInt(this.quantity) == 0) {
+				flag =  false;
+				this.errors.quantity = 'required';
+			}
+			if (this.total_buy_price == '' || isNaN(this.total_buy_price) || parseInt(this.total_buy_price) == 0) {
+				flag =  false;
+				this.errors.total_buy_price = 'required';
+			}
+			if (this.unit_buy_price_purchase == '' || isNaN(this.unit_buy_price_purchase) || parseInt(this.unit_buy_price_purchase) == 0) {
+				flag =  false;
+				this.errors.unit_buy_price_purchase = 'required';
+			}
+			if (this.exclusive_sale_price == '' || isNaN(this.exclusive_sale_price) || parseInt(this.exclusive_sale_price) == 0) {
+				flag =  false;
+				this.errors.exclusive_sale_price = 'required';
+			}
+			if (this.general_sale_price == '' || isNaN(this.general_sale_price) || parseInt(this.general_sale_price) == 0) {
+				flag =  false;
+				this.errors.general_sale_price = 'required';
+			}
+			
+			if (flag) {
+				this.errors = {};
+				$.ajax({
+					url: this.base_url+'purchaselisting/createlisting',
+					type: 'POST',
+					data: {
+						allworrantyproduct:this.allworrantyproduct,
+						purchase_receipt_id: purchase_receipt_id,
+						product_id:this.selectedCountries.product_id,
+						has_serial_no:this.selectedCountries.has_serial_no,
+						expiredate:this.expiredate,
+						tp_total:this.tp_total,
+						vat_total:this.vat_total,
+						quantity:this.quantity,
+						total_buy_price:this.total_buy_price,
+						unit_buy_price_purchase:this.unit_buy_price_purchase,
+						exclusive_sale_price:this.exclusive_sale_price,
+						general_sale_price:this.general_sale_price
+					},
+				})
+				.done(function(re) {
+					if(re=='exceed'){
+						alert("Purchase Priced Exceed Not Allow")
+					}else{
+						var re = jQuery.parseJSON(re);
+						self.purchase_info[0].push(re[0]);
+						self.general_sale_price=0;
+						self.exclusive_sale_price=0;
+						self.unit_buy_price_purchase=0;
+						self.total_buy_price=0;
+						self.quantity=0;
+					}
+				})
+				.fail(function() {
+					console.log("error");
+				});
+			}
 		},
 		limitText (count) {
 			return `and ${count} other countries`
 		},
 		selectaproduct(e){
-			this.total_buy_price=e.bulk_unit_buy_price;
-			this.unit_buy_price_purchase=e.bulk_unit_buy_price;
-			this.original_total_buy_price=e.bulk_unit_buy_price;
-			this.original_unit_buy_price_purchase=e.bulk_unit_buy_price;
-			this.general_sale_price=e.bulk_unit_sale_price;
-			this.exclusive_sale_price=e.bulk_unit_sale_price;
-			this.quantity=1;
+			this.total_buy_price = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
+			this.unit_buy_price_purchase = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
+			this.original_total_buy_price = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
+			this.original_unit_buy_price_purchase = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
+			this.general_sale_price = e.bulk_unit_sale_price === null ? 0.00 : e.bulk_unit_sale_price;
+			this.exclusive_sale_price = e.bulk_unit_sale_price === null ? 0.00 : e.bulk_unit_sale_price;
+			this.quantity = 1;
 		},
 		isReadyToCreate() {
 			return (this.selectedCountries && 
@@ -194,15 +221,14 @@ const vm = new Vue({
 		quantity: function (val) {
 			this.quantity=parseInt(val);
 			if (!isNaN(this.quantity) && this.quantity != 0) {
-				this.total_buy_price = this.quantity * parseFloat(this.unit_buy_price_purchase);
-				this.unit_buy_price_purchase = parseFloat(this.total_buy_price) / this.quantity;
-			}else {
-				this.total_buy_price = this.unit_buy_price_purchase;
+				this.total_buy_price = this.quantity * parseFloat(this.unit_buy_price_purchase).toFixed(2);
+				this.unit_buy_price_purchase = parseFloat(this.total_buy_price).toFixed(2) / this.quantity;
 			}
 		},
 		total_buy_price: function (val) {
-			if (!isNaN(this.quantity)) {
-				this.unit_buy_price_purchase = parseFloat(this.total_buy_price) / parseFloat(this.quantity);
+			this.total_buy_price = parseFloat(val);
+			if (!isNaN(this.quantity) && !isNaN(this.total_buy_price)) {
+				this.unit_buy_price_purchase = parseFloat(this.total_buy_price).toFixed(2) / parseFloat(this.quantity).toFixed(2);
 			}
 		},
 		unit_buy_price_purchase: function (val) {
