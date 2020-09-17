@@ -465,5 +465,11 @@
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
 		</div>
+
+
+
+		<!-- Modal -->
+		
+        <!--/.Modal-->
 	</section>
 </div>

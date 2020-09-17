@@ -202,7 +202,8 @@ class Sale extends MY_Controller
 				$number += $VAT;
 				$number = round($number);
 		}
-		if($number != 0)$data['in_word']    = $this->numbertoword->convert_number_to_words($number) . " (TK)";
+		if($number != 0)
+			$data['in_word']    = $this->numbertoword->convert_number_to_words($number) . " (TK)";
 		
 		$tmp_sale_return_id 	= $this->tank_auth->get_current_sale_return_id();
 		$tmp_current_sale_id 	= $this->tank_auth->get_current_temp_sale();

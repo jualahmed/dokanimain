@@ -251,12 +251,11 @@ $(document).ready(function () {
                 if (res.product_specification == 2) {
                     $(".war_peri").show();
                     $('#productedit .product_warranty').val(res.product_warranty);
-                    $('#productedit .has_serial_no').prop('checked', true);
                 }else {
                     $(".war_peri").hide();
                     $('#productedit .product_warranty').val('');
-                    $('#productedit .has_serial_no').prop('checked', false);
                 }
+                $('#productedit .has_serial_no').prop('checked', res.has_serial_no == 1 ? true : false);
             }
         });
     });

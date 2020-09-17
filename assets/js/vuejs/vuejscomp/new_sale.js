@@ -2720,6 +2720,7 @@ document.onkeyup=function(e)
 }
 
 $(function () {
+	$("#sale_return_modal").modal('show');
     $(".select2").select2();
 	$(".select22").select2();
     $(".select2_bank").select2({
