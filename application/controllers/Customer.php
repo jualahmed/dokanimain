@@ -243,6 +243,14 @@ class Customer extends MY_Controller {
 		return true;
 	}
 
+	public function search_customer_by_name()
+	{
+		$customer_name = $this->input->post('term');
+		$customers = $this->db->like('customer_name', $customer_name)
+			->get('customer_info')->result();
+		echo json_encode($customers);
+	}
+
 }
 
 /* End of file Customer.php */

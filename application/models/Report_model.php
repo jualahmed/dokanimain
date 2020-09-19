@@ -7,29 +7,38 @@ class Report_model extends CI_model{
 		$this->shop_id = $this->tank_auth->get_shop_id();
 	}
 
-	public function get_stock_info_by_multi($category1='',$product_id='',$company1='',$type_wise='',$product_amount='')
+	public function get_stock_info_by_multi(
+		$category1='',
+		$product_id='',
+		$company1='',
+		$type_wise='',
+		$product_amount='',
+		$product_size = '',
+		$product_model = ''
+		)
 	{
-		$this->db->select('*')->from('product_info');
+	
+		
+		$this->db->join('purchase_info','bulk_stock_info.product_id = purchase_info.product_id', 'left');
+		$this->db->join('product_info','bulk_stock_info.product_id = product_info.product_id', 'left');
+
 		if($product_id != 0){$this->db->where('product_info.product_id = "'.$product_id.'" ');}
 		if($category1 != 0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
-		if($company1 != 0){$this->db->where('product_info.company_name = "'.$company1.'" ');}
+		if($company1 != 0){$this->db->where('product_info.company_id = "'.$company1.'" ');}
 		if($product_amount != 0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-		
-		$this->db->join('bulk_stock_info','product_info.product_id = bulk_stock_info.product_id', 'left');
+		if($product_size != ''){$this->db->like('product_info.product_size', $product_size);}
+		if($product_model != ''){$this->db->like('product_info.product_model', $product_model);}
 
-		if($type_wise  != '0')
+		if($type_wise == 'available')
 		{
-			if($type_wise == 'available')
-			{
-				$this->db->where('bulk_stock_info.stock_amount > 0'); 
-			}
-			elseif($type_wise =='not_available')
-			{
-				$this->db->where('bulk_stock_info.stock_amount <= 0'); 
-			}
+			$this->db->where('bulk_stock_info.stock_amount > 0'); 
+		}
+		elseif($type_wise =='not_available')
+		{
+			$this->db->where('bulk_stock_info.stock_amount <= 0'); 
 		}
 
-		$query = $this->db->get();
+		$query = $this->db->get('bulk_stock_info');
 		return $query;
 	}	
 

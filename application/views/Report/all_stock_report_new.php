@@ -15,7 +15,7 @@
 					</div>
 					<div class="box-body">
 						<form action ="<?php echo base_url();?>Report/all_stock_report_find" class="form-horizontal" method="post" id="form_2" autocomplete="off">
-							<div class="form-group">
+							<div class="form-group row">
 							  <label for="inputEmail3" class="col-sm-1 control-label">Product</label>
 							  <div class="col-sm-5">
 
@@ -29,10 +29,27 @@
 							  	placeholder="Select a Product"
 								@search-change="asyncFind"
 								:loading="isLoading">
-							  	
 							  	</multiselect>
 
 							  </div>
+
+							  <label for="inputEmail3" class="col-sm-1 control-label">Product Size</label>
+								<div class="col-sm-2">
+									<?php 
+										echo form_input('product_size','','v-model="product_size" class ="form-control seven" id="lock77" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" placeholder="Product Size" autocomplete="off"');
+									?>
+								</div>
+
+								<label for="inputEmail3" class="col-sm-1 control-label">Product Model</label>
+								<div class="col-sm-2">
+									<?php 
+										echo form_input('product_model','','v-model="product_model" class ="form-control seven" id="lock77" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" placeholder="Product Model" autocomplete="off"');
+									?>
+								</div>
+
+							</div>
+
+							<div class="form-group row">
 							  <label for="inputEmail3" class="col-sm-1 control-label">Category</label>
 							  <div class="col-sm-2">
 									<select name="catagory_id" class="form-control" v-model="catagory_id">
@@ -51,10 +68,8 @@
 										<?php endforeach ?>
 									</select>
 							  </div>
-							</div>
-							<br>
-							<div class="form-group">
-								  <label for="inputEmail3" class="col-sm-1 control-label">Type<span>*</span></label>
+
+							  <label for="inputEmail3" class="col-sm-1 control-label">Type<span>*</span></label>
 								  <div class="col-sm-2">
 										<select class="form-control select2" name="type_wise" v-model="type_wise" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" id="type_wise" tabindex="-1" aria-hidden="true" required>
 											<option value="0">Select Type</option>
@@ -63,13 +78,7 @@
 											<option value="all">All Stock</option>
 										</select>
 								  </div>
-								  <label for="inputEmail3" class="col-sm-1 control-label">Quantity</label>
-								  <div class="col-sm-2">
-										<?php 
-											echo form_input('product_amount','','class ="form-control seven" id="lock77" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" placeholder="Stock Amount" autocomplete="off"');
-										?>
-								  </div>
-								<div class="col-sm-4 mt-2">
+								<div class="col-sm-3 mt-2">
 									<button type="submit" class="btn btn-success btn-sm" @click.prevent="stockreport" name="search_random"><i class="fa fa-fw fa-search"></i> Search</button>
 									<button type="reset" id="reset_btn" class="btn btn-warning btn-sm"><i class="fa fa-fw fa-refresh"></i> Reset</button>
 									<a :href="base_url+'Report/stock_report_print/'+catagory_id+'/'+product_id+'/'+company_id+'/'+type_wise" id="down" target="_blank" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fa fa-download"></i> Download</a>

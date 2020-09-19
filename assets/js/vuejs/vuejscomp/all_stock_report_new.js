@@ -9,6 +9,8 @@ new Vue({
 		stockqty:0,
 		amount:0,
 		catagory_id:0,
+		product_size: '',
+		product_model: '',
 		type_wise:0,
 		product_id:0,
 		company_id:0,
@@ -59,10 +61,18 @@ new Vue({
 			url:  $('#form_2').attr('action'),
 			type: "POST",
 			dataType: 'json',
-			data: {catagory_id:this.catagory_id,product_id:this.selectproduct.product_id,company_id:this.company_id,type_wise:this.type_wise,product_amount:this.amount},
+			data: {
+				product_size :this.product_size,
+				product_model :this.product_model,
+				catagory_id :this.catagory_id,
+				product_id: this.selectproduct.product_id,
+				company_id: this.company_id,
+				type_wise: this.type_wise,
+				product_amount: this.amount
+			},
 			success: function(result) { 
 				self.alldata=result;
-				self.loding=!self.loding;
+				self.loding = !self.loding;
 				result.forEach( function(element, index) {
 				 self.stockqty=parseFloat(self.stockqty)+parseFloat(element.stock_amount);
 				 self.amount=parseFloat(self.amount)+parseFloat((element.stock_amount*element.bulk_unit_buy_price));

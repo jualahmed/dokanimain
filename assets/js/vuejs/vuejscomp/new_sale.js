@@ -109,6 +109,45 @@ jQuery(document).ready(function($) {
 			};
 
 		}
+	});
+	
+	$('#search_by_customer_name').on('keyup', function(ev){
+		var is_sale_active   = $('#is_sale_active').val();
+		var allow_negative_stock   = $('#allow_negative_stock').val();
+
+		if(!is_sale_active)
+		{
+			$('#search_by_customer_name').val('');
+			swal(
+			  'Oops...!',
+			  'Please select a sale!',
+			  'info'
+			  );
+		}
+		if(is_sale_active)
+		{
+			$("#search_by_customer_name").autocomplete({
+			   	source: function( request, response ) {
+					$.ajax({
+					  	url       : base_url+"customer/search_customer_by_name",
+					  	dataType  : "json",
+					  	type      : "POST",
+					  	cache     : false,
+					  	data      : { term: request.term, flag: 1},
+					 	success   : function( result ) { 
+						   response( $.map(result, function(item){
+								return{
+								  id              : item.id,
+								  label           : item.customer_name,
+								}
+						   }));
+						}
+					});
+				},
+			   	minLength     : 1,
+			});
+
+		}
     });
 
     $('#search_by_warran_product_model').on('keyup', function(ev)

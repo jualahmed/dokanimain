@@ -233,14 +233,24 @@ class Report extends MY_controller
 
 	public function  all_stock_report_find()
 	{	
-		$catagory_id= $this->input->post('catagory_id');
-		$product_id= $this->input->post('product_id');
-		$company_id=$this->input->post('company_id');
-		$type_wise=$this->input->post('type_wise');
-		$product_amount=$this->input->post('product_amount');
+		$catagory_id = $this->input->post('catagory_id');
+		$product_id = $this->input->post('product_id');
+		$company_id = $this->input->post('company_id');
+		$type_wise = $this->input->post('type_wise');
+		$product_amount = $this->input->post('product_amount');
+		$product_size = $this->input->post('product_size');
+		$product_model = $this->input->post('product_model');
 		$category1 = rawurldecode($catagory_id);
 		$company1 = rawurldecode($company_id);
-		$temp = $this->report_model->get_stock_info_by_multi($category1,$product_id,$company1,$type_wise,$product_amount);
+		$temp = $this->report_model->get_stock_info_by_multi(
+			$category1,
+			$product_id,
+			$company1,
+			$type_wise,
+			$product_amount,
+			$product_size,
+			$product_model
+		);
 		echo json_encode($temp->result());
 	}
 

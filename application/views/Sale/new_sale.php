@@ -157,53 +157,31 @@
 			                <tr>
 			                  <td style="vertical-align: middle;">Customer: </td>
 			                  <td colspan="5">
-								<?php	
-									if($current_sale_customer->num_rows > 0)
-									{
-										$query = $current_sale_customer->row();
-										$customer_name=$query->customer_name;
-										$customer_id=$query->customer_id;
-										$customer_contact_no=$query->customer_contact_no;
-								?>
-								<input type="hidden" id="selected_customer_id" value="<?php echo $customer_id;?>">
-								<select id="select_customer" class="form-control customer_name">
-									<option value="">Select Customer</option>
-									<option value="<?php echo $customer_id;?>" selected><?php echo $customer_id;?>. <?php echo $customer_name;?> (<?php echo $customer_contact_no;?>)</option>
-									<?php
-									foreach ($customer_info as $tmp)
-									{
-									?>
-										<option value="<?php echo $tmp->customer_id;?>"><?php echo $tmp->customer_id;?>. <?php echo $tmp->customer_name;?> (<?php echo $tmp->customer_contact_no;?>)</option>
-									<?php
-									}
-									
-									?>
-								</select>
-								<?php
-									}
-									else
-									{
-								?>
-								 <input type="hidden" id="selected_customer_id">
-								 <div style="display: flex;">
-									<select name="customer_name" id="select_customer" class="form-control customer_name" style="width:92%;">
-										<option value="">Select Customer</option>
-										<?php
-										foreach ($customer_info as $tmp)
-										{
+								<div class="input-group" style="width: 100%">
+									<?php	
+											if($current_sale_customer->num_rows > 0)
+											{
+												$customer_id=$query->customer_id;
+												$customer_name=$query->customer_name;
 										?>
-											<option value="<?php echo $tmp->customer_id;?>"><?php echo $tmp->customer_id;?>. <?php echo $tmp->customer_name;?> (<?php echo $tmp->customer_contact_no;?>)</option>
+										<input type="hidden" id="selected_customer_id" value="<?php echo $customer_id; ?>">
+										<input type="text" class="form-control search" value="<?php echo $customer_name; ?>" id="search_by_customer_name" placeholder="Search Product" autofocus="on">
 										<?php
-										}
-										
+											}
+											else
+											{
 										?>
-									</select>
-									<?php
-										}
-									?>
+										<input type="hidden" id="selected_customer_id">
+										<input type="text" class="form-control search" value="" id="search_by_customer_name" placeholder="Search Product" autofocus="on">
+
+										<?php
+											}
+										?>
+									<div class="input-group-addon" style="padding-right: 0;border: none;">
 									<button type="button" class="btn btn-info pull-right btn-y-0" data-toggle="modal" data-target="#exampleModal">+</button>
+									</div>
 								</div>
-			                  </td>
+								
 			                </tr>
 	          			</table>
 	          		</div>
@@ -367,7 +345,7 @@
 										<input type="text" name="customer_name" value="" class="form-control customer_name" placeholder="Customer Name" autocomplete="off">
 									</div>
 									<div class="form-group">
-									    <label for="inputEmail3" class="control-label">Type <span class="text-danger">*</span></label>
+									    <label for="inputEmail3" class="control-label">Type </label>
 										<input type="text" name="customer_type" value="" class="form-control customer_type" placeholder="Type" autocomplete="off">
 									</div>
 									<div class="form-group">
@@ -375,17 +353,17 @@
 										<input type="text" name="customer_contact_no" value="" class="form-control customer_contact_no" placeholder="Contact Number" autocomplete="off">
 									</div>
 									<div class="form-group">
-									    <label for="inputEmail3" class="control-label">Mode <span class="text-danger">*</span></label>
+									    <label for="inputEmail3" class="control-label">Mode </label>
 										<input type="text" name="customer_mode" value="" class="form-control customer_mode" placeholder="Mode" autocomplete="off">
 									</div>
 								</div>
 								<div class="col-md-6 right">
 									<div class="form-group">
-									    <label for="inputEmail3" class="control-label">Email <span class="text-danger">*</span></label>
+									    <label for="inputEmail3" class="control-label">Email </label>
 										<input type="text" name="customer_email" value="" class="form-control customer_email text-lowercase" placeholder="Email Address" autocomplete="off">
 									</div>
 									<div class="form-group">
-									    <label for="inputEmail3" class="control-label">Balance <span class="text-danger">*</span></label>
+									    <label for="inputEmail3" class="control-label">Balance </label>
 										<input type="text" name="int_balance" value="" class="form-control int_balance" placeholder="Balance" autocomplete="off">
 									</div>
 									<div class="form-group">
