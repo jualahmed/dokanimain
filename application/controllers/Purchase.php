@@ -217,9 +217,11 @@ class Purchase extends MY_Controller
 		}
 		$distributor_id = $this->uri->segment(3);
 		$product_id = $this->uri->segment(4);
+		if ($distributor_id != '') {
+			$data['product_info'] 	= $this->product_model->products_by_distributor($distributor_id);
+		}
 		if($distributor_id != '' || $product_id != '')
 		{
-			$data['product_info'] 	= $this->product_model->all();
 			$data['product_info_details'] 	= $this->purchase_model->product_info_details($product_id);
 			$data['product_info_warranty_details'] 	= $this->purchase_model->product_info_warranty_details($product_id);
 		}

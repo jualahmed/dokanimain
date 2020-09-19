@@ -277,7 +277,17 @@ class Product_model extends CI_model{
         ->get();
         if($data->num_rows() > 0)return $data;
         else return false;
-    }
+	}
+	
+	public function products_by_distributor($distributor_id)
+	{
+		return $this->db->select('product_info.*')
+		->from('purchase_receipt_info')
+		->join('purchase_info', 'purchase_receipt_info.receipt_id=purchase_info.purchase_receipt_id', 'left')
+		->join('product_info', 'purchase_info.product_id=product_info.product_id', 'left')
+		->where('purchase_receipt_info.distributor_id', $distributor_id)
+		->get();
+	}
 	
 
 	
