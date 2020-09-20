@@ -7,7 +7,6 @@
 </head>
 </head>
 	<?php 
-
 		$this->load->config('custom_config'); 
 		$pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 	?>
