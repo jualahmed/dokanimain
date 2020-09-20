@@ -18,25 +18,33 @@
 						<table class="table table-bordered">
 							<tr>
 								<th>No.</th>
-								<th>Product.</th>
-								<th>Stock.</th>
-								<th>BP.</th>
-								<th>SP.</th>
+								<th width="18%">Product</th>
+								<th>Category</th>
+								<th>Company</th>
+								<th>Product Size</th>
+								<th>Product Model</th>
+								<th align="center">Stock.</th>
+								<th align="right">Buy Price</th>
+								<th align="right">Sale Price</th>
 							</tr>
 							<?php $stockqty=0;$amount=0;$samount=0; foreach ($temp->result() as $key => $var):$stockqty=$stockqty+$var->stock_amount;$amount=$amount+($var->stock_amount*$var->bulk_unit_buy_price) ;$samount=$samount+($var->stock_amount*$var->general_unit_sale_price)?>
 								<tr v-for="(d,index) in alldata">
 									<td><?php echo $key+1 ?></td> 
-									<td><?php echo $var->product_name ?></td>
-									<td class="text-right"><?php echo $var->stock_amount ?></td>
+									<td width="18%"><?php echo $var->product_name ?></td>
+									<td><?php echo $var->catagory_name ?></td>
+									<td><?php echo $var->company_name ?></td>
+									<td><?php echo $var->product_size ?></td>
+									<td><?php echo $var->product_model ?></td>
+									<td class="text-center"><?php echo $var->stock_amount ?></td>
 									<td class="text-right"><?php echo $var->bulk_unit_buy_price ?></td>
 									<td class="text-right"><?php echo $var->general_unit_sale_price ?></td>
 								</tr>
 							<?php endforeach ?>
 							<tr>
-								<td colspan="2"><b></b></td>
-								<td class="text-right"><b>Total Quantity: <?php echo $stockqty ?></b> </td>
-								<td class="text-right"><b>Total Stock Amount: <?php echo $amount ?></b></td>
-								<td class="text-right"><b>Total Sale Amount: <?php echo $samount ?></b></td>
+								<td colspan="6"><b>Total</b></td>
+								<td class="text-right"><b><?php echo $stockqty ?></b> </td>
+								<td class="text-right"><b><?php echo $amount ?></b></td>
+								<td class="text-right"><b><?php echo $samount ?></b></td>
 							</tr>
 						</table>
 						<?php } else{?>

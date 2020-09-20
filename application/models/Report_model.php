@@ -17,10 +17,13 @@ class Report_model extends CI_model{
 		$product_model = ''
 		)
 	{
-	
+		$this->db->select('bulk_stock_info.*, product_info.product_name, product_size, 
+		product_info.product_model, company_info.company_name, catagory_info.catagory_name');
 		
 		$this->db->join('purchase_info','bulk_stock_info.product_id = purchase_info.product_id', 'left');
 		$this->db->join('product_info','bulk_stock_info.product_id = product_info.product_id', 'left');
+		$this->db->join('catagory_info','product_info.catagory_id = catagory_info.catagory_id', 'left');
+		$this->db->join('company_info','product_info.company_id = company_info.company_id', 'left');
 
 		if($product_id != 0){$this->db->where('product_info.product_id = "'.$product_id.'" ');}
 		if($category1 != 0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}

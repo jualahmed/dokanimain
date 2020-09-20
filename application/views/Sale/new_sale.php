@@ -239,28 +239,37 @@
 			</div>
 
 			<!-- listing all product -->
+			<style>
+			#selected_product_list_tbl tr {
+				font-size: 12px;
+			} 
+			 #selected_product_list_tbl th, 
+			 #selected_product_list_tbl td {
+				padding: 2px 5px!important;
+			 }
+			</style>
 			<div class="col-md-6">
 				<table class="table" id="selected_product_list_tbl">
               		<tr class="bg-aqua color-palette">
               			<td>
-              				SL No
+              				SL
               			</td>
-						<td style="white-space: normal!important;">
-              				Name
+						<td style="white-space: normal!important;" width="30%">
+              				Product Name
               			</td>
-              			<td>
+              			<td style="text-align: center;">
               				Stock
               			</td>
-              			<td>
-              				QTY
+              			<td style="text-align: center;">
+              				Qty.
               			</td>
-						<td>
-              				Sale
+						<td style="text-align: right;">
+              				Unite Price
               			</td>
-              			<td>
-              				Total
+              			<td style="text-align: right;">
+              				Total Price
               			</td>
-              			<td>
+              			<td style="text-align: center;">
               				 <i class="fa fa-fw fa-wrench"></i>
               			</td>
               		</tr>
@@ -278,8 +287,15 @@
 									<td id="pro_name" style="white-space: normal!important;"><?php echo $tmp->item_name.' '.$tmp->product_size; ?></td>
 									<td align="center"><?php echo $tmp->stock; ?></td>
 									<td align="center"> <?php echo $qnty = $tmp->sale_quantity; ?></td>
-									<td align="right"><?php echo $sale_price = $tmp->general_unit_sale_price; ?></td>
-									<td align="right"><?php echo $tmp->sale_quantity * $tmp->general_unit_sale_price; ?></td>
+									<td align="right">
+										<?php 
+											$sale_price = $tmp->general_unit_sale_price;
+											echo sprintf("%01.2f", $sale_price); 
+										?>
+									</td>
+									<td align="right">
+										<?php echo sprintf("%01.2f", $tmp->sale_quantity * $tmp->general_unit_sale_price); ?>
+									</td>
 									<td>
 										<i id="delete<?php echo $i_num;?>" class="fa fa-fw fa-remove delete_product" style="color: red;cursor:pointer;" ></i>      <!-- id="delete" -->
 										<i id="edit<?php echo $i_num;?>" class="fa fa-edit edit_quantty" style="color: green;cursor:pointer;" ></i>      <!-- id="edit" -->

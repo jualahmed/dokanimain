@@ -33,14 +33,14 @@
 
 							  </div>
 
-							  <label for="inputEmail3" class="col-sm-1 control-label">Product Size</label>
+							  <label for="inputEmail3" class="col-sm-1 control-label">Size</label>
 								<div class="col-sm-2">
 									<?php 
 										echo form_input('product_size','','v-model="product_size" class ="form-control seven" id="lock77" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" placeholder="Product Size" autocomplete="off"');
 									?>
 								</div>
 
-								<label for="inputEmail3" class="col-sm-1 control-label">Product Model</label>
+								<label for="inputEmail3" class="col-sm-1 control-label">Model</label>
 								<div class="col-sm-2">
 									<?php 
 										echo form_input('product_model','','v-model="product_model" class ="form-control seven" id="lock77" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" placeholder="Product Model" autocomplete="off"');
@@ -81,7 +81,7 @@
 								<div class="col-sm-3 mt-2">
 									<button type="submit" class="btn btn-success btn-sm" @click.prevent="stockreport" name="search_random"><i class="fa fa-fw fa-search"></i> Search</button>
 									<button type="reset" id="reset_btn" class="btn btn-warning btn-sm"><i class="fa fa-fw fa-refresh"></i> Reset</button>
-									<a :href="base_url+'Report/stock_report_print/'+catagory_id+'/'+product_id+'/'+company_id+'/'+type_wise" id="down" target="_blank" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fa fa-download"></i> Download</a>
+									<a :href="`${base_url}/Report/stock_report_print/${catagory_id}/${product_id}/${product_size}/${product_model}/${company_id}/${type_wise}`" id="down" target="_blank" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fa fa-download"></i> Download</a>
 								</div>
 							</div>
 						</form>
@@ -101,25 +101,33 @@
   			<thead class="table-hf" style="line-height: 0px;">
   				<tr>
   					<th>No.</th>
-  					<th>Product.</th>
-  					<th>Stock.</th>
-  					<th>BP.</th>
-  					<th>SP.</th>
+  					<th width="20%">Product.</th>
+  					<th>Category</th>
+  					<th>Company</th>
+  					<th>Product Size</th>
+  					<th>Product Model</th>
+  					<th align="center">Stock.</th>
+  					<th align="right">Buy Price</th>
+  					<th align="right">Sale Price</th>
   				</tr>
   			</thead>
   			<tbody>
   				<tr v-for="(d,index) in alldata">
   					<td>{{ index+1 }}</td> 
-  					<td style="white-space: normal!important;">{{ d.product_name }}</td>
-  					<td class="text-right">{{ d.stock_amount }}</td>
+  					<th width="20%" style="white-space: normal!important;">{{ d.product_name }}</th>
+  					<td style="white-space: normal!important;">{{ d.catagory_name }}</td>
+  					<td style="white-space: normal!important;">{{ d.company_name }}</td>
+  					<td style="white-space: normal!important;">{{ d.product_size }}</td>
+  					<td style="white-space: normal!important;">{{ d.product_model }}</td>
+  					<td class="text-center">{{ d.stock_amount }}</td>
   					<td class="text-right">{{ d.bulk_unit_buy_price | shortFloatNumber }}</td>
   					<td class="text-right">{{ d.general_unit_sale_price | shortFloatNumber }}</td>
   				</tr>
   				<tr>
-  					<td colspan="2"><b></b></td>
-  					<td class="text-right"><b>Total Quantity: {{ stockqty }}</b> </td>
-  					<td class="text-right"><b>Total Stock Amount: {{ amount | shortFloatNumber }}</b></td>
-  					<td class="text-right"><b>Total Sale Amount: {{ samount | shortFloatNumber }}</b></td>
+  					<td colspan="6"><b>Total</b></td>
+  					<td class="text-center"><b>{{ stockqty }}</b> </td>
+  					<td class="text-right"><b>{{ amount | shortFloatNumber }}</b></td>
+  					<td class="text-right"><b>{{ samount | shortFloatNumber }}</b></td>
   				</tr>
   			</tbody>
   		</table>

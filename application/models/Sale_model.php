@@ -45,7 +45,7 @@ class Sale_model extends CI_model{
     public function search_product($query){
 		$data = $this->db
             ->select('product_name, company_info.company_name, catagory_info.catagory_name,product_size,product_model, product_info.product_id, bulk_unit_sale_price, general_unit_sale_price, bulk_unit_buy_price, stock_amount, barcode, group_name, product_info.product_specification')
-            ->where("`product_name` RLIKE +'$query' OR `product_name` LIKE '$query%'")
+            ->where("`product_name` LIKE '$query%'")
             ->order_by('product_name', 'asc')
             ->limit(50)
             ->from('product_info')
