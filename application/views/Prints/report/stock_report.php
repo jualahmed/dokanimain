@@ -25,7 +25,9 @@
 								<th>Product Model</th>
 								<th align="center">Stock.</th>
 								<th align="right">Buy Price</th>
+								<th align="right">Total BP</th>
 								<th align="right">Sale Price</th>
+								<th align="right">Total SP</th>
 							</tr>
 							<?php $stockqty=0;$amount=0;$samount=0; foreach ($temp->result() as $key => $var):$stockqty=$stockqty+$var->stock_amount;$amount=$amount+($var->stock_amount*$var->bulk_unit_buy_price) ;$samount=$samount+($var->stock_amount*$var->general_unit_sale_price)?>
 								<tr v-for="(d,index) in alldata">
@@ -36,15 +38,19 @@
 									<td><?php echo $var->product_size ?></td>
 									<td><?php echo $var->product_model ?></td>
 									<td class="text-center"><?php echo $var->stock_amount ?></td>
-									<td class="text-right"><?php echo $var->bulk_unit_buy_price ?></td>
-									<td class="text-right"><?php echo $var->general_unit_sale_price ?></td>
+									<td class="text-right"><?php echo sprintf("%01.2f", $var->bulk_unit_buy_price) ?></td>
+									<td class="text-right"><?php echo sprintf("%01.2f", $var->bulk_unit_buy_price * $var->stock_amount) ?></td>
+									<td class="text-right"><?php echo sprintf("%01.2f", $var->general_unit_sale_price) ?></td>
+									<td class="text-right"><?php echo sprintf("%01.2f", $var->general_unit_sale_price * $var->stock_amount) ?></td>
 								</tr>
 							<?php endforeach ?>
 							<tr>
 								<td colspan="6"><b>Total</b></td>
 								<td class="text-right"><b><?php echo $stockqty ?></b> </td>
-								<td class="text-right"><b><?php echo $amount ?></b></td>
-								<td class="text-right"><b><?php echo $samount ?></b></td>
+								<td></td>
+								<td class="text-right"><b><?php echo sprintf("%01.2f", $amount) ?></b></td>
+								<td></td>
+								<td class="text-right"><b><?php echo sprintf("%01.2f", $samount) ?></b></td>
 							</tr>
 						</table>
 						<?php } else{?>
