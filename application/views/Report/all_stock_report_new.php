@@ -2,6 +2,12 @@
     .table-scroll .table {
         min-width: 100% !important;
     }
+	.multiselect {
+		min-height: 38px !important;
+	}
+	.multiselect__tags {
+		min-height: 38px !important;
+	}
 </style>
 <div class="content-wrapper" id="vueapp">
 	<section class="content">
@@ -15,9 +21,9 @@
 					</div>
 					<div class="box-body">
 						<form action ="<?php echo base_url();?>Report/all_stock_report_find" class="form-horizontal" method="post" id="form_2" autocomplete="off">
-							<div class="form-group row">
+							<div class="form-group row" style="margin-bottom: 20px !important;">
 							  <label for="inputEmail3" class="col-sm-1 control-label">Product</label>
-							  <div class="col-sm-5">
+							  <div class="col-sm-3">
 
 							  	<multiselect 
 							  	id="ajax" 
@@ -33,14 +39,14 @@
 
 							  </div>
 
-							  <label for="inputEmail3" class="col-sm-1 control-label">Size</label>
+							  <label for="inputEmail3" class="col-sm-2 control-label">Product Size</label>
 								<div class="col-sm-2">
 									<?php 
 										echo form_input('product_size','','v-model="product_size" class ="form-control seven" id="lock77" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" placeholder="Product Size" autocomplete="off"');
 									?>
 								</div>
 
-								<label for="inputEmail3" class="col-sm-1 control-label">Model</label>
+								<label for="inputEmail3" class="col-sm-2 control-label">Product Model</label>
 								<div class="col-sm-2">
 									<?php 
 										echo form_input('product_model','','v-model="product_model" class ="form-control seven" id="lock77" style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;" placeholder="Product Model" autocomplete="off"');
@@ -81,7 +87,7 @@
 								<div class="col-sm-3 mt-2">
 									<button type="submit" class="btn btn-success btn-sm" @click.prevent="stockreport" name="search_random"><i class="fa fa-fw fa-search"></i> Search</button>
 									<button type="reset" id="reset_btn" class="btn btn-warning btn-sm"><i class="fa fa-fw fa-refresh"></i> Reset</button>
-									<a :href="`${base_url}/Report/stock_report_print/${catagory_id}/${product_id}/${product_size}/${product_model}/${company_id}/${type_wise}`" id="down" target="_blank" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fa fa-download"></i> Download</a>
+									<a @click.prevent="downloadLink" role="button" href="" id="down" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fa fa-download"></i> Download</a>
 								</div>
 							</div>
 						</form>

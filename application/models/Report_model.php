@@ -8,9 +8,9 @@ class Report_model extends CI_model{
 	}
 
 	public function get_stock_info_by_multi(
-		$category1='',
+		$category_id='',
 		$product_id='',
-		$company1='',
+		$company_id='',
 		$type_wise='',
 		$product_amount='',
 		$product_size = '',
@@ -19,18 +19,18 @@ class Report_model extends CI_model{
 	{
 		$this->db->select('bulk_stock_info.*, product_info.product_name, product_size, 
 		product_info.product_model, company_info.company_name, catagory_info.catagory_name');
-		
+		$this->db->from('bulk_stock_info');
 		$this->db->join('purchase_info','bulk_stock_info.product_id = purchase_info.product_id', 'left');
 		$this->db->join('product_info','bulk_stock_info.product_id = product_info.product_id', 'left');
 		$this->db->join('catagory_info','product_info.catagory_id = catagory_info.catagory_id', 'left');
 		$this->db->join('company_info','product_info.company_id = company_info.company_id', 'left');
 
-		if($product_id != 0){$this->db->where('product_info.product_id = "'.$product_id.'" ');}
-		if($category1 != 0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
-		if($company1 != 0){$this->db->where('product_info.company_id = "'.$company1.'" ');}
-		if($product_amount != 0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-		if($product_size != ''){$this->db->like('product_info.product_size', $product_size);}
-		if($product_model != ''){$this->db->like('product_info.product_model', $product_model);}
+		if($product_id != 0){$this->db->where('bulk_stock_info.product_id = '.$product_id);}
+		if($category_id != 0){$this->db->where('product_info.catagory_id = '.$category_id);}
+		if($company_id != 0){$this->db->where('product_info.company_id = '.$company_id);}
+		if($product_amount != 0){$this->db->where('bulk_stock_info.stock_amount <= '.$product_amount);}
+		if($product_size != 'null' && $product_size != ''){$this->db->like('product_info.product_size', $product_size);}
+		if($product_model != 'null' && $product_model != ''){$this->db->like('product_info.product_model', $product_model);}
 
 		if($type_wise == 'available')
 		{
@@ -41,7 +41,7 @@ class Report_model extends CI_model{
 			$this->db->where('bulk_stock_info.stock_amount <= 0'); 
 		}
 
-		$query = $this->db->get('bulk_stock_info');
+		$query = $this->db->get();
 		return $query;
 	}	
 
