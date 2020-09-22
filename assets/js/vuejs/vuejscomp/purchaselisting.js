@@ -17,17 +17,21 @@ const vm = new Vue({
 			tp_total:0,
 			vat_total:0,
 			quantity:null,
+			
+			old_unit_buy_price_purchase:null,
+
 			total_buy_price:null,
 			unit_buy_price_purchase:null,
+			original_total_buy_price: 0,
 			exclusive_sale_price:0,
 			general_sale_price:null,
+
 			purchase_info:[],
 			allworrantyproduct:[],
 			totalqty:0,
 			unit_buy_price:0,
 			original_unit_buy_price: 0,
 			tunit_buy_price:0,
-			original_total_buy_price: 0,
 			xhr:'ToCancelPrevReq',
 			errors: {}
 		};
@@ -144,11 +148,11 @@ const vm = new Vue({
 		selectaproduct(e){
 			this.total_buy_price = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
 			this.unit_buy_price_purchase = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
+			this.old_unit_buy_price_purchase = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
 			this.original_total_buy_price = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
-			this.original_unit_buy_price_purchase = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
 			this.general_sale_price = e.bulk_unit_sale_price === null ? 0.00 : e.bulk_unit_sale_price;
 			this.exclusive_sale_price = e.bulk_unit_sale_price === null ? 0.00 : e.bulk_unit_sale_price;
-			this.quantity = 1;
+			this.quantity = '';
 		},
 		isReadyToCreate() {
 			return (this.selectedCountries && 
@@ -219,21 +223,40 @@ const vm = new Vue({
 	},
 	watch:{
 		quantity: function (val) {
-			this.quantity=parseInt(val);
-			if (!isNaN(this.quantity) && this.quantity != 0) {
-				this.total_buy_price = this.quantity * parseFloat(this.unit_buy_price_purchase).toFixed(2);
-				this.unit_buy_price_purchase = parseFloat(this.total_buy_price).toFixed(2) / this.quantity;
+			if (val === '') {
+				this.total_buy_price = '';
+				this.unit_buy_price_purchase = '';
+			}else {
+				this.quantity=parseInt(val);
+				if (!isNaN(this.quantity) && this.quantity != 0) {
+					this.total_buy_price = this.quantity * parseFloat(this.old_unit_buy_price_purchase).toFixed(2);
+					this.unit_buy_price_purchase = parseFloat(this.total_buy_price).toFixed(2) / this.quantity;
+				}
 			}
 		},
 		total_buy_price: function (val) {
-			this.total_buy_price = parseFloat(val);
-			if (!isNaN(this.quantity) && !isNaN(this.total_buy_price)) {
-				this.unit_buy_price_purchase = parseFloat(this.total_buy_price).toFixed(2) / parseFloat(this.quantity).toFixed(2);
-			}
+			if (this.quantity !== '') {
+				if (val === '') {
+					this.unit_buy_price_purchase = '';
+					this.quantity = '';
+				}else {
+					this.total_buy_price = parseFloat(val);
+					if (!isNaN(this.quantity) && !isNaN(this.total_buy_price)) {
+						this.unit_buy_price_purchase = parseFloat(this.total_buy_price).toFixed(2) / parseFloat(this.quantity).toFixed(2);
+					}
+				}
+			} 
 		},
 		unit_buy_price_purchase: function (val) {
-			if (!isNaN(this.quantity)) {
-				this.total_buy_price = this.quantity * val;
+			if (this.quantity !== '') {
+				if (val === '') {
+					this.total_buy_price = '';
+					this.quantity = '';
+				}else {
+					if (!isNaN(this.quantity)) {
+						this.total_buy_price = this.quantity * val;
+					}
+				}
 			}
 		},
 		selected1:function(val){

@@ -109,7 +109,7 @@ class Purchaselisting extends MY_Controller {
 				$this->db->insert('bulk_stock_info', $object);
 			}
 
-			// reciper for info table
+			// recipe for info table
 			$data = array(
 		        'purchase_receipt_id' => $purchase_receipt_id,
 		        'product_id' => $product_id,

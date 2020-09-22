@@ -17,7 +17,7 @@ class Report_model extends CI_model{
 		$product_model = ''
 		)
 	{
-		$this->db->select('bulk_stock_info.*, product_info.product_name, product_size, 
+		$this->db->distinct()->select('bulk_stock_info.*, product_info.product_name, product_size, 
 		product_info.product_model, company_info.company_name, catagory_info.catagory_name');
 		$this->db->from('bulk_stock_info');
 		$this->db->join('purchase_info','bulk_stock_info.product_id = purchase_info.product_id', 'left');
