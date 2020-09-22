@@ -18,6 +18,9 @@
 		input[type=number] {
 		-moz-appearance: textfield;
 		}
+		#purchase_products tr {
+			font-size: 13px !important;
+		}
 	</style>
     <section class="content" id="vuejscom"> 
 	    <div class="row">
@@ -77,34 +80,34 @@
 			            		</tr>
 			            		<tr>
 			            			<td><b>Receipt ID</b></td>
-			            			<td id="receiptid">
+			            			<td align="center" id="receiptid">
 			            				{{ selected1.receipt_id }}
 			            			</td>
 			            			<td>
 			            				<b>Purchase Date</b>
 			            			</td>
-			            			<td>
-			            				{{ selected1.receipt_date }}
+			            			<td align="center">
+			            				{{ selected1.receipt_date | custom_date }}
 			            			</td>
 			            		</tr>
 			            		<tr>
 			            			<td><b>Purchase Price</b></td>
-			            			<td>
-			            				{{ selected1.purchase_amount }}
+			            			<td style="text-align:right">
+			            				{{ parseFloat(selected1.purchase_amount).toFixed(2) }}
 			            			</td>
 			            			<td><b>Discount</b></td>
-			            			<td>
-			            				{{ selected1.gift_on_purchase }}
+			            			<td style="text-align:right">
+			            				{{ parseFloat(selected1.gift_on_purchase).toFixed(2) }}
 			            			</td>
 			            		</tr>
 			            		<tr>
 			            			<td><b>Grand Total</b></td>
-			            			<td>
-			            				{{ selected1.final_amount }}
+			            			<td style="text-align:right">
+			            				{{ parseFloat(selected1.final_amount).toFixed(2) }}
 			            			</td>
 			            			<td><b>Transport Cost</b></td>
-			            			<td>
-			            				{{ selected1.transport_cost }}
+			            			<td style="text-align:right">
+			            				{{ parseFloat(selected1.transport_cost).toFixed(2) }}
 			            			</td>
 			            		</tr>
 			            	</tbody>
@@ -129,21 +132,21 @@
 			            		</tr>
 			            		<tr>
 			            			<td><b>Purchase Price</b></td>
-			            			<td>
+			            			<td style="text-align: right">
 			            				
 			            			</td>
 			            			<td><b>Discount</b></td>
-			            			<td>
+			            			<td style="text-align: right">
 			            				
 			            			</td>
 			            		</tr>
 			            		<tr>
 			            			<td><b>Grand Total</b></td>
-			            			<td>
+			            			<td style="text-align: right">
 			            				
 			            			</td>
 			            			<td><b>Transport Cost</b></td>
-			            			<td>
+			            			<td style="text-align: right">
 			            			</td>
 			            		</tr>
 			            	</tbody>
@@ -274,20 +277,18 @@
 							<table class="head" id="purchase_products">
 								<tr style="background-color: #2aabd2; color: white;">
 									<td style="width: 4%;">No</td>
-									<td style="width: 6%;">Pr. ID</td>
 									<td style="text-align: left; width: 35%;">Product Name</td>
-									<td style="text-align: center; width: 6%;">Qnt.</td>
-									<td style="text-align: center;width: 10%;">U.B.P</td>
-									<td style="text-align: center; width: 10%;">T.P</td>
+									<td style="text-align: center; width: 6%;">Quantity</td>
+									<td style="text-align: right;width: 10%;">Unit Price</td>
+									<td style="text-align: right; width: 10%;">Total Price</td>
 									<td style="text-align: center; width: 7%;" ><i class="fa fa-edit"></i></td>
 								</tr>
 								<tr v-for="(p,index) in purchase_info[0]">
 									<td style="width: 4%;">{{ index+1 }}</td>
-									<td style="width: 6%;">{{ p.purchase_id }}</td>
 									<td style="width: 35%;">{{ p.product_name }}</td>
 									<td style="text-align: center; width: 6%;">{{ p.purchase_quantity }}</td>
-									<td style="text-align: center;width: 10%;">{{ parseFloat(p.unit_buy_price).toFixed(2) }}</td>
-									<td style="text-align: center;width: 10%;">{{ parseFloat(p.purchase_quantity*p.unit_buy_price).toFixed(2) }}</td>
+									<td style="text-align: right;width: 10%;">{{ parseFloat(p.unit_buy_price).toFixed(2) }}</td>
+									<td style="text-align: right;width: 10%;">{{ parseFloat(p.purchase_quantity*p.unit_buy_price).toFixed(2) }}</td>
 									<td style="text-align: center;width: 6%;">
 									  <i
 									    class="fa fa-fw fa-remove css_for_cursor"
@@ -300,11 +301,10 @@
 								</tr>
 								<tr style="background-color: #2aabd2; color: white;">
 									<td style="width: 4%;"></td>
-									<td style="width: 6%;"></td>
 									<td style="width: 35%;text-align: right;">Total</td>
 									<td style="width: 6%;text-align: center;">{{ totalqty }}</td>
 									<td style="text-align: center; width: 10%;"></td>
-									<td style="text-align: center;width: 10%;">{{ parseFloat(tunit_buy_price).toFixed(2) }}</td>
+									<td style="text-align: right;width: 10%;">{{ parseFloat(tunit_buy_price).toFixed(2) }}</td>
 									<td style="text-align: center; width: 7%;" ></td>
 								</tr>	
 							</table>

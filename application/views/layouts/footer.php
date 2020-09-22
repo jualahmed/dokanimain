@@ -39,6 +39,7 @@
 <script src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/app.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/sweetalert2.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/moment.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/jquery-ui.js"></script>
 <script src="<?php echo base_url();?>assets/js/select2.full.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/bootstrap-datepicker.js"></script>

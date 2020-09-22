@@ -302,6 +302,11 @@ const vm = new Vue({
 	computed: {
 		 
 	},
+	filters: {
+		custom_date(date) {
+			return moment(date).format('DD-MM-YYYY');
+		}
+	}
 });
 
 $("#qty").keyup(function () {
