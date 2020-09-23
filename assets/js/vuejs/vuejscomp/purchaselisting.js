@@ -129,7 +129,15 @@ const vm = new Vue({
 						alert("Purchase Priced Exceed Not Allow")
 					}else{
 						var re = jQuery.parseJSON(re);
-						self.purchase_info[0].push(re[0]);
+						var index = self.purchase_info[0].findIndex(function (purchase) {
+							return purchase.purchase_id == re[0].purchase_id;
+						});
+						if (index != -1) {
+							self.purchase_info[0][index] = re[0];
+						}else {
+							self.purchase_info[0].push(re[0]);
+						}
+						
 						self.general_sale_price=0;
 						self.exclusive_sale_price=0;
 						self.unit_buy_price_purchase=0;
@@ -588,6 +596,158 @@ $(function () {
 		// This event clear barcode
 		$('.clear_barcode').on('click', function () {
 			$('.barcode_id').val('');
+		});
+
+
+
+
+		$('#purchase_products').on('click', "[name='edit']", function(ev)
+		{
+			ev.preventDefault();
+
+			global_product_id                 	= $(this).attr('id');
+			global_purchase_receipt_id       	= $('#pur_rec_id').val();
+			var purchase_receipt_id       		= $('#purchase_receipt_id').val();
+			selected_row                      	= $(this);
+			var specification_id     			= $('#spec'+global_product_id).val();
+			var old_qty     					= parseFloat(selected_row.closest('tr').find('td:nth-child(4)').text());
+			var old_tp      					= parseFloat(selected_row.closest('tr').find('td:nth-child(5)').text());
+			var product_id            = $(this).attr('id');
+			var purchase_id            = $(this).attr('purchase_id');
+			var purchase_receipt_id   = $('#pur_rec_id').val();
+			console.log(product_id);
+			$.ajax({
+				url: base_url+'purchaselisting/find',
+				type: 'POST',
+				data: {purchaselisting_id: purchase_id},
+			})
+			.done(function(re) {
+				var re= jQuery.parseJSON(re);
+				$("#purchase_id").val(re.purchase_id);
+				$("#qty").val(re.purchase_quantity);
+				$("#qty_hidden").val(re.purchase_quantity);
+				$("#u_b_p").val(re.unit_buy_price);
+				$("#g_b_p").val(re.general_unit_sale_price);
+				$("#e_b_p").val(re.bulk_unit_sale_price);
+
+				if (re.has_serial_no && re.serials.length > 0) {
+					var output = '';
+					$.each(re.serials, function (key, serial) {
+						output += `<li>
+							<div class="input-group input-group-md">
+								<input type="hidden" name="sp_id" value="${serial.sp_id}" id="sp_id"/>
+								<input type="text" name="serial_no[]" value="${serial.sl_no}" id="serial_no" class="form-control">
+								<div class="input-group-btn">
+									<button class="btn btn-danger" type="button"><i class="fa fa-times"></i></button>
+								</div>
+							</div>
+						</li>`;
+					});
+					$(".serial-no-list").html(output);
+				}
+			})
+			.fail(function() {
+				console.log("error");
+			})
+		});
+
+		$("#edit_modal #qty").change(function () {
+			var qty_hidden = $("#qty_hidden").val();
+			$(".new-serial").remove();
+			var new_qty = $(this).val();
+			var dif =new_qty - qty_hidden;
+			if (dif > 0) {
+				while (dif > 0) {
+					var output = `<li class="new-serial">
+						<div class="input-group input-group-md">
+							<input type="hidden" name="sp_id" value=""/>
+							<input type="text" name="serial_no[]" value="" class="form-control">
+							<div class="input-group-btn">
+								<button class="btn btn-success" type="button"><i class="fa fa-check"></i></button>
+							</div>
+						</div>
+					</li>`;
+					$(".serial-no-list").append(output);
+					dif--;
+				}
+			}
+			if (dif < 0) {
+				dif = dif * -1;
+				alert(`Remove ${dif} serial no.`);
+			}
+		});
+		$('#edit_modal_form').on('submit', function(ev){
+			var serial_nos = $("input[name='serial_no[]']").map(function () {
+				return $(this).val();
+			}).get();
+			console.log(serial_nos);
+			ev.preventDefault();
+			// var qty             = $('#qty').val();
+			// var purchase_id             = $('#purchase_id').val();
+			// var unit_buy_price  = $('#u_b_p').val();
+			// var general_unit_sale_price  = $('#g_b_p').val();
+			// var bulk_unit_sale_price  = $('#e_b_p').val();
+			// if(qty != '' && qty > 0 && !isNaN(qty) && unit_buy_price !='' && unit_buy_price > 0 && !isNaN(unit_buy_price)){
+			// 	swal({
+			// 		title               : 'Are you sure?',
+			// 		text                : ":)",
+			// 		type                : 'warning',
+			// 		showCancelButton    : true,
+			// 		confirmButtonColor  : '#db8b0b',
+			// 		cancelButtonColor   : '#419641',
+			// 		confirmButtonText   : 'Yes',
+			// 		cancelButtonText    : 'No'
+			// 	}).then(function (){
+			// 		$.ajax({
+			// 		url       : base_url+'purchaselisting/editPruchaseProduct',
+			// 		type      : 'POST',
+			// 		data      : {
+			// 						purchase_id           : purchase_id,
+			// 						qty                   : qty, 
+			// 						u_b_p                 : unit_buy_price,
+			// 						e_b_p                 : bulk_unit_sale_price,
+			// 						g_b_p                 : general_unit_sale_price,
+			// 					},
+			// 		success   : function(info)
+			// 		{	
+			// 			vm.updatepurchase_info();
+			// 			console.log(info)
+			// 			$('#edit_modal_form').trigger("reset");
+			// 			$('#edit_modal').modal('hide');
+			// 			var total_final = 0.00;
+			// 			$('.total_purchase_price_final').each(function(){
+			// 				total_final += parseFloat($(this).text()); 
+			// 			});
+			// 			$('#total_purchase_price_new_final').html(total_final);
+
+			// 			swal(
+			// 			'Edited!',
+			// 			'Data has been edited.',
+			// 			'success'
+			// 			);
+			// 		}
+			// 		});
+			// 	}, function (dismiss) {
+			// 		if (dismiss === 'cancel') {
+			// 		$('#edit_modal_form').trigger("reset");
+			// 		$('#edit_modal').modal('hide');
+			// 		swal(
+			// 			'Canceled',
+			// 			':)',
+			// 			'info'
+			// 		)
+			// 		}
+			// 	})
+			// }
+			// else{
+			// $('#edit_modal_form').trigger("reset");
+			// swal(
+			// 	'Oops...!',
+			// 	'Invalid Data!!!',
+			// 	'error'
+			// );
+			// }
+			/*swal*/
 		});
 	});
 

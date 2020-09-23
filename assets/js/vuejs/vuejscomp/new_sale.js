@@ -137,16 +137,19 @@ jQuery(document).ready(function($) {
 					 	success   : function( result ) { 
 						   response( $.map(result, function(item){
 								return{
-								  id              : item.id,
+								  id              : item.customer_id,
+								  value           : item.customer_name,
 								  label           : item.customer_name,
 								}
 						   }));
 						}
 					});
 				},
-			   	minLength     : 1,
+				minLength     : 1,
+				select        : function (event, ui) {
+					$("#selected_customer_id").val(ui.item.id);
+				}
 			});
-
 		}
     });
 
@@ -440,10 +443,9 @@ $(document).ready(function() {
                     $('#customer').find('div.form-group').removeClass('has-error').removeClass('has-success');
                     $('#customer').find('p.text-danger').remove();
                     if (res.success == true) {
-                        $("select[name='customer_name'").html('');
-
                         $.each(res.data, function(){
-                            $("select[name='customer_name'").append('<option value="'+ this.customer_id +'">'+ this.customer_name +'</option>')
+							$("#selected_customer_id").val(this.customer_id);
+							$("#search_by_customer_name").val(this.customer_name);
                         })
                         $('#exampleModal').modal('hide');
                     }
@@ -882,7 +884,16 @@ $('#received').on('keyup', function (efs)
 // quick_sale or cash sale start
 $('#quick_sale').on('click', function(e)
 {
-	quick(e);
+	var change = $("#change").val();
+	if (change !== '' && parseFloat(change) >= 0) {
+		quick(e);
+	}else {
+		swal(
+			'Oops...!',
+			'Received amount must be greater then or equal to total price!',
+			'info'
+		);
+	}
 });
 
 function quick(e)
@@ -1027,54 +1038,55 @@ $('#credit_sale').on('click', function(e){
     }
     else
     {
-        swal({
-          title               : 'Are You Sure About Credit Sale?',
-          text                : "You won't be able to revert this!",
-          type                : 'warning',
-          showCancelButton    : true,
-          confirmButtonColor  : '#db8b0b',
-          cancelButtonColor   : '#008d4c',
-          confirmButtonText   : 'Yes',
-          cancelButtonText    : 'No'
-        }).then(function () {
-			var sub_total       = $('#sub_total').val();
-			var vat             = $('#vat').val();
-			var total           = parseFloat($('#total').val());
-			var received        = $('#received').val();
-			var customer_id     = $('#select_customer').val();
-			var disc_in_p       = $('#disc_in_p').val();
-			var disc_in_f       = $('#disc_in_f').val();
-			var disc_amount     = parseFloat($('#disc_amount').val());
-			var delivery_charge = parseFloat($('#delivery_charge').val());
-			var customer_name   = $('#customer_name').val();
-			var customer_phn    = $('#customer_phone').val();
-			var return_adjust   = $('#return_adjust').val();
-			var change          = $('#change').val();
-			var payable         = $('#payable').val();
-			var return_id       = $('#hid_return_id').val();
+		var sub_total       = $('#sub_total').val();
+		var vat             = $('#vat').val();
+		var total           = parseFloat($('#total').val());
+		var received        = $('#received').val();
+		var customer_id     = $('#selected_customer_id').val();
+		var disc_in_p       = $('#disc_in_p').val();
+		var disc_in_f       = $('#disc_in_f').val();
+		var disc_amount     = parseFloat($('#disc_amount').val());
+		var delivery_charge = parseFloat($('#delivery_charge').val());
+		var customer_name   = $('#customer_name').val();
+		var customer_phn    = $('#customer_phone').val();
+		var return_adjust   = $('#return_adjust').val();
+		var change          = $('#change').val();
+		var payable         = $('#payable').val();
+		var return_id       = $('#hid_return_id').val();
 
-			var is_valid = true;
-			var message = '';
-			console.log(customer_id);
-			if(disc_amount > total)
-			{
-				message = 'Discount Amount is Greater Than Total Amount!';
-				is_valid = false;
-			}
-			if (sub_total == '') {
-				is_valid = false;
-				message = 'Sub-total should not be empty';
-			}
-			if (customer_id == '') {
-				is_valid = false;
-				message = 'Please select a customer';
-			}
-			if (total == '') {
-				is_valid = false;
-				message = 'Total price should not be empty';
-			}
+		var is_valid = true;
+		var message = '';
+		console.log(customer_id);
+		if(disc_amount > total)
+		{
+			message = 'Discount Amount is Greater Than Total Amount!';
+			is_valid = false;
+		}
+		if (sub_total == '') {
+			is_valid = false;
+			message = 'Sub-total should not be empty';
+		}
+		if (customer_id == '') {
+			is_valid = false;
+			message = 'Please select a customer';
+		}
+		if (total == '') {
+			is_valid = false;
+			message = 'Total price should not be empty';
+		}
 
-			if (is_valid) {
+		if (is_valid) {
+
+			swal({
+				title               : 'Are You Sure About Credit Sale?',
+				text                : "You won't be able to revert this!",
+				type                : 'warning',
+				showCancelButton    : true,
+				confirmButtonColor  : '#db8b0b',
+				cancelButtonColor   : '#008d4c',
+				confirmButtonText   : 'Yes',
+				cancelButtonText    : 'No'
+			  }).then(function () {
 				$.ajax({
 					url: base_url+'sale/doSale_credit',
 					type: "POST",
@@ -1122,14 +1134,36 @@ $('#credit_sale').on('click', function(e){
 						window.open(base_url+"invoice/index/" + result, '_blank');          
 					}  
 				});
-			} else {
-				swal(
-					'Oops...!',
-					message,
-					'warning'
-				  );
-			}
-		})
+	  
+			  });
+		} else {
+			swal(
+				'Oops...!',
+				message,
+				'warning'
+			  );
+		}
+		// var customer = $("#selected_customer_id").val();
+		// var received = $("#received").val();
+		// var total = $("#total").val();
+        // if (customer !== '') {
+		// 	if(received === '' || parseFloat(received) < parseFloat(total)) {
+				
+		// 	} else {
+		// 		swal(
+		// 			'Oops...!',
+		// 			'received price must be zero or less than total price!',
+		// 			'info'
+		// 		  );
+		// 	}
+			
+		// } else {
+		// 	swal(
+		// 		'Oops...!',
+		// 		'Please select a customer!',
+		// 		'info'
+		// 	  );
+		// }
     }
 });
 // master card sale start
@@ -1817,7 +1851,8 @@ $('#received').on('keyup', function()
 	{
       if(str_received != '' && str_total != '' && !isNaN(str_received) && int_received > 0)
 	  {
-          $('#change').val(int_received - payable);
+		  var dif = int_received - payable;
+          $('#change').val(parseFloat(dif).toFixed(2));
       }
       if(str_received == '')$('#change').val("");
     }
@@ -1826,7 +1861,8 @@ $('#received').on('keyup', function()
 	{
       if(str_received != '' && str_total != '' && !isNaN(str_received) && int_received > 0)
 	  {
-          $('#change').val(int_received - int_total);
+		  var dif = int_received - int_total;
+          $('#change').val(parseFloat(dif).toFixed(2));
       }
       if(str_received == '')$('#change').val("");
     }
@@ -1894,7 +1930,7 @@ function quotation()
 			var disc_amount     = parseFloat($('#disc_amount').val());
 			var delivery_charge = parseFloat($('#delivery_charge').val());
 			var discount_limit  = $('#discount_limit').val();
-			var customer_id  = $('#select_customer').val();
+			var customer_id  = $('#selected_customer_id').val();
 			
 			if(disc_amount > total && discount_limit==0)
 			{

@@ -62,10 +62,8 @@ class Purchaselisting extends MY_Controller {
 		$general_sale_price=$this->input->post('general_sale_price');
 		$allworrantyproduct = $this->input->post('allworrantyproduct');
 		$creator = $this->tank_auth->get_user_id();
-		// Bulk stoke info table
-		$this->db->where('product_id', $product_id);
-		$alddata = $this->db->get('bulk_stock_info')->row();
-
+		
+		$purchase_id = -1;
 		$total_unit_buy_price=0;
 		$purchaseinfoma = Purchaseinfom::where('purchase_receipt_id',$purchase_receipt_id)->get();
 		foreach ($purchaseinfoma as $key => $value) {
@@ -77,6 +75,82 @@ class Purchaselisting extends MY_Controller {
 		if($allow_purchase_exceed == 0 && ($total_unit_buy_price + $total_buy_price) > $totalprice->final_amount){
 			echo "exceed";
 		}else{
+
+			/**
+			 * purchase_info table
+			 * 
+			 * First check this :purchase_receipt_id with :product_id has any record in purchase info table
+			 * If any record exists, then update record info
+			 * Otherwise create new record
+			 */
+			$oldPurchaseData = $this->db->where([
+				'product_id' => $product_id,
+				'purchase_receipt_id' => $purchase_receipt_id,
+			])->get('purchase_info')->row();
+
+			if ($oldPurchaseData) {
+				$purchase_id = $oldPurchaseData->purchase_id;
+				$old_quantity = $oldPurchaseData->purchase_quantity;
+				$new_quantity = $quantity + $old_quantity;
+				$new_unit_buy_price = (($oldPurchaseData->unit_buy_price * $old_quantity) + 
+					($unit_buy_price_purchase * $quantity)) / $new_quantity;
+				$new_bulk_unit_sale_price = (($oldPurchaseData->bulk_unit_sale_price * $old_quantity) + 
+					($exclusive_sale_price * $quantity)) / $new_quantity;
+				$new_general_unit_sale_price = (($oldPurchaseData->general_unit_sale_price * $old_quantity) + 
+					($general_sale_price * $quantity)) / $new_quantity;
+				$object=[
+					'purchase_quantity' => $new_quantity,
+					'unit_buy_price' => $new_unit_buy_price,
+					'bulk_unit_sale_price' => $new_bulk_unit_sale_price,
+					'general_unit_sale_price' => $new_general_unit_sale_price,
+				];
+				$this->db->where('purchase_id', $oldPurchaseData->purchase_id);
+				$this->db->update('purchase_info',$object);
+			} else {
+				$data = array(
+					'purchase_receipt_id' => $purchase_receipt_id,
+					'product_id' => $product_id,
+					'purchase_quantity' => $quantity,
+					'unit_buy_price' => $unit_buy_price_purchase,
+					'bulk_unit_sale_price' => $exclusive_sale_price,
+					'general_unit_sale_price' => $general_sale_price,
+					'purchase_expire_date' => $expiredate,
+					'purchase_description' => "a test purchase_receipt_id",
+					'purchase_creator' => $creator,
+				);
+				$purchase_id = $this->purchaselisting_model->createlisting($data);
+			}
+			
+			/**
+			 * warranty_product_list table
+			 * 
+			 * Add product serial no. if :product_id has warranty and serial_no
+			 */
+		    if(!empty($allworrantyproduct)){
+			    foreach ($allworrantyproduct as $key => $value) {
+					$datass = array(
+				        'product_id' => $product_id,
+				        'purchase_receipt_id' => $purchase_receipt_id,
+				        'sl_no'=>$value,
+				        'purchase_date' => date("Y-m-d"),
+				        'purchase_price' => $unit_buy_price_purchase,
+				        'sale_price' => $general_sale_price,
+				        'creator' => $creator,
+			    	);
+			    	$this->db->insert('warranty_product_list', $datass);
+				}
+			}
+
+			/**
+			 * bulk_stock_info table
+			 * 
+			 * First check this :product_id has any record in bulk stock info table
+			 * If any record exists, then update record info
+			 * Otherwise create new record
+			 */
+			$this->db->where('product_id', $product_id);
+			$alddata = $this->db->get('bulk_stock_info')->row();
+			
 			if($alddata){
 				$oldquantity = $alddata->stock_amount;
 				$totalquantity = $quantity + $oldquantity;
@@ -109,39 +183,15 @@ class Purchaselisting extends MY_Controller {
 				$this->db->insert('bulk_stock_info', $object);
 			}
 
-			// recipe for info table
-			$data = array(
-		        'purchase_receipt_id' => $purchase_receipt_id,
-		        'product_id' => $product_id,
-		        'purchase_quantity' => $quantity,
-		        'unit_buy_price' => $unit_buy_price_purchase,
-		        'bulk_unit_sale_price' => $exclusive_sale_price,
-		        'general_unit_sale_price' => $general_sale_price,
-		        'purchase_expire_date' => $expiredate,
-		        'purchase_description' => "a test purchase_receipt_id",
-		        'purchase_creator' => $creator,
-		    );
-		    $id=$this->purchaselisting_model->createlisting($data);
-
-		    if(!empty($allworrantyproduct)){
-			    foreach ($allworrantyproduct as $key => $value) {
-					$datass = array(
-				        'product_id' => $product_id,
-				        'purchase_receipt_id' => $purchase_receipt_id,
-				        'sl_no'=>$value,
-				        'purchase_date' => date("Y-m-d"),
-				        'purchase_price' => $unit_buy_price_purchase,
-				        'sale_price' => $general_sale_price,
-				        'creator' => $creator,
-			    	);
-			    	$this->db->insert('warranty_product_list', $datass);
-				}
-			}
-
+			/**
+			 * purchase_info table
+			 * 
+			 * after all insertion and updating, return new purchase data
+			 */
 		  	$this->db->select('purchase_info.*,product_info.product_name');
-			$this->db->where('purchase_id', $id);
+			$this->db->where('purchase_id', $purchase_id);
 			$this->db->join('product_info', 'product_info.product_id = purchase_info.product_id');
-			$alldata= $this->db->get('purchase_info')->result();
+			$alldata = $this->db->get('purchase_info')->result();
 		  	echo json_encode($alldata);
 		}
 	}

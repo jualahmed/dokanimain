@@ -21,6 +21,16 @@
 		#purchase_products tr {
 			font-size: 13px !important;
 		}
+		.serial-no-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+		.serial-no-list li {
+			width: 130px;
+			float: left;
+			margin: 5px;
+		}
 	</style>
     <section class="content" id="vuejscom"> 
 	    <div class="row">
@@ -283,13 +293,22 @@
 									<td style="text-align: right; width: 10%;">Total Price</td>
 									<td style="text-align: center; width: 7%;" ><i class="fa fa-edit"></i></td>
 								</tr>
-								<tr v-for="(p,index) in purchase_info[0]">
+								<tr v-for="(p,index) in purchase_info[0]" :key="index">
 									<td style="width: 4%;">{{ index+1 }}</td>
 									<td style="width: 35%;">{{ p.product_name }}</td>
 									<td style="text-align: center; width: 6%;">{{ p.purchase_quantity }}</td>
 									<td style="text-align: right;width: 10%;">{{ parseFloat(p.unit_buy_price).toFixed(2) }}</td>
 									<td style="text-align: right;width: 10%;">{{ parseFloat(p.purchase_quantity*p.unit_buy_price).toFixed(2) }}</td>
 									<td style="text-align: center;width: 6%;">
+									  <i
+									  	data-toggle="modal" data-target="#edit_modal" 
+									    class="fa fa-fw fa-edit css_for_cursor"
+									    style="color: #db8b0b; "
+									    name="edit"
+									    title="Edit"
+									    :id="p.product_id"
+									    :purchase_id="p.purchase_id"
+									  ></i>
 									  <i
 									    class="fa fa-fw fa-remove css_for_cursor"
 									    style="color: red; "
@@ -312,6 +331,67 @@
 		            </div>
 		        </div>
 	      	</div>
+
+			<div class="modal" id="edit_modal">
+				<div class="modal-dialog" style="width: 60%;">
+				<form id="edit_modal_form" class="form-horizontal">
+					<div class="modal-content">
+						<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">
+							<span class="glyphicon glyphicon-edit" style="color: #db8b0b;"></span>
+							Edit
+						</h4>
+						</div>
+						<div class="modal-body">
+						<input type="hidden" class="form-control" name="purchase_id" id="purchase_id" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+						<table class="table table-bordered serial_qnt_price" >
+							<tr>
+								<td style="vertical-align: middle;">Quantity: </td>
+								<td>
+									<input type="hidden" id="qty_hidden">
+									<input type="text" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
+								</td>
+							</tr>
+							<tr>
+								<td style="vertical-align: middle;">Unit Buy Price: </td>
+								<td>
+									<input type="text" class="form-control" id="u_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+								</td>
+							</tr>
+							<tr>
+								<td style="vertical-align: middle;"> General Sale Price: </td>
+								<td>
+									<input type="text" class="form-control" id="g_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+								</td>
+							</tr>
+							<tr>
+								<td style="vertical-align: middle;">Exclusive Sale Price: </td>
+								<td>
+									<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<ul class="serial-no-list">
+										
+									</ul>
+								</td>
+							</tr>
+						</table>
+						</div>
+						<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<input type="submit" class="btn btn-info" id="save_change" value="Save">
+						</div>
+					</div>
+					<!-- modal-content -->
+				</form>
+				</div>
+				<!-- modal-dialog -->
+			</div>
+
 			<!-- Modal -->
 			<div class="modal fade" id="productModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<form id="product_form" autocomplete="off" action="<?php echo base_url();?>product/create" method="post" class="form-horizontal" enctype="multipart/form-data">
@@ -592,67 +672,7 @@
 					</div>
 				</form>
 			</div>
-			
-			<div class="modal" id="edit_modal">
-				<div class="modal-dialog modal-lg" style="width: 60%;">
-				<div class="modal-content">
-					<form id="edit_modal_form" class="form-horizontal">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title">
-									<span class="glyphicon glyphicon-edit" style="color: #db8b0b;"></span>
-									Edit
-								</h4>
-							</div>
-							<div class="modal-body">
-								<input type="hidden" class="form-control" name="purchase_id" id="purchase_id" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
-								<table class="table table-bordered serial_qnt_price" >
-									<tr>
-										<td style="vertical-align: middle;font-weight: bold;">Quantity: </td>
-										<td>
-											<input type="number" min="1" class="form-control" id="qty" name="qty" style="text-align: right;" placeholder="Ex: 100" required="on" autocomplete="off">
-										</td>
-									</tr>
-									<tr>
-										<td style="vertical-align: middle;font-weight: bold;">Total Buy Price: </td>
-										<td>
-											<input type="text" oninput="calculate(this.value)" class="form-control" id="total_buy_price" name="total_buy_price" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-										</td>
-									</tr>
-									<tr>
-										<td style="vertical-align: middle;font-weight: bold;">Unit Buy Price: </td>
-										<td>
-											<input type="text" class="form-control" id="u_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-										</td>
-									</tr>
-									<tr>
-										<td style="vertical-align: middle;font-weight: bold;"> General Sale Price: </td>
-										<td>
-											<input type="text" class="form-control" id="g_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-										</td>
-									</tr>
-									<tr>
-										<td style="vertical-align: middle;font-weight: bold;">Exclusive Sale Price: </td>
-										<td>
-											<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
-										</td>
-									</tr>
-								</table>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-								<input type="submit" class="btn btn-info" id="save_change" value="Save">
-							</div>
-							</div>
-							<!-- modal-content -->
-						</form>  
-				</div>
-				</div>
-				<!-- modal-dialog -->
-
-			</div>
+		
 	    </div>
     </section>
 </div>
