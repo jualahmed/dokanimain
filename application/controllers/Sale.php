@@ -70,8 +70,8 @@ class Sale extends MY_Controller
 						'catagory_name' 			=> $tmp->catagory_name,
 						'product_size' 				=> $tmp->product_size,
 						'product_model' 			=> $tmp->product_model,
-						'mrp_price' 				=> $tmp->bulk_unit_sale_price,
-						'sale_price' 				=> $tmp->general_unit_sale_price,
+						'mrp_price' 				=> $tmp->general_unit_sale_price,
+						'sale_price' 				=> $tmp->bulk_unit_sale_price,
 						'buy_price' 				=> $tmp->bulk_unit_buy_price,
 						'stock' 					=> $stock,
 						'generic_name' 				=> $tmp->group_name,
@@ -586,22 +586,23 @@ class Sale extends MY_Controller
 	public function addProductToSale()
 	{
 		$stripped_data  = explode("<>", $this->input->post('temp_data'));
+
 		$view_array                          	= array();
-		$view_array['product_id']            	= $stripped_data[0];
-		$view_array['product_name']          	= $stripped_data[1];
-		$view_array['pro_mrp_price']            = $stripped_data[3];
-		$view_array['sale_price']            	= $stripped_data[3];
-		$view_array['buy_price']             	= $stripped_data[4];
-		$view_array['product_specification'] 	= $stripped_data[5];
-		$view_array['product_stock']         	= $stripped_data[2] - $this->input->post('pro_quantity');
+		$view_array['product_id']            	= $this->input->post('product_id');
+		$view_array['product_name']          	= $this->input->post('product_name');
+		$view_array['pro_mrp_price']            = $this->input->post('pro_mrp_price');
+		$view_array['sale_price']            	= $this->input->post('sale_price');
+		$view_array['buy_price']             	= $this->input->post('buy_price');
+		$view_array['product_specification'] 	= $this->input->post('product_specification');
+		$view_array['product_stock']         	= $this->input->post('cstock') - $this->input->post('pro_quantity'); // cstock = temporary product quantity
 		$view_array['pro_quantity']          	= $this->input->post('pro_quantity');
 		$view_array['num_of_row']               = $this->input->post('num_of_row');
+
 		$currrent_temp_sale_id = $this->session->userdata('currrent_temp_sale_id');
-		$this->sale_model->addProductToSale($view_array['product_id'], $view_array['product_name'], 
-																$view_array['sale_price'],$view_array['pro_mrp_price'], $view_array['buy_price'], 
-																$view_array['product_specification'], $view_array['pro_quantity'], 
-																$view_array['product_stock'], $currrent_temp_sale_id);
-		$this->load->view('Sale/addProductToSale', $view_array);     
+
+		$result = $this->sale_model->addProductToSale($view_array, $currrent_temp_sale_id);
+
+		echo json_encode($result);
 	}
 
 	public function change_sale_quantity2()

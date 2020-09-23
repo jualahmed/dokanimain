@@ -165,7 +165,7 @@ class Purchaselisting extends MY_Controller {
 					'bulk_unit_buy_price'=>$unit_buy_price_purchase1,
 					'bulk_unit_sale_price'=>$exclusive_sale_price1,
 					'general_unit_sale_price'=>$general_unit_sale_price1,
-					'last_buy_price'=>$total_buy_price
+					'last_buy_price'=>$unit_buy_price_purchase
 				];
 				$this->db->where('bulk_id', $alddata->bulk_id);
 				$this->db->update('bulk_stock_info',$object);
@@ -178,7 +178,7 @@ class Purchaselisting extends MY_Controller {
 					'bulk_unit_sale_price'=>$exclusive_sale_price,
 					'general_unit_sale_price'=>$general_sale_price,
 					'bulk_alarming_stock'=>100,
-					'last_buy_price'=>$total_buy_price,
+					'last_buy_price'=>$unit_buy_price_purchase,
 				];
 				$this->db->insert('bulk_stock_info', $object);
 			}
@@ -321,8 +321,8 @@ class Purchaselisting extends MY_Controller {
 		$purchase_id 			= $this->input->post('purchase_id');
 		$qnty 					= $this->input->post('qty');
 		$unit_buy_price 		= $this->input->post('u_b_p');
-		$bulk_unit_sale_price 		= $this->input->post('g_b_p');
-		$general_unit_sale_price 		= $this->input->post('e_b_p');
+		$bulk_unit_sale_price 		= $this->input->post('e_b_p');
+		$general_unit_sale_price 		= $this->input->post('g_b_p');
 		echo $this->purchaselisting_model->editPruchaseProduct($purchase_id, $qnty, $unit_buy_price,$bulk_unit_sale_price,$general_unit_sale_price);
 	}
 

@@ -22,7 +22,6 @@ const vm = new Vue({
 
 			total_buy_price:null,
 			unit_buy_price_purchase:null,
-			original_total_buy_price: 0,
 			exclusive_sale_price:0,
 			general_sale_price:null,
 
@@ -80,8 +79,6 @@ const vm = new Vue({
 		submit(){
 			var purchase_receipt_id=this.selected1.receipt_id;
 			var self=this;
-			this.totalqty=parseInt(this.totalqty)+parseInt(this.quantity);
-			this.tunit_buy_price=parseFloat(this.tunit_buy_price)+parseFloat(this.total_buy_price);
 			var flag = true;
 			if (this.quantity == '' || isNaN(this.quantity) || parseInt(this.quantity) == 0) {
 				flag =  false;
@@ -128,6 +125,8 @@ const vm = new Vue({
 					if(re=='exceed'){
 						alert("Purchase Priced Exceed Not Allow")
 					}else{
+						self.totalqty=parseInt(self.totalqty)+parseInt(self.quantity);
+						self.tunit_buy_price=parseFloat(self.tunit_buy_price)+parseFloat(self.total_buy_price);
 						var re = jQuery.parseJSON(re);
 						var index = self.purchase_info[0].findIndex(function (purchase) {
 							return purchase.purchase_id == re[0].purchase_id;
@@ -157,8 +156,7 @@ const vm = new Vue({
 			this.total_buy_price = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
 			this.unit_buy_price_purchase = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
 			this.old_unit_buy_price_purchase = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
-			this.original_total_buy_price = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
-			this.general_sale_price = e.bulk_unit_sale_price === null ? 0.00 : e.bulk_unit_sale_price;
+			this.general_sale_price = e.general_unit_sale_price === null ? 0.00 : e.general_unit_sale_price;
 			this.exclusive_sale_price = e.bulk_unit_sale_price === null ? 0.00 : e.bulk_unit_sale_price;
 			this.quantity = '';
 		},
@@ -630,7 +628,7 @@ $(function () {
 				$("#g_b_p").val(re.general_unit_sale_price);
 				$("#e_b_p").val(re.bulk_unit_sale_price);
 
-				if (re.has_serial_no && re.serials.length > 0) {
+				if (re.has_serial_no && (re.serials && re.serials.length > 0)) {
 					var output = '';
 					$.each(re.serials, function (key, serial) {
 						output += `<li>
@@ -682,71 +680,71 @@ $(function () {
 			}).get();
 			console.log(serial_nos);
 			ev.preventDefault();
-			// var qty             = $('#qty').val();
-			// var purchase_id             = $('#purchase_id').val();
-			// var unit_buy_price  = $('#u_b_p').val();
-			// var general_unit_sale_price  = $('#g_b_p').val();
-			// var bulk_unit_sale_price  = $('#e_b_p').val();
-			// if(qty != '' && qty > 0 && !isNaN(qty) && unit_buy_price !='' && unit_buy_price > 0 && !isNaN(unit_buy_price)){
-			// 	swal({
-			// 		title               : 'Are you sure?',
-			// 		text                : ":)",
-			// 		type                : 'warning',
-			// 		showCancelButton    : true,
-			// 		confirmButtonColor  : '#db8b0b',
-			// 		cancelButtonColor   : '#419641',
-			// 		confirmButtonText   : 'Yes',
-			// 		cancelButtonText    : 'No'
-			// 	}).then(function (){
-			// 		$.ajax({
-			// 		url       : base_url+'purchaselisting/editPruchaseProduct',
-			// 		type      : 'POST',
-			// 		data      : {
-			// 						purchase_id           : purchase_id,
-			// 						qty                   : qty, 
-			// 						u_b_p                 : unit_buy_price,
-			// 						e_b_p                 : bulk_unit_sale_price,
-			// 						g_b_p                 : general_unit_sale_price,
-			// 					},
-			// 		success   : function(info)
-			// 		{	
-			// 			vm.updatepurchase_info();
-			// 			console.log(info)
-			// 			$('#edit_modal_form').trigger("reset");
-			// 			$('#edit_modal').modal('hide');
-			// 			var total_final = 0.00;
-			// 			$('.total_purchase_price_final').each(function(){
-			// 				total_final += parseFloat($(this).text()); 
-			// 			});
-			// 			$('#total_purchase_price_new_final').html(total_final);
+			var qty             = $('#qty').val();
+			var purchase_id             = $('#purchase_id').val();
+			var unit_buy_price  = $('#u_b_p').val();
+			var general_unit_sale_price  = $('#g_b_p').val();
+			var bulk_unit_sale_price  = $('#e_b_p').val();
+			if(qty != '' && qty > 0 && !isNaN(qty) && unit_buy_price !='' && unit_buy_price > 0 && !isNaN(unit_buy_price)){
+				swal({
+					title               : 'Are you sure?',
+					text                : ":)",
+					type                : 'warning',
+					showCancelButton    : true,
+					confirmButtonColor  : '#db8b0b',
+					cancelButtonColor   : '#419641',
+					confirmButtonText   : 'Yes',
+					cancelButtonText    : 'No'
+				}).then(function (){
+					$.ajax({
+					url       : base_url+'purchaselisting/editPruchaseProduct',
+					type      : 'POST',
+					data      : {
+									purchase_id           : purchase_id,
+									qty                   : qty, 
+									u_b_p                 : unit_buy_price,
+									e_b_p                 : bulk_unit_sale_price,
+									g_b_p                 : general_unit_sale_price,
+								},
+					success   : function(info)
+					{	
+						vm.updatepurchase_info();
+						console.log(info)
+						$('#edit_modal_form').trigger("reset");
+						$('#edit_modal').modal('hide');
+						var total_final = 0.00;
+						$('.total_purchase_price_final').each(function(){
+							total_final += parseFloat($(this).text()); 
+						});
+						$('#total_purchase_price_new_final').html(total_final);
 
-			// 			swal(
-			// 			'Edited!',
-			// 			'Data has been edited.',
-			// 			'success'
-			// 			);
-			// 		}
-			// 		});
-			// 	}, function (dismiss) {
-			// 		if (dismiss === 'cancel') {
-			// 		$('#edit_modal_form').trigger("reset");
-			// 		$('#edit_modal').modal('hide');
-			// 		swal(
-			// 			'Canceled',
-			// 			':)',
-			// 			'info'
-			// 		)
-			// 		}
-			// 	})
-			// }
-			// else{
-			// $('#edit_modal_form').trigger("reset");
-			// swal(
-			// 	'Oops...!',
-			// 	'Invalid Data!!!',
-			// 	'error'
-			// );
-			// }
+						swal(
+						'Edited!',
+						'Data has been edited.',
+						'success'
+						);
+					}
+					});
+				}, function (dismiss) {
+					if (dismiss === 'cancel') {
+					$('#edit_modal_form').trigger("reset");
+					$('#edit_modal').modal('hide');
+					swal(
+						'Canceled',
+						':)',
+						'info'
+					)
+					}
+				})
+			}
+			else{
+			$('#edit_modal_form').trigger("reset");
+			swal(
+				'Oops...!',
+				'Invalid Data!!!',
+				'error'
+			);
+			}
 			/*swal*/
 		});
 	});

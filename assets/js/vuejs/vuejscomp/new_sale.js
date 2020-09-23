@@ -72,8 +72,12 @@ jQuery(document).ready(function($) {
 						var new_sale_price = parseFloat (ui.item.sale_price);
 						var new_mrp_price = parseFloat(ui.item.mrp_price);
 						var new_buy_price = parseFloat(ui.item.buy_price);
+
 					   $('#price').val(new_sale_price);
 					   $('#mrp_price').val(new_mrp_price);
+					   $('#sale_price').val(new_sale_price);
+					   $('#buy_price').val(new_buy_price);
+
 						var sale_price_check = parseFloat(ui.item.mrp_price);
 						var stock_check      = parseFloat(ui.item.stock);
 						if(sale_price_check==0 && stock_check ==0)
@@ -212,6 +216,9 @@ jQuery(document).ready(function($) {
 						var new_buy_price = parseFloat(ui.item.buy_price);
 					   $('#price').val(new_sale_price);
 					   $('#mrp_price').val(new_mrp_price);
+					   $('#sale_price').val(new_sale_price);
+					   $('#buy_price').val(new_buy_price);
+
 						var sale_price_check = parseFloat(ui.item.mrp_price);
 						var stock_check      = parseFloat(ui.item.stock);
 						if(sale_price_check==0 && stock_check ==0)
@@ -257,15 +264,19 @@ jQuery(document).ready(function($) {
 			var stock           = $("#temp_pro_qty").val();         var cstock          = parseFloat(stock);
 			var qnty            = $('#product_quantity').val();     var rstock          = parseFloat(qnty);
 			var str_Price       = $('#price').val();                var pro_price       = parseFloat(str_Price);
-			var mrp_price   	= $('#mrp_price').val();        	var mrp_price   	= parseFloat(mrp_price);
+
+			var mrp_price   	= $('#mrp_price').val();        	var mrp_price   	= parseFloat(mrp_price);  // general_unit_sale_price
+			var sale_price   	= $('#sale_price').val();        	var sale_price   	= parseFloat(sale_price); // unit_sale_price
+			var buy_price       = $('#buy_price').val();            var buy_price       = parseFloat(buy_price); // unit_buy_price
+
 			var str_mrp_Price   = $('#new_mrp_price').val();        var pro_mrp_price   = parseFloat(str_mrp_Price);
-			var str_buy_Price   = $('#buy_price').val();            var str_buy_Price   = parseFloat(str_buy_Price);
 			var str_sub_total   = $('#sub_total').val();            var tmp_sub_total   = parseFloat(str_sub_total);
 			var str_total_vat   = $('#vat').val();                  var total_vat       = parseFloat(str_total_vat);
 			var str_num_of_pro  = $('#number_of_products').val();   var num_of_pro      = parseInt(str_num_of_pro);
 			var return_adjust   = $('#return_adjust').val();
 			var product_specification   = $('#product_specification').val();
 			var pro_id   = $("#temp_pro_id").val();
+			var pro_name   = $("#pro_name").val();
 			var value_added_tax = parseFloat($('#value_added_tax').val());
 			if(qnty != '' && !isNaN(qnty) && qnty > 0 && $("#temp_pro_data").val() != '')
 			{
@@ -360,7 +371,20 @@ jQuery(document).ready(function($) {
 									url       : base_url+'sale/addProductToSale',
 									type      : 'POST',
 									cache     : false,
-									data      : { temp_data: temp_data, pro_quantity: rstock, num_of_row: num_of_tr, total: total, pro_mrp_price: pro_mrp_price},
+									data      : { 
+										product_id: pro_id, 
+										product_name: pro_name, 
+										pro_mrp_price: pro_mrp_price,
+										sale_price: sale_price,
+										buy_price: buy_price,
+										product_specification: product_specification,
+										pro_quantity: rstock, 
+										cstock: cstock, 
+										num_of_row: num_of_tr, 
+
+										temp_data: temp_data, 
+										total: total, 
+									},
 									success   :function(res)
 									{
 										$('#search_by_product_name').focus();
@@ -394,7 +418,20 @@ jQuery(document).ready(function($) {
 						url       : base_url+'sale/addProductToSale',
 						type      : "POST",
 						cache     : false,
-						data      : { temp_data: temp_data, pro_quantity: rstock, num_of_row: num_of_tr, total: total, mrp_price: mrp_price, pro_mrp_price: pro_mrp_price},
+						data      : { 
+							product_id: pro_id, 
+							product_name: pro_name, 
+							pro_mrp_price: pro_mrp_price,
+							sale_price: sale_price,
+							buy_price: buy_price,
+							product_specification: product_specification,
+							pro_quantity: rstock, 
+							cstock: cstock, 
+							num_of_row: num_of_tr, 
+
+							temp_data: temp_data, 
+							total: total,
+						},
 						success   :function(res){
 							$("#selected_products").last().append(res);
 							$('#search_by_product_name').val("");

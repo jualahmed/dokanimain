@@ -78,10 +78,11 @@
 		            	<input type="hidden" name="temp_pro_qty" id="temp_pro_qty" />
 		                <input type="hidden" name="pro_name" id="pro_name" />
 		            	<input type="hidden" name="price" id="price" />
-		            	<input type="hidden" name="mrp_price" id="buy_price_check" />
+		            	<input type="hidden" name="mrp_price" id="buy_price_check"/>
 		            	<input type="hidden" id="new_mrp_price" />
-						<input type="hidden" name="mrp_price" id="mrp_price" />
+						<input type="hidden" name="mrp_price" id="mrp_price"/>
 		            	<input type="hidden" id="buy_price" />
+		            	<input type="hidden" id="sale_price" />
 						<input type="hidden" id="product_specification" >
 							<table class="table table-bordered sale_table_custom_styl">
 			                <tr>
