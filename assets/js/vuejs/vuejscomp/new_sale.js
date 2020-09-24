@@ -421,7 +421,7 @@ jQuery(document).ready(function($) {
 						data      : { 
 							product_id: pro_id, 
 							product_name: pro_name, 
-							pro_mrp_price: pro_mrp_price,
+							pro_mrp_price: mrp_price,
 							sale_price: sale_price,
 							buy_price: buy_price,
 							product_specification: product_specification,
@@ -520,18 +520,25 @@ $(document).ready(function()
 $(function(){
      var i = $('#hid_qty').val();
      var j = $('#hid_sub_to').val();
-     var k = $('#hid_vat').val();
+	 var k = $('#hid_vat').val();
+	 
+	 i = parseFloat(i).toFixed(2);
+	 j = parseFloat(j).toFixed(2);
+	 k = parseFloat(k).toFixed(2);
         
      if(i != '' && j != '' && k != ''){
          $('#number_of_products').val(i);
          $('#sub_total').val(j);
          $('#vat').val(k);
-         var re_ajd = $('#hid_return_adjust').val();
-         var tmp = (parseFloat(j) + parseFloat(k));
+		 var re_ajd = $('#hid_return_adjust').val();
+		 re_ajd    = parseFloat(re_ajd).toFixed(2);
+
+		 var tmp = (parseFloat(j) + parseFloat(k));
+		 tmp = parseFloat(tmp).toFixed(2);
 
          if(re_ajd != 0){
-           re_ajd    = re_ajd;
-           var pybl  = tmp - re_ajd;
+		   var pybl  = tmp - re_ajd;
+		   pybl = parseFloat(pybl).toFixed(2);
 
            $('#return_adjust').val(re_ajd);
            if(pybl > 0)$('#payable').val(pybl);

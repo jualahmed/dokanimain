@@ -189,18 +189,18 @@
 		        </div>
 				<div class="box-footer">
 					<input type="hidden" id="is_sale_active" value="<?php echo $current_sale; ?>">
-	      			<div style="display: flex;text-align: center;">
-	      				<div>
-							<button type="button" class="btn btn-primary btn_for_sale style2" id="quick_sale">Cash Sale<br><span>(Shortcut : Alt+Q)</span></button>
+	      			<div style="display: flex;text-align: center;justify-content: space-around;">
+					  <div>
+							<button type="button" class="btn btn-success btn_for_sale style2" id="quick_sale">Cash Sale <span>(Alt+Q)</span></button>
 						</div>
 						<div>
-							<button type="button" class="btn btn-primary btn_for_sale style2" id="credit_sale">Credit Sale <br><span>(Shortcut : Alt+C)</span></button>
+							<button type="button" class="btn btn-warning btn_for_sale style2" id="credit_sale">Credit Sale <span>(Alt+C)</span></button>
 						</div>	
 						<div>
-							<button style="height: 54px;    width: 127px;" type="button" class="btn btn-primary btn_for_sale style" id="quotation">Quotation </button>
+							<button type="button" class="btn btn-primary btn_for_sale style" id="quotation">Quotation </button>
 						</div>
 						<div>
-							<button type="button" class="btn btn-danger btn_for_sale style" id="cancel">Cancel <br><span>(Shortcut : Alt+X)</span></button>
+							<button type="button" class="btn btn-danger btn_for_sale style" id="cancel">Cancel <span>(Alt+X)</span></button>
 						</div>
 
 					</div>
@@ -275,9 +275,24 @@
               			</td>
               		</tr>
 			
-              		<?php $qnty = 0;$total_sale = 0;$total_buy_price = 0;$total_profit = 0;$total_sale_price = 0;$final_profit_percent = 0; $buy_price = 0;$sale_price = 0;$profit = 0;$profit_percent = 0; $total_qnty = 0; $sub_to = 0; $vat = 0; $ind = 1; ?>
+					  <?php 
+					  $qnty = 0;
+					  $total_sale = 0;
+					  $total_buy_price = 0;
+					  $total_profit = 0;
+					  $total_sale_price = 0;
+					  $final_profit_percent = 0; 
+					  $buy_price = 0;
+					  $sale_price = 0;
+					  $profit = 0;
+					  $profit_percent = 0; 
+					  $total_qnty = 0; 
+					  $sub_to = 0; 
+					  $vat = 0; 
+					  $ind = 1;
+					?>
         			<?php 
-        				if($tmp_item != FALSE)
+        				if($tmp_item)
         				{ 
         					$i_num = 1;
 							foreach($tmp_item->result() as $tmp)
@@ -290,12 +305,12 @@
 									<td align="center"> <?php echo $qnty = $tmp->sale_quantity; ?></td>
 									<td align="right">
 										<?php 
-											$sale_price = $tmp->general_unit_sale_price;
-											echo sprintf("%01.2f", $sale_price); 
+											$actual_sale_price = $tmp->actual_sale_price;
+											echo sprintf("%01.2f", $actual_sale_price); 
 										?>
 									</td>
 									<td align="right">
-										<?php echo sprintf("%01.2f", $tmp->sale_quantity * $tmp->general_unit_sale_price); ?>
+										<?php echo sprintf("%01.2f", $tmp->sale_quantity * $tmp->actual_sale_price); ?>
 									</td>
 									<td>
 										<i id="delete<?php echo $i_num;?>" class="fa fa-fw fa-remove delete_product" style="color: red;cursor:pointer;" ></i>      <!-- id="delete" -->
@@ -311,16 +326,16 @@
 									<input type="hidden" id="buy_id<?php echo $i_num;?>" value="<?php echo $tmp->unit_buy_price; ?>">
 									<input type="hidden" id="quantti_id<?php echo $i_num;?>" value="<?php echo $tmp->sale_quantity; ?>">
 									<input type="hidden" id="temp_details_modal<?php echo $i_num;?>" value="<?php echo $tmp->temp_sale_details_id; ?>">
-									<td style="display: none;"><?php echo $tmp->product_id . "<>" . $qnty ."<>". $sale_price; ?></td>
+									<td style="display: none;"><?php echo $tmp->product_id . "<>" . $qnty ."<>". $actual_sale_price; ?></td>
 								</tr>
 
-	                <?php 
+					<?php 
 			                	$i_num++; 
 			                    $total_qnty += $qnty;
-			                    $sub_to     = ($sub_to + ($qnty * $sale_price));
+								$price_per_product     = $qnty * $actual_sale_price;
+								$sub_to += $price_per_product;
 			                    $vat        = 0;
-	                 		}
-	                 		$sub_to  = $sub_to;
+							 }
 	                 		$vat     = $vat;
 	                 ?>
 			                <input type="hidden" value="<?php echo $total_qnty; 	?>"     id="hid_qty" >

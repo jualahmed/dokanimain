@@ -19,25 +19,19 @@
 							$this->db->where('shop_id',$shop_id);
 							$shop_info=$this->db->get('shop_setup')->row();
 						?>
-						<?php if (isset($shop_info->invoicelogo)): ?>
+						<!-- <?php if (isset($shop_info->invoicelogo)): ?>
 							<img style="width: 140px;object-fit: cover;" src="<?php echo base_url();?>assets/img/shop/<?php echo $shop_info->invoicelogo ?>">
 						<?php else: ?>
 							<img style="width: 50%;height: 100px;object-fit: cover;" src="<?php echo base_url();?>assets/img/top_logo2.png">
-						<?php endif ?> 
+						<?php endif ?>  -->
+
+						<?php $row_data = $sale_info->row(); ?>
+						<h4><?php echo $shop_info->shop_name; ?></h4>
+						<h5 style="margin: 0;font-weight: bold;">Invoice No. : <?php echo $invoice_id; ?></h5>
+						<p style="margin: 0px;"><?php $newDate = date("d-m-Y", strtotime($row_data->invoice_doc));echo $newDate; ?> | <?php $newDate1 = date("h:i A",strtotime($row_data->date_time));echo $newDate1; ?></p>
+						<p style="margin: 0px;">Customer : <?php echo $row_data->customer_name; ?></p>
 					</div> 
 				
-					<?php $row_data = $sale_info->row(); ?>
-					<div style="display: flex;font-size: 13px;justify-content: center;font-weight: 700;margin-left: 6px;">
-						<div>
-							<p>Invoice : <?php echo $invoice_id; ?></p>
-							<p>Creator : <?php echo $row_data->username; ?></p>
-							<p>Date : <?php $newDate = date("d-m-Y", strtotime($row_data->invoice_doc));echo $newDate; ?></p>
-						</div>
-						<div>
-							<p>Time : <?php $newDate1 = date("h:i A",strtotime($row_data->date_time));echo $newDate1; ?></p>
-							<p>Customer : <?php echo $row_data->customer_name; ?></p>
-						</div>
-					</div>
 				
 					<div id ="pos_top_header_thired">
 						<?php
@@ -50,13 +44,15 @@
 										<!--<td >ID</td> -->
 										<td >Product Name</td>
 										<td >Qty </td>
-										<td >MRP</td>
 										<td >Sale</td>
 										<td >Total</td>
 									</tr>
 									<?php
 										$save1 = 0;
 										foreach ($sale_info -> result() as $field):
+											$general_sale_price = $field->general_sale_price;
+											$sale_quantity = $field->sale_quantity;
+											$unit_sale_price = $field->unit_sale_price;
 									?>
 									<tr>
 										<!--<td style="width:2%"> <?php echo $field->product_id;?> </td> -->
@@ -84,27 +80,22 @@
 										</td>
 										<td style="width:10%;">
 											<?php 
-												echo $field -> sale_quantity;
+												echo $sale_quantity;
 											?>
 										</td>
 										<td style="width:10%;text-align:right;">
 											<?php 
-												echo '<big style = "font-size: 11px; font-weight:bold;"> &#2547; </big> '.round( $field-> unit_sale_price, 2);
-											?> 
-										</td>
-										<td style="width:10%;text-align:right;">
-											<?php 
-												echo '<big style = "font-size: 11px; font-weight:bold;"> &#2547; </big> '.round( $field-> general_sale_price, 2);
+												echo '<big style = "font-size: 11px; font-weight:bold;"> &#2547; </big> '.number_format( $field-> unit_sale_price, 2);
 												
-												$save1 = $save1 + (round($field-> unit_sale_price, 2)*$field ->sale_quantity - 
-														round($field-> general_sale_price, 2)*$field ->sale_quantity );
+												$save1 = $save1 + ($general_sale_price * $sale_quantity - 
+														$unit_sale_price * $sale_quantity );
 														
 											?> 
 										</td>
 										
 										<td style="width:12%;text-align:right;border-right:0px solid black;">
 											<?php 
-												echo '<big style = "font-size: 11px; font-weight:bold;"> &#2547; </big> '.round(( $field -> sale_quantity * $field-> general_sale_price), 2);
+												echo '<big style = "font-size: 11px; font-weight:bold;"> &#2547; </big> '.number_format(( $field -> sale_quantity * $field-> general_sale_price), 2);
 											?> 
 										</td>
 									</tr>
@@ -120,17 +111,21 @@
 								}
 							?>
 					</div>
-					<div id ="pos_top_header_fourth" style="width: 50%; float: right;">
+					<div id ="pos_top_header_fourth" style="width: 100%; float: right;">
 						<div class ="pos_top_header_fourth_left"> Total Amount </div>
-						<div class ="pos_top_header_fourth_right"> <?php if($save1 > 0){echo round(($final_total = $save1+$row_data->total_price),2);}else{ echo $final_total = $row_data->total_price; } ?></div>
+						<div class ="pos_top_header_fourth_right"> <?php if($save1 > 0){
+							echo number_format(($final_total = $save1 + $row_data->total_price),2);
+							}else{ 
+								echo number_format($final_total = $row_data->total_price, 2); 
+							} ?></div>
 						<?php if($row_data->sale_return_amount > 0){ ?>
 						<div class ="pos_top_header_fourth_left"> Sale Return</div>
-						<div class ="pos_top_header_fourth_right"> <?php  echo $row_data->sale_return_amount;?></div>
+						<div class ="pos_top_header_fourth_right"> <?php  echo number_format($row_data->sale_return_amount, 2);?></div>
 						<?php } ?>
 						<div class ="pos_top_header_fourth_left"> Product Discount</div>
-						<div class ="pos_top_header_fourth_right"> <?php  echo $save1;?></div>
+						<div class ="pos_top_header_fourth_right"> <?php  echo number_format($save1, 2);?></div>
 						<div class ="pos_top_header_fourth_left"> Special Discount </div>
-						<div class ="pos_top_header_fourth_right"> <?php echo $row_data->discount_amount; ?></div>
+						<div class ="pos_top_header_fourth_right"> <?php echo number_format($row_data->discount_amount, 2); ?></div>
 						<?php 
 							$sale_return = $row_data->sale_return_amount;
 							$total_price = $row_data->total_price;
@@ -139,30 +134,30 @@
 						if($sale_return > 0)
 						{ 
 						?>
-						<div class ="pos_top_header_fourth_left"> Grand Total</div>
-						<div class ="pos_top_header_fourth_right"> <?php  echo $row_data->total_price - $sale_return - $row_data->discount_amount;?></div>
+						<div class ="pos_top_header_fourth_left" style="font-weight: bolder;"> Grand Total</div>
+						<div class ="pos_top_header_fourth_right" style="font-weight: bolder;"> <?php  echo number_format($row_data->total_price - $sale_return - $row_data->discount_amount, 2);?></div>
 						<div class ="pos_top_header_fourth_left"> Paid </div>
 						<?php $total_paid = $row_data->total_price - $sale_return; ?>
-						<div class ="pos_top_header_fourth_right"> <?php echo $row_data->total_paid; ?></div>
+						<div class ="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_paid, 2); ?></div>
 						<?php 
 						} 
 						else 
 						{
 						?>
-						<div class ="pos_top_header_fourth_left"> Grand Total </div>
-						<div class ="pos_top_header_fourth_right"> <?php echo $row_data->grand_total; ?></div>
+						<div class ="pos_top_header_fourth_left" style="font-weight: bolder;"> Grand Total </div>
+						<div class ="pos_top_header_fourth_right" style="font-weight: bolder;"> <?php echo number_format($row_data->grand_total, 2); ?></div>
 						<div class ="pos_top_header_fourth_left"> Paid </div>
 						<?php $total_paid = $row_data->total_paid; ?>
-						<div class ="pos_top_header_fourth_right"> <?php echo $total_paid; ?></div>
+						<div class ="pos_top_header_fourth_right"> <?php echo number_format($total_paid, 2); ?></div>
 						<?php 
 						} 
 						?>
 
 						<div class ="pos_top_header_fourth_left"> Return </div>
-						<div class ="pos_top_header_fourth_right"> <?php echo $row_data->return_money; ?></div>
+						<div class ="pos_top_header_fourth_right"> <?php echo number_format($row_data->return_money, 2); ?></div>
 						<?php if($row_data->grand_total > $row_data->total_paid){ ?>
 						<div class ="pos_top_header_fourth_left"> Due </div>
-						<div class ="pos_top_header_fourth_right"> <?php echo $row_data->grand_total - $row_data->total_paid; ?></div>
+						<div class ="pos_top_header_fourth_right"> <?php echo number_format($row_data->grand_total - $row_data->total_paid, 2); ?></div>
 						<?php } ?>
 					</div>
 					<div class ="pos_top_header_fotter" style="font-size: 12px;margin-top:5px;">
