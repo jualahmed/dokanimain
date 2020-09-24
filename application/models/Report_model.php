@@ -81,12 +81,12 @@ class Report_model extends CI_model{
 	public function get_sale_info_by_multi($invoice_id='',$customer_id='',$product_id='',$seller_id='',$start_date='',$end_date='',$company_id='',$category_id='')
 	{
 		$this->db->select('users.username,company_info.company_name,catagory_info.catagory_name,product_info.*,sale_details.*,customer_info.*,invoice_info.*, invoice_info.invoice_id as sid');
-		$this->db->join('customer_info', 'invoice_info.customer_id = customer_info.customer_id');
-		$this->db->join('sale_details', 'sale_details.invoice_id = invoice_info.invoice_id');
-		$this->db->join('product_info', 'product_info.product_id = sale_details.product_id');
-		$this->db->join('users', 'users.id = invoice_info.invoice_creator');
-		$this->db->join('company_info', 'company_info.company_id = product_info.company_id');
-		$this->db->join('catagory_info', 'catagory_info.catagory_id = product_info.catagory_id');
+		$this->db->join('customer_info', 'invoice_info.customer_id = customer_info.customer_id', 'left');
+		$this->db->join('sale_details', 'sale_details.invoice_id = invoice_info.invoice_id', 'left');
+		$this->db->join('product_info', 'product_info.product_id = sale_details.product_id', 'left');
+		$this->db->join('users', 'users.id = invoice_info.invoice_creator', 'left');
+		$this->db->join('company_info', 'company_info.company_id = product_info.company_id', 'left');
+		$this->db->join('catagory_info', 'catagory_info.catagory_id = product_info.catagory_id', 'left');
 
 		if($invoice_id!=0){$this->db->where('invoice_info.invoice_id',$invoice_id);} 
 		if($company_id!=0){$this->db->where('product_info.company_id',$company_id);} 

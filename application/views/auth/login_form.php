@@ -86,10 +86,11 @@
   </style>
 <div class="main">
 	<div class="container">
+		<?php $shop_info=$this->db->get('shop_setup')->row(); ?>
 		<div class="auth-page">
 			<div class="auth-header">
 				<img src="<?php echo base_url(); ?>assets/img/dokani-logo.png" alt="Dokani Logo">
-				<h2>Ki-Dorkar</h2>
+				<h2><?php echo $shop_info->shop_name; ?></h2>
 			</div>
 			<div class="auth-body">
 				<?php

@@ -8,6 +8,9 @@
 	<link rel="icon" href="<?php echo base_url(); ?>images/favicon.ico"  type="image/x-icon"/>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" type="text/css"/>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/posinvoice.css" type="text/css"/>
+	<script>
+	    window.print();
+	</script>
 </head>
 	<body> 
 		<div id= "main_container_body_main">

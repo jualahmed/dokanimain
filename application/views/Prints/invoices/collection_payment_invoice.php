@@ -13,25 +13,27 @@
 					$this->db->where('shop_id',$shop_id);
 					$shop_info=$this->db->get('shop_setup')->row();
 				?>
-				<?php if ($shop_info->invoicelogo): ?>
+				<!-- <?php if ($shop_info->invoicelogo): ?>
 					<img style="width: 200px;height: 100px;object-fit: contain;" src="<?php echo base_url();?>assets/img/shop/<?php echo $shop_info->invoicelogo ?>">
 				<?php else: ?>
 					<img style="width: 200px;height: 100px;object-fit: cover;" src="<?php echo base_url();?>assets/img/top_logo2.png">
-				<?php endif ?> 
+				<?php endif ?>  -->
+				<h3 style="margin-top: 0;"><?php echo $shop_info->shop_name; ?></h3>
 			</div>
 
 			<table class="table table-bordered">
 				<tr>
-					<td><?php $row_data = $collection_payment_info->row(); ?> Invoice : <?php echo $transaction_id; ?></td>
-					<td><?php $row_data = $collection_payment_info->row(); ?>Creator : <?php echo $row_data->username; ?></td>
+					<td><?php $row_data = $collection_payment_info->row(); ?> Payment Receipt : <?php echo $transaction_id; ?></td>
+					<td>
+					Creator : <?php echo $row_data->username; ?></td>
 				</tr>
 				<tr>
 					<td>Date : <?php $newDate = date("d-m-Y", strtotime($row_data->date));echo $newDate; ?></td>
 					<td>Time : <?php $newDate1 = date("h:i A",strtotime($row_data->created_at));echo $newDate1; ?></td>
 				</tr>
 				<tr>
-					<td>Customer : <?php echo $row_data->customer_name; ?></td>
-					<td>Customer : <?php echo $row_data->customer_contact_no; ?></td>
+					<td>Distributor : <?php echo $row_data->distributor_name; ?></td>
+					<td>Contact No. : <?php echo $row_data->distributor_contact_no; ?></td>
 				</tr>
 			</table>
 		
