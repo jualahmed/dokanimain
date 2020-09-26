@@ -16,6 +16,14 @@
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/css/datepicker3.css">
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/css/jquery.scrollbar.css">
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css">
+	<style>
+	.skin-blue .main-header .logo {
+		background-color: #fff;
+	}
+	.skin-blue .main-header .logo:hover {
+		background-color: #fff;
+	}
+	</style>
 </head>
 <?php 
 	$this->load->config('custom_config'); 
@@ -26,8 +34,8 @@
 <div class="wrapper">
 	<header class="main-header">
 		<a href="<?php echo base_url();?>admin" class="logo">
-			<span class="logo-mini"><img src="<?php echo base_url(); ?>assets/img/dokani_small.png"></span>
-			<span class="logo-lg"><img src="<?php echo base_url(); ?>assets/img/top_logo2.png"></span>
+			<span class="logo-mini"><img src="<?php echo base_url(); ?>assets/img/fvicon-dokani.jpg"></span>
+			<span class="logo-lg"><img src="<?php echo base_url(); ?>assets/img/dokani-logo.png"></span>
 		</a>
 		<nav class="navbar navbar-static-top">
 			<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">

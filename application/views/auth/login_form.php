@@ -72,7 +72,7 @@
 		text-align: center;
 	}
 	.auth-header img {
-		max-width: 185px;
+		max-width: 90px;
 	}
 
 	input[type=text]:focus {
@@ -86,10 +86,12 @@
   </style>
 <div class="main">
 	<div class="container">
-		<?php $shop_info=$this->db->get('shop_setup')->row(); ?>
+		<?php 
+		$shop_info=$this->db->get('shop_setup')->row(); 
+		?>
 		<div class="auth-page">
 			<div class="auth-header">
-				<img src="<?php echo base_url(); ?>assets/img/dokani-logo.png" alt="Dokani Logo">
+				<img src="<?php echo base_url(); ?>assets/img/shop/<?php echo $shop_info->logo; ?>" alt="Dokani Logo">
 				<h2><?php echo $shop_info->shop_name; ?></h2>
 			</div>
 			<div class="auth-body">

@@ -653,6 +653,22 @@ class Report_model extends CI_model{
 
 	}
 
+	public function specific_date_running_sale_calculation( $start = '', $end = '')
+	{
+		$this->db->from('temp_sale_info');
+		if($start != '') $this->db->where('temp_sale_doc >= "'.$start.'"');
+		if($end != '') $this->db->where('temp_sale_doc <= "'.$end.'"');
+		return $this->db->count_all_results();
+	}
+
+	public function specific_date_invoice_calculation( $start, $end )
+	{
+		return $this->db->from('invoice_info')
+							 ->where('invoice_doc >= "'.$start.'"')
+							 ->where('invoice_doc <= "'.$end.'"')
+							 ->count_all_results();
+	}
+
 	public function specific_date_total_cash_calculation( $start, $end )
 	{
 		$query = $this -> db -> select_sum('amount')
@@ -1006,12 +1022,18 @@ class Report_model extends CI_model{
 	/***************************************************
 	* Calculate Purchase Amount of Specific date      **
 	* **************************************************/
-	public function specific_date_purchase_amount_calculation()
+	public function specific_date_purchase_amount_calculation($start_date = '', $end_date = '')
 	{
-		$query = $this->db->select( 'SUM( final_amount + transport_cost ) AS grand_total' )
+		$this->db->select( 'SUM( final_amount + transport_cost ) AS grand_total' )
 							-> from('purchase_receipt_info')
-							-> where('shop_id', $this->tank_auth->get_shop_id())
-							-> get();
+							-> where('shop_id', $this->tank_auth->get_shop_id());
+		if($start_date != '') {
+			$this->db->where("receipt_doc >= '$start_date'");
+		}
+		if($end_date != '') {
+			$this->db->where("receipt_doc <= '$end_date'");
+		}
+		$query = $this->db->get();
 		$grand_total = 0;
 		foreach($query -> result() as $result):
 				$grand_total = $result->grand_total;
