@@ -173,7 +173,7 @@
 											{
 										?>
 										<input type="hidden" id="selected_customer_id">
-										<input type="text" class="form-control search" value="" id="search_by_customer_name" placeholder="Search Product" autofocus="on">
+										<input type="text" class="form-control search" value="" id="search_by_customer_name" placeholder="Search Customer" autofocus="on">
 
 										<?php
 											}
@@ -399,7 +399,7 @@
 										<input type="text" name="int_balance" value="" class="form-control int_balance" placeholder="Balance" autocomplete="off">
 									</div>
 									<div class="form-group">
-									    <label for="inputEmail3" class="control-label">Address <span class="text-danger">*</span></label>
+									    <label for="inputEmail3" class="control-label">Address</label>
 										<textarea name="customer_address" cols="10" rows="1" class="form-control customer_address" maxlength="300" placeholder="customer Address"></textarea>
 									</div>
 								</div>
@@ -408,7 +408,7 @@
 					</div>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-secondary" id="close_customer_modal">Close</button>
 			        <button type="submit" class="btn btn-success" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
 					<button type="reset" id="reset_btn" class="btn btn-warning"><i class="fa fa-fw fa-refresh"></i> Reset</button>
 			      </div>

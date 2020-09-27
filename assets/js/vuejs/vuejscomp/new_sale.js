@@ -453,6 +453,12 @@ jQuery(document).ready(function($) {
 
 // create new customer 
 $(document).ready(function() {
+	$("#close_customer_modal").click(function () {
+		$('#customer').trigger('reset');
+		$('#customer').find('.has-error').removeClass('has-error');
+		$('#customer').find('.text-danger').remove();
+		$('#exampleModal').modal('hide');
+	});
 	$('#received').on('keyup', function(service)
 	{
 		var length=$(this).val().length;
@@ -477,13 +483,14 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (res){
                 if (res.check == true) {
-                    $('#customer').find('div.form-group').removeClass('has-error').removeClass('has-success');
-                    $('#customer').find('p.text-danger').remove();
+                    $('#customer').find('.has-error').removeClass('has-error');
+                    $('#customer').find('.text-danger').remove();
                     if (res.success == true) {
                         $.each(res.data, function(){
 							$("#selected_customer_id").val(this.customer_id);
 							$("#search_by_customer_name").val(this.customer_name);
-                        })
+						});
+						$('#customer').trigger('reset');
                         $('#exampleModal').modal('hide');
                     }
                 }else {

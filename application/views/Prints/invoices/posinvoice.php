@@ -22,16 +22,15 @@
 							$this->db->where('shop_id',$shop_id);
 							$shop_info=$this->db->get('shop_setup')->row();
 						?>
-						<!-- <?php if (isset($shop_info->invoicelogo)): ?>
-							<img style="width: 140px;object-fit: cover;" src="<?php echo base_url();?>assets/img/shop/<?php echo $shop_info->invoicelogo ?>">
-						<?php else: ?>
-							<img style="width: 50%;height: 100px;object-fit: cover;" src="<?php echo base_url();?>assets/img/top_logo2.png">
-						<?php endif ?>  -->
 
 						<?php $row_data = $sale_info->row(); ?>
-						<h4><?php echo $shop_info->shop_name; ?></h4>
-						<h5 style="margin: 0;font-weight: bold;">Invoice No. : <?php echo $invoice_id; ?></h5>
-						<p style="margin: 0px;"><?php $newDate = date("d-m-Y", strtotime($row_data->invoice_doc));echo $newDate; ?> | <?php $newDate1 = date("h:i A",strtotime($row_data->date_time));echo $newDate1; ?></p>
+						<p><img style="width: 50px;" src="<?php echo base_url(); ?>assets/img/shop/<?php echo $shop_info->logo; ?>" alt=""></p>
+						<h4 style="margin: 0;font-weight: bold"><?php echo $shop_info->shop_name; ?></h4>
+						<p style="margin: 0;font-size: 12px;"> <?php echo ($shop_info->shop_address) ?> </p>
+						<p style="font-size: 12px;font-weight: bold"> <?php echo ($shop_info->shop_contact) ?> </p>
+
+						<h4 style="margin: 0;font-weight: bold;">Invoice No. : <?php echo $invoice_id; ?></h4>
+						<p style="margin: 0px;font-size:11px;"><?php $newDate = date("d-m-Y", strtotime($row_data->invoice_doc));echo $newDate; ?> | <?php $newDate1 = date("h:i A",strtotime($row_data->date_time));echo $newDate1; ?> | <?php echo $row_data->user_full_name; ?></p>
 						<p style="margin: 0px;">Customer : <?php echo $row_data->customer_name; ?></p>
 					</div> 
 				
@@ -47,7 +46,7 @@
 										<!--<td >ID</td> -->
 										<td >Product Name</td>
 										<td >Qty </td>
-										<td >Sale</td>
+										<td >Price</td>
 										<td >Total</td>
 									</tr>
 									<?php
@@ -88,7 +87,7 @@
 										</td>
 										<td style="width:10%;text-align:right;">
 											<?php 
-												echo '<big style = "font-size: 11px; font-weight:bold;"> &#2547; </big> '.number_format( $field-> unit_sale_price, 2);
+												echo number_format( $field-> unit_sale_price, 2);
 												
 												$save1 = $save1 + ($general_sale_price * $sale_quantity - 
 														$unit_sale_price * $sale_quantity );
@@ -98,7 +97,7 @@
 										
 										<td style="width:12%;text-align:right;border-right:0px solid black;">
 											<?php 
-												echo '<big style = "font-size: 11px; font-weight:bold;"> &#2547; </big> '.number_format(( $field -> sale_quantity * $field-> general_sale_price), 2);
+												echo number_format(( $field -> sale_quantity * $field-> unit_sale_price), 2);
 											?> 
 										</td>
 									</tr>
@@ -115,7 +114,7 @@
 							?>
 					</div>
 					<div id ="pos_top_header_fourth" style="width: 100%; float: right;">
-						<div class ="pos_top_header_fourth_left"> Total Amount </div>
+						<div class ="pos_top_header_fourth_left"> Total MRP </div>
 						<div class ="pos_top_header_fourth_right"> <?php if($save1 > 0){
 							echo number_format(($final_total = $save1 + $row_data->total_price),2);
 							}else{ 
@@ -125,10 +124,16 @@
 						<div class ="pos_top_header_fourth_left"> Sale Return</div>
 						<div class ="pos_top_header_fourth_right"> <?php  echo number_format($row_data->sale_return_amount, 2);?></div>
 						<?php } ?>
-						<div class ="pos_top_header_fourth_left"> Product Discount</div>
+						<div class ="pos_top_header_fourth_left"> Shop Discount</div>
 						<div class ="pos_top_header_fourth_right"> <?php  echo number_format($save1, 2);?></div>
-						<div class ="pos_top_header_fourth_left"> Special Discount </div>
-						<div class ="pos_top_header_fourth_right"> <?php echo number_format($row_data->discount_amount, 2); ?></div>
+						
+						<?php
+						if ($row_data->discount_amount > 0) { ?>
+							<div class ="pos_top_header_fourth_left"> Special Discount </div>
+							<div class ="pos_top_header_fourth_right"> <?php echo number_format($row_data->discount_amount, 2); ?></div>
+						<?php }
+						?>
+
 						<?php 
 							$sale_return = $row_data->sale_return_amount;
 							$total_price = $row_data->total_price;
@@ -137,8 +142,8 @@
 						if($sale_return > 0)
 						{ 
 						?>
-						<div class ="pos_top_header_fourth_left" style="font-weight: bolder;"> Grand Total</div>
-						<div class ="pos_top_header_fourth_right" style="font-weight: bolder;"> <?php  echo number_format($row_data->total_price - $sale_return - $row_data->discount_amount, 2);?></div>
+						<div class ="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 12px;"> Grand Total</div>
+						<div class ="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 12px;"> <?php  echo number_format($row_data->total_price - $sale_return - $row_data->discount_amount, 2);?></div>
 						<div class ="pos_top_header_fourth_left"> Paid </div>
 						<?php $total_paid = $row_data->total_price - $sale_return; ?>
 						<div class ="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_paid, 2); ?></div>
@@ -147,16 +152,16 @@
 						else 
 						{
 						?>
-						<div class ="pos_top_header_fourth_left" style="font-weight: bolder;"> Grand Total </div>
-						<div class ="pos_top_header_fourth_right" style="font-weight: bolder;"> <?php echo number_format($row_data->grand_total, 2); ?></div>
-						<div class ="pos_top_header_fourth_left"> Paid </div>
+						<div class ="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 12px;"> Grand Total </div>
+						<div class ="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 12px;"> <?php echo number_format($row_data->grand_total, 2); ?></div>
+						<div class ="pos_top_header_fourth_left"> Received </div>
 						<?php $total_paid = $row_data->total_paid; ?>
 						<div class ="pos_top_header_fourth_right"> <?php echo number_format($total_paid, 2); ?></div>
 						<?php 
 						} 
 						?>
 
-						<div class ="pos_top_header_fourth_left"> Return </div>
+						<div class ="pos_top_header_fourth_left"> Returned </div>
 						<div class ="pos_top_header_fourth_right"> <?php echo number_format($row_data->return_money, 2); ?></div>
 						<?php if($row_data->grand_total > $row_data->total_paid){ ?>
 						<div class ="pos_top_header_fourth_left"> Due </div>
@@ -169,7 +174,6 @@
 					<div style="border-top: 1px solid gray; width: 100%; height: 1px; float:left;"> </div>
 					
 					<div class ="pos_top_header_fotter" style="background:;line-height:12px;margin-top:5px;">
-						<p> <?php echo ($shop_info->shop_address) ?> </p>
 						Software Developed By:<br />
 						<b>IT Lab Solutions Ltd.</b> Call: +8801842485222
 					</div>

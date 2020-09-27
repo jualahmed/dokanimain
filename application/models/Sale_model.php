@@ -135,7 +135,8 @@ class Sale_model extends CI_model{
         ->from('temp_sale_details')
         ->where('product_id', $data['product_id'])
         ->where('temp_sale_id', $currrent_temp_sale_id)
-        ->limit(1);
+		->limit(1);
+		
         $is_exists = $this->db->get();
         if($is_exists->num_rows() == 0)
         {
@@ -1117,6 +1118,7 @@ class Sale_model extends CI_model{
         $data = $this->db
                         ->select('temp_sale_id,temp_sale_type')
                         ->where('temp_sale_shop_id', $current_shop)
+                        ->where('temp_sale_creator', $current_user)
                         ->order_by('temp_sale_id', "asc")
                         ->get('temp_sale_info');
 

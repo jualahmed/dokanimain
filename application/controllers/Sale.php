@@ -600,8 +600,11 @@ class Sale extends MY_Controller
 
 		$currrent_temp_sale_id = $this->session->userdata('currrent_temp_sale_id');
 
-		$result = $this->sale_model->addProductToSale($view_array, $currrent_temp_sale_id);
-
+		$this->db->where('temp_sale_id',$currrent_temp_sale_id);
+		$count = $this->db->get('temp_sale_info');
+		if($count->num_rows()>0){
+			$result = $this->sale_model->addProductToSale($view_array, $currrent_temp_sale_id);
+		}
 		echo json_encode($result);
 	}
 
