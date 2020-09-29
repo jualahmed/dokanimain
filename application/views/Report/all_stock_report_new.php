@@ -117,6 +117,8 @@
   					<th align="right">Total BP</th>
   					<th align="right">Sale Price</th>
   					<th align="right">Total SP</th>
+  					<th align="right">MRP</th>
+					<th align="right">Total MRP</th>
   				</tr>
   			</thead>
   			<tbody>
@@ -132,6 +134,8 @@
   					<td class="text-right">{{ d.bulk_unit_buy_price * d.stock_amount | shortFloatNumber }}</td>
   					<td class="text-right">{{ d.general_unit_sale_price | shortFloatNumber }}</td>
   					<td class="text-right">{{ d.general_unit_sale_price * d.stock_amount | shortFloatNumber }}</td>
+  					<td class="text-right">{{ d.bulk_unit_sale_price | shortFloatNumber }}</td>
+  					<td class="text-right">{{ d.bulk_unit_sale_price * d.stock_amount | shortFloatNumber }}</td>
   				</tr>
   				<tr>
   					<td colspan="6"><b>Total</b></td>
@@ -140,6 +144,7 @@
   					<td class="text-right"><b>{{ amount | shortFloatNumber }}</b></td> 
 					  <td></td>
   					<td class="text-right"><b>{{ samount | shortFloatNumber }}</b></td>
+  					<td class="text-right"><b>{{ mrp | shortFloatNumber }}</b></td>
   				</tr>
   			</tbody>
   		</table>

@@ -167,9 +167,12 @@
 			<tr align="left">
 				<th>No.</th>
 				<th style="text-align: center;">Images</th>
-				<th>Product Name</th>
-				<th>Product Category</th>
-				<th>Product Company</th>
+				<th>Name</th>
+				<th>Category</th>
+				<th>Company</th>
+				<th>Size</th>
+				<th>Barcode</th>
+				<th>Model</th>
 				<th align="center">Action</th>
 			</tr>
 			<?php foreach ($data as $key => $var): ?>
@@ -185,6 +188,9 @@
 				<td style="white-space: normal!important;"><?php echo $var->product_name ?></td>
 				<td><?php echo $var->catagory_name ?></td>
 				<td><?php echo $var->company_name ?></td>
+				<td><?php echo $var->product_size ?></td>
+				<td><?php echo $var->barcode ?></td>
+				<td><?php echo $var->product_model ?></td>
 				<td>
 					<a data-toggle="modal" product_id="<?php echo $var->product_id ?>" data-target="#EditModel" class="btn edit btn-sm btn-success" ><i class="fa fa-edit"></i> Edit</a>
 					<a onclick="return confirm('Are you sure your want to delete?')" href="<?php echo base_url() ?>'product/destroy/'<?php echo $var->product_id ?>" class="btn btn-sm btn-danger" >
@@ -199,9 +205,12 @@
 			<tr align="left">
 				<th>No.</th>
 				<th style="text-align: center;">Images</th>
-				<th>Product Name</th>
-				<th>Product Category</th>
-				<th>Product Company</th>
+				<th>Name</th>
+				<th>Category</th>
+				<th>Company</th>
+				<th>Size</th>
+				<th>Barcode</th>
+				<th>Model</th>
 				<th align="center">Action</th>
 			</tr>
 			<tr v-for="(r,index) in result[0]" align="left"> 
@@ -213,6 +222,9 @@
 				<td style="white-space: normal!important;">{{ r.product_name }}</td>
 				<td>{{ r.catagory_name }}</td>
 				<td>{{ r.company_name }}</td>
+				<td>{{ r.product_size }}</td>
+				<td>{{ r.barcode }}</td>
+				<td>{{ r.product_model }}</td>
 				<td>
 					<a data-toggle="modal" :product_id="r.product_id" data-target="#EditModel" class="btn edit btn-sm btn-success" ><i class="fa fa-edit"></i> Edit</a>
 					<a onclick="return confirm('Are you sure your want to delete?')" :href="base_url+'product/destroy/'+r.product_id" class="btn btn-sm btn-danger" >

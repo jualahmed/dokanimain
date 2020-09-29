@@ -16,6 +16,7 @@ new Vue({
 		company_id:0,
 		amount:0,
 		samount:0,
+		mrp:0,
 		loding:false,
 		isLoading: false,
 		xhr:'ToCancelPrevReq'
@@ -63,6 +64,7 @@ new Vue({
 			self.loding=!self.loding;
 			self.amount=0;
 			self.samount=0;
+			self.mrp=0;
 		 $.ajax({
 			url:  $('#form_2').attr('action'),
 			type: "POST",
@@ -80,9 +82,10 @@ new Vue({
 				self.alldata=result;
 				self.loding = !self.loding;
 				result.forEach( function(element, index) {
-				 self.stockqty=parseFloat(self.stockqty)+parseFloat(element.stock_amount);
-				 self.amount=parseFloat(self.amount)+parseFloat((element.stock_amount*element.bulk_unit_buy_price));
-				 self.samount=parseFloat(self.samount)+parseFloat((element.stock_amount*element.general_unit_sale_price));
+				 	self.stockqty=parseFloat(self.stockqty)+parseFloat(element.stock_amount);
+				 	self.amount=parseFloat(self.amount)+parseFloat((element.stock_amount*element.bulk_unit_buy_price));
+				 	self.samount=parseFloat(self.samount)+parseFloat((element.stock_amount*element.general_unit_sale_price));
+				 	self.mrp=parseFloat(self.mrp)+parseFloat((element.stock_amount*element.bulk_unit_sale_price));
 				});
 			}
 		});

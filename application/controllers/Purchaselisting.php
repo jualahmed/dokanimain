@@ -92,12 +92,7 @@ class Purchaselisting extends MY_Controller {
 				$purchase_id = $oldPurchaseData->purchase_id;
 				$old_quantity = $oldPurchaseData->purchase_quantity;
 				$new_quantity = $quantity + $old_quantity;
-				$new_unit_buy_price = (($oldPurchaseData->unit_buy_price * $old_quantity) + 
-					($unit_buy_price_purchase * $quantity)) / $new_quantity;
-				$new_bulk_unit_sale_price = (($oldPurchaseData->bulk_unit_sale_price * $old_quantity) + 
-					($exclusive_sale_price * $quantity)) / $new_quantity;
-				$new_general_unit_sale_price = (($oldPurchaseData->general_unit_sale_price * $old_quantity) + 
-					($general_sale_price * $quantity)) / $new_quantity;
+				$new_unit_buy_price = (($oldPurchaseData->unit_buy_price * $old_quantity) + ($unit_buy_price_purchase * $quantity)) / $new_quantity;
 				$object=[
 					'purchase_quantity' => $new_quantity,
 					'unit_buy_price' => $new_unit_buy_price,
