@@ -45,7 +45,13 @@ new Vue({
 				})
 			}
 			self.isLoading = false
-	    },
+		},
+		downloadLink() {
+			var url = `${base_url}/Report/stock_report_print/${this.catagory_id}/${this.product_id}/${this.company_id}/${this.type_wise}`;
+			url += this.product_size == '' ? '/null' : this.product_size;
+			url += this.product_model == '' ? '/null' : this.product_model;
+			window.open(url, "_blank");
+		},
 		stockreport(){
 			var am=$("#lock77").val();
 			if(am){

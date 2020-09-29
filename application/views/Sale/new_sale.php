@@ -78,10 +78,11 @@
 		            	<input type="hidden" name="temp_pro_qty" id="temp_pro_qty" />
 		                <input type="hidden" name="pro_name" id="pro_name" />
 		            	<input type="hidden" name="price" id="price" />
-		            	<input type="hidden" name="mrp_price" id="buy_price_check" />
+		            	<input type="hidden" name="mrp_price" id="buy_price_check"/>
 		            	<input type="hidden" id="new_mrp_price" />
-						<input type="hidden" name="mrp_price" id="mrp_price" />
+						<input type="hidden" name="mrp_price" id="mrp_price"/>
 		            	<input type="hidden" id="buy_price" />
+		            	<input type="hidden" id="sale_price" />
 						<input type="hidden" id="product_specification" >
 							<table class="table table-bordered sale_table_custom_styl">
 			                <tr>
@@ -172,7 +173,7 @@
 											{
 										?>
 										<input type="hidden" id="selected_customer_id">
-										<input type="text" class="form-control search" value="" id="search_by_customer_name" placeholder="Search Product" autofocus="on">
+										<input type="text" class="form-control search" value="" id="search_by_customer_name" placeholder="Search Customer" autofocus="on">
 
 										<?php
 											}
@@ -188,18 +189,18 @@
 		        </div>
 				<div class="box-footer">
 					<input type="hidden" id="is_sale_active" value="<?php echo $current_sale; ?>">
-	      			<div style="display: flex;text-align: center;">
-	      				<div>
-							<button type="button" class="btn btn-primary btn_for_sale style2" id="quick_sale">Cash Sale<br><span>(Shortcut : Alt+Q)</span></button>
+	      			<div style="display: flex;text-align: center;justify-content: space-around;">
+					  <div>
+							<button type="button" class="btn btn-success btn_for_sale style2" id="quick_sale">Cash Sale <span>(Alt+Q)</span></button>
 						</div>
 						<div>
-							<button type="button" class="btn btn-primary btn_for_sale style2" id="credit_sale">Credit Sale <br><span>(Shortcut : Alt+C)</span></button>
+							<button type="button" class="btn btn-warning btn_for_sale style2" id="credit_sale">Credit Sale <span>(Alt+C)</span></button>
 						</div>	
 						<div>
-							<button style="height: 54px;    width: 127px;" type="button" class="btn btn-primary btn_for_sale style" id="quotation">Quotation </button>
+							<button type="button" class="btn btn-primary btn_for_sale style" id="quotation">Quotation </button>
 						</div>
 						<div>
-							<button type="button" class="btn btn-danger btn_for_sale style" id="cancel">Cancel <br><span>(Shortcut : Alt+X)</span></button>
+							<button type="button" class="btn btn-danger btn_for_sale style" id="cancel">Cancel <span>(Alt+X)</span></button>
 						</div>
 
 					</div>
@@ -239,35 +240,59 @@
 			</div>
 
 			<!-- listing all product -->
+			<style>
+			#selected_product_list_tbl tr {
+				font-size: 12px;
+			} 
+			 #selected_product_list_tbl th, 
+			 #selected_product_list_tbl td {
+				padding: 2px 5px!important;
+			 }
+			</style>
 			<div class="col-md-6">
 				<table class="table" id="selected_product_list_tbl">
               		<tr class="bg-aqua color-palette">
               			<td>
-              				SL No
+              				SL
               			</td>
-						<td style="white-space: normal!important;">
-              				Name
+						<td style="white-space: normal!important;" width="30%">
+              				Product Name
               			</td>
-              			<td>
+              			<td style="text-align: center;">
               				Stock
               			</td>
-              			<td>
-              				QTY
+              			<td style="text-align: center;">
+              				Qty.
               			</td>
-						<td>
-              				Sale
+						<td style="text-align: right;">
+              				Unite Price
               			</td>
-              			<td>
-              				Total
+              			<td style="text-align: right;">
+              				Total Price
               			</td>
-              			<td>
+              			<td style="text-align: center;">
               				 <i class="fa fa-fw fa-wrench"></i>
               			</td>
               		</tr>
 			
-              		<?php $qnty = 0;$total_sale = 0;$total_buy_price = 0;$total_profit = 0;$total_sale_price = 0;$final_profit_percent = 0; $buy_price = 0;$sale_price = 0;$profit = 0;$profit_percent = 0; $total_qnty = 0; $sub_to = 0; $vat = 0; $ind = 1; ?>
+					  <?php 
+					  $qnty = 0;
+					  $total_sale = 0;
+					  $total_buy_price = 0;
+					  $total_profit = 0;
+					  $total_sale_price = 0;
+					  $final_profit_percent = 0; 
+					  $buy_price = 0;
+					  $sale_price = 0;
+					  $profit = 0;
+					  $profit_percent = 0; 
+					  $total_qnty = 0; 
+					  $sub_to = 0; 
+					  $vat = 0; 
+					  $ind = 1;
+					?>
         			<?php 
-        				if($tmp_item != FALSE)
+        				if($tmp_item)
         				{ 
         					$i_num = 1;
 							foreach($tmp_item->result() as $tmp)
@@ -278,8 +303,15 @@
 									<td id="pro_name" style="white-space: normal!important;"><?php echo $tmp->item_name.' '.$tmp->product_size; ?></td>
 									<td align="center"><?php echo $tmp->stock; ?></td>
 									<td align="center"> <?php echo $qnty = $tmp->sale_quantity; ?></td>
-									<td align="right"><?php echo $sale_price = $tmp->general_unit_sale_price; ?></td>
-									<td align="right"><?php echo $tmp->sale_quantity * $tmp->general_unit_sale_price; ?></td>
+									<td align="right">
+										<?php 
+											$actual_sale_price = $tmp->actual_sale_price;
+											echo sprintf("%01.2f", $actual_sale_price); 
+										?>
+									</td>
+									<td align="right">
+										<?php echo sprintf("%01.2f", $tmp->sale_quantity * $tmp->actual_sale_price); ?>
+									</td>
 									<td>
 										<i id="delete<?php echo $i_num;?>" class="fa fa-fw fa-remove delete_product" style="color: red;cursor:pointer;" ></i>      <!-- id="delete" -->
 										<i id="edit<?php echo $i_num;?>" class="fa fa-edit edit_quantty" style="color: green;cursor:pointer;" ></i>      <!-- id="edit" -->
@@ -294,16 +326,16 @@
 									<input type="hidden" id="buy_id<?php echo $i_num;?>" value="<?php echo $tmp->unit_buy_price; ?>">
 									<input type="hidden" id="quantti_id<?php echo $i_num;?>" value="<?php echo $tmp->sale_quantity; ?>">
 									<input type="hidden" id="temp_details_modal<?php echo $i_num;?>" value="<?php echo $tmp->temp_sale_details_id; ?>">
-									<td style="display: none;"><?php echo $tmp->product_id . "<>" . $qnty ."<>". $sale_price; ?></td>
+									<td style="display: none;"><?php echo $tmp->product_id . "<>" . $qnty ."<>". $actual_sale_price; ?></td>
 								</tr>
 
-	                <?php 
+					<?php 
 			                	$i_num++; 
 			                    $total_qnty += $qnty;
-			                    $sub_to     = ($sub_to + ($qnty * $sale_price));
+								$price_per_product     = $qnty * $actual_sale_price;
+								$sub_to += $price_per_product;
 			                    $vat        = 0;
-	                 		}
-	                 		$sub_to  = $sub_to;
+							 }
 	                 		$vat     = $vat;
 	                 ?>
 			                <input type="hidden" value="<?php echo $total_qnty; 	?>"     id="hid_qty" >
@@ -367,7 +399,7 @@
 										<input type="text" name="int_balance" value="" class="form-control int_balance" placeholder="Balance" autocomplete="off">
 									</div>
 									<div class="form-group">
-									    <label for="inputEmail3" class="control-label">Address <span class="text-danger">*</span></label>
+									    <label for="inputEmail3" class="control-label">Address</label>
 										<textarea name="customer_address" cols="10" rows="1" class="form-control customer_address" maxlength="300" placeholder="customer Address"></textarea>
 									</div>
 								</div>
@@ -376,7 +408,7 @@
 					</div>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-secondary" id="close_customer_modal">Close</button>
 			        <button type="submit" class="btn btn-success" name="search_random" id="submit_btn"><i class="fa fa-fw fa-save"></i> Create</button>
 					<button type="reset" id="reset_btn" class="btn btn-warning"><i class="fa fa-fw fa-refresh"></i> Reset</button>
 			      </div>

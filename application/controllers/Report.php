@@ -240,12 +240,13 @@ class Report extends MY_controller
 		$product_amount = $this->input->post('product_amount');
 		$product_size = $this->input->post('product_size');
 		$product_model = $this->input->post('product_model');
-		$category1 = rawurldecode($catagory_id);
-		$company1 = rawurldecode($company_id);
+		$catagory_id = rawurldecode($catagory_id);
+		$company_id = rawurldecode($company_id);
+		$product_id = rawurldecode($product_id);
 		$temp = $this->report_model->get_stock_info_by_multi(
-			$category1,
+			$catagory_id,
 			$product_id,
-			$company1,
+			$company_id,
 			$type_wise,
 			$product_amount,
 			$product_size,
@@ -258,14 +259,26 @@ class Report extends MY_controller
 	{	
 		 $category_id='';
 		 $product_id='';
+		 $product_size='';
+		 $product_model='';
 		 $company_id='';
 		 $type='';
 		 $category_id = $this->uri->segment(3);
 		 $product_id = $this->uri->segment(4);
 		 $company_id = $this->uri->segment(5);
 		 $type = $this->uri->segment(6);
+		 $product_size = $this->uri->segment(7);
+		 $product_model = $this->uri->segment(8);
 		 $product_amount='';
-		 $data['temp'] = $this->report_model->get_stock_info_by_multi($category_id,$product_id,$company_id,$type,$product_amount);
+		 $data['temp'] = $this->report_model->get_stock_info_by_multi(
+			 $category_id,
+			 $product_id,
+			 $company_id,
+			 $type,
+			 $product_amount,
+			 $product_size,
+			 $product_model
+			);
 		 $data['reportname']="Stock Report";
 		 $this->__renderviewprint('Prints/report/stock_report', $data);
 	}

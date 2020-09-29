@@ -6,20 +6,28 @@
 #companyTitle img {
   width: 16px;
 }
+.main-footer {
+  width: calc(100% - 230px) !important;
+  right: 0;
+  transition: all 0.35s ease-in-out;
+}
+.sidebar-collapse .main-footer{
+  width: calc(100% - 50px)!important;
+  transition: all 0.35s ease-in-out;
+}
 </style>
 <footer class="main-footer" >
   <input name="ret_and_sel" type="hidden" id="ret_and_sel" value="<?php echo base_url();?>extra_controller/retrive_and_select" />
   <input name="ret_and_sel_with_id" type="hidden" id="ret_and_sel_with_id" value="<?php echo base_url();?>extra_controller/retrive_and_select_with_id" />
-    <div class="pull-right hidden-xs" style="color: #405367;margin-top:5px;">
-      &#169; <?php echo $this->tank_auth->get_shopname(); ?>, <?php echo $this->tank_auth->get_shopaddress(); ?>.
-    </div>
-  <p style="color: #405367;margin-top:5px;"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>Dokani Developed by 
-    <span class="lead"> 
-      <a href="http://www.itlabsolutions.com" target="_blank" id="companyTitle"> 
-        <img id="footerLogo" src="<?php echo base_url();?>assets/img/itlablogo.png"/> IT Lab Solutions Ltd.<sup>&reg;</sup> 
-      </a>
-    </span> +8801842485222
-  </p>
+  <p style="color: #405367;margin-top:5px;" class="pull-left"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>Dokani Developed by 
+      <span class="lead"> 
+        <a href="http://www.itlabsolutions.com" target="_blank" id="companyTitle"> 
+          <img id="footerLogo" src="<?php echo base_url();?>assets/img/itlablogo.png"/> IT Lab Solutions Ltd.<sup>&reg;</sup> 
+        </a>
+      </span> +8801842485222
+    </p>
+
+    <p class="pull-right" style="color: #405367;margin-top:5px;padding: 5px;">&#169; <?php echo $this->tank_auth->get_shopname(); ?>, <?php echo $this->tank_auth->get_shopaddress(); ?>.</p>
 </footer>
  </div>
 
@@ -39,6 +47,7 @@
 <script src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/app.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/sweetalert2.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/moment.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/jquery-ui.js"></script>
 <script src="<?php echo base_url();?>assets/js/select2.full.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/bootstrap-datepicker.js"></script>

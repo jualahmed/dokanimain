@@ -45,7 +45,7 @@ class Sale_model extends CI_model{
     public function search_product($query){
 		$data = $this->db
             ->select('product_name, company_info.company_name, catagory_info.catagory_name,product_size,product_model, product_info.product_id, bulk_unit_sale_price, general_unit_sale_price, bulk_unit_buy_price, stock_amount, barcode, group_name, product_info.product_specification')
-            ->where("`product_name` RLIKE +'$query' OR `product_name` LIKE '$query%'")
+            ->where("`product_name` LIKE '$query%'")
             ->order_by('product_name', 'asc')
             ->limit(50)
             ->from('product_info')
@@ -129,37 +129,38 @@ class Sale_model extends CI_model{
 		return true;
 	}
 
-    public function addProductToSale($product_id, $product_name, $sale_price, $mrp_price, $buy_price, $product_specification, $sale_quantity,$product_stock, $currrent_temp_sale_id)
+    public function addProductToSale($data, $currrent_temp_sale_id)
 	{
 		$this->db->select('temp_sale_details.*')
         ->from('temp_sale_details')
-        ->where('product_id', $product_id)
+        ->where('product_id', $data['product_id'])
         ->where('temp_sale_id', $currrent_temp_sale_id)
-        ->limit(1);
+		->limit(1);
+		
         $is_exists = $this->db->get();
         if($is_exists->num_rows() == 0)
         {
-			$data = array(
+			$tempSaleData = array(
 				'temp_sale_id'              => $currrent_temp_sale_id,
-				'product_id'                => $product_id,
+				'product_id'                => $data['product_id'],
 				'stock_id'                  => 0,
-				'sale_quantity'             => $sale_quantity,
-				'product_specification'     => $product_specification,
+				'sale_quantity'             => $data['pro_quantity'],
+				'product_specification'     => $data['product_specification'],
 				'sale_type'                 => 1,
 				'discount_info_id'          => 0,
 				'discount'                  => 0,
-				'discount_type'             => $product_name,
-				'unit_buy_price'            => $buy_price,
-				'unit_sale_price'           => $sale_price,
-				'general_unit_sale_price'   => $mrp_price,
-				'actual_sale_price'         => $sale_price,
+				'discount_type'             => $data['product_name'],
+				'unit_buy_price'            => $data['buy_price'],
+				'unit_sale_price'           => $data['sale_price'],
+				'general_unit_sale_price'   => $data['pro_mrp_price'],
+				'actual_sale_price'         => $data['sale_price'],
 				'temp_sale_details_status'  => 1,
-				'item_name'                 => $product_name,
-				'stock'                     => $product_stock
+				'item_name'                 => $data['product_name'],
+				'stock'                     => $data['product_stock']
 			);
-			$this->db->insert('temp_sale_details', $data);
-			$this->db->where('product_id', $product_id)->limit(1)
-            ->update('bulk_stock_info', array('stock_amount' => $product_stock));
+			$this->db->insert('temp_sale_details', $tempSaleData);
+			$this->db->where('product_id', $data['product_id'])->limit(1)
+            ->update('bulk_stock_info', array('stock_amount' => $data['product_stock']));
 
             return true;
 		}
@@ -169,16 +170,16 @@ class Sale_model extends CI_model{
 			$sale_quantity_old = $field->sale_quantity;
 			$sale_stock_old = $field->stock;
 			
-			$data = array(
-			'sale_quantity' =>$sale_quantity_old + $sale_quantity,
-			'stock' =>$sale_stock_old - $sale_quantity
+			$tempSaleData = array(
+			'sale_quantity' =>$sale_quantity_old + $data['pro_quantity'],
+			'stock' =>$sale_stock_old - $data['pro_quantity']
 			);
-			$this->db->where('product_id', $product_id);
+			$this->db->where('product_id', $data['product_id']);
 			$this->db->where('temp_sale_id', $currrent_temp_sale_id);
-            $this->db->update('temp_sale_details', $data);
+            $this->db->update('temp_sale_details', $tempSaleData);
 			
-			$this->db->where('product_id', $product_id)->limit(1)
-            ->update('bulk_stock_info', array('stock_amount' => $product_stock));
+			$this->db->where('product_id', $data['product_id'])->limit(1)
+            ->update('bulk_stock_info', array('stock_amount' => $data['product_stock']));
             return true;
 		}
     }
@@ -1117,6 +1118,7 @@ class Sale_model extends CI_model{
         $data = $this->db
                         ->select('temp_sale_id,temp_sale_type')
                         ->where('temp_sale_shop_id', $current_shop)
+                        ->where('temp_sale_creator', $current_user)
                         ->order_by('temp_sale_id', "asc")
                         ->get('temp_sale_info');
 

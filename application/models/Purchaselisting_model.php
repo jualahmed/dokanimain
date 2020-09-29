@@ -25,8 +25,18 @@ class Purchaselisting_model extends CI_Model {
 
 	public function find($purchaselisting_id='')
 	{
-		$this->db->where('purchase_id', $purchaselisting_id);
-		return $this->db->get('purchase_info')->row();
+		 $this->db->select('purchase_info.*, product_info.has_serial_no')
+			->join('product_info', 'product_info.product_id=purchase_info.product_id', 'left')
+			->where('purchase_id', $purchaselisting_id);
+		$product = $this->db->get('purchase_info')->row();
+
+		$product->serials = null;
+		if ($product->has_serial_no == 1) {
+			$product->serials = $this->db->where('purchase_receipt_id', $product->purchase_receipt_id)
+				->where('product_id', $product->product_id)
+				->get('warranty_product_list')->result();
+		}
+		return $product;
 	}
 
 

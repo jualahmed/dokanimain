@@ -72,8 +72,12 @@ jQuery(document).ready(function($) {
 						var new_sale_price = parseFloat (ui.item.sale_price);
 						var new_mrp_price = parseFloat(ui.item.mrp_price);
 						var new_buy_price = parseFloat(ui.item.buy_price);
+
 					   $('#price').val(new_sale_price);
 					   $('#mrp_price').val(new_mrp_price);
+					   $('#sale_price').val(new_sale_price);
+					   $('#buy_price').val(new_buy_price);
+
 						var sale_price_check = parseFloat(ui.item.mrp_price);
 						var stock_check      = parseFloat(ui.item.stock);
 						if(sale_price_check==0 && stock_check ==0)
@@ -101,11 +105,11 @@ jQuery(document).ready(function($) {
 
 			$( "#search_by_product_name" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
 				return $( "<li style=\"border-bottom: 2px solid gray; hover: red;\">" )
-				.append( "<div><span class=\"label_style\">" + item.label +' '+item.catagory_name +' '+item.product_size + 
-				"</span><br>" + item.generic_name + "    " +item.catagory_name + 
-				"    <span style='color:#00cd6e;'> (Stock: "+ item.stock + 
-				")</span> <span style='color:#00cd6e;'> (Pack: "+ item.product_model + ")</span><br>" + 
-				item.company_name + "</div>" ).appendTo( ul );
+				.append( "<div><span class=\"label_style text-bold\">" + item.label +'</span><span> '+item.catagory_name +' '+item.product_size + 
+				"</span><br><span style=\"font-size: 12px !important;\">" + item.generic_name + "    " +item.catagory_name + 
+				"    </span><span style='color:#00cd6e;'> (Stock: "+ item.stock + 
+				")</span> <span style='color:#00cd6e;'> (Pack: "+ item.product_model + ")</span><br><span style=\"font-size: 12px !important;\">" + 
+				item.company_name + "</span></div>" ).appendTo( ul );
 			};
 
 		}
@@ -137,16 +141,19 @@ jQuery(document).ready(function($) {
 					 	success   : function( result ) { 
 						   response( $.map(result, function(item){
 								return{
-								  id              : item.id,
+								  id              : item.customer_id,
+								  value           : item.customer_name,
 								  label           : item.customer_name,
 								}
 						   }));
 						}
 					});
 				},
-			   	minLength     : 1,
+				minLength     : 1,
+				select        : function (event, ui) {
+					$("#selected_customer_id").val(ui.item.id);
+				}
 			});
-
 		}
     });
 
@@ -209,6 +216,9 @@ jQuery(document).ready(function($) {
 						var new_buy_price = parseFloat(ui.item.buy_price);
 					   $('#price').val(new_sale_price);
 					   $('#mrp_price').val(new_mrp_price);
+					   $('#sale_price').val(new_sale_price);
+					   $('#buy_price').val(new_buy_price);
+
 						var sale_price_check = parseFloat(ui.item.mrp_price);
 						var stock_check      = parseFloat(ui.item.stock);
 						if(sale_price_check==0 && stock_check ==0)
@@ -254,15 +264,19 @@ jQuery(document).ready(function($) {
 			var stock           = $("#temp_pro_qty").val();         var cstock          = parseFloat(stock);
 			var qnty            = $('#product_quantity').val();     var rstock          = parseFloat(qnty);
 			var str_Price       = $('#price').val();                var pro_price       = parseFloat(str_Price);
-			var mrp_price   	= $('#mrp_price').val();        	var mrp_price   	= parseFloat(mrp_price);
+
+			var mrp_price   	= $('#mrp_price').val();        	var mrp_price   	= parseFloat(mrp_price);  // general_unit_sale_price
+			var sale_price   	= $('#sale_price').val();        	var sale_price   	= parseFloat(sale_price); // unit_sale_price
+			var buy_price       = $('#buy_price').val();            var buy_price       = parseFloat(buy_price); // unit_buy_price
+
 			var str_mrp_Price   = $('#new_mrp_price').val();        var pro_mrp_price   = parseFloat(str_mrp_Price);
-			var str_buy_Price   = $('#buy_price').val();            var str_buy_Price   = parseFloat(str_buy_Price);
 			var str_sub_total   = $('#sub_total').val();            var tmp_sub_total   = parseFloat(str_sub_total);
 			var str_total_vat   = $('#vat').val();                  var total_vat       = parseFloat(str_total_vat);
 			var str_num_of_pro  = $('#number_of_products').val();   var num_of_pro      = parseInt(str_num_of_pro);
 			var return_adjust   = $('#return_adjust').val();
 			var product_specification   = $('#product_specification').val();
 			var pro_id   = $("#temp_pro_id").val();
+			var pro_name   = $("#pro_name").val();
 			var value_added_tax = parseFloat($('#value_added_tax').val());
 			if(qnty != '' && !isNaN(qnty) && qnty > 0 && $("#temp_pro_data").val() != '')
 			{
@@ -357,7 +371,20 @@ jQuery(document).ready(function($) {
 									url       : base_url+'sale/addProductToSale',
 									type      : 'POST',
 									cache     : false,
-									data      : { temp_data: temp_data, pro_quantity: rstock, num_of_row: num_of_tr, total: total, pro_mrp_price: pro_mrp_price},
+									data      : { 
+										product_id: pro_id, 
+										product_name: pro_name, 
+										pro_mrp_price: pro_mrp_price,
+										sale_price: sale_price,
+										buy_price: buy_price,
+										product_specification: product_specification,
+										pro_quantity: rstock, 
+										cstock: cstock, 
+										num_of_row: num_of_tr, 
+
+										temp_data: temp_data, 
+										total: total, 
+									},
 									success   :function(res)
 									{
 										$('#search_by_product_name').focus();
@@ -391,7 +418,20 @@ jQuery(document).ready(function($) {
 						url       : base_url+'sale/addProductToSale',
 						type      : "POST",
 						cache     : false,
-						data      : { temp_data: temp_data, pro_quantity: rstock, num_of_row: num_of_tr, total: total, mrp_price: mrp_price, pro_mrp_price: pro_mrp_price},
+						data      : { 
+							product_id: pro_id, 
+							product_name: pro_name, 
+							pro_mrp_price: mrp_price,
+							sale_price: sale_price,
+							buy_price: buy_price,
+							product_specification: product_specification,
+							pro_quantity: rstock, 
+							cstock: cstock, 
+							num_of_row: num_of_tr, 
+
+							temp_data: temp_data, 
+							total: total,
+						},
 						success   :function(res){
 							$("#selected_products").last().append(res);
 							$('#search_by_product_name').val("");
@@ -413,6 +453,12 @@ jQuery(document).ready(function($) {
 
 // create new customer 
 $(document).ready(function() {
+	$("#close_customer_modal").click(function () {
+		$('#customer').trigger('reset');
+		$('#customer').find('.has-error').removeClass('has-error');
+		$('#customer').find('.text-danger').remove();
+		$('#exampleModal').modal('hide');
+	});
 	$('#received').on('keyup', function(service)
 	{
 		var length=$(this).val().length;
@@ -437,14 +483,14 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (res){
                 if (res.check == true) {
-                    $('#customer').find('div.form-group').removeClass('has-error').removeClass('has-success');
-                    $('#customer').find('p.text-danger').remove();
+                    $('#customer').find('.has-error').removeClass('has-error');
+                    $('#customer').find('.text-danger').remove();
                     if (res.success == true) {
-                        $("select[name='customer_name'").html('');
-
                         $.each(res.data, function(){
-                            $("select[name='customer_name'").append('<option value="'+ this.customer_id +'">'+ this.customer_name +'</option>')
-                        })
+							$("#selected_customer_id").val(this.customer_id);
+							$("#search_by_customer_name").val(this.customer_name);
+						});
+						$('#customer').trigger('reset');
                         $('#exampleModal').modal('hide');
                     }
                 }else {
@@ -481,18 +527,25 @@ $(document).ready(function()
 $(function(){
      var i = $('#hid_qty').val();
      var j = $('#hid_sub_to').val();
-     var k = $('#hid_vat').val();
+	 var k = $('#hid_vat').val();
+	 
+	 i = parseFloat(i).toFixed(2);
+	 j = parseFloat(j).toFixed(2);
+	 k = parseFloat(k).toFixed(2);
         
      if(i != '' && j != '' && k != ''){
          $('#number_of_products').val(i);
          $('#sub_total').val(j);
          $('#vat').val(k);
-         var re_ajd = $('#hid_return_adjust').val();
-         var tmp = (parseFloat(j) + parseFloat(k));
+		 var re_ajd = $('#hid_return_adjust').val();
+		 re_ajd    = parseFloat(re_ajd).toFixed(2);
+
+		 var tmp = (parseFloat(j) + parseFloat(k));
+		 tmp = parseFloat(tmp).toFixed(2);
 
          if(re_ajd != 0){
-           re_ajd    = re_ajd;
-           var pybl  = tmp - re_ajd;
+		   var pybl  = tmp - re_ajd;
+		   pybl = parseFloat(pybl).toFixed(2);
 
            $('#return_adjust').val(re_ajd);
            if(pybl > 0)$('#payable').val(pybl);
@@ -882,7 +935,16 @@ $('#received').on('keyup', function (efs)
 // quick_sale or cash sale start
 $('#quick_sale').on('click', function(e)
 {
-	quick(e);
+	var change = $("#change").val();
+	if (change !== '' && parseFloat(change) >= 0) {
+		quick(e);
+	}else {
+		swal(
+			'Oops...!',
+			'Received amount must be greater then or equal to total price!',
+			'info'
+		);
+	}
 });
 
 function quick(e)
@@ -1027,54 +1089,55 @@ $('#credit_sale').on('click', function(e){
     }
     else
     {
-        swal({
-          title               : 'Are You Sure About Credit Sale?',
-          text                : "You won't be able to revert this!",
-          type                : 'warning',
-          showCancelButton    : true,
-          confirmButtonColor  : '#db8b0b',
-          cancelButtonColor   : '#008d4c',
-          confirmButtonText   : 'Yes',
-          cancelButtonText    : 'No'
-        }).then(function () {
-			var sub_total       = $('#sub_total').val();
-			var vat             = $('#vat').val();
-			var total           = parseFloat($('#total').val());
-			var received        = $('#received').val();
-			var customer_id     = $('#select_customer').val();
-			var disc_in_p       = $('#disc_in_p').val();
-			var disc_in_f       = $('#disc_in_f').val();
-			var disc_amount     = parseFloat($('#disc_amount').val());
-			var delivery_charge = parseFloat($('#delivery_charge').val());
-			var customer_name   = $('#customer_name').val();
-			var customer_phn    = $('#customer_phone').val();
-			var return_adjust   = $('#return_adjust').val();
-			var change          = $('#change').val();
-			var payable         = $('#payable').val();
-			var return_id       = $('#hid_return_id').val();
+		var sub_total       = $('#sub_total').val();
+		var vat             = $('#vat').val();
+		var total           = parseFloat($('#total').val());
+		var received        = $('#received').val();
+		var customer_id     = $('#selected_customer_id').val();
+		var disc_in_p       = $('#disc_in_p').val();
+		var disc_in_f       = $('#disc_in_f').val();
+		var disc_amount     = parseFloat($('#disc_amount').val());
+		var delivery_charge = parseFloat($('#delivery_charge').val());
+		var customer_name   = $('#customer_name').val();
+		var customer_phn    = $('#customer_phone').val();
+		var return_adjust   = $('#return_adjust').val();
+		var change          = $('#change').val();
+		var payable         = $('#payable').val();
+		var return_id       = $('#hid_return_id').val();
 
-			var is_valid = true;
-			var message = '';
-			console.log(customer_id);
-			if(disc_amount > total)
-			{
-				message = 'Discount Amount is Greater Than Total Amount!';
-				is_valid = false;
-			}
-			if (sub_total == '') {
-				is_valid = false;
-				message = 'Sub-total should not be empty';
-			}
-			if (customer_id == '') {
-				is_valid = false;
-				message = 'Please select a customer';
-			}
-			if (total == '') {
-				is_valid = false;
-				message = 'Total price should not be empty';
-			}
+		var is_valid = true;
+		var message = '';
+		console.log(customer_id);
+		if(disc_amount > total)
+		{
+			message = 'Discount Amount is Greater Than Total Amount!';
+			is_valid = false;
+		}
+		if (sub_total == '') {
+			is_valid = false;
+			message = 'Sub-total should not be empty';
+		}
+		if (customer_id == '') {
+			is_valid = false;
+			message = 'Please select a customer';
+		}
+		if (total == '') {
+			is_valid = false;
+			message = 'Total price should not be empty';
+		}
 
-			if (is_valid) {
+		if (is_valid) {
+
+			swal({
+				title               : 'Are You Sure About Credit Sale?',
+				text                : "You won't be able to revert this!",
+				type                : 'warning',
+				showCancelButton    : true,
+				confirmButtonColor  : '#db8b0b',
+				cancelButtonColor   : '#008d4c',
+				confirmButtonText   : 'Yes',
+				cancelButtonText    : 'No'
+			  }).then(function () {
 				$.ajax({
 					url: base_url+'sale/doSale_credit',
 					type: "POST",
@@ -1122,14 +1185,36 @@ $('#credit_sale').on('click', function(e){
 						window.open(base_url+"invoice/index/" + result, '_blank');          
 					}  
 				});
-			} else {
-				swal(
-					'Oops...!',
-					message,
-					'warning'
-				  );
-			}
-		})
+	  
+			  });
+		} else {
+			swal(
+				'Oops...!',
+				message,
+				'warning'
+			  );
+		}
+		// var customer = $("#selected_customer_id").val();
+		// var received = $("#received").val();
+		// var total = $("#total").val();
+        // if (customer !== '') {
+		// 	if(received === '' || parseFloat(received) < parseFloat(total)) {
+				
+		// 	} else {
+		// 		swal(
+		// 			'Oops...!',
+		// 			'received price must be zero or less than total price!',
+		// 			'info'
+		// 		  );
+		// 	}
+			
+		// } else {
+		// 	swal(
+		// 		'Oops...!',
+		// 		'Please select a customer!',
+		// 		'info'
+		// 	  );
+		// }
     }
 });
 // master card sale start
@@ -1817,7 +1902,8 @@ $('#received').on('keyup', function()
 	{
       if(str_received != '' && str_total != '' && !isNaN(str_received) && int_received > 0)
 	  {
-          $('#change').val(int_received - payable);
+		  var dif = int_received - payable;
+          $('#change').val(parseFloat(dif).toFixed(2));
       }
       if(str_received == '')$('#change').val("");
     }
@@ -1826,7 +1912,8 @@ $('#received').on('keyup', function()
 	{
       if(str_received != '' && str_total != '' && !isNaN(str_received) && int_received > 0)
 	  {
-          $('#change').val(int_received - int_total);
+		  var dif = int_received - int_total;
+          $('#change').val(parseFloat(dif).toFixed(2));
       }
       if(str_received == '')$('#change').val("");
     }
@@ -1894,7 +1981,7 @@ function quotation()
 			var disc_amount     = parseFloat($('#disc_amount').val());
 			var delivery_charge = parseFloat($('#delivery_charge').val());
 			var discount_limit  = $('#discount_limit').val();
-			var customer_id  = $('#select_customer').val();
+			var customer_id  = $('#selected_customer_id').val();
 			
 			if(disc_amount > total && discount_limit==0)
 			{

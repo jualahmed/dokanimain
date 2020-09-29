@@ -5,7 +5,6 @@
     min-height: 400px;
 }
 #main_container_body_main2 {
-    border: 1px solid black;
     float: left;
     margin: 0;
     width: 286px;
@@ -112,7 +111,7 @@
     float: left;
     font-family: arial,serif,Times,Times New Roman;
     line-height: 17px;
-    margin: 0 auto;
+    padding-right: 10px;
     min-height: 17px;
     text-align: right;
     width: 79%;
@@ -150,7 +149,6 @@
   -sand-transform: rotate(-5deg);
   transform: rotate(-5deg);
   text-transform: uppercase;
-  //background:url(../images/savings.jpg) no-repeat;
 }
 #shop_title_box {
     background-color: lightgray;

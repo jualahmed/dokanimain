@@ -113,7 +113,7 @@ class Product extends MY_Controller {
 	        'product_model' => $this->input->post('product_model'),
 	        'unit_id' => $this->input->post('unit_id'),
 	        'barcode' => $this->input->post('barcode'),
-	        'product_specification' => $this->input->post('product_specification'),
+	        'product_specification' => 1,
 	        'product_warranty' => $this->input->post('product_warranty'),
 	        'alarming_stock' => $this->input->post('alarming_stock'),
 	        'has_serial_no' => isset($_POST['has_serial_no']) ? 1 : 0,

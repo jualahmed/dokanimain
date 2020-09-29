@@ -8,26 +8,29 @@ class Report_model extends CI_model{
 	}
 
 	public function get_stock_info_by_multi(
-		$category1='',
+		$category_id='',
 		$product_id='',
-		$company1='',
+		$company_id='',
 		$type_wise='',
 		$product_amount='',
 		$product_size = '',
 		$product_model = ''
 		)
 	{
-	
-		
+		$this->db->distinct()->select('bulk_stock_info.*, product_info.product_name, product_size, 
+		product_info.product_model, company_info.company_name, catagory_info.catagory_name');
+		$this->db->from('bulk_stock_info');
 		$this->db->join('purchase_info','bulk_stock_info.product_id = purchase_info.product_id', 'left');
 		$this->db->join('product_info','bulk_stock_info.product_id = product_info.product_id', 'left');
+		$this->db->join('catagory_info','product_info.catagory_id = catagory_info.catagory_id', 'left');
+		$this->db->join('company_info','product_info.company_id = company_info.company_id', 'left');
 
-		if($product_id != 0){$this->db->where('product_info.product_id = "'.$product_id.'" ');}
-		if($category1 != 0){$this->db->where('product_info.catagory_id = "'.$category1.'" ');}
-		if($company1 != 0){$this->db->where('product_info.company_id = "'.$company1.'" ');}
-		if($product_amount != 0){$this->db->where('bulk_stock_info.stock_amount <= "'.$product_amount.'" ');}
-		if($product_size != ''){$this->db->like('product_info.product_size', $product_size);}
-		if($product_model != ''){$this->db->like('product_info.product_model', $product_model);}
+		if($product_id != 0){$this->db->where('bulk_stock_info.product_id = '.$product_id);}
+		if($category_id != 0){$this->db->where('product_info.catagory_id = '.$category_id);}
+		if($company_id != 0){$this->db->where('product_info.company_id = '.$company_id);}
+		if($product_amount != 0){$this->db->where('bulk_stock_info.stock_amount <= '.$product_amount);}
+		if($product_size != 'null' && $product_size != ''){$this->db->like('product_info.product_size', $product_size);}
+		if($product_model != 'null' && $product_model != ''){$this->db->like('product_info.product_model', $product_model);}
 
 		if($type_wise == 'available')
 		{
@@ -38,7 +41,7 @@ class Report_model extends CI_model{
 			$this->db->where('bulk_stock_info.stock_amount <= 0'); 
 		}
 
-		$query = $this->db->get('bulk_stock_info');
+		$query = $this->db->get();
 		return $query;
 	}	
 
@@ -78,12 +81,12 @@ class Report_model extends CI_model{
 	public function get_sale_info_by_multi($invoice_id='',$customer_id='',$product_id='',$seller_id='',$start_date='',$end_date='',$company_id='',$category_id='')
 	{
 		$this->db->select('users.username,company_info.company_name,catagory_info.catagory_name,product_info.*,sale_details.*,customer_info.*,invoice_info.*, invoice_info.invoice_id as sid');
-		$this->db->join('customer_info', 'invoice_info.customer_id = customer_info.customer_id');
-		$this->db->join('sale_details', 'sale_details.invoice_id = invoice_info.invoice_id');
-		$this->db->join('product_info', 'product_info.product_id = sale_details.product_id');
-		$this->db->join('users', 'users.id = invoice_info.invoice_creator');
-		$this->db->join('company_info', 'company_info.company_id = product_info.company_id');
-		$this->db->join('catagory_info', 'catagory_info.catagory_id = product_info.catagory_id');
+		$this->db->join('customer_info', 'invoice_info.customer_id = customer_info.customer_id', 'left');
+		$this->db->join('sale_details', 'sale_details.invoice_id = invoice_info.invoice_id', 'left');
+		$this->db->join('product_info', 'product_info.product_id = sale_details.product_id', 'left');
+		$this->db->join('users', 'users.id = invoice_info.invoice_creator', 'left');
+		$this->db->join('company_info', 'company_info.company_id = product_info.company_id', 'left');
+		$this->db->join('catagory_info', 'catagory_info.catagory_id = product_info.catagory_id', 'left');
 
 		if($invoice_id!=0){$this->db->where('invoice_info.invoice_id',$invoice_id);} 
 		if($company_id!=0){$this->db->where('product_info.company_id',$company_id);} 
@@ -650,6 +653,22 @@ class Report_model extends CI_model{
 
 	}
 
+	public function specific_date_running_sale_calculation( $start = '', $end = '')
+	{
+		$this->db->from('temp_sale_info');
+		if($start != '') $this->db->where('temp_sale_doc >= "'.$start.'"');
+		if($end != '') $this->db->where('temp_sale_doc <= "'.$end.'"');
+		return $this->db->count_all_results();
+	}
+
+	public function specific_date_invoice_calculation( $start, $end )
+	{
+		return $this->db->from('invoice_info')
+							 ->where('invoice_doc >= "'.$start.'"')
+							 ->where('invoice_doc <= "'.$end.'"')
+							 ->count_all_results();
+	}
+
 	public function specific_date_total_cash_calculation( $start, $end )
 	{
 		$query = $this -> db -> select_sum('amount')
@@ -1003,12 +1022,18 @@ class Report_model extends CI_model{
 	/***************************************************
 	* Calculate Purchase Amount of Specific date      **
 	* **************************************************/
-	public function specific_date_purchase_amount_calculation()
+	public function specific_date_purchase_amount_calculation($start_date = '', $end_date = '')
 	{
-		$query = $this->db->select( 'SUM( final_amount + transport_cost ) AS grand_total' )
+		$this->db->select( 'SUM( final_amount + transport_cost ) AS grand_total' )
 							-> from('purchase_receipt_info')
-							-> where('shop_id', $this->tank_auth->get_shop_id())
-							-> get();
+							-> where('shop_id', $this->tank_auth->get_shop_id());
+		if($start_date != '') {
+			$this->db->where("receipt_doc >= '$start_date'");
+		}
+		if($end_date != '') {
+			$this->db->where("receipt_doc <= '$end_date'");
+		}
+		$query = $this->db->get();
 		$grand_total = 0;
 		foreach($query -> result() as $result):
 				$grand_total = $result->grand_total;
