@@ -1,0 +1,22 @@
+#main_invoice{
+  width: 700px;
+  margin: auto;
+}
+.margin-b-0{
+  margin-bottom: 0px!important;
+}
+.w-50{
+  width: 50%;
+}
+.mr-0{
+  margin-right: 0px;
+}
+.p-0{
+  padding:0px!important;
+}
+.m-1{
+  margin: 5px!important;
+}
+.rows{
+  display: flex;
+}
