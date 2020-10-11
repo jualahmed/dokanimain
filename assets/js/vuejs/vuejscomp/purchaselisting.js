@@ -71,6 +71,14 @@ const vm = new Vue({
 								'Product has been deleted.',
 								'success'
 							);
+						}else {
+							if(res.msg) {
+								swal(
+									'Oops!',
+									res.msg,
+									'warning'
+								);
+							}
 						}
 					}
 				});
