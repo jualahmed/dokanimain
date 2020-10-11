@@ -205,59 +205,51 @@ class Purchaselisting extends MY_Controller
 		$purchase_id = $this->input->post('purchase_id');
 		$purchase = $this->purchaselisting_model->find($purchase_id);
 		$product = $this->product_model->find($purchase->product_id);
+		if ($product->has_serial_no) {
+			$this->db->where(array(
+				'product_id' => $purchase->product_id,
+				'purchase_receipt_id' => $purchase->purchase_receipt_id,
+			))->delete('warranty_product_list');
+		}
 
-		$this->db->where('product_id' , $purchase->product_id);
-		$bulkProduct = $this->db->get('bulk_stock_info')->row();
-
-		if($purchase->purchase_quantity <= $bulkProduct->stock_amount){
-
-			if ($product->has_serial_no) {
-				$this->db->where(array(
-					'product_id' => $purchase->product_id,
-					'purchase_receipt_id' => $purchase->purchase_receipt_id,
-				))->delete('warranty_product_list');
+		// Bulk stoke info table
+		$this->db->where('product_id', $purchase->product_id);
+		$productOldData = $this->db->get('bulk_stock_info')->row();
+		if ($productOldData) {
+			$quantity = $purchase->purchase_quantity;
+			$oldQuantity = $productOldData->stock_amount;
+			$totalQuantity = $oldQuantity - $quantity;
+			if ($totalQuantity == 0) {
+				$newBulkUnitBuyPrice = 0.00;
+				$newBulkUnitSalePrice = 0.00;
+				$newGeneralUnitPrice = 0.00;
+			} else {
+				$newBulkUnitBuyPrice = (($productOldData->bulk_unit_buy_price * $oldQuantity) -
+					($purchase->unit_buy_price * $quantity)) / $totalQuantity;
+				$newBulkUnitSalePrice = (($productOldData->bulk_unit_sale_price * $oldQuantity) -
+					($purchase->bulk_unit_sale_price * $quantity)) / $totalQuantity;
+				$newGeneralUnitPrice = (($productOldData->general_unit_sale_price * $oldQuantity) -
+					($purchase->general_unit_sale_price * $quantity)) / $totalQuantity;
 			}
-
-			// Bulk stoke info table
-			$this->db->where('product_id', $purchase->product_id);
-			$productOldData = $this->db->get('bulk_stock_info')->row();
-			if ($productOldData) {
-				$quantity = $purchase->purchase_quantity;
-				$oldQuantity = $productOldData->stock_amount;
-				$totalQuantity = $oldQuantity - $quantity;
-				if ($totalQuantity == 0) {
-					$newBulkUnitBuyPrice = 0.00;
-					$newBulkUnitSalePrice = 0.00;
-					$newGeneralUnitPrice = 0.00;
-				} else {
-					$newBulkUnitBuyPrice = (($productOldData->bulk_unit_buy_price * $oldQuantity) -
-						($purchase->unit_buy_price * $quantity)) / $totalQuantity;
-					$newBulkUnitSalePrice = (($productOldData->bulk_unit_sale_price * $oldQuantity) -
-						($purchase->bulk_unit_sale_price * $quantity)) / $totalQuantity;
-					$newGeneralUnitPrice = (($productOldData->general_unit_sale_price * $oldQuantity) -
-						($purchase->general_unit_sale_price * $quantity)) / $totalQuantity;
-				}
-				$total_buy_price = $quantity * $newBulkUnitBuyPrice;
+			$total_buy_price = $quantity * $newBulkUnitBuyPrice;
 
 
-				$object = [
-					'stock_amount' => $totalQuantity,
-					'bulk_unit_buy_price' => $newBulkUnitBuyPrice,
-					'bulk_unit_sale_price' => $newBulkUnitSalePrice,
-					'general_unit_sale_price' => $newGeneralUnitPrice,
-					'last_buy_price' => $total_buy_price
-				];
-				$this->db->where('bulk_id', $productOldData->bulk_id);
-				$this->db->update('bulk_stock_info', $object);
+			$object = [
+				'stock_amount' => $totalQuantity,
+				'bulk_unit_buy_price' => $newBulkUnitBuyPrice,
+				'bulk_unit_sale_price' => $newBulkUnitSalePrice,
+				'general_unit_sale_price' => $newGeneralUnitPrice,
+				'last_buy_price' => $total_buy_price
+			];
+			$this->db->where('bulk_id', $productOldData->bulk_id);
+			$this->db->update('bulk_stock_info', $object);
 
-				$result = $this->db->where('purchase_id', $purchase_id)->delete('purchase_info');
-				if ($result) {
-					echo json_encode(['success' => true]);
-				} else {
-					echo json_encode(['success' => false]);
-				}
+			$result = $this->db->where('purchase_id', $purchase_id)->delete('purchase_info');
+			if ($result) {
+				echo json_encode(['success' => true]);
+			} else {
+				echo json_encode(['success' => false]);
 			}
-
 		}
 	}
 

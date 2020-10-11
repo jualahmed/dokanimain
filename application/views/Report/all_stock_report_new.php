@@ -1,4 +1,10 @@
 <style>
+<<<<<<< HEAD
+=======
+    .table-scroll .table {
+        min-width: 100% !important;
+    }
+>>>>>>> 5161f38673426ec1e97ee6bb9219189a179a0bf3
 	.multiselect {
 		min-height: 38px !important;
 	}
@@ -129,10 +135,10 @@
   					<td class="text-center">{{ d.stock_amount }}</td>
   					<td class="text-right">{{ d.bulk_unit_buy_price | shortFloatNumber }}</td>
   					<td class="text-right">{{ d.bulk_unit_buy_price * d.stock_amount | shortFloatNumber }}</td>
-  					<td class="text-right">{{ d.bulk_unit_sale_price | shortFloatNumber }}</td>
-  					<td class="text-right">{{ d.bulk_unit_sale_price * d.stock_amount | shortFloatNumber }}</td>
   					<td class="text-right">{{ d.general_unit_sale_price | shortFloatNumber }}</td>
   					<td class="text-right">{{ d.general_unit_sale_price * d.stock_amount | shortFloatNumber }}</td>
+  					<td class="text-right">{{ d.bulk_unit_sale_price | shortFloatNumber }}</td>
+  					<td class="text-right">{{ d.bulk_unit_sale_price * d.stock_amount | shortFloatNumber }}</td>
   				</tr>
   				<tr>
   					<td colspan="6"><b>Total</b></td>

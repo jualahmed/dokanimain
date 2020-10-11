@@ -63,8 +63,8 @@
 			</div>
 			<div class="box-body">
 			<form action ="<?php echo base_url();?>product/search_barcode_barcode" method="post" id="form_22" class="form-horizontal">
-				<div class="form-group" style="padding-bottom: 10px;">
-				  <label class="col-sm-1 control-label">Product</label>
+				<div class="form-group">
+				  <label for="inputPassword3" class="col-sm-1 control-label">Product</label>
 				  <div class="col-sm-3">
 				  		<select name="" id="" class="form-control" onchange="document.location.href=this.options[this.selectedIndex].value;">
 				  			<option value="">Select  Product</option>
