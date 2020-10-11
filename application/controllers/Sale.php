@@ -51,6 +51,35 @@ class Sale extends MY_Controller
 		$this->load->view('Sale/setCurrentSale', $data);
 	}
 
+	public function addNewQuotation()
+	{
+		$data['quotation_id'] = $this->sale_model->createNewQuotation($this->tank_auth->get_user_id(), $this->tank_auth->get_shop_id());
+		$this->tank_auth->set_current_quotation( $data['quotation_id']);
+		$this->load->view("Sale/addNewSale", $data);
+	}
+
+	public function setCurrentQuotation()
+	{
+		$this->tank_auth->set_current_quotation($this->input->post('id'));
+		$data['tmp_item']   = $this->sale_model->getAllQuotationProduct($this->input->post('id'));
+		$number             = 0;
+			$data['in_word']    = "";
+			if($data['tmp_item'] != FALSE)
+			{
+					foreach ($data['tmp_item']->result() as $tmp)
+					{
+							$number += ($tmp->unit_sale_price * $tmp->quotation_quantity);
+					}
+					$VAT 	= ($number * 10) / 100;
+					$number += $VAT;
+			}
+			$number = round($number);
+			if($number != 0){
+				$data['in_word']    = $this->numbertoword->convert_number_to_words($number) . " (TK)"; 
+			}
+		$this->load->view('Sale/setCurrentSale', $data);
+	}
+
 	public function search_product2()
 	{
 		$data['current_sale'] 	= '';        
@@ -220,12 +249,13 @@ class Sale extends MY_Controller
 		$data['user_name'] 		= $this->tank_auth->get_username();
 		$data['bd_date'] 		= date ('Y-m-d');
 		$data['previous_date'] 	= date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 30, date("y")));
-		$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
+		$data['quotations'] 			= $this->sale_model->getAllQuotation($this->tank_auth->get_user_id(), $this->tank_auth->get_shop_id(), 0);
+		$data['current_quotation'] 	= $this->tank_auth->get_current_temp_quotation();
 		$value_added_tax 		= $this->config->item('VAT');
-		$data['quotation_id'] = $this->sale_model->getCurrentQuotationId();
+		$data['quotation_id'] = $this->session->userdata('current_quotation_id');
 		$data['tmp_item'] = array();
 		if(isset($data['quotation_id'])) {
-			$data['tmp_item'] = $this->sale_model->getAllQuotationProduct($data['quotation_id']);
+			$data['tmp_item'] = $this->sale_model->getAllQuotationProduct($data['quotation_id'], 0);
 		}
 		$number             		= 0;
 		$data['in_word']    		= "";
@@ -233,7 +263,7 @@ class Sale extends MY_Controller
 		{
 				foreach ($data['tmp_item']->result() as $tmp)
 				{
-						$number += ($tmp->unit_sale_price * $tmp->sale_quantity);
+						$number += ($tmp->unit_sale_price * $tmp->quotation_quantity);
 				}
 				$VAT 	= ($number * $value_added_tax) / 100;
 				$number += $VAT;
@@ -244,6 +274,19 @@ class Sale extends MY_Controller
 		
 		$data['vuejscomp'] = 'quotation.js';
 		$this->__renderview('Sale/quotation',$data);
+	}
+
+	public function cancelQuotation()
+	{
+		$current_quotation_id = $this->session->userdata('current_quotation_id');
+		$result = $this->db->where('quotation_id', $current_quotation_id)
+			->join('quotation_details_info', 'quotation_details_info.quotation_id=quotation_info.quotation_id')
+			->delete('quotation_info');
+		if($result) {
+			$this->tank_auth->unset_current_quotation();
+			echo true;
+		}
+		echo false;
 	}
 	
 	public function doSale()
@@ -317,6 +360,27 @@ class Sale extends MY_Controller
 		$d = $this->sale_model->removeProduct($pro_id, $currrent_temp_sale_id, $qnty);
 		echo json_encode($d);
 		echo $pro_id . "  " . $qnty . " " . $currrent_temp_sale_id;
+	}
+
+	public function removeProductFromQuotation()
+	{
+		$pro_id 				= $this->input->post('product_id');
+		$qnty 					= $this->input->post('Quantity');
+		$current_quotation_id 	= $this->session->userdata('current_quotation_id');
+		$d = $this->db->select('*')->from('quotation_details_info')
+			->where('product_id', $pro_id)
+			->where('quotation_id', $current_quotation_id)
+			->get()->row();
+		if ($d) {
+			$quotation_total_price = $d->quotation_quantity * $d->actual_sale_price;
+			$this->db->where('quotation_id', $current_quotation_id)
+			->set('quotation_total_price', "quotation_total_price - $quotation_total_price", false)
+			->set('quotation_grand_total', "quotation_grand_total - $quotation_total_price", false)
+			->update('quotation_info');
+		}
+		$this->db->where('product_id', $pro_id)->where('quotation_id', $current_quotation_id)
+			->delete('quotation_details_info');
+		echo $pro_id . "  " . $qnty . " " . $current_quotation_id;
 	}
 
 	public function select_active_sale()
@@ -502,22 +566,22 @@ class Sale extends MY_Controller
 	}
 
 	public function cancelcashSalereturn()
-		{
-				$this->sale_model->cancelcashSalereturn();
-		}
+	{
+			$this->sale_model->cancelcashSalereturn();
+	}
 
-		public function updateTmpProduct()
-		{
-			$stripped_data  = explode("<>", $this->input->post('tmp_data'));
-			$product_id 	= (int)$stripped_data[0];
-			$new_qnty 		= (Float)$this->input->post('quty');
-			$pro_qnty 		= (Float)$this->input->post('pro_qnty');
-			$actual_price 	= (Float)$this->input->post('price');
-			$stock 			= (int)$stripped_data[2] - $pro_qnty;
-			$this->sale_model->updateTmpProduct($product_id, $new_qnty, $actual_price, $stock);
-			$this->sale_model->updateStock($product_id, $stock);
-			echo $stock;
-		}
+	public function updateTmpProduct()
+	{
+		$stripped_data  = explode("<>", $this->input->post('tmp_data'));
+		$product_id 	= (int)$stripped_data[0];
+		$new_qnty 		= (Float)$this->input->post('quty');
+		$pro_qnty 		= (Float)$this->input->post('pro_qnty');
+		$actual_price 	= (Float)$this->input->post('price');
+		$stock 			= (int)$stripped_data[2] - $pro_qnty;
+		$this->sale_model->updateTmpProduct($product_id, $new_qnty, $actual_price, $stock);
+		$this->sale_model->updateStock($product_id, $stock);
+		echo $stock;
+	}
 
 		/* Ending: searchProductForSaleReturn() */
 	public function get_invoice_product_list() 
@@ -577,20 +641,20 @@ class Sale extends MY_Controller
 		echo json_encode($product);
 	}
 
-		/* Starting: addToSaleReturn*/
-		public function addToSaleReturn()
-		{
-			$data['id'] 			= $this->input->post('pro_id');
-			$data['product_name'] 	= $this->input->post('pro_name');
-			$data['unit_price'] 	= $this->input->post('unit_price');
-			$data['buy_pric'] 	= $this->input->post('buy_pric');
-			$data['qnty'] 			= $this->input->post('qnty');
-			$data['invoice'] 		= $this->input->post('invoice');
-			$sale_return_id 		= $this->tank_auth->get_current_sale_return_id();
-			
-			$this->sale_model->addToSaleReturn($data['id'], $data['product_name'], $data['unit_price'],$data['buy_pric'], $data['qnty'], $data['invoice'], $sale_return_id);
-			$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
-		}
+	/* Starting: addToSaleReturn*/
+	public function addToSaleReturn()
+	{
+		$data['id'] 			= $this->input->post('pro_id');
+		$data['product_name'] 	= $this->input->post('pro_name');
+		$data['unit_price'] 	= $this->input->post('unit_price');
+		$data['buy_pric'] 	= $this->input->post('buy_pric');
+		$data['qnty'] 			= $this->input->post('qnty');
+		$data['invoice'] 		= $this->input->post('invoice');
+		$sale_return_id 		= $this->tank_auth->get_current_sale_return_id();
+		
+		$this->sale_model->addToSaleReturn($data['id'], $data['product_name'], $data['unit_price'],$data['buy_pric'], $data['qnty'], $data['invoice'], $sale_return_id);
+		$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
+	}
 
 	public function addToCashSaleReturn()
 		{
@@ -641,6 +705,28 @@ class Sale extends MY_Controller
 		echo json_encode($result);
 	}
 
+	public function addProductToQuotation()
+	{
+		$view_array                          	= array();
+		$view_array['product_id']            	= $this->input->post('product_id');
+		$view_array['product_name']          	= $this->input->post('product_name');
+		$view_array['pro_mrp_price']            = $this->input->post('pro_mrp_price');
+		$view_array['sale_price']            	= $this->input->post('sale_price');
+		$view_array['buy_price']             	= $this->input->post('buy_price');
+		$view_array['product_specification'] 	= $this->input->post('product_specification');
+		$view_array['pro_quantity']          	= $this->input->post('pro_quantity');
+		$view_array['num_of_row']               = $this->input->post('num_of_row');
+
+		$current_quotation_id = $this->session->userdata('current_quotation_id');
+
+		$this->db->where('quotation_id',$current_quotation_id);
+		$count = $this->db->get('quotation_info');
+		if($count->num_rows()>0){
+			$result = $this->sale_model->addProductToQuotation($view_array, $current_quotation_id);
+		}
+		echo json_encode($result);
+	}
+
 	public function change_sale_quantity2()
 	{
 		if($this->sale_model->change_sale_quantity2())
@@ -655,8 +741,7 @@ class Sale extends MY_Controller
 
 	public function doQuotation()
 	{
-		$data['current_sale_id'] 	   		= $this->tank_auth->get_current_temp_sale();
-		$current_sale_return_id 	        = $this->tank_auth->get_current_sale_return_id();
+		$data['current_quotation_id'] 	    = $this->session->userdata('current_quotation_id');
 		$data['creator'] 			   		= $this->tank_auth->get_user_id(); 
 		$discount_in_percentage 	        = (Float)$this->input->post('disc_in_p');
 		$discount_in_f          	        = (Float)$this->input->post('disc_in_f');
@@ -681,23 +766,9 @@ class Sale extends MY_Controller
 		$data['delivery_charge']= (Float)$this->input->post('delivery_charge');
 		$data['customer_id']= $customer_id;
 
-		$quotation_id = $this->sale_model->doQuotationInfoTask($data);
+		$this->sale_model->doQuotationInfoTask($data, $data['current_quotation_id']);
 
-		$products = $this->sale_model->getAllTmpProduct($this->tank_auth->get_current_temp_sale());
-		$products_warranty = $this->sale_model->getAllTmpProduct_warranty($this->tank_auth->get_current_temp_sale());
-
-		if($products != FALSE)
-		{
-			$this->sale_model->doQuotationDetailsTask($quotation_id, $data, $products);         
-			$this->sale_model->cancelSale($data['current_sale_id'], $data['creator']);
-			$this->tank_auth->unset_current_temp_sale();
-			$this->tank_auth->unset_current_sale_return_id();
-			echo $quotation_id;     
-		}
-		else
-		{
-			echo 'Nothing Found';
-		}
+		echo $data['current_quotation_id'];
 	}
 
 	public function printQuotation()

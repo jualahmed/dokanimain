@@ -1,9 +1,9 @@
 // product listing for indivisul sael
 jQuery(document).ready(function($) {
-    $('[name="sale_btn"]').on('click', function(){
-        $('[name="sale_btn"]').attr("disabled", true);
+    $('[name="quotation_btn"]').on('click', function(){
+        $('[name="quotation_btn"]').attr("disabled", true);
         $.ajax({
-            url     : base_url+'sale/addNewSale',
+            url     : base_url+'sale/addNewQuotation',
             type    : "POST",
             cache   : false,
             data    : { },
@@ -15,10 +15,10 @@ jQuery(document).ready(function($) {
     });
 
     $('#search_by_product_name').on('keyup', function(ev){
-		var is_sale_active   = $('#is_sale_active').val();
+		var is_quotation_active   = $('#is_quotation_active').val();
 		var allow_negative_stock   = $('#allow_negative_stock').val();
 
-		if(!is_sale_active && $(this).val().length > 2)
+		if(!is_quotation_active && $(this).val().length > 2)
 		{
 			$('#search_by_product_name').val('');
 			swal(
@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
 			  );
 		}
 	  	var value = $(this).val();
-		if(is_sale_active && $(this).val().length>1)
+		if(is_quotation_active && $(this).val().length>1)
 		{
 			$("#search_by_product_name").autocomplete({
 			   	source: function( request, response ) {
@@ -116,10 +116,10 @@ jQuery(document).ready(function($) {
 	});
 	
 	$('#search_by_customer_name').on('keyup', function(ev){
-		var is_sale_active   = $('#is_sale_active').val();
+		var is_quotation_active   = $('#is_quotation_active').val();
 		var allow_negative_stock   = $('#allow_negative_stock').val();
 
-		if(!is_sale_active)
+		if(!is_quotation_active)
 		{
 			$('#search_by_customer_name').val('');
 			swal(
@@ -128,7 +128,7 @@ jQuery(document).ready(function($) {
 			  'info'
 			  );
 		}
-		if(is_sale_active)
+		if(is_quotation_active)
 		{
 			$("#search_by_customer_name").autocomplete({
 			   	source: function( request, response ) {
@@ -159,8 +159,8 @@ jQuery(document).ready(function($) {
 
     $('#search_by_warran_product_model').on('keyup', function(ev)
 	{
-		var is_sale_active   = $('#is_sale_active').val();
-		if(!is_sale_active && $(this).val().length > 2)
+		var is_quotation_active   = $('#is_quotation_active').val();
+		if(!is_quotation_active && $(this).val().length > 2)
 		{
 			$('#search_by_warran_product_model').val('');
 			swal(
@@ -170,7 +170,7 @@ jQuery(document).ready(function($) {
 			  );
 		}
 		var value = $(this).val();
-		if(is_sale_active)
+		if(is_quotation_active)
 		{
 			var barcode=value;
 			$("#search_by_warran_product_model").autocomplete({
@@ -368,7 +368,7 @@ jQuery(document).ready(function($) {
 								tmp_amount  =tmp_amount;
 								var total   = tmp_amount + vat;
 								$.ajax({
-									url       : base_url+'sale/addProductToSale',
+									url       : base_url+'sale/addProductToQuotation',
 									type      : 'POST',
 									cache     : false,
 									data      : { 
@@ -415,7 +415,7 @@ jQuery(document).ready(function($) {
 						else $('#payable').val(0);
 					}
 					$.ajax({
-						url       : base_url+'sale/addProductToSale',
+						url       : base_url+'sale/addProductToQuotation',
 						type      : "POST",
 						cache     : false,
 						data      : { 
@@ -507,8 +507,8 @@ $(document).ready(function() {
 
 $(document).ready(function()
 {
-	var is_sale_active   = $('#is_sale_active').val();
-	if(is_sale_active =='')
+	var is_quotation_active   = $('#is_quotation_active').val();
+	if(is_quotation_active =='')
 	{
 		$.ajax({
 			url     : base_url+'sale/select_active_sale',
@@ -576,17 +576,19 @@ $('.delete_product').click(function(){
         cancelButtonText    : 'No'
     }).then(function () {
         $.ajax({
-            url     : base_url+'sale/removeProduct',
+            url     : base_url+'sale/removeProductFromQuotation',
             type    : "POST",
             cache   : false,
             data    : { product_id: product_id, Quantity: product_qnty },
             success : function(result){
-				swal(
-                  'Deleted!',
-                  'Data Delete Successfully..!)',
-                  'success'
-                );
-				location.reload();
+				if (result) {
+					swal(
+						'Deleted!',
+						'Data Delete Successfully..!)',
+						'success'
+					  );
+					  location.reload();
+				}
             }
         });
     })
@@ -624,8 +626,8 @@ $('#product_quantity').on('keyup', function(e)
 
 // for cancel a set sate
 $('#cancel').on('click', function(){
-    var is_sale_active   = $('#is_sale_active').val();
-    if(is_sale_active)
+    var is_quotation_active   = $('#is_quotation_active').val();
+    if(is_quotation_active)
     {    
         swal({
           title               : 'Are you sure?',
@@ -637,27 +639,11 @@ $('#cancel').on('click', function(){
           confirmButtonText   : 'Yes',
           cancelButtonText    : 'No'
         }).then(function () {
-            $('#sub_total').val("");
-            $('#vat').val("");
-            $('#disc_in_p').val("");
-            $('#disc_in_f').val("");
-            $('#disc_amount').val("");
-            $('#total').val("");
-            $('#received').val("");
-            $('#change').val("");
-            $('#number_of_products').val("");
-            $('#select_customer').val("");
-            $('#customer_name').val("");
-            $('#customer_phone').val("");
-            $("#selected_products").empty();
-            $('#inword').val("");
-            $('#return_adjust').val('');
-            $('#payable').val('');
             $.ajax({
-                url: base_url+'sale/cancelSale',
+                url: base_url+'sale/cancelQuotation',
                 type: "POST",
                 cache: false,
-                data: { },
+                data: {},
                 success:function(result){
                   swal(
                     'Deleted!',
@@ -694,18 +680,19 @@ $('#selected_product_list_tbl').on('click', '#delete', function(){
         var product_id      = parseInt($('#pro_duct_id').val());
         var product_qnty    = parseFloat($('#sale_stock_id').val());
         $.ajax({
-            url     : base_url+'sale/removeProduct',
+            url     : base_url+'sale/removeProductFromQuotation',
             type    : "POST",
             cache   : false,
             data    : { product_id: product_id, Quantity: product_qnty },
             success : function(result){
-                swal(
-                  'Deleted!',
-                  ':)',
-                  'success'
-                )
-				location.reload();
-                
+                if (result) {
+					swal(
+						'Deleted!',
+						':)',
+						'success'
+					  )
+					location.reload();
+				}
             }
 
         });  
@@ -899,39 +886,6 @@ $('#select_customer').on("change",function(evv)
 	var customer_id 		= $(this).val();
 	$('#selected_customer_id').val(customer_id);
 });
-/* Start    : Quick Sale */
-$('#received').on('keyup', function (efs)
-{      
-	efs.defaultPrevented;
-	if(efs.keyCode == 13) 
-	{
-		var received_amount = parseFloat($('#received').val());
-		var total_amount = parseFloat($('#total').val());
-		var customer = parseInt($('#selected_customer_id').val());
-		var payable = parseFloat($('#payable').val());
-		if(received_amount < total_amount && isNaN(customer))
-		{
-			$('#received_alert').show();
-			$('#received_alert').html('Received Amount Less Then Total Amount');
-			alert('Select Customer.')
-		}
-		
-		else if(received_amount < total_amount && !isNaN(customer))
-		{
-			quick(efs);
-		}
-		else if(received_amount >= total_amount)
-		{
-			quick(efs);
-		}
-		
-	}
-	else
-	{
-		$('#received_alert').hide();
-		$('#received').focus();
-	}
-});
 
 $(document).on('keydown', function(e)
 {
@@ -1110,6 +1064,23 @@ $('#received').on('keyup', function()
     }
 });
 
+function getQuotationId(id){
+	var kval = id.substring(8, 1000);
+	console.log(id)
+    $.ajax({
+      url     : base_url+'sale/setCurrentQuotation',
+      type    : "POST",
+      data    : {id: kval},
+      success : function(result){
+        location.reload();
+        $('#selected_products').html(result);
+        var QNTY        = $('#hid_qty').val();
+        var sub_total   = $('#hid_sub_to').val();
+        var VAT         = $('#hid_vat').val();
+      }
+    });
+}
+
 function do_calculation(product_price)
 {
     alert(product_price);
@@ -1123,9 +1094,9 @@ $('#quotation').on('click', function(e){
 function quotation()
 {
 	//e.defaultPrevented;
-    var is_sale_active   = $('#is_sale_active').val();
+    var is_quotation_active   = $('#is_quotation_active').val();
 
-    if(!is_sale_active)
+    if(!is_quotation_active)
 	{
         swal(
           'Oops...!',
@@ -1206,7 +1177,7 @@ function quotation()
 							
 							$('#search_by_product_name').focus();
 							window.open(base_url+"sale/printQuotation/" + result, '_blank');  
-							location.reload(); 
+							// location.reload(); 
 						}  
 					});
 						

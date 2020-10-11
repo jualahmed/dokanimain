@@ -167,7 +167,7 @@ const vm = new Vue({
 			if (selectedProduct) {
 				swal(
 					'Oops!',
-					'This product is already added. Please update',
+					'This product is already in the list. Please update',
 					'warning'
 					);
 			} else {

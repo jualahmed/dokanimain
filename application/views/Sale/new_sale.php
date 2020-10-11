@@ -197,9 +197,6 @@
 							<button type="button" class="btn btn-warning btn_for_sale style2" id="credit_sale">Credit Sale <span>(Alt+C)</span></button>
 						</div>	
 						<div>
-							<button type="button" class="btn btn-primary btn_for_sale style" id="quotation">Quotation </button>
-						</div>
-						<div>
 							<button type="button" class="btn btn-danger btn_for_sale style" id="cancel">Cancel <span>(Alt+X)</span></button>
 						</div>
 

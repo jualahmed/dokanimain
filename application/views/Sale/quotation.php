@@ -2,10 +2,7 @@
 	$this->load->config('custom_config'); 
 	$value_added_tax = $this->config->item('VAT');
 	$allow_negative_stock = $this->config->item('allow_negative_stock');
-	$tp_price_purchase = $this->config->item('tp_price_purchase');
-	$tp_price_vat_purchase = $this->config->item('tp_price_vat_purchase');
 	$discount_limit = $this->config->item('discount_limit');
-	$product_sale_return = $this->config->item('product_sale_return');
 ?>
 <div class="content-wrapper">
 <style type="text/css">
@@ -29,6 +26,27 @@
 		<input type="hidden" id="value_added_tax" value="<?php echo $value_added_tax; ?>">
 		<input type="hidden" id="discount_limit" value="<?php echo $discount_limit; ?>">
 
+		<!-- active sale -->
+        <div id="newselladd">
+			<input type="hidden" value="<?php echo $current_quotation_id = $this->session->userdata('current_quotation_id');?>" id="new_quotation_id">
+        	<div id='num_of_sale'>
+        		<?php
+					$ind = 0; 
+					if($quotations != FALSE) { 
+						$Tmp_name = '';
+      					foreach($quotations->result() as $tmp ){
+        					if($current_quotation_id == $tmp->quotation_id)
+          						echo '<button id="sale_new' . $tmp->quotation_id . '" class="sale_selection btn btn-success" onclick="getQuotationId(this.id)"> <i class="fa fa-spinner fa-spin"> </i> <i class="fa fa-fw fa-cart-arrow-down"> </i> '.$Tmp_name.' '. ++$ind . '</button>&nbsp;';
+        					else echo '<button id="sale_new' . $tmp->quotation_id . '" class="sale_selection btn btn-info" onclick="getQuotationId(this.id)"> <i class="fa fa-fw fa-cart-arrow-down"> </i>' .$Tmp_name.' '. ++$ind . '</button>&nbsp;';
+      					}
+					}
+				?>
+        	</div>
+    		<button class="btn btn-info" id="btn_quotation" name="quotation_btn">
+				<i class="fa fa-fw fa-cart-arrow-down"></i>ADD QUOTATION (Shortcut : Alt+S)
+    		</button>
+		</div>
+		
 		<br>
 		<div class="row">
 			<div class="col-md-6">
@@ -133,25 +151,9 @@
 			                  <td style="vertical-align: middle;">Customer: </td>
 			                  <td colspan="5">
 								<div class="input-group" style="width: 100%">
-									<?php	
-											if($current_sale_customer->num_rows > 0)
-											{
-												$customer_id=$query->customer_id;
-												$customer_name=$query->customer_name;
-										?>
-										<input type="hidden" id="selected_customer_id" value="<?php echo $customer_id; ?>">
-										<input type="text" class="form-control search" value="<?php echo $customer_name; ?>" id="search_by_customer_name" placeholder="Search Product" autofocus="on">
-										<?php
-											}
-											else
-											{
-										?>
-										<input type="hidden" id="selected_customer_id">
-										<input type="text" class="form-control search" value="" id="search_by_customer_name" placeholder="Search Customer" autofocus="on">
+									<input type="hidden" id="selected_customer_id">
+									<input type="text" class="form-control search" value="" id="search_by_customer_name" placeholder="Search Customer" autofocus="on">
 
-										<?php
-											}
-										?>
 									<div class="input-group-addon" style="padding-right: 0;border: none;">
 									<button type="button" class="btn btn-info pull-right btn-y-0" data-toggle="modal" data-target="#exampleModal">+</button>
 									</div>
@@ -162,6 +164,7 @@
 	          		</div>
 		        </div>
 				<div class="box-footer">
+					<input type="hidden" id="is_quotation_active" value="<?php echo $current_quotation; ?>">
 	      			<div style="display: flex;text-align: center;justify-content: space-around;">
 						<div>
 							<button type="button" class="btn btn-primary btn_for_sale style" id="quotation">Quotation </button>
@@ -192,9 +195,6 @@
               			</td>
 						<td style="white-space: normal!important;" width="30%">
               				Product Name
-              			</td>
-              			<td style="text-align: center;">
-              				Stock
               			</td>
               			<td style="text-align: center;">
               				Qty.
@@ -235,9 +235,8 @@
         			?>
 								<tr style="background-color: white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;    font-weight: 500;">
 									<td id="pro_name"><?php echo $i_num; ?></td>
-									<td id="pro_name" style="white-space: normal!important;"><?php echo $tmp->item_name.' '.$tmp->product_size; ?></td>
-									<td align="center"><?php echo $tmp->stock; ?></td>
-									<td align="center"> <?php echo $qnty = $tmp->sale_quantity; ?></td>
+									<td id="pro_name" style="white-space: normal!important;"><?php echo $tmp->product_name.' '.$tmp->product_size; ?></td>
+									<td align="center"> <?php echo $qnty = $tmp->quotation_quantity; ?></td>
 									<td align="right">
 										<?php 
 											$actual_sale_price = $tmp->actual_sale_price;
@@ -245,7 +244,7 @@
 										?>
 									</td>
 									<td align="right">
-										<?php echo sprintf("%01.2f", $tmp->sale_quantity * $tmp->actual_sale_price); ?>
+										<?php echo sprintf("%01.2f", $tmp->quotation_quantity * $tmp->actual_sale_price); ?>
 									</td>
 									<td>
 										<i id="delete<?php echo $i_num;?>" class="fa fa-fw fa-remove delete_product" style="color: red;cursor:pointer;" ></i>      <!-- id="delete" -->
@@ -254,13 +253,12 @@
 									
 									<input type="hidden" id="pro_duct_id" value="<?php echo $tmp->product_id; ?>">
 									<input type="hidden" id="pro_duct_idd<?php echo $i_num;?>" value="<?php echo $tmp->product_id; ?>">
-									<input type="hidden" id="sale_stock_id" value="<?php echo $tmp->sale_quantity; ?>">
+									<input type="hidden" id="sale_stock_id" value="<?php echo $tmp->quotation_quantity; ?>">
 									<input type="hidden" id="specification_id<?php echo $i_num;?>" value="<?php echo $tmp->product_specification; ?>">
-									<input type="hidden" id="stock_id<?php echo $i_num;?>" value="<?php echo $tmp->stock; ?>">
-									<input type="hidden" id="sale_id<?php echo $i_num;?>" value="<?php echo $tmp->general_unit_sale_price; ?>">
+									<input type="hidden" id="sale_id<?php echo $i_num;?>" value="<?php echo $tmp->general_sale_price; ?>">
 									<input type="hidden" id="buy_id<?php echo $i_num;?>" value="<?php echo $tmp->unit_buy_price; ?>">
-									<input type="hidden" id="quantti_id<?php echo $i_num;?>" value="<?php echo $tmp->sale_quantity; ?>">
-									<input type="hidden" id="temp_details_modal<?php echo $i_num;?>" value="<?php echo $tmp->temp_sale_details_id; ?>">
+									<input type="hidden" id="quantti_id<?php echo $i_num;?>" value="<?php echo $tmp->quotation_quantity; ?>">
+									<input type="hidden" id="temp_details_modal<?php echo $i_num;?>" value="<?php echo $tmp->quotation_details_id; ?>">
 									<td style="display: none;"><?php echo $tmp->product_id . "<>" . $qnty ."<>". $actual_sale_price; ?></td>
 								</tr>
 
@@ -279,8 +277,6 @@
 	               <?php 
 	           			}
 	               ?>
-	               		<input type="hidden" value="<?php echo $return_adjust; ?>" 	id="hid_return_adjust" >
-	               		<input type="hidden" value="<?php echo $return_id; ?>" 	id="hid_return_id" >
 				</table>
 			</div>
 		</div>

@@ -180,6 +180,18 @@ class Tank_auth
 	function unset_current_temp_sale(){
 		$this->ci->session->unset_userdata('currrent_temp_sale_id');
 	}
+
+	/****************************************
+	 * Set Temporary Current Quotation ***************
+	*****************************************/
+	function set_current_quotation( $quotation_id )
+	{
+		$this->ci->session->set_userdata(array('current_quotation_id' => $quotation_id));
+	}
+	/* Start: (Arun)*/
+	function unset_current_quotation(){
+		$this->ci->session->unset_userdata('current_quotation_id');
+	}
 	
 	function set_id_for_sale_return($id)
 	{
@@ -214,6 +226,14 @@ class Tank_auth
 	function get_current_temp_sale()
 	{
 		return $this->ci->session->userdata('currrent_temp_sale_id');
+	}
+
+	/*******************************
+	 * Get Temporary Current Sale  ***
+	********************************/
+	function get_current_temp_quotation()
+	{
+		return $this->ci->session->userdata('current_quotation_id');
 	}
 	/**
 	 * Get user_id

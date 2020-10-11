@@ -28,6 +28,26 @@ class Sale_model extends CI_model{
         }
         else return false;
 	}
+
+	public function createNewQuotation($current_user, $current_shop)
+    {
+        $data = array(
+            'shop_id'     => $current_shop,
+            'quotation_creator'     => $current_user,
+            'quotation_status'      => 0,
+        );
+        $sql = $this->db
+            ->select('quotation_id')
+            ->where('quotation_creator', $current_user)
+            ->where('shop_id', $current_shop)
+            ->get('quotation_info');
+        if($sql->num_rows() < 14)
+        {
+            $this ->db->insert('quotation_info', $data);
+            return $this->db->insert_id();
+        }
+        else return false;
+	}
 	
 	public function createNewSaleFromQuotation($current_user, $current_shop)
     {
@@ -182,6 +202,49 @@ class Sale_model extends CI_model{
             ->update('bulk_stock_info', array('stock_amount' => $data['product_stock']));
             return true;
 		}
+	}
+	
+	public function addProductToQuotation($data, $current_quotation_id)
+	{
+		$this->db->select('quotation_details_info.*')
+        ->from('quotation_details_info')
+        ->where('product_id', $data['product_id'])
+        ->where('quotation_id', $current_quotation_id)
+		->limit(1);
+		
+        $is_exists = $this->db->get();
+        if($is_exists->num_rows() == 0)
+        {
+			$quotationData = array(
+				'quotation_id'              => $current_quotation_id,
+				'product_id'                => $data['product_id'],
+				'quotation_quantity'        => $data['pro_quantity'],
+				'product_specification'     => $data['product_specification'],
+				'discount'                  => 0,
+				'discount_type'             => $data['product_name'],
+				'unit_buy_price'            => $data['buy_price'],
+				'unit_sale_price'           => $data['sale_price'],
+				'general_sale_price'        => $data['pro_mrp_price'],
+				'actual_sale_price'         => $data['sale_price'],
+				'quotation_details_status'  => 1
+			);
+			$this->db->insert('quotation_details_info', $quotationData);
+
+            return true;
+		}
+		else if($is_exists->num_rows() != 0)
+		{
+			$field = $is_exists->row();
+			$sale_quantity_old = $field->sale_quantity;
+			
+			$quotationData = array(
+			'sale_quantity' =>$sale_quantity_old + $data['pro_quantity']
+			);
+			$this->db->where('product_id', $data['product_id']);
+			$this->db->where('quotation_id', $current_quotation_id);
+            $this->db->update('quotation_details_info', $quotationData);
+            return true;
+		}
     }
 
 	public function get_current_sale_customer($current_sale){
@@ -244,19 +307,8 @@ class Sale_model extends CI_model{
 			->get()
 			->row();
 	}
-
-	public function getCurrentQuotationId()
-	{
-		$quotation = $this->db->select('*')
-			->from('quotation_info')
-			->where('quotation_status', 0)
-			->get()
-			->row();
-		if($quotation) return $quotation->quotation_id;
-		return null;
-	}
 	
-	public function doQuotationInfoTask($data)
+	public function doQuotationInfoTask($data, $quotation_id)
     {
 		$query = array(
 			'shop_id'           	        => $this->tank_auth->get_shop_id(),
@@ -270,14 +322,12 @@ class Sale_model extends CI_model{
 			'quotation_grand_total'       	=> $data['grand_total'],
 			'quotation_creator'             => $this->tank_auth->get_user_id(),
 			'quotation_valid_till'  		=> date('Y-m-d'),
-			'quotation_status' 				=> 0,
+			'quotation_status' 				=> 1,
 			'created_at'       				=> date('Y-m-d H:i:s'),
 		);
 					
-		if($this->db->insert('quotation_info', $query))
-				return $this->db->insert_id();
-					
-		else return FALSE;
+		$result = $this->db->where('quotation_id', $quotation_id)->update('quotation_info', $query);
+		return $result;
 	} 
 	
 	public function doQuotationDetailsTask($quotation_id, $data, $products)
@@ -316,14 +366,19 @@ class Sale_model extends CI_model{
         }
 	}
 	
-	public function getAllQuotationProduct($quotation_id)
+	public function getAllQuotationProduct($quotation_id, $quotation_status = null)
 	{
-		$data = $this->db->select('quotation_details_info.*,bulk_stock_info.stock_amount,product_info.product_name,product_info.product_size,product_info.product_model')
-                        ->from('quotation_details_info')
-                        ->join('product_info', 'quotation_details_info.product_id = product_info.product_id', 'left')
-                        ->join('bulk_stock_info', 'bulk_stock_info.product_id = product_info.product_id', 'left')
-                        ->where('quotation_id', $quotation_id)
-                        ->get();
+		$this->db->select('quotation_details_info.*,bulk_stock_info.stock_amount,product_info.product_name,product_info.product_size,product_info.product_model')
+				->from('quotation_details_info')
+				->join('product_info', 'quotation_details_info.product_id = product_info.product_id', 'left')
+				->join('quotation_info', 'quotation_details_info.quotation_id = quotation_info.quotation_id', 'left')
+				->join('bulk_stock_info', 'bulk_stock_info.product_id = product_info.product_id', 'left')
+				->where('quotation_details_info.quotation_id', $quotation_id);
+
+		if($quotation_status !== null) {
+			$this->db->where('quotation_info.quotation_status', $quotation_status);
+		}			
+        $data = $this->db->get();
         if($data->num_rows() > 0) return $data;
         return FALSE;
 	}
@@ -1134,6 +1189,21 @@ class Sale_model extends CI_model{
                         ->get('temp_sale_info');
 
         if($data->num_rows() > 0) return $data;
+        else return FALSE;
+	}
+	
+	public function getAllQuotation($current_user, $current_shop, $quotation_status = null)
+    {
+        $this->db->select('quotation_id')
+				->where('shop_id', $current_shop);
+		if($quotation_status !== null) {
+			$this->db->where('quotation_status', $quotation_status);
+		}
+		$result = $this->db->where('quotation_creator', $current_user)
+					->order_by('quotation_id', "asc")
+					->get('quotation_info');
+
+        if($result->num_rows() > 0) return $result;
         else return FALSE;
     }
 
