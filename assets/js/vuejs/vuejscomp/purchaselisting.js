@@ -152,13 +152,24 @@ const vm = new Vue({
 		limitText (count) {
 			return `and ${count} other countries`
 		},
-		selectaproduct(e){
-			this.total_buy_price = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
-			this.unit_buy_price_purchase = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
-			this.old_unit_buy_price_purchase = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
-			this.general_sale_price = e.general_unit_sale_price === null ? 0.00 : e.general_unit_sale_price;
-			this.exclusive_sale_price = e.bulk_unit_sale_price === null ? 0.00 : e.bulk_unit_sale_price;
-			this.quantity = '';
+		selectProduct(e){
+			var selectedProduct = this.purchase_info[0].find(function (product) {
+				return product.product_id === e.product_id;
+			});
+			if (selectedProduct) {
+				swal(
+					'Oops!',
+					'This product is already added. Please update',
+					'warning'
+					);
+			} else {
+				this.total_buy_price = e.bulk_unit_buy_price === null ? 0.00 : e.bulk_unit_buy_price;
+				this.unit_buy_price_purchase = e.last_buy_price === null ? 0.00 : e.last_buy_price;
+				this.old_unit_buy_price_purchase = e.last_buy_price === null ? 0.00 : e.last_buy_price;
+				this.general_sale_price = e.general_unit_sale_price === null ? 0.00 : e.general_unit_sale_price;
+				this.exclusive_sale_price = e.bulk_unit_sale_price === null ? 0.00 : e.bulk_unit_sale_price;
+				this.quantity = '';
+			}
 		},
 		isReadyToCreate() {
 			return (this.selectedCountries && 

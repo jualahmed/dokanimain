@@ -212,6 +212,39 @@ class Sale extends MY_Controller
 		$data['vuejscomp'] = 'new_sale.js';
 		$this->__renderview('Sale/new_sale',$data);
 	}
+
+	public function new_quotation()
+	{
+		$this->load->config('custom_config');
+		$data['user_type'] 		= $this->tank_auth->get_usertype();
+		$data['user_name'] 		= $this->tank_auth->get_username();
+		$data['bd_date'] 		= date ('Y-m-d');
+		$data['previous_date'] 	= date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 30, date("y")));
+		$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
+		$value_added_tax 		= $this->config->item('VAT');
+		$data['quotation_id'] = $this->sale_model->getCurrentQuotationId();
+		$data['tmp_item'] = array();
+		if(isset($data['quotation_id'])) {
+			$data['tmp_item'] = $this->sale_model->getAllQuotationProduct($data['quotation_id']);
+		}
+		$number             		= 0;
+		$data['in_word']    		= "";
+		if($data['tmp_item'] != FALSE)
+		{
+				foreach ($data['tmp_item']->result() as $tmp)
+				{
+						$number += ($tmp->unit_sale_price * $tmp->sale_quantity);
+				}
+				$VAT 	= ($number * $value_added_tax) / 100;
+				$number += $VAT;
+				$number = round($number);
+		}
+		if($number != 0)
+			$data['in_word']    = $this->numbertoword->convert_number_to_words($number) . " (TK)";
+		
+		$data['vuejscomp'] = 'quotation.js';
+		$this->__renderview('Sale/quotation',$data);
+	}
 	
 	public function doSale()
 	{	
@@ -454,19 +487,19 @@ class Sale extends MY_Controller
 		}
 }
 						
-		public function cancelSale()
-		{
-			$current_sale_id 	   		= $this->tank_auth->get_current_temp_sale();
-			$creator 			   		= $this->tank_auth->get_user_id();
-			
-			$datddd=$this->db->get('temp_sale_info')->result();
-			if(count($datddd) > 0){
-				$this->sale_model->cancelSale($current_sale_id, $creator);
-			}
-
-			$this->tank_auth->unset_current_temp_sale();
-			$this->tank_auth->unset_current_sale_return_id();
+	public function cancelSale()
+	{
+		$current_sale_id 	   		= $this->tank_auth->get_current_temp_sale();
+		$creator 			   		= $this->tank_auth->get_user_id();
+		
+		$datddd=$this->db->get('temp_sale_info')->result();
+		if(count($datddd) > 0){
+			$this->sale_model->cancelSale($current_sale_id, $creator);
 		}
+
+		$this->tank_auth->unset_current_temp_sale();
+		$this->tank_auth->unset_current_sale_return_id();
+	}
 
 	public function cancelcashSalereturn()
 		{

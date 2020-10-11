@@ -187,7 +187,7 @@
 										:show-no-results="false" 
 										:hide-selected="false" 
 										@search-change="asyncFind" 
-										@select="selectaproduct">
+										@select="selectProduct">
 										<template slot="tag" slot-scope="{ option, remove }"><span class="custom__tag"><span>{{ option.product_name }}</span><span class="custom__remove" @click="remove(option)">❌</span></span></template>
 										<template slot="clear" slot-scope="props">
 										<div class="multiselect__clear" v-if="selectedCountries && selectedCountries.length" @mousedown.prevent.stop="clearAll(props.search)"></div>

@@ -149,10 +149,15 @@
 		</li>
 		
 		<li class="treeview <?php echo active_link_controller('sale') ?>">
-					<a href="<?php echo base_url();?>sale/new_sale">
-						<i class="fa fa-shopping-cart"></i> <span>Sale</span>
-					</a>
-				</li>
+			<a href="<?php echo base_url();?>sale/new_sale">
+				<i class="fa fa-shopping-cart"></i> <span>Sale</span>
+			</a>
+		</li>
+		<li class="treeview <?php echo active_link_controller('sale') ?>">
+			<a href="<?php echo base_url();?>sale/new_quotation">
+				<i class="fa fa-shopping-cart"></i> <span>Quotation</span>
+			</a>
+		</li>
 		<?php
 		if($gas_product!=0)
 		{

@@ -244,6 +244,17 @@ class Sale_model extends CI_model{
 			->get()
 			->row();
 	}
+
+	public function getCurrentQuotationId()
+	{
+		$quotation = $this->db->select('*')
+			->from('quotation_info')
+			->where('quotation_status', 0)
+			->get()
+			->row();
+		if($quotation) return $quotation->quotation_id;
+		return null;
+	}
 	
 	public function doQuotationInfoTask($data)
     {
@@ -313,7 +324,7 @@ class Sale_model extends CI_model{
                         ->join('bulk_stock_info', 'bulk_stock_info.product_id = product_info.product_id', 'left')
                         ->where('quotation_id', $quotation_id)
                         ->get();
-        if($data->num_rows() > 0)return $data;
+        if($data->num_rows() > 0) return $data;
         return FALSE;
 	}
 

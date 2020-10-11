@@ -63,8 +63,8 @@
 			</div>
 			<div class="box-body">
 			<form action ="<?php echo base_url();?>product/search_barcode_barcode" method="post" id="form_22" class="form-horizontal">
-				<div class="form-group">
-				  <label for="inputPassword3" class="col-sm-1 control-label">Product</label>
+				<div class="form-group" style="padding-bottom: 10px;">
+				  <label class="col-sm-1 control-label">Product</label>
 				  <div class="col-sm-3">
 				  		<select name="" id="" class="form-control" onchange="document.location.href=this.options[this.selectedIndex].value;">
 				  			<option value="">Select  Product</option>
@@ -72,16 +72,25 @@
 				  				<option value="<?php echo base_url().'product/searchBarcode/'.$var->product_id ?>"><?php echo $var->product_name ?></option>
 				  			<?php endforeach ?>
 				  		</select>
-                  	</div>
-                    <label for="inputPassword3" class="col-sm-2 control-label">Warranty product</label>
-					  <div class="col-sm-3">
-	                    <select name="" id="" class="form-control" onchange="document.location.href=this.options[this.selectedIndex].value;">
-	                    	<option value="">Select a Peoduct</option>
-	                    	<?php foreach ($w_product_info as $key => $var): ?>
-	                    		<option value="<?php echo base_url().'product/warrantyproductprint/'.$var->ip_id ?>"><?php echo $var->product_name ?>( <?php echo $var->sl_no ?> )</option>
-	                    	<?php endforeach ?>
-	                    </select>
-	                  </div>
+					  </div>
+					  
+                    <label class="col-sm-2 control-label">Warranty Product</label>
+					<div class="col-sm-2">
+					<select name="" id="" class="form-control" onchange="document.location.href=this.options[this.selectedIndex].value;">
+						<option value="">Select a Product</option>
+						<?php foreach ($w_product_info as $key => $var): ?>
+							<option value="<?php echo base_url().'product/warrantyproductprint/'.$var->ip_id ?>"><?php echo $var->product_name ?>( <?php echo $var->sl_no ?> )</option>
+						<?php endforeach ?>
+					</select>
+					</div>
+
+					<label class="col-sm-1 control-label">Receipt</label>
+					<div class="col-sm-3">
+					<select name="" id="" class="form-control" onchange="document.location.href=this.options[this.selectedIndex].value;">
+						<option value="">Select a Receipt</option>
+						
+					</select>
+					</div>
                 </div>
 				<div class="box-footer">
 					<center>
