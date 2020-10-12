@@ -10,7 +10,7 @@ class Purchase_model extends CI_model
 		$this->bdDate = date ('Y-m-d');
 	}
 
-	public function create(array $data,$purchaseDate)
+	public function create($data,$purchaseDate)
 	{	
 		$insert = $this->db->insert('purchase_receipt_info',$data);
 		$ref_id= $this->db->insert_id();

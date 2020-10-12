@@ -214,7 +214,7 @@ $(document).ready(function()
 					$("#card_id").html(outputs);
 					$(".result_cheque").hide();
 				},
-				error: function (jXHR, textStatus, errorThrown) {}
+				error: function (error) {}
 			});
 			
 		}
@@ -235,10 +235,6 @@ $(document).ready(function()
 		  calculateFinalAmount();
 	});
 
-	$('#transport_cost').on('keyup', function(){
-        calculateFinalAmount();
-	});
-
 	$('#gift_on_purchase').on('keyup', function(){
         calculateFinalAmount();
     });
@@ -246,25 +242,19 @@ $(document).ready(function()
     function calculateFinalAmount() {
         var discount  = $("#gift_on_purchase").val();
 		var purchase_amount = $('#purchase_amount').val();
-        var transport_cost = $('#transport_cost').val();
+
         var final_amount = 0;
 
         discount  = parseFloat(discount);
 		purchase_amount = parseFloat(purchase_amount);
-        transport_cost = parseFloat(transport_cost);
 
         if (!isNaN(purchase_amount)) {
             final_amount += purchase_amount;
         }
 
-        if (!isNaN(transport_cost)) {
-            final_amount += transport_cost;
-        }
-
         if (!isNaN(discount)) {
             final_amount -= discount;
         }
-
         $('#final_amount').val(final_amount);
     }
 });
