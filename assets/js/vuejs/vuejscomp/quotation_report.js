@@ -55,6 +55,27 @@ new Vue({
 					}
 				}
 			});
+		},
+		quotationToSale(quotation_id) {
+			this.loding = !this.loding;
+			var self=this;
+			$.ajax({
+				url: base_url+'sale/addQuotationToSale/'+quotation_id,
+				type: 'POST',
+				dataType: 'json',
+				success: function(result) { 
+					if(result.success) {
+						window.open(`${base_url}sale/new_sale`, '_blank');
+					}else {
+						swal(
+							'Oops...!',
+							result.msg,
+							'warning'
+							);
+						self.loding = false;
+					}
+				}
+			});
 		}
 	},
 })

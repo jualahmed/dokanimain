@@ -22,98 +22,130 @@ jQuery(document).ready(function($) {
 		{
 			$('#search_by_product_name').val('');
 			swal(
-			  'Oops...!',
-			  'Please select a sale!',
-			  'info'
-			  );
+			'Oops...!',
+			'Please select a sale!',
+			'info'
+			);
 		}
-	  	var value = $(this).val();
+		var value = $(this).val();
 		if(is_sale_active && $(this).val().length>1)
 		{
-			$("#search_by_product_name").autocomplete({
-			   	source: function( request, response ) {
-					$.ajax({
-					  	url       : base_url+"sale/search_product2",
-					  	dataType  : "json",
-					  	type      : "POST",
-					  	cache     : false,
-					  	data      : { term: request.term, flag: 1},
-					 	success   : function( result ) { 
-						   response( $.map(result, function(item){
-								return{
-								  id              : item.id,
-								  label           : item.product_name,
-								  product_size    : item.product_size,
-								  company_name    : item.company_name,
-								  catagory_name    : item.catagory_name,
-								  product_model   : item.product_model,
-								  sale_price      : item.sale_price,
-								  mrp_price       : item.mrp_price,
-								  buy_price       : item.buy_price,
-								  stock           : item.stock,
-								  generic_name    : item.generic_name,
-								  temp_pro_data   : item.temp_pro_data,
-								  product_specification   : item.product_specification
-								}
-						   }));
+			var barcode = $("#search_by_product_name").val();
+			if (ev.keyCode == 13) {
+				$.ajax({
+					url       : base_url+"sale/search_product_by_barcode",
+					dataType  : "json",
+					type      : "POST",
+					cache     : false,
+					data      : { barcode: barcode},
+					success   : function( result ) { 
+						const item = {
+							id              : result.id,
+							label           : result.product_name,
+							product_size    : result.product_size,
+							company_name    : result.company_name,
+							catagory_name    : result.catagory_name,
+							product_model   : result.product_model,
+							sale_price      : result.sale_price,
+							mrp_price       : result.mrp_price,
+							buy_price       : result.buy_price,
+							stock           : result.stock,
+							generic_name    : result.generic_name,
+							temp_pro_data   : result.temp_pro_data,
+							product_specification   : result.product_specification
 						}
-					});
-				},
-			   	minLength     : 1,
-			   	select        : function (event, ui) {
-					var stock   = ui.item.stock;
-					if(stock == 0 && allow_negative_stock == 0)
-					{
-						$('#search_by_product_name').val("");
-						alert("Stock unavailable");
-						$('#search_by_product_name').focus();
+						showSelectedProduct(item);
 					}
-					else{
-						var new_sale_price = parseFloat (ui.item.sale_price);
-						var new_mrp_price = parseFloat(ui.item.mrp_price);
-						var new_buy_price = parseFloat(ui.item.buy_price);
-
-					   $('#price').val(new_sale_price);
-					   $('#mrp_price').val(new_mrp_price);
-					   $('#sale_price').val(new_sale_price);
-					   $('#buy_price').val(new_buy_price);
-
-						var sale_price_check = parseFloat(ui.item.mrp_price);
-						var stock_check      = parseFloat(ui.item.stock);
-						if(sale_price_check==0 && stock_check ==0)
-						{
-							$("#buy_price_check").prop("disabled", true);
-							$("#new_mrp_price").prop("disabled", false);
-							$("#new_mrp_price").focus();
-						}
-						else
-						{
-							$("#buy_price_check").prop("disabled", true);
-							$("#new_mrp_price").prop("disabled", true);
-							$("#product_quantity").focus();
-						}
-					   $('#buy_price_check').val(new_buy_price);
-					   $('#new_mrp_price').val(new_sale_price);
-					   $("#pro_name").val(ui.item.label);
-					   $("#temp_pro_data").val(ui.item.temp_pro_data);
-					   $("#temp_pro_id").val(ui.item.id);
-					   $("#product_specification").val(ui.item.product_specification);
-					   $("#temp_pro_qty").val(ui.item.stock);
-					}
-				},
-			});
-
-			$( "#search_by_product_name" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
-				return $( "<li style=\"border-bottom: 2px solid gray; hover: red;\">" )
-				.append( "<div><span class=\"label_style text-bold\">" + item.label +'</span><span> '+item.catagory_name +' '+item.product_size + 
-				"</span><br><span style=\"font-size: 12px !important;\">" + item.generic_name + "    " +item.catagory_name + 
-				"    </span><span style='color:#00cd6e;'> (Stock: "+ item.stock + 
-				")</span> <span style='color:#00cd6e;'> (Pack: "+ item.product_model + ")</span><br><span style=\"font-size: 12px !important;\">" + 
-				item.company_name + "</span></div>" ).appendTo( ul );
-			};
-
+				});
+			} else {
+				$("#search_by_product_name").autocomplete({
+					source: function( request, response ) {
+						$.ajax({
+							url       : base_url+"sale/search_product2",
+							dataType  : "json",
+							type      : "POST",
+							cache     : false,
+							data      : { term: request.term, flag: 1},
+							success   : function( result ) { 
+								response( $.map(result, function(item){
+									return{
+									id              : item.id,
+									label           : item.product_name,
+									product_size    : item.product_size,
+									company_name    : item.company_name,
+									catagory_name    : item.catagory_name,
+									product_model   : item.product_model,
+									sale_price      : item.sale_price,
+									mrp_price       : item.mrp_price,
+									buy_price       : item.buy_price,
+									stock           : item.stock,
+									generic_name    : item.generic_name,
+									temp_pro_data   : item.temp_pro_data,
+									product_specification   : item.product_specification
+									}
+								}));
+							}
+						});
+					},
+					minLength     : 1,
+					select        : function (event, ui) {
+						showSelectedProduct(ui.item);
+					},
+				});
+	
+				$( "#search_by_product_name" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
+					return $( "<li style=\"border-bottom: 2px solid gray; hover: red;\">" )
+					.append( "<div><span class=\"label_style text-bold\">" + item.label +'</span><span> '+item.catagory_name +' '+item.product_size + 
+					"</span><br><span style=\"font-size: 12px !important;\">" + item.generic_name + "    " +item.catagory_name + 
+					"    </span><span style='color:#00cd6e;'> (Stock: "+ item.stock + 
+					")</span> <span style='color:#00cd6e;'> (Pack: "+ item.product_model + ")</span><br><span style=\"font-size: 12px !important;\">" + 
+					item.company_name + "</span></div>" ).appendTo( ul );
+				};
+			}
 		}
 	});
+
+	function showSelectedProduct(item) {
+		var stock   = item.stock;
+		if(stock == 0 && allow_negative_stock == 0)
+		{
+			$('#search_by_product_name').val("");
+			alert("Stock unavailable");
+			$('#search_by_product_name').focus();
+		}
+		else{
+			var new_sale_price = parseFloat (item.sale_price);
+			var new_mrp_price = parseFloat(item.mrp_price);
+			var new_buy_price = parseFloat(item.buy_price);
+
+		$('#price').val(new_sale_price);
+		$('#mrp_price').val(new_mrp_price);
+		$('#sale_price').val(new_sale_price);
+		$('#buy_price').val(new_buy_price);
+
+		var sale_price_check = parseFloat(item.mrp_price);
+		var stock_check      = parseFloat(item.stock);
+		if(sale_price_check==0 && stock_check ==0)
+		{
+			$("#buy_price_check").prop("disabled", true);
+			$("#new_mrp_price").prop("disabled", false);
+			$("#new_mrp_price").focus();
+		}
+		else
+		{
+			$("#buy_price_check").prop("disabled", true);
+			$("#new_mrp_price").prop("disabled", true);
+			$("#product_quantity").focus();
+		}
+		$('#buy_price_check').val(new_buy_price);
+		$('#new_mrp_price').val(new_sale_price);
+		$("#pro_name").val(item.label);
+		$("#temp_pro_data").val(item.temp_pro_data);
+		$("#temp_pro_id").val(item.id);
+		$("#product_specification").val(item.product_specification);
+		$("#temp_pro_qty").val(item.stock);
+		}
+	}
 	
 	$('#search_by_customer_name').on('keyup', function(ev){
 		var is_sale_active   = $('#is_sale_active').val();
@@ -155,9 +187,9 @@ jQuery(document).ready(function($) {
 				}
 			});
 		}
-    });
+	});
 
-    $('#search_by_warran_product_model').on('keyup', function(ev)
+	$('#search_by_warran_product_model').on('keyup', function(ev)
 	{
 		var is_sale_active   = $('#is_sale_active').val();
 		if(!is_sale_active && $(this).val().length > 2)
@@ -172,82 +204,44 @@ jQuery(document).ready(function($) {
 		var value = $(this).val();
 		if(is_sale_active)
 		{
-			var barcode=value;
 			$("#search_by_warran_product_model").autocomplete({
-			   	source: function( request, response ) {
-					$.ajax({
-					  	url       : base_url+"sale/search_product_warranty",
-					  	dataType  : "json",
-					  	type      : "POST",
-					  	cache     : false,
-					  	data      : { barcode: barcode, flag: 1},
-					 	success   : function( result ) { 
-					 		console.log(result)
-						   response( $.map(result, function(item){
-								return{
-								  id              : item.id,
-								  label           : item.product_name,
-								  product_size    : item.product_size,
-								  product_model   : item.product_model,
-								  sale_price      : item.sale_price,
-								  mrp_price       : item.mrp_price,
-								  buy_price       : item.buy_price,
-								  stock           : item.stock,
-								  generic_name    : item.generic_name,
-								  temp_pro_data   : item.temp_pro_data,
-								  product_specification   : item.product_specification
-								}
-						   }));
-						}
-					});
-				},
-			   	minLength     : 1,
-			   	select        : function (event, ui) {
-					var stock   = ui.item.stock;
-					if(stock == 0 && allow_negative_stock == 0)
-					{
-						$('#search_by_warran_product_model').val("");
-						alert("Stock unavailable");
-						$('#search_by_warran_product_model').focus();
-					}
-					else{
-						var new_sale_price = parseFloat (ui.item.sale_price);
-						var new_mrp_price = parseFloat(ui.item.mrp_price);
-						var new_buy_price = parseFloat(ui.item.buy_price);
-					   $('#price').val(new_sale_price);
-					   $('#mrp_price').val(new_mrp_price);
-					   $('#sale_price').val(new_sale_price);
-					   $('#buy_price').val(new_buy_price);
-
-						var sale_price_check = parseFloat(ui.item.mrp_price);
-						var stock_check      = parseFloat(ui.item.stock);
-						if(sale_price_check==0 && stock_check ==0)
-						{
-							$("#buy_price_check").prop("disabled", true);
-							$("#new_mrp_price").prop("disabled", false);
-							$("#new_mrp_price").focus();
-						}
-						else
-						{
-							$("#buy_price_check").prop("disabled", true);
-							$("#new_mrp_price").prop("disabled", true);
-							$("#product_quantity").focus();
-						}
-					   $('#buy_price_check').val(new_buy_price);
-					   $('#new_mrp_price').val(new_sale_price);
-					   $("#pro_name").val(ui.item.label);
-					   $("#temp_pro_data").val(ui.item.temp_pro_data);
-					   $("#temp_pro_id").val(ui.item.id);
-					   $("#product_specification").val(ui.item.product_specification);
-					   $("#temp_pro_qty").val(ui.item.stock);
-					}
-				},
-			});
-				  
-			$( "#search_by_warran_product_model" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
-			  return $( "<li style=\"border-bottom: 2px solid gray; hover: red;\">" )
-			  .append( "<div><span class=\"label_style\">" + item.label +' '+item.catagory_name +' '+item.product_size + "</span><br>" + item.generic_name + "    " +item.catagory_name + "    <span style='color:#00cd6e;'> (Stock: "+ item.stock + ")</span> <span style='color:#00cd6e;'> (Pack: "+ item.product_model + ")</span><br>" + item.company_name + "</div>" ).appendTo( ul );
-			};
+				source: function( request, response ) {
+				 $.ajax({
+					   url       : base_url+"sale/search_product_warranty",
+					   dataType  : "json",
+					   type      : "POST",
+					   cache     : false,
+					   data      : { barcode: barcode, flag: 1},
+					  success   : function( result ) { 
+						  console.log(result)
+						response( $.map(result, function(item){
+							 return{
+							   id              : item.id,
+							   label           : item.product_name,
+							   product_size    : item.product_size,
+							   product_model   : item.product_model,
+							   sale_price      : item.sale_price,
+							   mrp_price       : item.mrp_price,
+							   buy_price       : item.buy_price,
+							   stock           : item.stock,
+							   generic_name    : item.generic_name,
+							   temp_pro_data   : item.temp_pro_data,
+							   product_specification   : item.product_specification
+							 }
+						}));
+					 }
+				 });
+			 },
+				minLength     : 1,
+				select        : function (event, ui) {
+				 showSelectedProduct(ui.item)
+			 },
+		 });
+			   
+		 $( "#search_by_warran_product_model" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		   return $( "<li style=\"border-bottom: 2px solid gray; hover: red;\">" )
+		   .append( "<div><span class=\"label_style\">" + item.label +' '+item.catagory_name +' '+item.product_size + "</span><br>" + item.generic_name + "    " +item.catagory_name + "    <span style='color:#00cd6e;'> (Stock: "+ item.stock + ")</span> <span style='color:#00cd6e;'> (Pack: "+ item.product_model + ")</span><br>" + item.company_name + "</div>" ).appendTo( ul );
+		 };
 		}
 		else
 		{

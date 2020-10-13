@@ -57,11 +57,14 @@
 	                 			<td width="40%" style="padding: 0px 2px;">
 	                 				<input type="text" class="form-control search" id="search_by_product_name" placeholder="Search Product" autofocus="on">
 	                 			</td>
-								<td width="40%" style="padding: 0px 2px;">
-	                 				<input type="text" class="form-control search" id="search_by_warran_product_model" placeholder="Search Product by serial">
+								<td width="20%" style="padding: 0px 2px;">
+	                 				<input type="text" class="form-control search" id="search_by_warran_product_model" placeholder="Serial no.">
 	                 			</td>
 								<td width="20%" style="padding: 0px 2px;">
 	                 				<input type="text" class="form-control quantity" id="product_quantity" placeholder="Quantity" >
+								 </td>
+								 <td width="20%" style="padding: 0px 2px;">
+	                 				<input type="text" class="form-control price" id="product_price" placeholder="Price" >
 	                 			</td>
 	                 		</tr>
 	                 	</table>
@@ -101,7 +104,7 @@
 								Received:
 								</td>
 								<td colspan="2">
-									<input type="text" class="form-control sale_input_custom_styl align_right" id="received" placeholder="Received">
+									<input type="text" class="form-control sale_input_custom_styl align_right" id="received" placeholder="Received" disabled>
 								</td>
 			                </tr>
 			                <tr>

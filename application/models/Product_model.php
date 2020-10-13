@@ -222,11 +222,11 @@ class Product_model extends CI_model{
 	{
 		$this->db->where('product_id',$product_id);
 		$quer=$this->db->get('product_info')->row();
-    if ($quer->barcode!='') {
-     $barcode=$quer->barcode;
-    }else{
-      $barcode=$quer->product_id;
-    }
+		if ($quer->barcode!='') {
+		$barcode=$quer->barcode;
+		}else{
+		$barcode=$quer->product_id;
+		}
 	 	$this->load->add_package_path(APPPATH.'third_party/Zend_framework');
 		$this->load->library('zend_framework');
  		$barcodeOptions = array('text' => $barcode );
@@ -242,12 +242,14 @@ class Product_model extends CI_model{
 		$this->session->set_userdata(array(
 			'purchase_quantity' => $this->input->post('Quantity'),
 			'barcode'	=> $barcode,
+			'product_id' => $product_id,
 			'product_name' => $product_name,
 			'sale_price' => $sale_price,
 		));
 		$ins_data2 = array(
 			'Quantity' => $this->input->post('Quantity'),
 			'barcode'	=> $barcode,
+			'product_id' => $product_id,
 			'product_name' => $product_name,
 			'sale_price' => $sale_price,
 		);

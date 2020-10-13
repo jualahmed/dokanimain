@@ -137,6 +137,61 @@ class Sale extends MY_Controller
 		}
 	}
 
+	public function search_product_by_barcode()
+	{
+		$data['current_sale'] 	= '';        
+		$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
+		if($data['current_sale'] != ''){
+			$barcode = $this->input->post('barcode');
+			$tmp 	= $this->sale_model->search_product_by_barcode($barcode);
+			$info;
+			if($tmp){
+				if($tmp->stock_amount == '')$stock = 0;
+				else $stock = $tmp->stock_amount;
+				$info = array(
+					'id' 						=> $tmp->product_id,
+					'product_name' 				=> $tmp->product_name,
+					'company_name' 				=> $tmp->company_name,
+					'catagory_name' 			=> $tmp->catagory_name,
+					'product_size' 				=> $tmp->product_size,
+					'product_model' 			=> $tmp->product_model,
+					'mrp_price' 				=> $tmp->general_unit_sale_price,
+					'sale_price' 				=> $tmp->bulk_unit_sale_price,
+					'buy_price' 				=> $tmp->bulk_unit_buy_price,
+					'stock' 					=> $stock,
+					'generic_name' 				=> $tmp->group_name,
+					'barcode' 					=> $tmp->barcode,
+					'product_specification' 	=> $tmp->product_specification,
+					'temp_pro_data' 			=> 	$tmp->product_id . '<>' . 
+													$tmp->product_name . '<>' .
+													$tmp->stock_amount . '<>' .
+													$tmp->general_unit_sale_price . '<>' .
+													$tmp->bulk_unit_buy_price . '<>' .
+													$tmp->product_specification
+				);
+			}
+			else{
+				$info = array(
+					'id' 						=> '',
+					'product_name' 				=> 'Nothing Found',
+					'company_name' 				=> '',
+					'catagory_name' 			=> '',
+					'product_size' 				=> '',
+					'product_model' 			=> '',
+					'mrp_price' 				=> '',
+					'sale_price' 				=> '',
+					'buy_price' 				=> '',
+					'stock' 					=> '',
+					'generic_name' 				=> '',
+					'barcode' 					=> '',
+					'product_specification' 	=> '',
+					'temp_pro_data' 			=> ''
+				);
+			}
+			echo json_encode($info);
+		}
+	}
+
 	public function search_product_warranty()
 	{
 		$data['current_sale'] 	= '';        
@@ -799,33 +854,45 @@ class Sale extends MY_Controller
 		$this->tank_auth->set_current_temp_sale($currrent_temp_sale_id);
 		$quotationDetails = $this->sale_model->getAllQuotationProduct($quotation_id);
 		if ($quotationDetails->num_rows() > 0) {
-			foreach ($quotationDetails->result() as $product) {
-				$product_id = $product->product_id;
-				$stock_amount = $product->stock_amount - $product->quotation_quantity;
-				$data = array(
-					'temp_sale_id'              => $currrent_temp_sale_id,
-					'product_id'                => $product_id,
-					'stock_id'                  => 0,
-					'sale_quantity'             => $product->quotation_quantity,
-					'product_specification'     => $product->product_specification,
-					'sale_type'                 => 1,
-					'discount_info_id'          => 0,
-					'discount'                  => $product->discount,
-					'discount_type'             => $product->discount_type,
-					'unit_buy_price'            => $product->unit_buy_price,
-					'unit_sale_price'           => $product->unit_sale_price,
-					'general_unit_sale_price'   => $product->general_sale_price,
-					'actual_sale_price'         => $product->actual_sale_price,
-					'temp_sale_details_status'  => 1,
-					'item_name'                 => $product->product_name,
-					'stock'                     => $stock_amount
-				);
-				$this->db->insert('temp_sale_details', $data);
-				$result = $this->db->where('product_id', $product_id)->limit(1)
-				->update('bulk_stock_info', array('stock_amount' => $stock_amount));
-				if ($result) {
-					redirect(base_url().'sale/new_sale');
+			$flag = true;
+			$messages = '';
+			foreach ($quotationDetails->result() as $quotation) {
+				if ($quotation->stock_amount > $quotation->quotation_quantity) {
+					$flag = false;
+					$messages .= $quotation->product_name.', ';
 				}
+			}
+			if ($flag) {
+				foreach ($quotationDetails->result() as $product) {
+					$product_id = $product->product_id;
+					$stock_amount = $product->stock_amount - $product->quotation_quantity;
+					$data = array(
+						'temp_sale_id'              => $currrent_temp_sale_id,
+						'product_id'                => $product_id,
+						'stock_id'                  => 0,
+						'sale_quantity'             => $product->quotation_quantity,
+						'product_specification'     => $product->product_specification,
+						'sale_type'                 => 1,
+						'discount_info_id'          => 0,
+						'discount'                  => $product->discount,
+						'discount_type'             => $product->discount_type,
+						'unit_buy_price'            => $product->unit_buy_price,
+						'unit_sale_price'           => $product->unit_sale_price,
+						'general_unit_sale_price'   => $product->general_sale_price,
+						'actual_sale_price'         => $product->actual_sale_price,
+						'temp_sale_details_status'  => 1,
+						'item_name'                 => $product->product_name,
+						'stock'                     => $stock_amount
+					);
+					$this->db->insert('temp_sale_details', $data);
+					$result = $this->db->where('product_id', $product_id)->limit(1)
+					->update('bulk_stock_info', array('stock_amount' => $stock_amount));
+					if ($result) {
+						echo json_encode(array('success' => true));
+					}
+				}
+			} else {
+				echo json_encode(array('success' => false, 'msg' => rtrim($messages, ', ') . ' have not enough stock'));
 			}
 		}
 	}

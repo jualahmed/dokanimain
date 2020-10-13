@@ -94,7 +94,7 @@
 						<td style="text-align:center">
 							<a :href="base_url+'sale/printQuotation/'+i.qid" target="_blank" class="btn btn-sm"><i class="fa fa-print"></i></a>
 							<button type="button" @click="deleteQuotation(i.qid)" class="btn btn-sm"><i class="fa fa-trash"></i></button>
-							<a :href="base_url+'sale/addQuotationToSale/'+i.qid" target="_blank" class="btn btn-sm"><i class="fa fa-shopping-cart"></i></a>
+							<button @click="quotationToSale(i.qid)" class="btn btn-sm"><i class="fa fa-shopping-cart"></i></button>
 						</td>
 					</tr>
 				</tbody>
