@@ -61,7 +61,7 @@ class Product_model extends CI_model{
 		if (empty($invoice_id)) {
 			return $this->db->query("SELECT * FROM product_info 
 			LEFT JOIN (
-				SELECT bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.product_id as pid 
+				SELECT bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.last_buy_price,bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.product_id as pid 
 				FROM bulk_stock_info
 				) bulk_stock_info 
 			ON bulk_stock_info.pid = product_info.product_id 

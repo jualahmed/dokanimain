@@ -84,22 +84,16 @@
 					</select>
 					</div>
 
-					<label class="col-sm-1 control-label">Receipt</label>
+					<!-- <label class="col-sm-1 control-label">Receipt</label>
 					<div class="col-sm-3">
 					<select name="" id="" class="form-control" onchange="document.location.href=this.options[this.selectedIndex].value;">
 						<option value="">Select a Receipt</option>
-						
+						<?php foreach ($receipt_info as $key => $var): ?>
+							<option value="<?php echo base_url().'product/searchBarcode/receipt/'.$var->receipt_id ?>"><?php echo $var->distributor_name ?>(<?php echo $var->receipt_id; ?>)</option>
+						<?php endforeach ?>
 					</select>
-					</div>
+					</div> -->
                 </div>
-				<div class="box-footer">
-					<center>
-						<div class="col-sm-22">
-							<button type="submit" class="btn btn-success" name="search_random" style="width:100px;"><i class="fa fa-fw fa-save"></i> Submit</button>
-							<button type="reset" id="reset_btn" class="btn btn-warning" style="width:100px;"><i class="fa fa-fw fa-refresh"></i> Reset</button>
-						</div>
-					</center>
-				</div>
 			</form>
 			</div>
 		</div>
@@ -142,9 +136,9 @@
 							<tr>
 							  <td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;width:230%;">Product</td>
 							  <td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">Stock</td>
-							  <td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">Buy</td>
-							  <td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">Sale</td>
-							  <td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">General</td>
+							  <td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">BP</td>
+							  <td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">SP</td>
+							  <td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">MRP</td>
 							</tr>
 							<tr>
 								<td style="width:230%;">  <?php echo $product_name?></td>

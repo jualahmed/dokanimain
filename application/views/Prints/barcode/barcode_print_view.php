@@ -3,6 +3,9 @@
 <head>
   <title> Dokani : IT Lab Solutions </title>
   <link rel="icon" href="<?php echo base_url(); ?>images/favicon.ico"  type="image/x-icon"/>
+  <script>
+	  window.print();
+  </script>
   <style>
   @media print {
 

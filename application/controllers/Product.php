@@ -243,32 +243,24 @@ class Product extends MY_Controller {
 	    $rules = array(
 	      array(
 	        'field' => 'product_name',
-	        'label' => 'product_name',
+	        'label' => 'Product Name',
 	        'rules' => 'required'.$is_unique
 	      ),
 	      array(
+	        'label' => 'Category',
 	        'field' => 'catagory_id',
-	        'label' => 'catagory_id',
 	        'rules' => 'required'
 	      ),
 	      array(
+	        'label' => 'Company',
 	        'field' => 'company_id',
-	        'label' => 'company_id',
 	        'rules' => 'required'
 	      ),
 	      array(
+	        'label' => 'Unit',
 	        'field' => 'unit_id',
-	        'label' => 'unit_id',
 	        'rules' => 'required'
-	      ),
-	      array(
-	        'field' => 'product_model',
-	        'label' => 'product_model'
-	      ),
-	      array(
-	        'field' => 'product_size',
-	        'label' => 'product_size'
-	      ) 
+	      )
 	    );
 		$creator = $this->tank_auth->get_user_id();
 	    $this->form_validation->set_rules($rules);
@@ -285,6 +277,7 @@ class Product extends MY_Controller {
 			'product_specification' => $this->input->post('product_specification'),
 	        'product_warranty' => $this->input->post('product_warranty'),
 	        'alarming_stock' => $this->input->post('alarming_stock'),
+	        'barcode' => $this->input->post('barcode'),
 	        'has_serial_no' => isset($_POST['has_serial_no']) ? 1 : 0,
 	        'product_creator' => $creator
 	      );

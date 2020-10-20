@@ -213,7 +213,7 @@
 				<th>Model</th>
 				<th align="center">Action</th>
 			</tr>
-			<tr v-for="(r,index) in result[0]" align="left"> 
+			<tr v-for="(r,index) in result[0]" :key="index" align="left"> 
 				<td>{{ row+index+1 }}</td>
 				<td align="center">
 					<div v-if="r.img"><img :src="r.img" width="50px" class="img-circle"></div>
@@ -408,7 +408,7 @@
 
 						<div class="col-sm-6">
 							<label for="inputEmail3" class="control-label">Product Name <span class="text-danger">*</span></label>
-							<input type="text" name="product_name" value="" class="form-control abcproduct_name product_name"  id=" edvalue" onkeypress="edValueKeyPress()" onkeyup="edValueKeyPress()" placeholder="Product Name" autocomplete="off">
+							<input type="text" name="product_name" value="" class="form-control abcproduct_name product_name" onkeypress="barcodeValueKeyPress()"  id="oldProductName" placeholder="Product Name" autocomplete="off">
 							<span id="user-availability-status1" style="display:none;"></span>
 							<span id="user-availability-status2" style="display:none;"></span>
 						</div>
@@ -471,6 +471,10 @@
 							<label class="col-12 war_peri checkbox-inline serial_checkbox" style="display:none;padding-left: 35px;padding-top: 30px;">
 								<input class="has_serial_no" name="has_serial_no" type="checkbox">Has Serial No.
 							</label>
+						</div>
+						<div class="col-sm-4">
+							<label for="barcode" class="">Barcode</label>
+							<input type="number" placeholder="Barcode" name="barcode" class="form-control barcode">
 						</div>
 					</div>
 				</div>

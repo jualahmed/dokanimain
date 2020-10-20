@@ -99,14 +99,11 @@ class Purchaselisting extends MY_Controller
 				 * otherwise create new record
 				 * average prices [unit_buy_price, bulk_unit_sale_price, general_unit_sale_price]
 				 */
-				$new_unit_buy_price = (($oldPurchaseData->unit_buy_price * $old_quantity) + ($unit_buy_price_purchase * $quantity)) / $new_quantity;
-				$new_bulk_unit_sale_price = (($oldPurchaseData->bulk_unit_sale_price * $old_quantity) + ($exclusive_sale_price * $quantity)) / $new_quantity;
-				$new_general_unit_sale_price = (($oldPurchaseData->general_unit_sale_price * $old_quantity) + ($general_sale_price * $quantity)) / $new_quantity;
 				$object = [
 					'purchase_quantity' => $new_quantity,
-					'unit_buy_price' => $new_unit_buy_price,
-					'bulk_unit_sale_price' => $new_bulk_unit_sale_price,
-					'general_unit_sale_price' => $new_general_unit_sale_price,
+					'unit_buy_price' => $unit_buy_price_purchase,
+					'bulk_unit_sale_price' => $exclusive_sale_price,
+					'general_unit_sale_price' => $general_sale_price,
 				];
 				$this->db->where('purchase_id', $oldPurchaseData->purchase_id);
 				$this->db->update('purchase_info', $object);
@@ -160,15 +157,12 @@ class Purchaselisting extends MY_Controller
 				$totalquantity = $quantity + $oldquantity;
 				$unit_buy_price_purchase1 = (($alddata->bulk_unit_buy_price * $oldquantity) +
 					($unit_buy_price_purchase * $quantity)) / $totalquantity;
-				$exclusive_sale_price1 = (($alddata->bulk_unit_sale_price * $oldquantity) +
-					($exclusive_sale_price * $quantity)) / $totalquantity;
-				$general_unit_sale_price1 = (($alddata->general_unit_sale_price * $oldquantity) +
-					($general_sale_price * $quantity)) / $totalquantity;
+
 				$object = [
 					'stock_amount' => $totalquantity,
 					'bulk_unit_buy_price' => $unit_buy_price_purchase1,
-					'bulk_unit_sale_price' => $exclusive_sale_price1,
-					'general_unit_sale_price' => $general_unit_sale_price1,
+					'bulk_unit_sale_price' => $exclusive_sale_price,
+					'general_unit_sale_price' => $general_sale_price,
 					'last_buy_price' => $unit_buy_price_purchase
 				];
 				$this->db->where('bulk_id', $alddata->bulk_id);
@@ -205,7 +199,7 @@ class Purchaselisting extends MY_Controller
 		$purchase_id = $this->input->post('purchase_id');
 		$purchase = $this->purchaselisting_model->find($purchase_id);
 		$product = $this->product_model->find($purchase->product_id);
-		$this->db->where('product_id' , $purchase->product_id);
+		$this->db->where('product_id', $purchase->product_id);
 		$productOldData = $this->db->get('bulk_stock_info')->row();
 		if ($purchase->purchase_quantity <= $productOldData->stock_amount) {
 			if ($product->has_serial_no) {
@@ -231,8 +225,8 @@ class Purchaselisting extends MY_Controller
 						($purchase->general_unit_sale_price * $quantity)) / $totalQuantity;
 				}
 				$total_buy_price = $quantity * $newBulkUnitBuyPrice;
-	
-	
+
+
 				$object = [
 					'stock_amount' => $totalQuantity,
 					'bulk_unit_buy_price' => $newBulkUnitBuyPrice,
@@ -242,7 +236,7 @@ class Purchaselisting extends MY_Controller
 				];
 				$this->db->where('bulk_id', $productOldData->bulk_id);
 				$this->db->update('bulk_stock_info', $object);
-	
+
 				$result = $this->db->where('purchase_id', $purchase_id)->delete('purchase_info');
 				if ($result) {
 					echo json_encode(['success' => true]);
@@ -253,7 +247,6 @@ class Purchaselisting extends MY_Controller
 		} else {
 			echo json_encode(['success' => false, 'msg' => "Product's current stock is $productOldData->stock_amount.<br/>Stock Quantity Goes to Negative"]);
 		}
-		
 	}
 
 	public function allproductbelogntopurchase($purchase_id = '')
