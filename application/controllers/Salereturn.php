@@ -37,7 +37,7 @@ class Salereturn extends MY_controller
 		$invoice_type = $this->uri->segment(4);
 		$invoice_id = $this->uri->segment(5);
 		$product_id = $this->uri->segment(6);
-		if($return_type!='' || $invoice_type!='' || $invoice_id!='' || $product_id!='')
+		if($return_type != '' || $invoice_type != '' || $invoice_id != '' || $product_id != '')
 		{
 			$data['product_info'] 	= $this->salereturn_model->product_info($invoice_id,$invoice_type);
 			$data['product_info_details'] 	= $this->salereturn_model->product_info_details($invoice_id,$invoice_type,$product_id);

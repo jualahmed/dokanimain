@@ -292,9 +292,17 @@ class Purchase extends MY_Controller
 		}
 		else
 		{
+			$this->db->query("UPDATE purchase_info 
+				JOIN purchase_receipt_info 
+				ON purchase_receipt_info.receipt_id=purchase_info.purchase_receipt_id 
+				SET purchase_info.purchase_quantity = purchase_info.purchase_quantity-5 
+				WHERE `purchase_info`.`product_id` = $pro_id 
+				AND `purchase_receipt_info`.`distributor_id` = $dis_id");
+
 			$this->db->set('stock_amount',  "stock_amount-$return_amount", FALSE);
 			$this->db->where('product_id', $pro_id);
 			$this->db->update('bulk_stock_info');
+
 			$main_data = array(
 				'distri_id' => $dis_id,
 				'produ_id' => $pro_id,

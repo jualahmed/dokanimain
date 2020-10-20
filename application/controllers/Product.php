@@ -331,7 +331,7 @@ class Product extends MY_Controller {
 		$this->db->join('product_info', 'product_info.product_id=purchase_info.product_id', 'left');
 		$this->db->where('purchase_receipt_info.distributor_id', $distributor_id);
 		if(!empty($query)) $this->db->where("product_info.product_name RLIKE ' +$query' OR product_info.product_name LIKE '$query%'");
-		$this->db->order_by('.prproduct_infooduct_name', 'asc');
+		$this->db->order_by('product_info.product_name', 'asc');
 		$this->db->limit(100);
 		$data = $this->db->get()->result();
 		$format = array();
