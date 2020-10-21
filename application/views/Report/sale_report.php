@@ -106,7 +106,7 @@
   <div class="text-center" v-if="loding">
     <img src="<?php echo base_url();?>assets/img/LoaderIcon.gif" id="loaderIcon"/>
   </div>
-	<section v-else class="content" style="padding-top: 0px;">
+	<section v-else class="content" style="padding-top: 0px;margin-bottom: 35px;">
 		<div id="table-scroll" class="table-scroll table-secondary" v-if="alldata.length">          
 			<table id="main-table" class="main-table table table-secondary" style="width: 100%;">
 				<thead class="table-hf" style="line-height: 0px;">
@@ -125,10 +125,10 @@
 						<th v-if="isinvoice==1">Delivery</th>
 						<th v-if="isinvoice==1">Grand</th>
 						<th v-if="isinvoice==1">Paid</th>
-						<th v-if="isinvoice==1">Due</th>
-						<th v-if="isinvoice!=1">Qunatity</th>
-						<th v-if="isinvoice!=1" >BP</th>
-						<th v-if="isinvoice!=1" >SP</th>
+						<th v-if="isinvoice==1">Due/Return</th>
+						<th style="text-align: center;" v-if="isinvoice!=1">Quantity</th>
+						<th style="text-align: right;" v-if="isinvoice!=1" >Buy Price</th>
+						<th style="text-align: right;" v-if="isinvoice!=1" >Sale Price</th>
 						<th>Seller</th>
 						<th v-if="isinvoice==1">Print</th>
 					</tr>
@@ -136,31 +136,32 @@
 				<tbody>
 					<tr v-for="(i,index) in alldata">
 						<td>{{ index+1 }}</td>
-						<td align="center">{{ i.sid }}</td>
+						<td style="text-align: center;">{{ i.sid }}</td>
 						<td>{{ formatDate(i.date_time) }}</td>
 						<td v-if="isinvoice!=1" style="white-space: normal!important;">{{ i.product_name }}</td>
 						<td v-if="isinvoice!=1">{{ i.company_name }}</td>
 						<td v-if="isinvoice!=1">{{ i.catagory_name }}</td>
 						<td>{{ i.customer_name }}</td>
 						<td>{{ i.customer_contact_no }}</td>
-						<td align="right" v-if="isinvoice==1">{{ i.total_price }}</td>
-						<td align="right" v-if="isinvoice==1">{{ i.discount_amount }}</td>
-						<td align="right" v-if="isinvoice==1">{{ i.sale_return_amount }}</td>
-						<td align="right" v-if="isinvoice==1">{{ i.delivery_charge }}</td>
-						<td align="right" v-if="isinvoice==1">{{ i.grand_total }}</td>
-						<td align="right" v-if="isinvoice==1">{{ i.total_paid }}</td>
-						<td align="right" v-if="isinvoice==1">{{ i.grand_total-i.total_paid }}</td>
-						<th v-if="isinvoice!=1">{{ i.sale_quantity }}</th>
-						<td align="right" v-if="isinvoice!=1">{{ parseFloat(i.unit_buy_price) }}</td>
-						<td align="right" v-if="isinvoice!=1">{{ parseFloat(i.actual_sale_price) }}</td>
+						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.total_price)) ? '0.00' : parseFloat(i.total_price).toFixed(2) }}</td>
+						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.discount_amount)) ? '0.00' : parseFloat(i.discount_amount).toFixed(2) }}</td>
+						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.sale_return_amount)) ? '0.00' : parseFloat(i.sale_return_amount).toFixed(2) }}</td>
+						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.delivery_charge)) ? '0.00' : parseFloat(i.sale_return_amount).toFixed(2) }}</td>
+						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.grand_total)) ? '0.00' : parseFloat(i.grand_total).toFixed(2) }}</td>
+						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.total_paid)) ? '0.00' : parseFloat(i.total_paid).toFixed(2) }}</td>
+						<td style="text-align: right;" v-if="isinvoice==1">{{ calculateDue(i.grand_total, i.total_paid) }}</td>
+						<th style="text-align: center;" v-if="isinvoice!=1">{{ i.sale_quantity }}</th>
+						<td style="text-align: right;" v-if="isinvoice!=1">{{ isNaN(parseFloat(i.unit_buy_price)) ? '0.00' : parseFloat(i.unit_buy_price).toFixed(2) }}</td>
+						<td style="text-align: right;" v-if="isinvoice!=1">{{ isNaN(parseFloat(i.actual_sale_price)) ? '0.00' : parseFloat(i.actual_sale_price).toFixed(2) }}</td>
 						<td>{{ i.username }}</td>
 						<td v-if="isinvoice==1"><a :href="base_url+'invoice/index/'+i.sid" target="_blank" class="btn btn-secondary">Print</a></td>
 					</tr>
 					<tr>
 						<td colspan="8"></td>
 						<td><b>Total: {{ quantity }}</b></td>
-						<td class="text-right"><b>Total: {{ amount }}</b></td>
-						<td class="text-right"><b>Total:{{ samount }}</b></td>
+						<td class="text-right"><b>Total: {{ parseFloat(amount).toFixed(2) }}</b></td>
+						<td class="text-right"><b>Total:{{ parseFloat(samount).toFixed(2) }}</b></td>
+						<td></td>
 					</tr>
 				</tbody>
 			</table>

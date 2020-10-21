@@ -130,8 +130,6 @@ class Sale_model extends CI_model{
 		$temp_sale_details_id = $this->input->post('temp_details_id');
 		$new_sale_quantity = $this->input->post('sale_quantity');
 		$sale_price = $this->input->post('sale_price');
-		$buy_price = $this->input->post('buy_price');
-		$currrent_temp_sale_id = $this -> tank_auth -> get_current_temp_sale();
 		$this->db->where('temp_sale_details_id',$temp_sale_details_id);
 		$prevListInfo = $this->db->get('temp_sale_details');
 		if($prevListInfo -> num_rows() > 0){
@@ -157,7 +155,7 @@ class Sale_model extends CI_model{
 								  AND temp_sale_details_id = ".$temp_sale_details_id." 
 								 ");
 			$this -> db -> query("UPDATE temp_sale_details 
-								  SET sale_quantity = ".$new_sale_quantity.",general_unit_sale_price = ".$sale_price.",stock = stock - ".$new_sale_quantity."
+								  SET sale_quantity = ".$new_sale_quantity.",actual_sale_price = ".$sale_price.",stock = stock - ".$new_sale_quantity."
 								  WHERE product_id = ".$productId." 
 								  AND temp_sale_details_id = ".$temp_sale_details_id." 
 								 ");
@@ -558,14 +556,14 @@ class Sale_model extends CI_model{
 		$inv = $que->row();
         foreach($products->result() as $tmp)
         {
-			if($cash_commision !='0')
+			if($cash_commision > 0)
 			{
-				$ratio = $disc_amount/$inv->total_price;
-				$exact_sale_price = $tmp -> general_unit_sale_price - ( $tmp -> general_unit_sale_price * $ratio);
+				$ratio = floatval($disc_amount/$inv->total_price);
+				$exact_sale_price = $tmp -> unit_sale_price - ( $tmp -> unit_sale_price * $ratio);
 			}
 			else
 			{
-				$exact_sale_price = $tmp -> general_unit_sale_price;
+				$exact_sale_price = floatval($tmp -> unit_sale_price);
 				
 			}
             $data = array(
@@ -581,7 +579,7 @@ class Sale_model extends CI_model{
                 'unit_sale_price'           => $tmp->unit_sale_price,
                 'general_sale_price'        => $tmp->general_unit_sale_price,
                 'unit_buy_price'            => $tmp->unit_buy_price,
-                'actual_sale_price'         => $tmp->general_unit_sale_price,
+                'actual_sale_price'         => $exact_sale_price,
                 'product_specification'     => $tmp->product_specification,
                 'exact_sale_price'          => $exact_sale_price,
                 'sale_details_status'       => 1,

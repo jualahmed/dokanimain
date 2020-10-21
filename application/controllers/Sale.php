@@ -354,11 +354,11 @@ class Sale extends MY_Controller
 		$discount               	= 0;
 		$discount_type          	= 0;
 		$vat                    	= (Float)$this->input->post('vat');     
-		if($discount_in_percentage != ''){ 
+		if($discount_in_percentage != '' && $discount_in_percentage != 'NaN'){ 
 				$discount       = $discount_in_percentage; 
 				$discount_type  = 2; 
 		}
-		else if($discount_in_f != ''){
+		else if($discount_in_f != '' && $discount_in_f != 'NaN'){
 				$discount       = $discount_in_f;
 				$discount_type  = 1;
 		}
@@ -385,7 +385,9 @@ class Sale extends MY_Controller
 		$return_adjust 	= (Float)$this->input->post('return_adjust');
 		$return_id 		= $this->input->post('return_id');
 
-		if($return_money < 0){ $return_money = 0; }
+		if($return_money < 0) { 
+			$return_money = 0; 
+		}
 
 		$invoice_id = $this->sale_model->doInvoiceInfoTask($customer_id, $sub_total, $cash_commision, $disc_amount, $discount_type, $grand_total, $total_paid, $return_money,$return_adjust,$payable,$delivery_charge);
 

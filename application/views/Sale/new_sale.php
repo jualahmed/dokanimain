@@ -319,7 +319,7 @@
 									<input type="hidden" id="sale_stock_id" value="<?php echo $tmp->sale_quantity; ?>">
 									<input type="hidden" id="specification_id<?php echo $i_num;?>" value="<?php echo $tmp->product_specification; ?>">
 									<input type="hidden" id="stock_id<?php echo $i_num;?>" value="<?php echo $tmp->stock; ?>">
-									<input type="hidden" id="sale_id<?php echo $i_num;?>" value="<?php echo $tmp->general_unit_sale_price; ?>">
+									<input type="hidden" id="sale_id<?php echo $i_num;?>" value="<?php echo $tmp->actual_sale_price; ?>">
 									<input type="hidden" id="buy_id<?php echo $i_num;?>" value="<?php echo $tmp->unit_buy_price; ?>">
 									<input type="hidden" id="quantti_id<?php echo $i_num;?>" value="<?php echo $tmp->sale_quantity; ?>">
 									<input type="hidden" id="temp_details_modal<?php echo $i_num;?>" value="<?php echo $tmp->temp_sale_details_id; ?>">
@@ -431,10 +431,10 @@
 				</div>
 				<div class="separator10"></div>
 				<div class="input-group">
-				  <span class="input-group-addon">Sale</span>
-				  <input name="sale_price" type="text" class="form-control salee" placeholder="Sale"/>
-				  <span class="input-group-addon">Buy</span>
-				  <input name="buy_price" type="text" class="form-control buyy" placeholder="Buy" disabled />
+				  <span class="input-group-addon">Sale Price</span>
+				  <input name="sale_price" type="text" class="form-control salee" placeholder="Sale Price"/>
+				  <span class="input-group-addon">Buy Price</span>
+				  <input name="buy_price" type="text" class="form-control buyy" placeholder="Buy Price" disabled />
 				</div>
 				<input type="hidden" name="temp_details_id" class="temp_details_id">
 			  </div>

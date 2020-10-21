@@ -51,10 +51,18 @@
 									</tr>
 									<?php
 										$save1 = 0;
+										$totalMrp = 0;
+										$totalUnitSalePrice = 0;
+										$totalActualSalePrice = 0;
 										foreach ($sale_info -> result() as $field):
 											$general_sale_price = $field->general_sale_price;
 											$sale_quantity = $field->sale_quantity;
 											$unit_sale_price = $field->unit_sale_price;
+											$actual_sale_price = $field->actual_sale_price;
+
+											$totalMrp += ($general_sale_price * $sale_quantity);
+											$totalUnitSalePrice += ($unit_sale_price * $sale_quantity);
+											$totalActualSalePrice += ($actual_sale_price * $sale_quantity);
 									?>
 									<tr>
 										<!--<td style="width:2%"> <?php echo $field->product_id;?> </td> -->
@@ -87,17 +95,13 @@
 										</td>
 										<td style="width:10%;text-align:right;">
 											<?php 
-												echo number_format( $field-> unit_sale_price, 2);
-												
-												$save1 = $save1 + ($general_sale_price * $sale_quantity - 
-														$unit_sale_price * $sale_quantity );
-														
+												echo number_format( $field-> actual_sale_price, 2);
 											?> 
 										</td>
 										
 										<td style="width:12%;text-align:right;border-right:0px solid black;">
 											<?php 
-												echo number_format(( $field -> sale_quantity * $field-> unit_sale_price), 2);
+												echo number_format(( $field -> sale_quantity * $field-> actual_sale_price), 2);
 											?> 
 										</td>
 									</tr>
@@ -115,22 +119,21 @@
 					</div>
 					<div id ="pos_top_header_fourth" style="width: 100%; float: right;">
 						<div class ="pos_top_header_fourth_left"> Total MRP </div>
-						<div class ="pos_top_header_fourth_right"> <?php if($save1 > 0){
-							echo number_format(($final_total = $save1 + $row_data->total_price),2);
-							}else{ 
-								echo number_format($final_total = $row_data->total_price, 2); 
-							} ?></div>
+						<div class ="pos_top_header_fourth_right"> 
+							<?php 
+								echo number_format($totalMrp, 2); 
+							?>
+						</div>
 						<?php if($row_data->sale_return_amount > 0){ ?>
-						<div class ="pos_top_header_fourth_left"> Sale Return</div>
-						<div class ="pos_top_header_fourth_right"> <?php  echo number_format($row_data->sale_return_amount, 2);?></div>
+							<div class ="pos_top_header_fourth_left"> Sale Return</div>
+							<div class ="pos_top_header_fourth_right"> <?php  echo number_format($row_data->sale_return_amount, 2);?></div>
 						<?php } ?>
-						<div class ="pos_top_header_fourth_left"> Shop Discount</div>
-						<div class ="pos_top_header_fourth_right"> <?php  echo number_format($save1, 2);?></div>
-						
+							<div class ="pos_top_header_fourth_left"> Shop Discount</div>
+							<div class ="pos_top_header_fourth_right"> <?php  echo number_format($totalMrp - $totalUnitSalePrice, 2);?></div>
 						<?php
 						if ($row_data->discount_amount > 0) { ?>
 							<div class ="pos_top_header_fourth_left"> Special Discount </div>
-							<div class ="pos_top_header_fourth_right"> <?php echo number_format($row_data->discount_amount, 2); ?></div>
+							<div class ="pos_top_header_fourth_right"> <?php echo number_format(($totalUnitSalePrice - $totalActualSalePrice), 2); ?></div>
 						<?php }
 						?>
 
