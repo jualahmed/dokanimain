@@ -767,31 +767,7 @@ $(document).ready(function () {
       });
   });
 
-  $("#edit_modal #qty").change(function () {
-    var qty_hidden = $("#qty_hidden").val();
-    $(".new-serial").remove();
-    var new_qty = $(this).val();
-    var dif = new_qty - qty_hidden;
-    if (dif > 0) {
-      while (dif > 0) {
-        var output = `<li class="new-serial">
-						<div class="input-group input-group-md">
-							<input type="hidden" name="sp_id" value=""/>
-							<input type="text" name="serial_no[]" value="" class="form-control">
-							<div class="input-group-btn">
-								<button class="btn btn-success" type="button"><i class="fa fa-check"></i></button>
-							</div>
-						</div>
-					</li>`;
-        $(".serial-no-list").append(output);
-        dif--;
-      }
-    }
-    if (dif < 0) {
-      dif = dif * -1;
-      alert(`Remove ${dif} serial no.`);
-    }
-  });
+
   $("#edit_modal_form").on("submit", function (ev) {
     var serial_nos = $("input[name='serial_no[]']")
       .map(function () {

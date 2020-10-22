@@ -63,6 +63,7 @@ class Purchaselisting extends MY_Controller
 		$allworrantyproduct = $this->input->post('allworrantyproduct');
 		$creator = $this->tank_auth->get_user_id();
 
+
 		$purchase_id = -1;
 		$total_unit_buy_price = 0;
 		$purchaseinfoma = Purchaseinfom::where('purchase_receipt_id', $purchase_receipt_id)->get();
@@ -152,6 +153,15 @@ class Purchaselisting extends MY_Controller
 			$this->db->where('product_id', $product_id);
 			$alddata = $this->db->get('bulk_stock_info')->row();
 
+			/**
+			 * fetch selected product from product_info by product id
+			 * then set alarming stock for bulk stock info
+			 */
+			$selectedProduct = $this->db->select('*')
+					->from('product_info')
+					->where('product_id', $product_id)
+					->get()->row();
+
 			if ($alddata) {
 				$oldquantity = $alddata->stock_amount;
 				$totalquantity = $quantity + $oldquantity;
@@ -163,6 +173,7 @@ class Purchaselisting extends MY_Controller
 					'bulk_unit_buy_price' => $unit_buy_price_purchase1,
 					'bulk_unit_sale_price' => $exclusive_sale_price,
 					'general_unit_sale_price' => $general_sale_price,
+					'bulk_alarming_stock' => $selectedProduct->alarming_stock,
 					'last_buy_price' => $unit_buy_price_purchase
 				];
 				$this->db->where('bulk_id', $alddata->bulk_id);
@@ -175,7 +186,7 @@ class Purchaselisting extends MY_Controller
 					'bulk_unit_buy_price' => $unit_buy_price_purchase,
 					'bulk_unit_sale_price' => $exclusive_sale_price,
 					'general_unit_sale_price' => $general_sale_price,
-					'bulk_alarming_stock' => 100,
+					'bulk_alarming_stock' => $selectedProduct->alarming_stock,
 					'last_buy_price' => $unit_buy_price_purchase,
 				];
 				$this->db->insert('bulk_stock_info', $object);

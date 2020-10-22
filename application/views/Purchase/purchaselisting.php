@@ -323,13 +323,6 @@ $tp_price_vat_purchase = $this->config->item('tp_price_vat_purchase');
 											<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
 										</td>
 									</tr>
-									<tr>
-										<td colspan="2">
-											<ul class="serial-no-list">
-
-											</ul>
-										</td>
-									</tr>
 								</table>
 							</div>
 							<div class="modal-footer">

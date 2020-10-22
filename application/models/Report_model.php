@@ -39,9 +39,11 @@ class Report_model extends CI_model{
 		elseif($type_wise =='not_available')
 		{
 			$this->db->where('bulk_stock_info.stock_amount <= 0'); 
+		}else if($type_wise == 'alarming_stock') {
+			$this->db->where('bulk_stock_info.stock_amount <= bulk_stock_info.bulk_alarming_stock'); 
 		}
 
-		$query = $this->db->get();
+		$query = $this->db->order_by('product_info.product_name', 'ASC')->get();
 		return $query;
 	}	
 

@@ -244,3 +244,6 @@ tr,td,th{
 .btn-group-sm>.btn, .btn-sm{
       padding: 2px 6px;
 }
+.table-scroll {
+  z-index: 0;
+}

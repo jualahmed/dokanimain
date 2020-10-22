@@ -144,7 +144,7 @@ class Sale extends MY_Controller
 		if($data['current_sale'] != ''){
 			$barcode = $this->input->post('barcode');
 			$tmp 	= $this->sale_model->search_product_by_barcode($barcode);
-			$info;
+			$info = array();
 			if($tmp){
 				if($tmp->stock_amount == '')$stock = 0;
 				else $stock = $tmp->stock_amount;
