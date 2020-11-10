@@ -44,8 +44,8 @@ class Purchaselisting extends MY_Controller
 		$data['last_id'] = $this->product_model->getLastInserted();
 		// For Product create end
 
-		$data['vuejscomp'] = 'purchaselisting.js';
-		$this->__renderview('Purchase/purchaselisting', $data);
+		$data['vuejscomp'] = 'purchaselisting_new.js';
+		$this->__renderview('Purchase/purchaselisting_new', $data);
 	}
 
 	public function createlisting()

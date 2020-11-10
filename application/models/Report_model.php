@@ -98,7 +98,7 @@ class Report_model extends CI_model{
 		if($seller_id!=0){$this->db->where('invoice_info.invoice_creator',$seller_id);}
 		if($start_date!=0){$this->db->where('invoice_info.invoice_doc >="'.$start_date.'"');}
 		if($end_date!=0){$this->db->where('invoice_info.invoice_doc <= "'.$end_date.'"');}
-		$this->db->order_by('invoice_info.invoice_id','asc'); 
+		$this->db->order_by('product_info.product_name','asc'); 
 		$query = $this->db->get('invoice_info')->result();
 		return $query;
 	}
@@ -112,7 +112,7 @@ class Report_model extends CI_model{
 		if($seller_id!=0){$this->db->where('invoice_info.invoice_creator',$seller_id);}
 		if($start_date!=0){$this->db->where('invoice_info.invoice_doc >="'.$start_date.'"');}
 		if($end_date!=0){$this->db->where('invoice_info.invoice_doc <= "'.$end_date.'"');}
-		$this->db->order_by('invoice_info.invoice_id','asc'); 
+		$this->db->order_by('invoice_info.invoice_id','desc'); 
 		$query = $this->db->get('invoice_info')->result();
 		return $query;
 	}
@@ -963,6 +963,7 @@ class Report_model extends CI_model{
 		$start_date=$this->input->post('start_date');
 		$end_date=$this->input->post('end_date');
 		$expense_type = rawurldecode($type_type);
+		$service_provider_id = $this->input->post('service_provider_id');
 		
 		$this->db->select('service_provider_info.service_provider_name,expense_info.expense_id,expense_info.expense_type,expense_info.total_paid,expense_info.expense_amount,expense_info.expense_doc,expense_info.total_paid');
 		$this->db->from('expense_info,service_provider_info');
