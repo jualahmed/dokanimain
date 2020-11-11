@@ -1,21 +1,21 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');	
-class Account extends MY_controller{
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+class Account extends MY_controller
+{
 
 	public function __construct()
 	{
-		parent::__construct();	
+		parent::__construct();
 		$data['user_type'] = $this->tank_auth->get_usertype();
-        if(!$this->access_control_model->my_access($data['user_type'], 'account', ''))
-        {
-            redirect('admin/noaccess');
-        }
+		if (!$this->access_control_model->my_access($data['user_type'], 'account', '')) {
+			redirect('admin/noaccess');
+		}
 		$this->load->model('bankcard_model');
-	    $this->load->model('employee_model');
-	    $this->load->model('expense_model');
-	    $this->load->model('expense_model');
-	    $this->load->model('distributor_model');
+		$this->load->model('employee_model');
+		$this->load->model('expense_model');
+		$this->load->model('expense_model');
+		$this->load->model('distributor_model');
 	}
-	
+
 	public function transactionreport()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
@@ -23,7 +23,7 @@ class Account extends MY_controller{
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['vuejscomp'] = 'transactionreport.js';
-		$this->__renderview('Account/transactionreport',$data);
+		$this->__renderview('Account/transactionreport', $data);
 	}
 
 	public function  all_today_transaction()
@@ -40,54 +40,40 @@ class Account extends MY_controller{
 		$transaction_sum 	= $transaction_sum->result_array();
 		$transaction8 		= $this->account_model->today_cashbook();
 		$transaction9 		= $this->account_model->today_bankbook();
-		foreach($transaction_sum as $field)
-		{
+		foreach ($transaction_sum as $field) {
 			$purpose = $field['transaction_purpose'];
-			
-			if($purpose=='collection')
-			{
+
+			if ($purpose == 'collection') {
 				$transaction = $this->account_model->all_today_transaction_collection();
 				$transaction = $transaction->result_array();
-			}
-			else if($purpose=='sale')
-			{
+			} else if ($purpose == 'sale') {
 				$transaction2 = $this->account_model->all_today_transaction_sale();
 				$transaction2 = $transaction2->result_array();
-			}
-			else if($purpose=='credit_collection')
-			{
+			} else if ($purpose == 'credit_collection') {
 				$transaction3 = $this->account_model->all_today_transaction_credit_collection();
 				$transaction3 = $transaction3->result_array();
-			}
-			else if($purpose=='purchase')
-			{
+			} else if ($purpose == 'purchase') {
 				$transaction4 = $this->account_model->all_today_transaction_purchase();
 				$transaction4 = $transaction4->result_array();
-			}
-			else if($purpose=='payment')
-			{
+			} else if ($purpose == 'payment') {
 				$transaction5 = $this->account_model->all_today_transaction_purchase_payment();
 				$transaction5 = $transaction5->result_array();
-			}
-			else if($purpose=='expense')
-			{
+			} else if ($purpose == 'expense') {
 				$transaction6 = $this->account_model->all_today_transaction_expense();
 				$transaction6 = $transaction6->result_array();
-			}
-			else if($purpose=='expense_payment')
-			{
+			} else if ($purpose == 'expense_payment') {
 				$transaction7 = $this->account_model->all_today_transaction_expense_payment();
 				$transaction7 = $transaction7->result_array();
 			}
 		}
-		echo json_encode(array('transaction'=>$transaction,'transaction2'=>$transaction2,'transaction3'=>$transaction3,'transaction4'=>$transaction4,'transaction5'=>$transaction5,'transaction6'=>$transaction6,'transaction7'=>$transaction7,'transaction_sum'=>$transaction_sum,'transaction8'=>$transaction8,'transaction9'=>$transaction9));
+		echo json_encode(array('transaction' => $transaction, 'transaction2' => $transaction2, 'transaction3' => $transaction3, 'transaction4' => $transaction4, 'transaction5' => $transaction5, 'transaction6' => $transaction6, 'transaction7' => $transaction7, 'transaction_sum' => $transaction_sum, 'transaction8' => $transaction8, 'transaction9' => $transaction9));
 	}
 
 	public function download_todays_transaction()
 	{
-		$bd_date = date('Y-m-d',time());	
+		$bd_date = date('Y-m-d', time());
 		$credit = array();
-		$debit = array();	
+		$debit = array();
 		$transaction = array();
 		$transaction2 = array();
 		$transaction3 = array();
@@ -100,43 +86,36 @@ class Account extends MY_controller{
 		$this->data['transaction9'] 		= $this->account_model->today_bankbook_print();
 		$transaction_sum 	= $this->account_model->all_today_transaction_sum();
 		$this->data['transaction_sum'] 	= $transaction_sum->result_array();
-		
-		foreach($this->data['transaction_sum'] as $field)
-		{
+
+		foreach ($this->data['transaction_sum'] as $field) {
 			$purpose = $field['transaction_purpose'];
-			
-			if($purpose=='collection'){
+
+			if ($purpose == 'collection') {
 				$transaction = $this->account_model->all_today_transaction_collection_print();
 				$this->data['transaction'] = $transaction->result_array();
-			}
-			else if($purpose=='sale'){
+			} else if ($purpose == 'sale') {
 				$transaction2 = $this->account_model->all_today_transaction_sale_print();
 				$this->data['transaction2'] = $transaction2->result_array();
-			}
-			else if($purpose=='credit_collection'){
+			} else if ($purpose == 'credit_collection') {
 				$transaction3 = $this->account_model->all_today_transaction_credit_collection_print();
 				$this->data['transaction3'] = $transaction3->result_array();
-			}
-			else if($purpose=='purchase'){
+			} else if ($purpose == 'purchase') {
 				$transaction4 = $this->account_model->all_today_transaction_purchase_print();
 				$this->data['transaction4'] = $transaction4->result_array();
-			}
-			else if($purpose=='payment'){
+			} else if ($purpose == 'payment') {
 				$transaction5 = $this->account_model->all_today_transaction_purchase_payment_print();
 				$this->data['transaction5'] = $transaction5->result_array();
-			}
-			else if($purpose=='expense'){
+			} else if ($purpose == 'expense') {
 				$transaction6 = $this->account_model->all_today_transaction_expense_print();
 				$this->data['transaction6'] = $transaction6->result_array();
-			}
-			else if($purpose=='expense_payment'){
+			} else if ($purpose == 'expense_payment') {
 				$transaction7 = $this->account_model->all_today_transaction_expense_payment_print();
 				$this->data['transaction7'] = $transaction7->result_array();
 			}
 		}
-		$this->__renderviewprint('Prints/accounts/transactionreport',$this->data); 
+		$this->__renderviewprint('Prints/accounts/transactionreport', $this->data);
 	}
-	
+
 	public function bank_transfer()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
@@ -157,14 +136,13 @@ class Account extends MY_controller{
 		$data['bank'] = $this->bankcard_model->all();
 		$data['vuejscomp'] = 'bank_transfer.js';
 		$transfer_id = $this->account_model->create_transfer();
-		if($transfer_id!=''){
+		if ($transfer_id != '') {
 			$data['status'] = 'success';
 			redirect('account/bank_transfer/success');
-		}
-		else{
+		} else {
 			$data['status'] = 'failed';
 			redirect('account/bank_transfer/failed');
-		}	
+		}
 	}
 
 	public function owner_transfer()
@@ -209,11 +187,11 @@ class Account extends MY_controller{
 	{
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['user_type'] = $this->tank_auth->get_usertype();
-    	$data['distributor_info'] = $this->distributor_model->all();     
-    	$data['employee_info'] = $this->employee_model->all();        
-		$data['expense_type'] = $this->expense_model->typeall();				
-		$data['customer'] = Customerm::all();							
-		$data['service_provider_info'] = $this->account_model->service_provider_info();							
+		$data['distributor_info'] = $this->distributor_model->all();
+		$data['employee_info'] = $this->employee_model->all();
+		$data['expense_type'] = $this->expense_model->typeall();
+		$data['customer'] = Customerm::all();
+		$data['service_provider_info'] = $this->account_model->service_provider_info();
 		$data['owner_info'] = $this->account_model->owner_info();
 		$data['status'] = '';
 		$data['vuejscomp'] = 'ledgers.js';
@@ -222,41 +200,96 @@ class Account extends MY_controller{
 
 	public function all_ledger_report_find()
 	{
-		$start =$this->input->post('start_date');
+		$start = $this->input->post('start_date');
 		$end = $this->input->post('end_date');
 
-		if (!isset($start)) $start = date('Y-m-d');
-		if (!isset($end)) $end = date('Y-m-d');
+		$customer_id = $this->input->post('customer_id');
+		$distributor_id = $this->input->post('distributor_id');
+		$type_id = $this->input->post('type_id');
+		$transfer_type = $this->input->post('transfer_type');
+		$owner_transfer_type = $this->input->post('owner_transfer_type');
 
-		$customer_id =$this->input->post('customer_id');
-		$distributor_id =$this->input->post('distributor_id');
+
+		/**
+		 * 1: Customer Sale
+		 * 2: Expense
+		 * 3: Purchase
+		 * 4: Bank Transfer
+		 * 5: Owner Transfer
+		 */
+		$purpose_id = $this->input->post('purpose_id');
 
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		$data['distributor_info'] = $this->distributor_model->all();       
-    	$data['employee_info'] = $this->employee_model->all();        
-		$data['expense_type'] = $this->expense_model->typeall();											
-		$data['service_provider_info'] = $this->account_model->service_provider_info();							
+		$data['distributor_info'] = $this->distributor_model->all();
+		$data['employee_info'] = $this->employee_model->all();
+		$data['expense_type'] = $this->expense_model->typeall();
+		$data['service_provider_info'] = $this->account_model->service_provider_info();
 		$data['owner_info'] = $this->account_model->owner_info();
-		$data['customer'] = Customerm::all();		 
+		$data['customer'] = Customerm::all();
 
-		if(isset($customer_id)){
-			$transactions = Transactionm::where(function ($query) {
-								    		$query->where('transaction_purpose', '=', 'sale')
-								         	 ->orWhere('transaction_purpose', '=', 'collection');
-										})->where('ledger_id',$customer_id);
-		}
+		if (isset($purpose_id) && !empty($purpose_id)) {
 
-		if(isset($distributor_id)){
-			$transactions = Transactionm::where(function ($query) {
-									$query->where('transaction_purpose', '=', 'purchase')
-										->orWhere('transaction_purpose', '=', 'payment');
-								})->where('ledger_id',$distributor_id);
-		}
+			if ($purpose_id == 1) {
+				$transactions = Transactionm::where(function ($query) {
+					$query->where('transaction_purpose', '=', 'sale')
+						->orWhere('transaction_purpose', '=', 'collection');
+				});
+				if(!empty($customer_id)) {
+					$transactions = $transactions->where('ledger_id', $customer_id);
+				}
+			}
 
-		if ($transactions) {
-			$transactions = $transactions->whereBetween('date', [$start, $end]);
-			$data['ledgerdata'] = $transactions->get();
+			if ($purpose_id == 2) {
+				$transactions = Transactionm::where(function ($query) {
+					$query->where('transaction_purpose', '=', 'expense')
+						->orWhere('transaction_purpose', '=', 'expense_payment');
+				});
+				if(!empty($type_id)) {
+					$transactions = $transactions->where('ledger_id', $type_id);
+				}
+			}
+
+			if ($purpose_id == 3) {
+				$transactions = Transactionm::where(function ($query) {
+					$query->where('transaction_purpose', '=', 'purchase')
+						->orWhere('transaction_purpose', '=', 'payment');
+				});
+				if(!empty($distributor_id)) {
+					$transactions = $transactions->where('ledger_id', $distributor_id);
+				}
+			}
+
+			if ($purpose_id == 4) {
+				$transactions = Transactionm::where('ledger_id', 0);
+				if (!empty($transfer_type)) {
+					$transactions = $transactions->where(function ($query) use($transfer_type) {
+						$query->where('transaction_purpose', '=', $transfer_type);
+					});
+				}
+			}
+
+			if ($purpose_id == 5) {
+				$transactions = Transactionm::where('ledger_id', 1);
+				if (!empty($owner_transfer_type)) {
+					$transactions = $transactions->where(function ($query) use($owner_transfer_type) {
+						$query->where('transaction_purpose', '=', $owner_transfer_type);
+					});
+				}
+			}
+
+			if (!empty($start)) {
+				$transactions = $transactions->where('date', '>=', $start);
+			}
+	
+			if (!empty($end)) {
+				$transactions = $transactions->where('date', '<=', $end);
+			}
+	
+			if ($transactions) {
+				$data['ledgerdata'] = $transactions->get();
+				// print_r($data['ledgerdata']);
+			}
 		}
 
 		$data['vuejscomp'] = 'ledgers.js';
@@ -281,17 +314,16 @@ class Account extends MY_controller{
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['distributor_info'] = $this->account_model->distributor_info();
-		$data['service_provider_info'] = $this->account_model->service_provider_info();		
-		$data['bank_info'] = $this->bankcard_model->all();	
+		$data['service_provider_info'] = $this->account_model->service_provider_info();
+		$data['bank_info'] = $this->bankcard_model->all();
 		$data['vuejscomp'] = 'cheque_status_report.js';
 		$this->__renderview('Account/cheque_status_report', $data);
 	}
-	
+
 	public function credit_collection_receipt()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		if($this->access_control_model->my_access($data['user_type'], 'account', 'purchase_receipt_entry'))
-		{
+		if ($this->access_control_model->my_access($data['user_type'], 'account', 'purchase_receipt_entry')) {
 			$bd_date = date('Y-m-d');
 			$data['bd_date'] = $bd_date;
 			$data['alarming_level'] = FALSE;
@@ -301,15 +333,13 @@ class Account extends MY_controller{
 			$data['bank_info'] = $this->bankcard_model->all();
 			$data['vuejscomp'] = 'credit_collection_receipt.js';
 			$this->__renderview('Account/credit_collection_receipt', $data);
-		}
-		else redirect('account/account/noaccess');
+		} else redirect('account/account/noaccess');
 	}
 
 	public function purchase_payment_receipt()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		if($this -> access_control_model -> my_access($data['user_type'], 'account', 'purchase_receipt_entry'))
-		{
+		if ($this->access_control_model->my_access($data['user_type'], 'account', 'purchase_receipt_entry')) {
 			$timezone = "Asia/Dhaka";
 			date_default_timezone_set($timezone);
 			$bd_date = date('Y-m-d');
@@ -321,15 +351,13 @@ class Account extends MY_controller{
 			$data['bank_info'] = $this->bankcard_model->all();
 			$data['vuejscomp'] = 'purchase_payment_receipt.js';
 			$this->__renderview('Account/purchase_payment_receipt', $data);
-		}
-		else redirect('account/account/noaccess');
+		} else redirect('account/account/noaccess');
 	}
 
 	public function expense_payment_receipt()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		if($this -> access_control_model -> my_access($data['user_type'], 'account', 'purchase_receipt_entry'))
-		{
+		if ($this->access_control_model->my_access($data['user_type'], 'account', 'purchase_receipt_entry')) {
 			$timezone = "Asia/Dhaka";
 			date_default_timezone_set($timezone);
 			$bd_date = date('Y-m-d');
@@ -341,8 +369,7 @@ class Account extends MY_controller{
 			$data['bank_info'] = $this->bankcard_model->all();
 			$data['vuejscomp'] = 'expense_payment_receipt.js';
 			$this->__renderview('Account/expense_payment_receipt', $data);
-		}
-		else redirect('account/account/noaccess');
+		} else redirect('account/account/noaccess');
 	}
 
 	public function pay_reci_report()
@@ -353,8 +380,8 @@ class Account extends MY_controller{
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['distributor_info'] = $this->account_model->distributor_info();
-		$data['service_provider_info'] = $this->account_model->service_provider_info();		
-		$data['bank_info'] = $this->bankcard_model->all();		
+		$data['service_provider_info'] = $this->account_model->service_provider_info();
+		$data['bank_info'] = $this->bankcard_model->all();
 		$data['vuejscomp'] = 'pay_reci_report.js';
 		$this->__renderview('Account/pay_reci_report', $data);
 	}
@@ -363,16 +390,16 @@ class Account extends MY_controller{
 	{
 		$this->db->select('customer_info.customer_id,customer_info.customer_name');
 		$this->db->from('customer_info');
-		$this->db->order_by('customer_info.customer_id','asc');
+		$this->db->order_by('customer_info.customer_id', 'asc');
 		$query = $this->db->get();
 		echo json_encode($query->result());
 	}
-	
+
 	public function get_all_distributor()
 	{
 		$this->db->select('distributor_info.distributor_id,distributor_info.distributor_name');
 		$this->db->from('distributor_info');
-		$this->db->order_by('distributor_info.distributor_name','asc');
+		$this->db->order_by('distributor_info.distributor_name', 'asc');
 		$query = $this->db->get();
 		echo json_encode($query->result());
 	}
@@ -381,7 +408,7 @@ class Account extends MY_controller{
 	{
 		$this->db->select('*');
 		$this->db->from('type_info');
-		$this->db->order_by('type_info.type_id','asc');
+		$this->db->order_by('type_info.type_id', 'asc');
 		$query = $this->db->get();
 		echo json_encode($query->result());
 	}
@@ -390,7 +417,7 @@ class Account extends MY_controller{
 	{
 		$this->db->select('*');
 		$this->db->from('employee_info');
-		$this->db->order_by('employee_info.employee_id','asc');
+		$this->db->order_by('employee_info.employee_id', 'asc');
 		$query = $this->db->get();
 		echo json_encode($query->result());
 	}
@@ -399,34 +426,34 @@ class Account extends MY_controller{
 	{
 		$this->db->select('service_provider_info.service_provider_id,service_provider_info.service_provider_name');
 		$this->db->from('service_provider_info');
-		$this->db->order_by('service_provider_info.service_provider_name','asc');
+		$this->db->order_by('service_provider_info.service_provider_name', 'asc');
 		$query = $this->db->get();
 		echo json_encode($query->result());
 	}
-	
+
 	public function get_single_customer_all_sale_payment_total()
 	{
 		$customer_id = $this->input->post('customer_id');
 		$ledger_list = array();
 		$receipt_sale_total_amount = $this->account_model->receipt_sale_total_amount($customer_id);
 		$ledger_list['receipt_sale_total_amount'] = $receipt_sale_total_amount->result_array();
-		
+
 		$receipt_collection_total_amount = $this->account_model->receipt_collection_total_amount($customer_id);
 		$ledger_list['receipt_collection_total_amount'] = $receipt_collection_total_amount->result_array();
-		
+
 		$receipt_delivery_total_amount = $this->account_model->receipt_delivery_total_amount($customer_id);
 		$ledger_list['receipt_delivery_total_amount'] = $receipt_delivery_total_amount->result_array();
-		
+
 		$receipt_sale_return_total_amount = $this->account_model->receipt_sale_return_total_amount($customer_id);
 		$ledger_list['receipt_sale_return_total_amount'] = $receipt_sale_return_total_amount->result_array();
-		
+
 		$receipt_cash_return_total_amount = $this->account_model->receipt_cash_return_total_amount($customer_id);
 		$ledger_list['receipt_cash_return_total_amount'] = $receipt_cash_return_total_amount->result_array();
-		
+
 		$receipt_balance_total_amount_customer = $this->account_model->receipt_balance_total_amount_customer($customer_id);
 		$ledger_list['receipt_balance_total_amount'] = $receipt_balance_total_amount_customer->result_array();
-		
-		echo json_encode(array("ledger_list"=>$ledger_list));
+
+		echo json_encode(array("ledger_list" => $ledger_list));
 	}
 
 	function get_single_distributor_all_purchase_payment_total()
@@ -435,20 +462,20 @@ class Account extends MY_controller{
 		$ledger_list = array();
 		$receipt_purchase_total_amount = $this->account_model->receipt_purchase_total_amount($distributor_id);
 		$ledger_list['receipt_purchase_total_amount'] = $receipt_purchase_total_amount->result_array();
-		
+
 		$receipt_payment_total_amount = $this->account_model->receipt_payment_total_amount($distributor_id);
 		$ledger_list['receipt_payment_total_amount'] = $receipt_payment_total_amount->result_array();
-		
+
 		$receipt_purchase_return_total_amount = $this->account_model->receipt_purchase_return_total_amount($distributor_id);
 		$ledger_list['receipt_purchase_return_total_amount'] = $receipt_purchase_return_total_amount->result_array();
-		
+
 		$receipt_payment_delete_total_amount = $this->account_model->receipt_payment_delete_total_amount($distributor_id);
 		$ledger_list['receipt_payment_delete_total_amount'] = $receipt_payment_delete_total_amount->result_array();
-		
+
 		$receipt_balance_total_amount_distributor = $this->account_model->receipt_balance_total_amount_distributor($distributor_id);
 		$ledger_list['receipt_balance_total_amount'] = $receipt_balance_total_amount_distributor->result_array();
-		
-		echo json_encode(array("ledger_list"=>$ledger_list));
+
+		echo json_encode(array("ledger_list" => $ledger_list));
 	}
 
 	function get_single_employee_all_expense_payment_total()
@@ -461,8 +488,8 @@ class Account extends MY_controller{
 		$ledger_list['receipt_expense_delete_total_amount'] = $receipt_expense_delete_total_amount_emp_wise->result_array();
 		$receipt_expense_payment_total_amount_emp_wise = $this->account_model->receipt_expense_payment_total_amount_emp_wise($employee_id);
 		$ledger_list['receipt_expense_payment_total_amount'] = $receipt_expense_payment_total_amount_emp_wise->result_array();
-		
-		echo json_encode(array("ledger_list"=>$ledger_list));
+
+		echo json_encode(array("ledger_list" => $ledger_list));
 	}
 
 	function get_single_expense_type_all_expense_payment_total()
@@ -475,22 +502,22 @@ class Account extends MY_controller{
 		$ledger_list['receipt_expense_delete_total_amount'] = $receipt_expense_delete_total_amount_type_wise->result_array();
 		$receipt_expense_payment_total_amount_type_wise = $this->account_model->receipt_expense_payment_total_amount_type_wise($expense_type);
 		$ledger_list['receipt_expense_payment_total_amount'] = $receipt_expense_payment_total_amount_type_wise->result_array();
-		
-		echo json_encode(array("ledger_list"=>$ledger_list));
+
+		echo json_encode(array("ledger_list" => $ledger_list));
 	}
-	
+
 	function get_all_card()
 	{
 		$this->db->select('bank_card_info.card_id,bank_card_info.card_name');
 		$this->db->from('bank_card_info');
-		$this->db->order_by('bank_card_info.card_id','asc');
+		$this->db->order_by('bank_card_info.card_id', 'asc');
 		$query = $this->db->get();
 		echo json_encode($query->result());
 	}
-	
+
 	public function do_collection_payment()
 	{
-		$creator 			   	= $this->tank_auth->get_user_id(); 
+		$creator 			   	= $this->tank_auth->get_user_id();
 		$payment_mode 			= (int)$this->input->post('payment_mode');
 		$receipt_type 			= (int)$this->input->post('receipt_type');
 		$customer_id 			= (int)$this->input->post('customer_id');
@@ -499,64 +526,53 @@ class Account extends MY_controller{
 		$expense_type 			= (int)$this->input->post('expense_type');
 		$employee_id 			= (int)$this->input->post('employee_id');
 		$card_id 				= (int)$this->input->post('card_id');
-		$payment_amount         = (Float)$this->input->post('payment_amount');
+		$payment_amount         = (float)$this->input->post('payment_amount');
 		$my_bank          		= (int)$this->input->post('my_bank');
 		$to_bank          		= (int)$this->input->post('to_bank');
 		$cheque_no          	= $this->input->post('cheque_no');
 		$cheque_date          	= $this->input->post('cheque_date');
 		$remarks          		= $this->input->post('remarks');
-		$balance_customer       =(Float)$this->input->post('balance_customer');
-		
-		if($receipt_type == 1)
-		{
-			$transaction_id = $this->account_model->do_payment_distributor($creator,$payment_mode,$distributor_id,$card_id, $payment_amount,$my_bank,$to_bank,$cheque_no,$cheque_date,$remarks);
+		$balance_customer       = (float)$this->input->post('balance_customer');
+
+		if ($receipt_type == 1) {
+			$transaction_id = $this->account_model->do_payment_distributor($creator, $payment_mode, $distributor_id, $card_id, $payment_amount, $my_bank, $to_bank, $cheque_no, $cheque_date, $remarks);
+			echo $transaction_id;
+		} else if ($receipt_type == 2) {
+			$transaction_id = $this->account_model->do_payment_expense($creator, $payment_mode, $service_provider_id, $expense_type, $employee_id, $card_id, $payment_amount, $my_bank, $to_bank, $cheque_no, $cheque_date, $remarks);
+			echo $transaction_id;
+		} else if ($receipt_type == 3) {
+			$transaction_id = $this->account_model->do_collection_client($creator, $payment_mode, $customer_id, $card_id, $payment_amount, $my_bank, $to_bank, $cheque_no, $cheque_date, $balance_customer, $remarks);
 			echo $transaction_id;
 		}
-		else if($receipt_type == 2)
-		{
-			$transaction_id = $this->account_model->do_payment_expense($creator,$payment_mode,$service_provider_id,$expense_type,$employee_id,$card_id, $payment_amount,$my_bank,$to_bank,$cheque_no,$cheque_date,$remarks);
-			echo $transaction_id;
-		}
-		else if($receipt_type == 3)
-		{
-			$transaction_id = $this->account_model->do_collection_client($creator,$payment_mode,$customer_id,$card_id, $payment_amount,$my_bank,$to_bank,$cheque_no,$cheque_date,$balance_customer,$remarks);
-			echo $transaction_id;
-		}		     
 	}
 
 	public function all_cheque_status_report_find()
 	{
-		$cheque_status=$this->input->post('cheque_status');
+		$cheque_status = $this->input->post('cheque_status');
 		$temp = array();
 		$temp = $this->account_model->get_cheque_status_info_by_multi($cheque_status);
 		$temp = $temp->result_array();
 
-		$i=0;
-		foreach($temp as $field)
-		{
+		$i = 0;
+		foreach ($temp as $field) {
 			$ledger_type = $field['ledger_type'];
 			$ledger_id = $field['ledger_id'];
 			$bb_id = $field['bb_id'];
-			if($ledger_type=='sale_collection')
-			{
-				$sale_ledger_name = $this->account_model->get_sale_ledger_name($ledger_type,$ledger_id,$bb_id);
+			if ($ledger_type == 'sale_collection') {
+				$sale_ledger_name = $this->account_model->get_sale_ledger_name($ledger_type, $ledger_id, $bb_id);
 				$temp[$i]['sale_ledger_name'] = $sale_ledger_name->result_array();
-			}
-			else if($ledger_type=='purchase_payment')
-			{
-				$purchase_ledger_name = $this->account_model->get_purchase_ledger_name($ledger_type,$ledger_id,$bb_id);
+			} else if ($ledger_type == 'purchase_payment') {
+				$purchase_ledger_name = $this->account_model->get_purchase_ledger_name($ledger_type, $ledger_id, $bb_id);
 				$temp[$i]['purchase_ledger_name'] = $purchase_ledger_name->result_array();
-			}
-			else if($ledger_type=='expense_payment')
-			{
-				$expense_ledger_name = $this->account_model->get_expense_ledger_name($ledger_type,$ledger_id,$bb_id);
+			} else if ($ledger_type == 'expense_payment') {
+				$expense_ledger_name = $this->account_model->get_expense_ledger_name($ledger_type, $ledger_id, $bb_id);
 				$temp[$i]['expense_ledger_name'] = $expense_ledger_name->result_array();
 			}
 			$i++;
 		}
-		echo json_encode(array("cheque_status"=>$temp));
+		echo json_encode(array("cheque_status" => $temp));
 	}
-	
+
 
 
 	public function create_owner_transfer()
@@ -569,18 +585,17 @@ class Account extends MY_controller{
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['owner_info'] = $this->account_model->owner_info();
-		
-		
+
+
 		$transfer_id = $this->account_model->create_owner_transfer();
 
-		if($transfer_id!=''){
+		if ($transfer_id != '') {
 			$data['status'] = 'success';
 			redirect('account/owner_transfer/success');
-		}
-		else{
+		} else {
 			$data['status'] = 'failed';
 			redirect('account/owner_transfer/failed');
-		}	
+		}
 	}
 
 	public function create_loan_transfer()
@@ -591,18 +606,17 @@ class Account extends MY_controller{
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['loan_person_info'] = Customerm::all();
-		
-		
+
+
 		$transfer_id = $this->account_model->create_loan_transfer();
 
-		if($transfer_id!=''){
+		if ($transfer_id != '') {
 			$data['status'] = 'success';
 			redirect('account/loan_transfer/success');
-		}
-		else{
+		} else {
 			$data['status'] = 'failed';
 			redirect('account/loan_transfer/failed');
-		}	
+		}
 	}
 
 	public function all_loan_transfer_report_find()
@@ -613,14 +627,14 @@ class Account extends MY_controller{
 		$credit = $credit->result_array();
 		$debit 	= $this->account_model->get_loan_payment_out();
 		$debit 	= $debit->result_array();
-		echo json_encode(array('credit'=>$credit,'debit'=>$debit));
+		echo json_encode(array('credit' => $credit, 'debit' => $debit));
 	}
 
 	public function download_loan_transfer()
 	{
 		date_default_timezone_set("Asia/Dhaka");
-		$bd_date = date('Y-m-d',time());
-					
+		$bd_date = date('Y-m-d', time());
+
 		$credit = array();
 		$debit = array();
 		$credit = $this->account_model->get_loan_receive_in();
@@ -629,7 +643,7 @@ class Account extends MY_controller{
 		$this->data['debit']  = $debit->result_array();
 
 
-		$html=$this->load->view('Download/download_loan_transfer',$this->data, true); 
+		$html = $this->load->view('Download/download_loan_transfer', $this->data, true);
 
 		$this->load->library('m_pdf');
 		ob_start();
@@ -638,11 +652,11 @@ class Account extends MY_controller{
 		$this->m_pdf->pdf->SetTitle("Loan Transfer Report");
 		$this->m_pdf->pdf->SetAuthor("Dokani");
 		$this->m_pdf->pdf->SetDisplayMode('fullpage');
-		
+
 		$this->m_pdf->pdf->AddPageByArray(array(
-		'orientation' => '',
-		'mgl' => '10','mgr' => '10','mgt' => '35','mgb' => '20','mgh' => '10','mgf' => '5',
-		//margin left,margin right,margin top,margin bottom,margin header,margin footer
+			'orientation' => '',
+			'mgl' => '10', 'mgr' => '10', 'mgt' => '35', 'mgb' => '20', 'mgh' => '10', 'mgf' => '5',
+			//margin left,margin right,margin top,margin bottom,margin header,margin footer
 		));
 		//$this->m_pdf->pdf->SetColumns(2);
 		$this->m_pdf->pdf->WriteHTML($html);
@@ -651,30 +665,30 @@ class Account extends MY_controller{
 		ob_end_flush();
 		exit;
 	}
-	
+
 	function get_all_bank()
 	{
 		$this->db->select('bank_info.bank_name,bank_info.bank_id');
 		$this->db->from('bank_info');
-		$this->db->order_by('bank_info.bank_name','asc');
+		$this->db->order_by('bank_info.bank_name', 'asc');
 		$query = $this->db->get();
-		echo json_encode ($query->result());
+		echo json_encode($query->result());
 	}
 
 	function all_ledger_report_preview()
 	{
-		$this -> load -> view('Account/all_ledger_report_preview');
-	}	
+		$this->load->view('Account/all_ledger_report_preview');
+	}
 
 	function all_ledger_report_print()
 	{
 		$bd_date 				= date('Y-m-d');
 		$cur_bd_date 			= $bd_date;
-		$ledger_list ='';
-		$ledger_list2 ='';
-		$ledger_list3 ='';
-		$ledger_list4 ='';
-		$ledger_list5 ='';
+		$ledger_list = '';
+		$ledger_list2 = '';
+		$ledger_list3 = '';
+		$ledger_list4 = '';
+		$ledger_list5 = '';
 		$distributor_id 		= $this->uri->segment(3);
 		$customer_id 			= $this->uri->segment(4);
 		//$service_provider_id 	= $this->uri->segment(5);
@@ -685,109 +699,75 @@ class Account extends MY_controller{
 		$owner_transfer 		= $this->uri->segment(9);
 		$type_id 				= $this->uri->segment(10);
 		$employee_id 			= $this->uri->segment(11);
-		
-		if($start=='null')
-		{
+
+		if ($start == 'null') {
 			$start = '2016-01-01';
-		}
-		else
-		{
+		} else {
 			$start = $start;
 		}
-		
-		if($end=='null')
-		{
-			$end = $cur_bd_date ;
-		}
-		else
-		{
+
+		if ($end == 'null') {
+			$end = $cur_bd_date;
+		} else {
 			$end = $end;
 		}
 		$new_date = $start;
-		
-		if($purpose_id ==3)
-		{
-			$purchase_total_amount = $this->account_model->purchase_total_amount_print($start,$distributor_id);
 
-			if($purchase_total_amount)
-			{
+		if ($purpose_id == 3) {
+			$purchase_total_amount = $this->account_model->purchase_total_amount_print($start, $distributor_id);
+
+			if ($purchase_total_amount) {
 				$ledger_list['total_purchase_amount'] = $purchase_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list['total_purchase_amount'] = 0;
 			}
-			$purchase_payment_total_amount = $this->account_model->purchase_payment_amount_print($start,$distributor_id);
+			$purchase_payment_total_amount = $this->account_model->purchase_payment_amount_print($start, $distributor_id);
 
-			if($purchase_payment_total_amount)
-			{
+			if ($purchase_payment_total_amount) {
 				$ledger_list['total_purchase_payment_amount'] = $purchase_payment_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list['total_purchase_payment_amount'] = 0;
 			}
-			if($distributor_id!='')
-			{
+			if ($distributor_id != '') {
 				$balance_total_amount = $this->account_model->balance_amount_distributor_print($distributor_id);
 
-				if($balance_total_amount)
-				{
+				if ($balance_total_amount) {
 					$ledger_list['total_balance_amount_distributor'] = $balance_total_amount;
-				}
-				else
-				{
+				} else {
 					$ledger_list['total_balance_amount_distributor'] = 0;
 				}
-			}
-			else
-			{
+			} else {
 				$ledger_list['total_balance_amount_distributor'] = 0;
 			}
-			while($new_date <= $end)
-			{
-				$purchase_details = $this->account_model->all_purchase_print($new_date,$new_date,$distributor_id);
-				if($purchase_details)
-				{
+			while ($new_date <= $end) {
+				$purchase_details = $this->account_model->all_purchase_print($new_date, $new_date, $distributor_id);
+				if ($purchase_details) {
 					$ledger_list[$new_date]['total_purchase'] = $purchase_details;
-				}
-				else
-				{
+				} else {
 					$ledger_list[$new_date]['total_purchase'] = 0;
 				}
-				$payment_details = $this->account_model->all_payment_print($new_date,$new_date,$distributor_id);
-				if($payment_details)
-				{
+				$payment_details = $this->account_model->all_payment_print($new_date, $new_date, $distributor_id);
+				if ($payment_details) {
 					$ledger_list[$new_date]['total_payment'] = $payment_details;
-				}
-				else
-				{
+				} else {
 					$ledger_list[$new_date]['total_payment'] = 0;
 				}
 
 				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
 			}
-		}
-		else if($purpose_id ==1)
-		{
-			$sale_total_amount = $this->account_model->sale_total_amount_print($start,$customer_id);
+		} else if ($purpose_id == 1) {
+			$sale_total_amount = $this->account_model->sale_total_amount_print($start, $customer_id);
 
-			if($sale_total_amount)
-			{
+			if ($sale_total_amount) {
 				$ledger_list2['total_sale_amount'] = $sale_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list2['total_sale_amount'] = 0;
 			}
-			$sale_collection_total_amount = $this->account_model->sale_collection_total_amount_print($start,$customer_id);
+			$sale_collection_total_amount = $this->account_model->sale_collection_total_amount_print($start, $customer_id);
 
-			if($sale_collection_total_amount)
-			{
+			if ($sale_collection_total_amount) {
 				$ledger_list2['total_sale_collection_amount'] = $sale_collection_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list2['total_sale_collection_amount'] = 0;
 			}
 			/* $sale_return_total_amount = $this->account_model->sale_return_total_amount_print($start,$customer_id);
@@ -800,204 +780,143 @@ class Account extends MY_controller{
 			{
 				$ledger_list2['total_sale_return_amount'] = 0;
 			} */
-			if($customer_id!='')
-			{
+			if ($customer_id != '') {
 				$balance_total_amount = $this->account_model->balance_amount_customer_print($customer_id);
 
-				if($balance_total_amount)
-				{
+				if ($balance_total_amount) {
 					$ledger_list2['total_balance_amount_customer'] = $balance_total_amount;
-				}
-				else
-				{
+				} else {
 					$ledger_list2['total_balance_amount_customer'] = 0;
 				}
-			}
-			else
-			{
+			} else {
 				$ledger_list2['total_balance_amount_customer'] = 0;
 			}
-			while($new_date <= $end)
-			{
-				$sale_details = $this->account_model->all_sale_print($new_date,$new_date,$customer_id);
-				if($sale_details)
-				{
+			while ($new_date <= $end) {
+				$sale_details = $this->account_model->all_sale_print($new_date, $new_date, $customer_id);
+				if ($sale_details) {
 					$ledger_list2[$new_date]['total_sale'] = $sale_details;
+				} else {
+					$ledger_list2[$new_date]['total_sale'] = 0;
 				}
-				else
-				{
-					$ledger_list2[$new_date]['total_sale'] =0;
-				}
-				$collection_details = $this->account_model->all_collection_print($new_date,$new_date,$customer_id);
-				if($collection_details)
-				{
+				$collection_details = $this->account_model->all_collection_print($new_date, $new_date, $customer_id);
+				if ($collection_details) {
 					$ledger_list2[$new_date]['total_collection'] = $collection_details;
+				} else {
+					$ledger_list2[$new_date]['total_collection'] = 0;
 				}
-				else
-				{
-					$ledger_list2[$new_date]['total_collection'] =0;
-				}
-				
-				$sale_return_details = $this->account_model->all_sale_return_print($new_date,$new_date,$customer_id);
-				if($sale_return_details)
-				{
+
+				$sale_return_details = $this->account_model->all_sale_return_print($new_date, $new_date, $customer_id);
+				if ($sale_return_details) {
 					$ledger_list2[$new_date]['total_sale_return'] = $sale_return_details;
-				}
-				else
-				{
+				} else {
 					$ledger_list2[$new_date]['total_sale_return'] = 0;
 				}
 				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
 			}
-		}
-		else if($purpose_id ==2)
-		{
-			$expense_total_amount = $this->account_model->expense_total_amount_print($start,$type_id,$employee_id);
+		} else if ($purpose_id == 2) {
+			$expense_total_amount = $this->account_model->expense_total_amount_print($start, $type_id, $employee_id);
 
-			if($expense_total_amount)
-			{
+			if ($expense_total_amount) {
 				$ledger_list3['total_expense_amount'] = $expense_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list3['total_expense_amount'] = 0;
 			}
-			$expense_payment_total_amount = $this->account_model->expense_payment_total_amount_print($start,$type_id,$employee_id);
+			$expense_payment_total_amount = $this->account_model->expense_payment_total_amount_print($start, $type_id, $employee_id);
 
-			if($expense_payment_total_amount)
-			{
+			if ($expense_payment_total_amount) {
 				$ledger_list3['total_expense_payment_amount'] = $expense_payment_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list3['total_expense_payment_amount'] = 0;
 			}
-			while($new_date <= $end)
-			{
-				$expense_details = $this->account_model->all_expense_print($new_date,$new_date,$type_id,$employee_id);
-				if($expense_details)
-				{
+			while ($new_date <= $end) {
+				$expense_details = $this->account_model->all_expense_print($new_date, $new_date, $type_id, $employee_id);
+				if ($expense_details) {
 					$ledger_list3[$new_date]['total_expense'] = $expense_details;
-				}
-				else
-				{
+				} else {
 					$ledger_list3[$new_date]['total_expense'] = 0;
 				}
-				$expense_payment_details = $this->account_model->all_expense_payment_print($new_date,$new_date,$type_id,$employee_id);
-				if($expense_payment_details)
-				{
+				$expense_payment_details = $this->account_model->all_expense_payment_print($new_date, $new_date, $type_id, $employee_id);
+				if ($expense_payment_details) {
 					$ledger_list3[$new_date]['total_expense_payment'] = $expense_payment_details;
-				}
-				else
-				{
+				} else {
 					$ledger_list3[$new_date]['total_expense_payment'] = 0;
 				}
 
 				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
 			}
-		}
-		else if($purpose_id ==4)
-		{
-			$to_bank_total_amount = $this->account_model->to_bank_total_amount_print($start,$transfer_type);
+		} else if ($purpose_id == 4) {
+			$to_bank_total_amount = $this->account_model->to_bank_total_amount_print($start, $transfer_type);
 
-			if($to_bank_total_amount)
-			{
+			if ($to_bank_total_amount) {
 				$ledger_list4['total_to_bank_amount'] = $to_bank_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list4['total_to_bank_amount'] = 0;
 			}
-			$from_bank_total_amount = $this->account_model->from_bank_total_amount_print($start,$transfer_type);
+			$from_bank_total_amount = $this->account_model->from_bank_total_amount_print($start, $transfer_type);
 
-			if($from_bank_total_amount)
-			{
+			if ($from_bank_total_amount) {
 				$ledger_list4['total_from_bank_amount'] = $from_bank_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list4['total_from_bank_amount'] = 0;
 			}
-			while($new_date <= $end)
-			{
-				$to_bank_details = $this->account_model->all_to_bank_print($new_date,$new_date,$transfer_type);
-				if($to_bank_details)
-				{
+			while ($new_date <= $end) {
+				$to_bank_details = $this->account_model->all_to_bank_print($new_date, $new_date, $transfer_type);
+				if ($to_bank_details) {
 					$ledger_list4[$new_date]['total_to_bank'] = $to_bank_details;
-				}
-				else
-				{
+				} else {
 					$ledger_list4[$new_date]['total_to_bank'] = 0;
 				}
-				$from_bank_details = $this->account_model->all_from_bank_print($new_date,$new_date,$transfer_type);
-				if($from_bank_details)
-				{
+				$from_bank_details = $this->account_model->all_from_bank_print($new_date, $new_date, $transfer_type);
+				if ($from_bank_details) {
 					$ledger_list4[$new_date]['total_from_bank'] = $from_bank_details;
-				}
-				else
-				{
+				} else {
 					$ledger_list4[$new_date]['total_from_bank'] = 0;
 				}
 
 				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
 			}
-		}
-		else if($purpose_id ==5)
-		{
-			$to_owner_total_amount = $this->account_model->to_owner_total_amount_print($start,$owner_transfer);
+		} else if ($purpose_id == 5) {
+			$to_owner_total_amount = $this->account_model->to_owner_total_amount_print($start, $owner_transfer);
 
-			if($to_owner_total_amount)
-			{
+			if ($to_owner_total_amount) {
 				$ledger_list5['total_to_owner_amount'] = $to_owner_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list5['total_to_owner_amount'] = 0;
 			}
-			$from_owner_total_amount = $this->account_model->from_owner_total_amount_print($start,$owner_transfer);
+			$from_owner_total_amount = $this->account_model->from_owner_total_amount_print($start, $owner_transfer);
 
-			if($from_owner_total_amount)
-			{
+			if ($from_owner_total_amount) {
 				$ledger_list5['total_from_owner_amount'] = $from_owner_total_amount;
-			}
-			else
-			{
+			} else {
 				$ledger_list5['total_from_owner_amount'] = 0;
 			}
-			while($new_date <= $end)
-			{
-				$to_owner_details = $this->account_model->all_to_owner_print($new_date,$new_date,$owner_transfer);
-				if($to_owner_details)
-				{
+			while ($new_date <= $end) {
+				$to_owner_details = $this->account_model->all_to_owner_print($new_date, $new_date, $owner_transfer);
+				if ($to_owner_details) {
 					$ledger_list5[$new_date]['total_to_owner'] = $to_owner_details;
-				}
-				else
-				{
+				} else {
 					$ledger_list5[$new_date]['total_to_owner'] = 0;
 				}
-				$from_owner_details = $this->account_model->all_from_owner_print($new_date,$new_date,$owner_transfer);
-				if($from_owner_details)
-				{
+				$from_owner_details = $this->account_model->all_from_owner_print($new_date, $new_date, $owner_transfer);
+				if ($from_owner_details) {
 					$ledger_list5[$new_date]['total_from_owner'] = $from_owner_details;
-				}
-				else
-				{
+				} else {
 					$ledger_list5[$new_date]['total_from_owner'] = 0;
 				}
 
 				$new_date = date('Y-m-d', strtotime($new_date . ' +1 day'));
 			}
 		}
-		
-		
+
+
 		$this->data['ledger_list'] = $ledger_list;
 		$this->data['ledger_list2'] = $ledger_list2;
 		$this->data['ledger_list3'] = $ledger_list3;
 		$this->data['ledger_list4'] = $ledger_list4;
 		$this->data['ledger_list5'] = $ledger_list5;
-		
+
 		//$this->load->view('Download/download_all_ledger_report',$this->data, true); 
-		$html=$this->load->view('Download/download_all_ledger_report',$this->data, true); 
+		$html = $this->load->view('Download/download_all_ledger_report', $this->data, true);
 
 		$this->load->library('m_pdf');
 		ob_start();
@@ -1006,11 +925,11 @@ class Account extends MY_controller{
 		$this->m_pdf->pdf->SetTitle("Ledger Report");
 		$this->m_pdf->pdf->SetAuthor("Dokani");
 		$this->m_pdf->pdf->SetDisplayMode('fullpage');
-		
+
 		$this->m_pdf->pdf->AddPageByArray(array(
-		'orientation' => '',
-		'mgl' => '10','mgr' => '10','mgt' => '30','mgb' => '20','mgh' => '10','mgf' => '5',
-		//margin left,margin right,margin top,margin bottom,margin header,margin footer
+			'orientation' => '',
+			'mgl' => '10', 'mgr' => '10', 'mgt' => '30', 'mgb' => '20', 'mgh' => '10', 'mgf' => '5',
+			//margin left,margin right,margin top,margin bottom,margin header,margin footer
 		));
 		//$this->m_pdf->pdf->SetColumns(2);
 		$this->m_pdf->pdf->WriteHTML($html);
@@ -1021,26 +940,25 @@ class Account extends MY_controller{
 	}
 
 
-	
+
 
 	/* for investment entry*/
-    function investment_entry()
+	function investment_entry()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
-	
+
 		$timezone = "Asia/Dhaka";
 		date_default_timezone_set($timezone);
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
-		
+
 		$data['sale_status'] = '';	// for sale status
 		$data['status'] = '';
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		$data['all_bank'] 	= $this -> account_model -> get_all_bank();
-		$data['investor_info'] = $this -> my_variables_model -> fatch_investor_info();
-		$this -> load -> view('Account/investment_entry_form_view', $data);
-		
+		$data['all_bank'] 	= $this->account_model->get_all_bank();
+		$data['investor_info'] = $this->my_variables_model->fatch_investor_info();
+		$this->load->view('Account/investment_entry_form_view', $data);
 	}
 
 	/* create investment entry form*/
@@ -1049,18 +967,14 @@ class Account extends MY_controller{
 		$data['user_type'] = $this->tank_auth->get_usertype();
 		$data['user_name'] = $this->tank_auth->get_username();
 
-		$investment_id = $this -> account_model -> create_investment();
-		if($investment_id!='')
-		{
+		$investment_id = $this->account_model->create_investment();
+		if ($investment_id != '') {
 			$data['status'] = 'success';
 			redirect('account/investment_entry/success');
-		}
-		else
-		{
+		} else {
 			$data['status'] = 'failed';
 			redirect('account/investment_entry/failed');
-		}	
-		
+		}
 	}
 
 
@@ -1073,13 +987,13 @@ class Account extends MY_controller{
 		$debit 	= $this->account_model->get_cash_book_out();
 		$debit 	= $debit->result_array();
 
-		echo json_encode(array('credit'=>$credit,'debit'=>$debit));
+		echo json_encode(array('credit' => $credit, 'debit' => $debit));
 	}
 	function download_cash_book()
 	{
 		date_default_timezone_set("Asia/Dhaka");
-		$bd_date = date('Y-m-d',time());
-					
+		$bd_date = date('Y-m-d', time());
+
 		$credit = array();
 		$debit = array();
 		$credit = $this->account_model->get_cash_book_in_print();
@@ -1088,7 +1002,7 @@ class Account extends MY_controller{
 		$this->data['debit']  = $debit->result_array();
 
 
-		$html=$this->load->view('Download/download_cash_book',$this->data, true); 
+		$html = $this->load->view('Download/download_cash_book', $this->data, true);
 
 		$this->load->library('m_pdf');
 		ob_start();
@@ -1097,11 +1011,11 @@ class Account extends MY_controller{
 		$this->m_pdf->pdf->SetTitle("Cash Book Report");
 		$this->m_pdf->pdf->SetAuthor("Dokani");
 		$this->m_pdf->pdf->SetDisplayMode('fullpage');
-		
+
 		$this->m_pdf->pdf->AddPageByArray(array(
-		'orientation' => '',
-		'mgl' => '10','mgr' => '10','mgt' => '35','mgb' => '20','mgh' => '10','mgf' => '5',
-		//margin left,margin right,margin top,margin bottom,margin header,margin footer
+			'orientation' => '',
+			'mgl' => '10', 'mgr' => '10', 'mgt' => '35', 'mgb' => '20', 'mgh' => '10', 'mgf' => '5',
+			//margin left,margin right,margin top,margin bottom,margin header,margin footer
 		));
 		//$this->m_pdf->pdf->SetColumns(2);
 		$this->m_pdf->pdf->WriteHTML($html);
@@ -1117,7 +1031,7 @@ class Account extends MY_controller{
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
-		$this -> load -> view('Account/all_bank_book_report_new', $data);
+		$this->load->view('Account/all_bank_book_report_new', $data);
 	}
 	function  all_bank_book_report_find()
 	{
@@ -1128,13 +1042,13 @@ class Account extends MY_controller{
 		$debit 	= $this->account_model->get_bank_book_out();
 		$debit 	= $debit->result_array();
 
-		echo json_encode(array('credit'=>$credit,'debit'=>$debit));
+		echo json_encode(array('credit' => $credit, 'debit' => $debit));
 	}
 	function download_bank_book()
 	{
 		date_default_timezone_set("Asia/Dhaka");
-		$bd_date = date('Y-m-d',time());
-					
+		$bd_date = date('Y-m-d', time());
+
 		$credit = array();
 		$debit = array();
 		$credit = $this->account_model->get_bank_book_in_print();
@@ -1143,7 +1057,7 @@ class Account extends MY_controller{
 		$this->data['debit']  = $debit->result_array();
 
 
-		$html=$this->load->view('Download/download_bank_book',$this->data, true); 
+		$html = $this->load->view('Download/download_bank_book', $this->data, true);
 
 		$this->load->library('m_pdf');
 		ob_start();
@@ -1152,11 +1066,11 @@ class Account extends MY_controller{
 		$this->m_pdf->pdf->SetTitle("Bank Book Report");
 		$this->m_pdf->pdf->SetAuthor("Dokani");
 		$this->m_pdf->pdf->SetDisplayMode('fullpage');
-		
+
 		$this->m_pdf->pdf->AddPageByArray(array(
-		'orientation' => '',
-		'mgl' => '10','mgr' => '10','mgt' => '35','mgb' => '20','mgh' => '10','mgf' => '5',
-		//margin left,margin right,margin top,margin bottom,margin header,margin footer
+			'orientation' => '',
+			'mgl' => '10', 'mgr' => '10', 'mgt' => '35', 'mgb' => '20', 'mgh' => '10', 'mgf' => '5',
+			//margin left,margin right,margin top,margin bottom,margin header,margin footer
 		));
 		//$this->m_pdf->pdf->SetColumns(2);
 		$this->m_pdf->pdf->WriteHTML($html);
@@ -1175,25 +1089,23 @@ class Account extends MY_controller{
 		$data['sale_status'] = '';
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['status'] = '';
-		$data['all_investor'] = $this ->account_model-> all_investor();
-		$this -> load -> view('Account/all_investment_report_new', $data);
+		$data['all_investor'] = $this->account_model->all_investor();
+		$this->load->view('Account/all_investment_report_new', $data);
 	}
 	function  all_investment_report_find()
 	{
 		$temp3 = $this->account_model->get_investment_info_by_multi();
 
 		echo json_encode($temp3->result());
-				
-
 	}
-	
+
 	function download_data_investment()
 	{
 		date_default_timezone_set("Asia/Dhaka");
-		$bd_date = date('Y-m-d',time());
-					
-	    $data['download_data_investment'] = $this -> account_model -> print_data_investment();
-		$html=$this->load->view('Download/download_data_investment',$data, true); 
+		$bd_date = date('Y-m-d', time());
+
+		$data['download_data_investment'] = $this->account_model->print_data_investment();
+		$html = $this->load->view('Download/download_data_investment', $data, true);
 
 		$this->load->library('m_pdf');
 		ob_start();
@@ -1202,11 +1114,11 @@ class Account extends MY_controller{
 		$this->m_pdf->pdf->SetTitle("Investmnet Report");
 		$this->m_pdf->pdf->SetAuthor("Dokani");
 		$this->m_pdf->pdf->SetDisplayMode('fullpage');
-		
+
 		$this->m_pdf->pdf->AddPageByArray(array(
-		'orientation' => '',
-		'mgl' => '10','mgr' => '10','mgt' => '35','mgb' => '20','mgh' => '10','mgf' => '5',
-		//margin left,margin right,margin top,margin bottom,margin header,margin footer
+			'orientation' => '',
+			'mgl' => '10', 'mgr' => '10', 'mgt' => '35', 'mgb' => '20', 'mgh' => '10', 'mgf' => '5',
+			//margin left,margin right,margin top,margin bottom,margin header,margin footer
 		));
 		//$this->m_pdf->pdf->SetColumns(2);
 		$this->m_pdf->pdf->WriteHTML($html);
@@ -1215,12 +1127,11 @@ class Account extends MY_controller{
 		ob_end_flush();
 		exit;
 	}
-	
+
 	function all_pay_report_find()
 	{
-		$type=$this->input->post('type');
-		if($type=='payable')
-		{
+		$type = $this->input->post('type');
+		if ($type == 'payable') {
 			$temp = array();
 
 			$this->db->select('*');
@@ -1228,33 +1139,28 @@ class Account extends MY_controller{
 			$temp = $this->db->get();
 			$temp = $temp->result_array();
 
-			$i=0;
-			foreach($temp as $field)
-			{
+			$i = 0;
+			foreach ($temp as $field) {
 				$distributor_id = $field['distributor_id'];
 				$receipt_purchase_total_amount = $this->account_model->receipt_purchase_total_amount($distributor_id);
 				$temp[$i]['receipt_purchase_total_amount'] = $receipt_purchase_total_amount->result_array();
-				
+
 				$receipt_payment_total_amount = $this->account_model->receipt_payment_total_amount($distributor_id);
 				$temp[$i]['receipt_payment_total_amount'] = $receipt_payment_total_amount->result_array();
-				
+
 				$receipt_payment_delete_total_amount = $this->account_model->receipt_payment_delete_total_amount($distributor_id);
 				$temp[$i]['receipt_payment_delete_total_amount'] = $receipt_payment_delete_total_amount->result_array();
-				
+
 				$receipt_purchase_return_total_amount = $this->account_model->receipt_purchase_return_total_amount($distributor_id);
 				$temp[$i]['receipt_purchase_return_total_amount'] = $receipt_purchase_return_total_amount->result_array();
-				
+
 				$receipt_balance_total_amount_distributor = $this->account_model->receipt_balance_total_amount_distributor($distributor_id);
 				$temp[$i]['receipt_balance_total_amount'] = $receipt_balance_total_amount_distributor->result_array();
-				
+
 				$i++;
 			}
-			echo json_encode(array("payable"=>$temp));
-			
-			
-		}
-		else if($type=='receive')
-		{
+			echo json_encode(array("payable" => $temp));
+		} else if ($type == 'receive') {
 			$temp2 = array();
 
 			$this->db->select('*');
@@ -1262,30 +1168,27 @@ class Account extends MY_controller{
 			$temp2 = $this->db->get();
 			$temp2 = $temp2->result_array();
 
-			$i=0;
-			foreach($temp2 as $field)
-			{
+			$i = 0;
+			foreach ($temp2 as $field) {
 				$customer_id = $field['customer_id'];
-				
+
 				$receipt_sale_total_amount = $this->account_model->receipt_sale_total_amount($customer_id);
 				$temp2[$i]['receipt_sale_total_amount'] = $receipt_sale_total_amount->result_array();
-				
+
 				$receipt_collection_total_amount = $this->account_model->receipt_collection_total_amount($customer_id);
 				$temp2[$i]['receipt_collection_total_amount'] = $receipt_collection_total_amount->result_array();
 				$receipt_delivery_total_amount = $this->account_model->receipt_delivery_total_amount($customer_id);
 				$temp2[$i]['receipt_delivery_total_amount'] = $receipt_delivery_total_amount->result_array();
 				$receipt_sale_return_total_amount = $this->account_model->receipt_sale_return_total_amount($customer_id);
 				$temp2[$i]['receipt_sale_return_total_amount'] = $receipt_sale_return_total_amount->result_array();
-				
+
 				$receipt_balance_total_amount_customer = $this->account_model->receipt_balance_total_amount_customer($customer_id);
 				$temp2[$i]['receipt_balance_total_amount'] = $receipt_balance_total_amount_customer->result_array();
-				
+
 				$i++;
 			}
-			echo json_encode(array("receive"=>$temp2));
-		}
-		else if($type=='expense_payable')
-		{
+			echo json_encode(array("receive" => $temp2));
+		} else if ($type == 'expense_payable') {
 			$temp3 = array();
 
 			$this->db->select('*');
@@ -1293,125 +1196,111 @@ class Account extends MY_controller{
 			$temp3 = $this->db->get();
 			$temp3 = $temp3->result_array();
 
-			$i=0;
-			foreach($temp3 as $field)
-			{
+			$i = 0;
+			foreach ($temp3 as $field) {
 				$type_id = $field['type_id'];
-				
+
 				$receipt_expense_total_amount_type_wise = $this->account_model->receipt_expense_total_amount_type_wise($type_id);
 				$temp3[$i]['receipt_expense_total_amount'] = $receipt_expense_total_amount_type_wise->result_array();
-				
+
 				$receipt_expense_delete_total_amount_type_wise = $this->account_model->receipt_expense_delete_total_amount_type_wise($type_id);
 				$temp3[$i]['receipt_expense_delete_total_amount'] = $receipt_expense_delete_total_amount_type_wise->result_array();
 				$receipt_expense_payment_total_amount_type_wise = $this->account_model->receipt_expense_payment_total_amount_type_wise($type_id);
 				$temp3[$i]['receipt_expense_payment_total_amount'] = $receipt_expense_payment_total_amount_type_wise->result_array();
-				
+
 				$i++;
 			}
-			echo json_encode(array("expense_payable"=>$temp3));
+			echo json_encode(array("expense_payable" => $temp3));
 		}
 	}
-	
+
 	function download_data_reci_pay()
 	{
 		date_default_timezone_set("Asia/Dhaka");
-		$bd_date = date('Y-m-d',time());
+		$bd_date = date('Y-m-d', time());
 		$data['bd_date'] = $bd_date;
-		
+
 		$payableData = array();
 		$receivableData = array();
 		$expensePayableData = array();
-		$type=$this->uri->segment(3);
-		if($type=='payable')
-		{
+		$type = $this->uri->segment(3);
+		if ($type == 'payable') {
 			$this->db->select('*');
 			$this->db->from('distributor_info');
 			$payableData = $this->db->get()->result_array();
 
-			$i=0;
-			foreach($payableData as $field)
-			{
+			$i = 0;
+			foreach ($payableData as $field) {
 				$distributor_id = $field['distributor_id'];
 				$receipt_purchase_total_amount = $this->account_model->receipt_purchase_total_amount($distributor_id);
 				$payableData[$i]['receipt_purchase_total_amount'] = $receipt_purchase_total_amount->result_array();
-				
+
 				$receipt_payment_total_amount = $this->account_model->receipt_payment_total_amount($distributor_id);
 				$payableData[$i]['receipt_payment_total_amount'] = $receipt_payment_total_amount->result_array();
-				
+
 				$receipt_payment_delete_total_amount = $this->account_model->receipt_payment_delete_total_amount($distributor_id);
 				$payableData[$i]['receipt_payment_delete_total_amount'] = $receipt_payment_delete_total_amount->result_array();
-				
+
 				$receipt_purchase_return_total_amount = $this->account_model->receipt_purchase_return_total_amount($distributor_id);
 				$payableData[$i]['receipt_purchase_return_total_amount'] = $receipt_purchase_return_total_amount->result_array();
-				
+
 				$receipt_balance_total_amount_distributor = $this->account_model->receipt_balance_total_amount_distributor($distributor_id);
 				$payableData[$i]['receipt_balance_total_amount'] = $receipt_balance_total_amount_distributor->result_array();
-				
+
 				$i++;
 			}
-			
-		}
-		else if($type=='receive')
-		{
-			
+		} else if ($type == 'receive') {
+
 
 			$this->db->select('*');
 			$this->db->from('customer_info');
 			$receivableData = $this->db->get()->result_array();
 
-			$i=0;
-			foreach($receivableData as $field)
-			{
+			$i = 0;
+			foreach ($receivableData as $field) {
 				$customer_id = $field['customer_id'];
-				
+
 				$receipt_sale_total_amount = $this->account_model->receipt_sale_total_amount($customer_id);
 				$receivableData[$i]['receipt_sale_total_amount'] = $receipt_sale_total_amount->result_array();
-				
+
 				$receipt_collection_total_amount = $this->account_model->receipt_collection_total_amount($customer_id);
 				$receivableData[$i]['receipt_collection_total_amount'] = $receipt_collection_total_amount->result_array();
-				
+
 				$receipt_sale_return_total_amount = $this->account_model->receipt_sale_return_total_amount($customer_id);
 				$receivableData[$i]['receipt_sale_return_total_amount'] = $receipt_sale_return_total_amount->result_array();
-				
+
 				$receipt_balance_total_amount_customer = $this->account_model->receipt_balance_total_amount_customer($customer_id);
 				$receivableData[$i]['receipt_balance_total_amount'] = $receipt_balance_total_amount_customer->result_array();
-				
+
 				$i++;
 			}
-		}
-		else if($type=='expense_payable')
-		{
+		} else if ($type == 'expense_payable') {
 
 			$this->db->select('*');
 			$this->db->from('type_info');
 			$expensePayableData = $this->db->get()->result_array();
 
-			$i=0;
-			foreach($expensePayableData as $field)
-			{
+			$i = 0;
+			foreach ($expensePayableData as $field) {
 				$type_id = $field['type_id'];
-				
+
 				$receipt_expense_total_amount_type_wise = $this->account_model->receipt_expense_total_amount_type_wise($type_id);
 				$expensePayableData[$i]['receipt_expense_total_amount'] = $receipt_expense_total_amount_type_wise->result_array();
-				
+
 				$receipt_expense_delete_total_amount_type_wise = $this->account_model->receipt_expense_delete_total_amount_type_wise($type_id);
 				$expensePayableData[$i]['receipt_expense_delete_total_amount'] = $receipt_expense_delete_total_amount_type_wise->result_array();
 				$receipt_expense_payment_total_amount_type_wise = $this->account_model->receipt_expense_payment_total_amount_type_wise($type_id);
 				$expensePayableData[$i]['receipt_expense_payment_total_amount'] = $receipt_expense_payment_total_amount_type_wise->result_array();
-				
+
 				$i++;
 			}
 		}
-		
-		$data['payable']= $payableData;
-		$data['receive']= $receivableData;
-		$data['expense_payable']= $expensePayableData;
+
+		$data['payable'] = $payableData;
+		$data['receive'] = $receivableData;
+		$data['expense_payable'] = $expensePayableData;
 
 
-		$this->load->view('Download/download_data_reci_pay',$data); 
-		
+		$this->load->view('Download/download_data_reci_pay', $data);
 	}
-	
 }
-
-?>

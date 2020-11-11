@@ -61,6 +61,11 @@ class Sale_model extends CI_model{
             return $this->db->insert_id();
         return false;
 	}
+
+	public function removeTempSale($temp_sale_id)
+	{
+		$this->db->where('temp_sale_id', $temp_sale_id)->delete('temp_sale_info');
+	}
 	
 	public function search_product_by_barcode($barcode)
 	{

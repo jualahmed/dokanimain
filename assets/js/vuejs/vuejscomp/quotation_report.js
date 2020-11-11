@@ -72,8 +72,8 @@ new Vue({
 							result.msg,
 							'warning'
 							);
-						self.loding = false;
 					}
+					self.loding = !self.loding;
 				}
 			});
 		}

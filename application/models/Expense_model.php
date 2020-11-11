@@ -19,6 +19,9 @@ class Expense_model extends CI_Model {
 		$to_bank = $this->input->post('to_bank');
 		$cheque_no = $this->input->post('cheque_no');
 		$cheque_date = $this->input->post('cheque_date');
+
+		$bd_date = date('Y-m-d');
+		$creator = $this->tank_auth->get_user_id();
 		if($payment_mode==1)
 		{
 			$payment_info = array
@@ -200,6 +203,9 @@ class Expense_model extends CI_Model {
 	// INCOME SYSTEM curd
 	public function incomecreate($data='')
 	{
+		$bd_date = date('Y-m-d');
+		$creator = $this->tank_auth->get_user_id();
+		
 		$this->db->insert('income_info',$data);
    	 	$insert_ids=$this->db->insert_id();
    	 	$payment_mode = $this->input->post('payment_mode');

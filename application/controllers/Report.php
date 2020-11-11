@@ -64,6 +64,7 @@ class Report extends MY_controller
 		$data['cash_sale_return_opening'] = $this->report_model->cash_sale_return_opening($pre_date);
 		$data['cash_purchase_payment_opening'] = $this->report_model->cash_purchase_payment_opening($pre_date);
 		$data['cash_expense_payment_opening'] = $this->report_model->cash_expense_payment_opening($pre_date);
+		
 		$data['from_bank'] = $this->report_model->from_bank($start_date,$end_date);
 		$data['to_bank'] = $this->report_model->to_bank($start_date,$end_date);
 		$data['from_owner'] = $this->report_model->from_owner($start_date,$end_date);
@@ -85,6 +86,7 @@ class Report extends MY_controller
 		$data['bank_sale_return_opening'] = $this->report_model->bank_sale_return_opening($pre_date);
 		$data['bank_purchase_payment_opening'] = $this->report_model->bank_purchase_payment_opening($pre_date);
 		$data['bank_expense_payment_opening'] = $this->report_model->bank_expense_payment_opening($pre_date);
+		
 		$data['from_owner_bank'] = $this->report_model->from_owner_bank($start_date,$end_date);
 		$data['to_owner_bank'] = $this->report_model->to_owner_bank($start_date,$end_date);
 		$data['card_sale'] = $this->report_model->card_sale($start_date,$end_date);

@@ -859,7 +859,7 @@ class Sale extends MY_Controller
 			$flag = true;
 			$messages = '';
 			foreach ($quotationDetails->result() as $quotation) {
-				if ($quotation->stock_amount > $quotation->quotation_quantity) {
+				if ($quotation->stock_amount < $quotation->quotation_quantity) {
 					$flag = false;
 					$messages .= $quotation->product_name.', ';
 				}
@@ -894,6 +894,8 @@ class Sale extends MY_Controller
 					}
 				}
 			} else {
+				$this->sale_model->removeTempSale($currrent_temp_sale_id);
+				$this->tank_auth->unset_current_temp_sale();
 				echo json_encode(array('success' => false, 'msg' => rtrim($messages, ', ') . ' have not enough stock'));
 			}
 		}
