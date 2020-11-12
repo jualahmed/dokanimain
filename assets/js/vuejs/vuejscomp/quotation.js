@@ -1147,7 +1147,7 @@ function quotation()
 							
 							$('#search_by_product_name').focus();
 							window.open(base_url+"sale/printQuotation/" + result, '_blank');  
-							// location.reload(); 
+							location.reload(); 
 						}  
 					});
 						

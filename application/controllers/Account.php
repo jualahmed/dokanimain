@@ -11,6 +11,7 @@ class Account extends MY_controller
 		}
 		$this->load->model('bankcard_model');
 		$this->load->model('employee_model');
+		$this->load->model('customer_model');
 		$this->load->model('expense_model');
 		$this->load->model('expense_model');
 		$this->load->model('distributor_model');
@@ -165,7 +166,7 @@ class Account extends MY_controller
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
-		$data['loan_person_info'] = Customerm::all();
+		$data['loan_person_info'] = $this->customer_model->all();
 		$data['bank_info'] = $this->bankcard_model->all();
 		$data['vuejscomp'] = 'loan_transfer.js';
 		$this->__renderview('Account/loan_transfer', $data);
@@ -178,7 +179,7 @@ class Account extends MY_controller
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
-		$data['loan_person_info'] = Customerm::all();
+		$data['loan_person_info'] = $this->customer_model->all();
 		$data['vuejscomp'] = 'loan_transfer_report.js';
 		$this->__renderview('Account/loan_transfer_report', $data);
 	}
@@ -190,7 +191,7 @@ class Account extends MY_controller
 		$data['distributor_info'] = $this->distributor_model->all();
 		$data['employee_info'] = $this->employee_model->all();
 		$data['expense_type'] = $this->expense_model->typeall();
-		$data['customer'] = Customerm::all();
+		$data['customer'] = $this->customer_model->all();
 		$data['service_provider_info'] = $this->account_model->service_provider_info();
 		$data['owner_info'] = $this->account_model->owner_info();
 		$data['status'] = '';
@@ -217,7 +218,7 @@ class Account extends MY_controller
 		 * 4: Bank Transfer
 		 * 5: Owner Transfer
 		 */
-		$purpose_id = $this->input->post('purpose_id');
+		$purpose_id = $data['purpose_id'] = $this->input->post('purpose_id');
 
 		$data['user_name'] = $this->tank_auth->get_username();
 		$data['user_type'] = $this->tank_auth->get_usertype();
@@ -226,7 +227,7 @@ class Account extends MY_controller
 		$data['expense_type'] = $this->expense_model->typeall();
 		$data['service_provider_info'] = $this->account_model->service_provider_info();
 		$data['owner_info'] = $this->account_model->owner_info();
-		$data['customer'] = Customerm::all();
+		$data['customer'] = $this->customer_model->all();
 
 		if (isset($purpose_id) && !empty($purpose_id)) {
 
@@ -605,7 +606,7 @@ class Account extends MY_controller
 		$bd_date = date('Y-m-d');
 		$data['bd_date'] = $bd_date;
 		$data['user_name'] = $this->tank_auth->get_username();
-		$data['loan_person_info'] = Customerm::all();
+		$data['loan_person_info'] = $this->customer_model->all();
 
 
 		$transfer_id = $this->account_model->create_loan_transfer();

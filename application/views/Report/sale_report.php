@@ -156,11 +156,21 @@
 						<td>{{ i.username }}</td>
 						<td v-if="isinvoice==1"><a :href="base_url+'invoice/index/'+i.sid" target="_blank" class="btn btn-secondary">Print</a></td>
 					</tr>
-					<tr>
+					<tr v-if="saletype == 2">
 						<td colspan="8"></td>
 						<td><b>Total: {{ quantity }}</b></td>
 						<td class="text-right"><b>Total: {{ parseFloat(amount).toFixed(2) }}</b></td>
 						<td class="text-right"><b>Total:{{ parseFloat(samount).toFixed(2) }}</b></td>
+						<td></td>
+					</tr>
+					<tr v-else>
+						<td colspan="5" class="text-right">Total: </td>
+						<td class="text-right"><b> {{ parseFloat(total_sale).toFixed(2) }}</b></td>
+						<td class="text-right"><b> {{ parseFloat(total_discount).toFixed(2) }}</b></td>
+						<td class="text-right"><b> {{ parseFloat(total_sale_return).toFixed(2) }}</b></td>
+						<td class="text-right"><b> {{ parseFloat(total_delivery).toFixed(2) }}</b></td>
+						<td class="text-right"><b> {{ parseFloat(total_grand).toFixed(2) }}</b></td>
+						<td class="text-right"><b> {{ parseFloat(total_paid).toFixed(2) }}</b></td>
 						<td></td>
 					</tr>
 				</tbody>

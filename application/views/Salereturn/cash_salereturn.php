@@ -50,20 +50,6 @@
 							</table>
 
 							<table class="table table-bordered reduce_space">
-								<?php if ($return_type != '') { ?>
-									<tr>
-										<td style="vertical-align: middle;width: 25%;">With Invoice:</td>
-										<td>
-											<input type="checkbox" <?php echo $invoice_type == 'yes' ? 'checked' : ''; ?> class="select1" style="width: 25%;">
-										</td>
-										<td style="vertical-align: middle;width: 25%;">Without Invoice:</td>
-										<td>
-											<input type="checkbox" <?php echo $invoice_type == 'no' ? 'checked' : ''; ?> class="selectt222" style="width: 25%;">
-										</td>
-									</tr>
-								<?php
-
-								} ?>
 								<?php
 								if ($invoice_type != '' && $invoice_type != 'null') {
 								?>
@@ -102,7 +88,7 @@
 									</tr>
 								<?php
 								}
-								?>
+								?> 
 
 							</table>
 							<form action="<?php echo base_url(); ?>salereturn/list_cashsalereturn_temp_data" method="post" autocomplete="off">
@@ -282,20 +268,6 @@
 				</div>
 			</div>
 			<?php
-			if ($this->uri->segment(8) != '') {
-			?>
-				<div class="col-md-6">
-					<div class="box">
-						<div class="box-header with-border" style="background: #0f77ab;">
-							<h3 class="box-title" style="color:white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;"> Go to sale page</h3>
-						</div>
-						<div class="box-body">
-							<center><a href="<?php echo base_url(); ?>sale/new_active_sale_with_salereturn/<?php echo $this->uri->segment(9); ?>" class="total_click" style="font-size: 30px;text-decoration: none;"><i class="fa fa-mail-forward"></i> Click Here</a></center>
-						</div>
-					</div>
-				</div>
-			<?php
-			}
 			if ($return_main_product->num_rows() > 0) {
 			?>
 				<div class="col-md-6">

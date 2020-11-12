@@ -7,7 +7,7 @@ $(document).ready(function () {
   $("input[type='checkbox'].s1").click(function () {
     if ($(this).is(":checked")) {
       $(".s3").not(".s1").removeAttr("checked");
-      var submiturl = base_url + "salereturn/cash_salereturn/cash";
+      var submiturl = base_url + "salereturn/cash_salereturn/cash/yes";
 
       window.open(submiturl, "_self");
     } else {
@@ -17,39 +17,15 @@ $(document).ready(function () {
   $("input[type='checkbox'].s3").click(function () {
     if ($(this).is(":checked")) {
       $(".s1").not(".s3").removeAttr("checked");
-      var submiturl = base_url + "salereturn/cash_salereturn/productsale";
+      var submiturl = base_url + "salereturn/cash_salereturn/productsale/yes";
 
       window.open(submiturl, "_self");
     } else {
       $(".s1").removeAttr("checked");
     }
   });
-  $("input[type='checkbox'].select1").click(function () {
-    if ($(this).is(":checked")) {
-      $(".selectt222").not(".select1").removeAttr("checked");
-      var return_type = $("#return_type").val();
-      var submiturl =
-        base_url + "salereturn/cash_salereturn/" + return_type + "/yes";
 
-      window.open(submiturl, "_self");
-    } else {
-      $(".selectt222").removeAttr("checked");
-    }
-  });
-  $("input[type='checkbox'].selectt222").click(function () {
-    if ($(this).is(":checked")) {
-      $(".select1").not(".selectt222").removeAttr("checked");
-      var return_type = $("#return_type").val();
-      var submiturl =
-        base_url + "salereturn/cash_salereturn/" + return_type + "/no";
-
-      window.open(submiturl, "_self");
-    } else {
-      $(".select1").removeAttr("checked");
-    }
-  });
-
-  //$("#submit").prop("disabled", true);
+  $("#submit").prop("disabled", true);
   $("#invoice_id").on("change", function (ev) {
     ev.preventDefault();
 

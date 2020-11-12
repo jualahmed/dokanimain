@@ -112,7 +112,19 @@
 					<div class="box">
 						<div class="box-body">
 							<div class="box-header with-border">
-								<h3 class="box-title">Total Sale</h3>
+								<h3 class="box-title">Total
+									<?php
+
+									if (isset($purpose_id)) {
+										if ($purpose_id == '1') echo 'Customer Sale';
+										if ($purpose_id == '2') echo 'Expense';
+										if ($purpose_id == '3') echo 'Purchase';
+										if ($purpose_id == '4') echo 'Bank Transfer';
+										if ($purpose_id == '5') echo 'Owner Transfer';
+									}
+
+									?>
+								</h3>
 							</div>
 							<div class="wrap">
 								<table class="table">
@@ -131,21 +143,25 @@
 											<td><?php echo $var->date ?></td>
 											<td><?php echo $var->remarks ?></td>
 											<td align="right"><?php
-																
-											if ($var->transaction_purpose == 'sale' ||  
-												$var->transaction_purpose == 'purchase' ||
-												$var->transaction_purpose == 'purchase' ||
-												$var->transaction_purpose == 'from_owner' ||
-												$var->transaction_purpose == 'from_bank') {
+
+																if (
+																	$var->transaction_purpose == 'sale' ||
+																	$var->transaction_purpose == 'purchase' ||
+																	$var->transaction_purpose == 'purchase' ||
+																	$var->transaction_purpose == 'from_owner' ||
+																	$var->transaction_purpose == 'from_bank'
+																) {
 																	echo sprintf('%0.2f', $var->amount);
 																	$camount += $var->amount;
 																} ?></td>
-											<td align="right"><?php 
-											if ($var->transaction_purpose == 'collection' || 
-												$var->transaction_purpose == 'payment' ||
-												$var->transaction_purpose == 'to_bank' ||
-												$var->transaction_purpose == 'to_owner' ||
-												$var->transaction_purpose == 'expense_payment') {
+											<td align="right"><?php
+																if (
+																	$var->transaction_purpose == 'collection' ||
+																	$var->transaction_purpose == 'payment' ||
+																	$var->transaction_purpose == 'to_bank' ||
+																	$var->transaction_purpose == 'to_owner' ||
+																	$var->transaction_purpose == 'expense_payment'
+																) {
 																	echo sprintf('%0.2f', $var->amount);
 																	$damount += $var->amount;
 																} ?></td>

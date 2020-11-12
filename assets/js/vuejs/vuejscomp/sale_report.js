@@ -14,6 +14,14 @@ new Vue({
     end_date: 0,
     amount: 0,
     samount: 0,
+
+    total_sale: 0,
+    total_discount: 0,
+    total_sale_return: 0,
+    total_delivery: 0,
+    total_grand: 0,
+    total_paid: 0,
+
     company_id: 0,
     category_id: 0,
     saletype: 2,
@@ -104,16 +112,29 @@ new Vue({
                 self.quantity =
                   parseFloat(self.quantity) + parseFloat(element.sale_quantity);
             } else {
-              if (!isNaN(parseFloat(element.unit_buy_price)))
-                self.amount =
-                  parseFloat(self.amount) + parseFloat(element.grand_total);
-              if (!isNaN(parseFloat(element.actual_sale_price)))
-                self.samount =
-                  parseFloat(self.samount) + parseFloat(element.total_paid);
-              if (element.sale_quantity != null)
-                self.quantity =
-                  parseFloat(self.quantity) +
-                  parseFloat(element.sale_quantity);
+              if (!isNaN(parseFloat(element.grand_total)))
+                self.total_grand =
+                  parseFloat(self.total_grand) +
+                  parseFloat(element.grand_total);
+              if (!isNaN(parseFloat(element.total_paid)))
+                self.total_paid =
+                  parseFloat(self.total_paid) + parseFloat(element.total_paid);
+              if (element.discount_amount != null)
+                self.total_discount =
+                  parseFloat(self.total_discount) +
+                  parseFloat(element.discount_amount);
+              if (element.sale_return_amount != null)
+                self.total_sale_return =
+                  parseFloat(self.total_sale_return) +
+                  parseFloat(element.sale_return_amount);
+              if (element.delivery_charge != null)
+                self.total_delivery =
+                  parseFloat(self.total_delivery) +
+                  parseFloat(element.delivery_charge);
+                  if (element.total_price != null)
+                self.total_sale =
+                  parseFloat(self.total_sale) +
+                  parseFloat(element.total_price);
             }
           });
 

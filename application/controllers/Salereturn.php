@@ -282,7 +282,7 @@ class Salereturn extends MY_controller
 							$ii++;
 						}
 					}
-					redirect('salereturn/cash_salereturn/null/null/null/null/success/' . $return_adjustment_amount . '/' . $return_list_id);
+					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount);
 				} else {
 					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
 				}
@@ -353,7 +353,7 @@ class Salereturn extends MY_controller
 							$ii++;
 						}
 					}
-					redirect('salereturn/cash_salereturn/null/null/null/null/success/' . $return_adjustment_amount . '/' . $return_list_id);
+					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount);
 				} else {
 					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
 				}
@@ -585,7 +585,7 @@ class Salereturn extends MY_controller
 							$ii++;
 						}
 					}
-					redirect('salereturn/cash_salereturn/null/null/null/null/success');
+					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount);
 				} else {
 					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
 				}
