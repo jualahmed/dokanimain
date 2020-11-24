@@ -97,7 +97,15 @@ new Vue({
         success: function (result) {
           self.alldata = result;
           self.loding = !self.loding;
-          console.log(result);
+          self.amount = 0;
+          self.samount = 0;
+          self.quantity = 0;
+          self.total_grand = 0;
+          self.total_paid = 0;
+          self.total_discount = 0;
+          self.total_sale_return = 0;
+          self.total_delivery = 0;
+          self.total_sale = 0;
           result.forEach(function (element, index) {
             if (self.saletype == 2) {
               if (!isNaN(parseFloat(element.unit_buy_price)))
@@ -131,10 +139,9 @@ new Vue({
                 self.total_delivery =
                   parseFloat(self.total_delivery) +
                   parseFloat(element.delivery_charge);
-                  if (element.total_price != null)
+              if (element.total_price != null)
                 self.total_sale =
-                  parseFloat(self.total_sale) +
-                  parseFloat(element.total_price);
+                  parseFloat(self.total_sale) + parseFloat(element.total_price);
             }
           });
 

@@ -81,6 +81,10 @@ new Vue({
 			success: function(result) { 
 				self.alldata=result;
 				self.loding = !self.loding;
+				self.stockqty = 0;
+				self.amount = 0;
+				self.samount = 0;
+				self.mrp = 0;
 				result.forEach( function(element, index) {
 				 	self.stockqty=parseFloat(self.stockqty)+parseFloat(element.stock_amount);
 				 	self.amount=parseFloat(self.amount)+parseFloat((element.stock_amount*element.bulk_unit_buy_price));
