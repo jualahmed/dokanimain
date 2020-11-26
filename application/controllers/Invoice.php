@@ -93,6 +93,38 @@ class invoice extends CI_controller{
 	    	$data['collection_payment_info'] 	= $this->account_model->collection_payment_invoice($data['transaction_id'],$data['receipt_type']);
 			if($data['collection_payment_info'] != false)
 			{
+				$customer_id = $data['collection_payment_info']->row()->customer_id;
+				$total_due = 0;
+				$receipt_sale_total_amount = $this->account_model->receipt_sale_total_amount($customer_id)->result();
+				foreach ($receipt_sale_total_amount as $total_amount) {
+					$total_due += $total_amount->total_sale_amount;
+				}
+
+				$receipt_collection_total_amount = $this->account_model->receipt_collection_total_amount($customer_id)->result();
+				foreach ($receipt_collection_total_amount as $collection_total_amount) {
+					$total_due -= $collection_total_amount->total_collection_amount;
+				}
+
+				$receipt_delivery_total_amount = $this->account_model->receipt_delivery_total_amount($customer_id)->result();
+				foreach ($receipt_delivery_total_amount as $delivery_total_amount) {
+					$total_due += $delivery_total_amount->total_delivery_amount;
+				}
+
+				$receipt_sale_return_total_amount = $this->account_model->receipt_sale_return_total_amount($customer_id)->result();
+				foreach ($receipt_sale_return_total_amount as $sale_return_total_amount) {
+					$total_due -= $sale_return_total_amount->total_sale_return_amount;
+				}
+
+				$receipt_cash_return_total_amount = $this->account_model->receipt_cash_return_total_amount($customer_id)->result();
+				foreach ($receipt_cash_return_total_amount as $cash_return_total_amount) {
+					$total_due += $cash_return_total_amount->total_cash_return_amount;
+				}
+
+				$receipt_balance_total_amount_customer = $this->account_model->receipt_balance_total_amount_customer($customer_id)->result();
+				foreach ($receipt_balance_total_amount_customer as $receipt_balance_amount) {
+					$total_due += $receipt_balance_amount->total_balance_amount;
+				}
+				$data['due'] = $total_due;
 				$number 			= $data['collection_payment_info']->row();
 				$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->amount) . " (TK)";
 

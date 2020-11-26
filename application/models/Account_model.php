@@ -1689,7 +1689,7 @@ class Account_model extends CI_model{
 		if($receipt_type==3)
 		{
 			$data=  $this->db
-					->select('customer_info.customer_name, customer_info.customer_contact_no, customer_info.customer_address,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username,transaction_info.created_at')
+					->select('users.user_full_name, customer_info.customer_id, customer_info.customer_name, customer_info.customer_contact_no, customer_info.customer_address,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username,transaction_info.created_at')
 					->from('customer_info,transaction_info,users')
 					->where('transaction_info.ledger_id = customer_info.customer_id')
 					->where('transaction_info.creator = users.id')

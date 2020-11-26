@@ -33,7 +33,7 @@
 
 					<h4 style="margin: 0;font-weight: bold;">Invoice No. : <?php echo $invoice_id; ?></h4>
 					<p style="margin: 0px;font-size:11px;"><?php $newDate = date("d-m-Y", strtotime($row_data->invoice_doc));
-															echo $newDate; ?> | <?php $newDate1 = date("h:i A", strtotime($row_data->date_time));
+															echo $newDate; ?> | <?php $newDate1 = date("h:i A", strtotime($row_data->invoice_doc));
 																				echo $newDate1; ?> | <?php echo $row_data->user_full_name; ?></p>
 					<p style="margin: 0px;">Customer : <?php echo $row_data->customer_name; ?></p>
 				</div>
