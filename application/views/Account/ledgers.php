@@ -17,7 +17,7 @@
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-1 control-label">Purpose</label>
 								<div class="col-sm-3">
-									<select class="form-control select2 ledger input-sm" id="purpose_id" name="purpose_id" tabindex="-1" aria-hidden="true" required="on">
+									<select class="form-control select2 ledger input-sm" id="purpose_id" name="purpose_id" tabindex="-1" aria-hidden="true">
 										<option value="">Select Purpose</option>
 										<option value="1">Customer Sale</option>
 										<option value="2">Expense</option>
@@ -59,7 +59,7 @@
 
 								<label for="inputEmail3" class="col-sm-1 control-label" style="display:none;" id="type_label">Type</label>
 								<div class="col-sm-3" style="display:none;" id="type_list">
-									<select style="width:100%;" class="form-control select2 input-sm" required name="transfer_type" id="transfer_type" tabindex="-1" aria-hidden="true">
+									<select style="width:100%;" class="form-control select2 input-sm" name="transfer_type" id="transfer_type" tabindex="-1" aria-hidden="true">
 										<option value="">Select Type</option>
 										<option value="to_bank">To Bank</option>
 										<option value="from_bank">From Bank</option>
@@ -67,7 +67,7 @@
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label" style="display:none;" id="own_type_label">Type</label>
 								<div class="col-sm-3" style="display:none;" id="own_type_list">
-									<select style="width:100%;" class="form-control select2 input-sm" required name="owner_transfer_type" id="owner_transfer_type" tabindex="-1" aria-hidden="true">
+									<select style="width:100%;" class="form-control select2 input-sm" name="owner_transfer_type" id="owner_transfer_type" tabindex="-1" aria-hidden="true">
 										<option value="">Select Type</option>
 										<option value="to_owner">To Owner</option>
 										<option value="from_owner">From Owner</option>

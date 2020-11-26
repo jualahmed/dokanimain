@@ -73,7 +73,7 @@ class Purchaselisting extends MY_Controller
 		$totalprice = Purchasereceiptinfom::find($purchase_receipt_id);
 		$this->load->config('custom_config');
 		$allow_purchase_exceed = $this->config->item('allow_purchase_exceed');
-		if ($allow_purchase_exceed == 0 && ($total_unit_buy_price + $total_buy_price) > $totalprice->final_amount) {
+		if ($allow_purchase_exceed == 0 && ($total_unit_buy_price + $total_buy_price) > $totalprice->purchase_amount) {
 			echo "exceed";
 		} else {
 
