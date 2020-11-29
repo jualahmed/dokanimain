@@ -146,6 +146,8 @@
 
 																if (
 																	$var->transaction_purpose == 'sale' ||
+																	$var->transaction_purpose == 'collection' ||
+																	$var->transaction_purpose == 'credit_collection' ||
 																	$var->transaction_purpose == 'purchase' ||
 																	$var->transaction_purpose == 'purchase' ||
 																	$var->transaction_purpose == 'from_owner' ||
@@ -156,7 +158,6 @@
 																} ?></td>
 											<td align="right"><?php
 																if (
-																	$var->transaction_purpose == 'collection' ||
 																	$var->transaction_purpose == 'payment' ||
 																	$var->transaction_purpose == 'to_bank' ||
 																	$var->transaction_purpose == 'to_owner' ||

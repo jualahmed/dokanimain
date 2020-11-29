@@ -7,31 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
 	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-2.2.3.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
-	<style type="text/css">
-		table.table_1 tr td {
-			padding: 0px;
-			font-size: 12px;
-		}
-
-		.table_1 tr td:first-child {
-			border-left: 0px solid white;
-		}
-
-		.table_1 tr td:last-child {
-			border-right: 0px solid white;
-		}
-
-		table.table_2 tr td {
-			padding: 2px;
-			font-size: 12px;
-		}
-
-		@media print {
-			.quotation {
-				width: 300px !important;
-			}
-		}
-	</style>
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/posinvoice.css" type="text/css" />
 
 </head>
 
@@ -39,39 +15,29 @@
 	<?php if ($quotationDetails != FALSE) {
 		$total = 0;
 		$ind = 1; ?>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="quotation" style="border: 1px solid #c3c3c3;">
-						<div>
-							<!--img style="width: 100%" src="<?php echo base_url(); ?>images/pos_logo.JPG"-->
-						</div>
-						<div id="pos_top_header">
-							<div id="" style="margin-top: 10px;height: 80px; background: #fff;text-decoration: none;">
-								<h5 style="line-height: 13px;text-align:center;margin:0px;background: #fff;text-decoration: none;color:#000;"><?php echo $this->tank_auth->get_shopname(); ?></h5>
-								<h6 style="line-height: 12px;text-align:center;margin: 5px;background: #fff;text-decoration: none;color:#000;"><?php echo $this->tank_auth->get_shopaddress(); ?></h6>
-								<h6 style="line-height: 12px;text-align:center;margin: 5px;background: #fff;text-decoration: none;color:#000;"><?php echo $this->tank_auth->get_shopcontact(); ?></h6>
-								<h6 style="line-height: 12px;text-align:center;margin: 5px;background: #fff;text-decoration: none;color:#000;"><?php echo 'Quotation'; ?></h6>
-							</div>
-							<!-- <div id ="pos_top_header_right"></div> -->
-						</div>
-						<div>
-							<table class="table table-bordered table_1">
-								<tr>
-									<td style="width: 25%; text-align: right;">Quotation ID: </td>
-									<td style="width: 25%; text-align: center;"><?php echo $quotation->quotation_id; ?></td>
-									<td style="width: 25%; text-align: right;">Date:</td>
-									<td style="width: 25%; text-align: center;"><?php echo date('d-m-Y', strtotime($quotation->created_at)); ?></td>
-								</tr>
-								<tr>
-									<td style="width: 25%; text-align: right;">Customer: </td>
-									<td style="width: 25%; text-align: center;"><?php echo $quotation->customer_name; ?></td>
-									<td style="text-align: right;">Creator:</td>
-									<td style="text-align: center;"><?php echo $quotation->user_full_name; ?></td>
-								</tr>
-							</table>
-						</div>
-						<div>
+		<div id="main_container_body_main">
+			<div id="main_container_body_main2">
+				<div id="main_container_body">
+					<div class="text-center">
+						<?php
+						$shop_id = $this->tank_auth->get_shop_id();
+						$this->db->where('shop_id', $shop_id);
+						$shop_info = $this->db->get('shop_setup')->row();
+						?>
+						<p><img style="width: 50px;" src="<?php echo base_url(); ?>assets/img/shop/<?php echo $shop_info->logo; ?>" alt=""></p>
+						<h4 style="margin: 0;font-weight: bold"><?php echo $shop_info->shop_name; ?></h4>
+						<p style="margin: 0;font-size: 12px;"> <?php echo ($shop_info->shop_address) ?> </p>
+						<p style="font-size: 12px;font-weight: bold"> <?php echo ($shop_info->shop_contact) ?> </p>
+
+						<h4 style="margin: 0;font-weight: bold;">Quotation ID. : <?php echo $quotation->quotation_id; ?></h4>
+						<p style="margin: 0px;font-size:11px;">Date: <?php $newDate = date("d-m-Y", strtotime($quotation->created_at));
+																		echo $newDate; ?> | <?php $newDate1 = date("h:i A", strtotime($quotation->created_at));
+																							echo $newDate1; ?> | <?php echo $quotation->user_full_name; ?></p>
+						<p style="margin: 0px;">Customer : <?php echo $quotation->customer_name; ?></p>
+					</div>
+					<div id="pos_top_header_thired">
+
+						<div class="CSSTableGenerator" style="width:100%;margin:0px auto;float:left">
 
 							<table class="table table-bordered table_2">
 								<tr style="background-color: #f0f3f5;/*#00c0ef*/; color: black;/*white/*;">
@@ -125,31 +91,46 @@
 								}
 								$total = $total + $quotation->quotation_delivery_charge - $quotation->quotation_discount_amount + $quotation->quotation_vat;
 								?>
-								<tr style="background-color: #f0f3f5;">
-									<td style="text-align: right;" colspan="3">Discount: </td>
-									<td style="text-align: right;"><?php echo $quotation->quotation_discount_amount; ?></td>
-								</tr>
-								<tr style="background-color: #f0f3f5;">
-									<td style="text-align: right;" colspan="3">Delivery Charge: </td>
-									<td style="text-align: right;"><?php echo $quotation->quotation_delivery_charge; ?></td>
-								</tr>
-								<tr style="background-color: #f0f3f5;">
-									<td style="text-align: right;" colspan="3">Vat: </td>
-									<td style="text-align: right;"><?php echo $quotation->quotation_vat; ?></td>
-								</tr>
-								<tr style="background-color: #f0f3f5;">
-									<td style="text-align: right;" colspan="3">Total: </td>
-									<td style="text-align: right;"><?php echo $total; ?></td>
-								</tr>
 							</table>
 						</div>
-						<!--end table-->
-						<div style="text-align: center; border-bottom: 1px solid #c3c3c3; font-size: 12px; padding-bottom: 5%;">
-							<?php echo $app_info->product_return_expire_msg; ?>
+					</div>
+
+					<div id="pos_top_header_fourth" style="width: 100%; float: right;">
+						<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 10px;"> Total: </div>
+						<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 10px;">
+							<?php
+							echo number_format($quotation->quotation_total_price, 2);
+							?>
 						</div>
-						<div style="text-align: center; background-color:; line-height: 12px; font-size: 10px; padding: 2%, 0%; ">
-							Software Developed By:<br>IT Lab Solutions Ltd. Call: 8801842485222
+						<div class="pos_top_header_fourth_left" style="font-size: 10px"> Discount: </div>
+						<div class="pos_top_header_fourth_right" style="font-size: 10px">
+							<?php
+							echo number_format($quotation->quotation_discount_amount, 2);
+							?>
 						</div>
+						<div class="pos_top_header_fourth_left" style="font-size: 10px"> Delivery Charge: </div>
+						<div class="pos_top_header_fourth_right" style="font-size: 10px">
+							<?php
+							echo number_format($quotation->quotation_delivery_charge, 2);
+							?>
+						</div>
+						<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 12px;"> Grand Total: </div>
+						<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 12px;">
+							<?php
+							echo number_format($total, 2);
+							?>
+						</div>
+					</div>
+
+					<div class="pos_top_header_fotter" style="font-size: 12px;margin-top:5px;">
+						<p style="margin: 0;font-size: 9px;text-transform: uppercase;"><i><b><?php echo $in_word; ?> Only.</b></i></p>
+						Thank You For Shopping.
+					</div>
+					<div style="border-top: 1px solid gray; width: 100%; height: 1px; float:left;"> </div>
+
+					<div class="pos_top_header_fotter" style="background:;line-height:12px;margin-top:5px;">
+						Software Developed By:<br />
+						<b>IT Lab Solutions Ltd.</b> Call: +8801842485222
 					</div>
 				</div>
 			</div>

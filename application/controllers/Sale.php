@@ -802,8 +802,10 @@ class Sale extends MY_Controller
 		$data['creator'] 	= $this->tank_auth->get_user_full_name();
 		$data['app_info'] = $this->appInfo;
 		$quotation_id = $this->uri->segment(3);
+		$data['in_word'] = '';
 		if ($quotation_id) {
 			$data['quotation'] = $this->sale_model->fetchQuotationInfo($quotation_id);
+			$data['in_word']    = $this->numbertoword->convert_number_to_words($data['quotation']->quotation_grand_total) . " (TK)";
 			$data['quotationDetails']  	= $this->sale_model->getAllQuotationProduct($quotation_id);
 			$this->load->view(__CLASS__ . '/' . __FUNCTION__, $data);
 		} else show_404();

@@ -338,7 +338,7 @@ class Sale_model extends CI_model{
 			'quotation_discount_amount'   	=> $data['disc_amount'],
 			'quotation_delivery_charge'   	=> $data['delivery_charge'],
 			'quotation_vat'               	=> $data['vat'],
-			'quotation_grand_total'       	=> $data['grand_total'],
+			'quotation_grand_total'       	=> $data['sub_total'] - $data['disc_amount'] + $data['delivery_charge'],
 			'quotation_creator'             => $this->tank_auth->get_user_id(),
 			'quotation_valid_till'  		=> date('Y-m-d'),
 			'quotation_status' 				=> 1,

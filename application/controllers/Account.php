@@ -236,7 +236,8 @@ class Account extends MY_controller
 
 			if ($purpose_id == 1) {
 				$transactions = Transactionm::where('transaction_purpose', '=', 'sale')
-				->orWhere('transaction_purpose', '=', 'collection');
+				->orWhere('transaction_purpose', '=', 'collection')
+				->orWhere('transaction_purpose', '=', 'credit_collection');
 				if(!empty($customer_id)) {
 					$transactions = $transactions->where('ledger_id', $customer_id);
 				}
@@ -282,7 +283,6 @@ class Account extends MY_controller
 	
 			if ($transactions) {
 				$data['ledgerdata'] = $transactions->get();
-				// print_r($data['ledgerdata']);
 			}
 		}
 
