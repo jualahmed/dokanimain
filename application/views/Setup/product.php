@@ -226,9 +226,9 @@
 				<td>{{ r.barcode }}</td>
 				<td>{{ r.product_model }}</td>
 				<td>
-					<a data-toggle="modal" :product_id="r.product_id" data-target="#EditModel" class="btn edit btn-sm btn-success" ><i class="fa fa-edit"></i> Edit</a>
-					<a onclick="return confirm('Are you sure your want to delete?')" :href="base_url+'product/destroy/'+r.product_id" class="btn btn-sm btn-danger" >
-						<i class="fa fa-trash"></i> Delete
+					<a data-toggle="modal" :product_id="r.product_id" data-target="#EditModel" class="btn edit btn-sm btn-info" ><i class="fa fa-edit"></i> Edit</a>
+					<a @click.prevent="changeStatus(r)" href="" class="btn btn-sm" :class="[r.product_status == 1 ? 'btn-success' : 'btn-danger']">
+						<i class="fa fa-eye"></i> {{ r.product_status == 1 ? 'Active' : 'Inactive' }}
 					</a>
 				</td>
 			</tr>

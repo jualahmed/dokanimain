@@ -229,6 +229,15 @@ class Product extends MY_Controller
 		echo json_encode($data);
 	}
 
+	public function status($product_id)
+	{
+		$product_status = $this->input->post('product_status');
+		$data = $this->db->where('product_id', $product_id)
+			->set('product_status', $product_status == 1 ? 0 : 1)
+			->update('product_info');
+		echo json_encode($data);
+	}
+
 	public function update()
 	{
 		$jsonData = array('errors' => array(), 'success' => false, 'check' => false, 'output' => '');

@@ -13,6 +13,21 @@ var vuejsapp = new Vue({
     this.fetchProducts();
   },
   methods: {
+    changeStatus: function (product) {
+      var self = this;
+      $.ajax({
+        url: this.base_url + "product/status/" + product.product_id,
+        data: {
+          product_status: product.product_status
+        },
+        type: "POST",
+        dataType: "json",
+        success: function (result) {
+          if(result) 
+            self.fetchProducts();
+        },
+      });
+    },
     fetchProducts: function () {
       var self = this;
       this.result = [];

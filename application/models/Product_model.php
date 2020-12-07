@@ -67,7 +67,7 @@ class Product_model extends CI_model
 				FROM bulk_stock_info
 				) bulk_stock_info 
 			ON bulk_stock_info.pid = product_info.product_id 
-			WHERE (`product_name` RLIKE ' +$query') OR `product_name` LIKE '$query%' LIMIT 30;")->result();
+			WHERE ((`product_name` RLIKE ' +$query') OR `product_name` LIKE '$query%') AND product_status = 1 LIMIT 30;")->result();
 		}
 		$products = $this->db->select('product_id')
 			->from('sale_details')

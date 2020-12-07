@@ -209,30 +209,6 @@ const vm = new Vue({
         flag = false;
         this.errors.total_tp_after_vat = "required";
       }
-      if (
-        this.unit_buy_price_purchase == "" ||
-        isNaN(this.unit_buy_price_purchase) ||
-        parseInt(this.unit_buy_price_purchase) == 0
-      ) {
-        flag = false;
-        this.errors.unit_buy_price_purchase = "required";
-      }
-      if (
-        this.exclusive_sale_price == "" ||
-        isNaN(this.exclusive_sale_price) ||
-        parseInt(this.exclusive_sale_price) == 0
-      ) {
-        flag = false;
-        this.errors.exclusive_sale_price = "required";
-      }
-      if (
-        this.general_sale_price == "" ||
-        isNaN(this.general_sale_price) ||
-        parseInt(this.general_sale_price) == 0
-      ) {
-        flag = false;
-        this.errors.general_sale_price = "required";
-      }
 
       if (flag) {
         this.errors = {};

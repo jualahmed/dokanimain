@@ -209,7 +209,7 @@ class Account extends MY_controller
 		$type_id = $this->input->post('type_id');
 		$transfer_type = $this->input->post('transfer_type');
 		$owner_transfer_type = $this->input->post('owner_transfer_type');
-		
+
 
 
 		/**
@@ -230,31 +230,38 @@ class Account extends MY_controller
 		$data['owner_info'] = $this->account_model->owner_info();
 		$data['customer'] = $this->customer_model->all();
 
-		
+
 
 		if (isset($purpose_id) && !empty($purpose_id)) {
 
 			if ($purpose_id == 1) {
-				$transactions = Transactionm::where('transaction_purpose', '=', 'sale')
-				->orWhere('transaction_purpose', '=', 'collection')
-				->orWhere('transaction_purpose', '=', 'credit_collection');
-				if(!empty($customer_id)) {
+				$transactions = Transactionm::where(function ($query) {
+					$query->where('transaction_purpose', '=', 'sale')
+						->orWhere('transaction_purpose', '=', 'collection')
+						->orWhere('transaction_purpose', '=', 'credit_collection');
+				});
+				if (!empty($customer_id)) {
 					$transactions = $transactions->where('ledger_id', $customer_id);
 				}
 			}
 
 			if ($purpose_id == 2) {
-				$transactions = Transactionm::where('transaction_purpose', '=', 'expense')
-				->orWhere('transaction_purpose', '=', 'expense_payment');
-				if(!empty($type_id)) {
+				$transactions = Transactionm::where(function ($query) {
+					$query->where('transaction_purpose', '=', 'expense')
+						->orWhere('transaction_purpose', '=', 'expense_payment');
+				});
+				if (!empty($type_id)) {
 					$transactions = $transactions->where('ledger_id', $type_id);
 				}
 			}
 
 			if ($purpose_id == 3) {
-				$transactions = Transactionm::where('transaction_purpose', '=', 'purchase')
-				->orWhere('transaction_purpose', '=', 'payment');
-				if(!empty($distributor_id)) {
+				$transactions = Transactionm::where(function ($query) {
+					$query->where('transaction_purpose', '=', 'purchase')
+						->orWhere('transaction_purpose', '=', 'payment');
+				});
+
+				if (!empty($distributor_id)) {
 					$transactions = $transactions->where('ledger_id', $distributor_id);
 				}
 			}
@@ -273,14 +280,19 @@ class Account extends MY_controller
 				}
 			}
 
-			if (!empty($start)) {
-				$transactions = $transactions->where('date', '>=', $start);
+			if (!empty($start) && empty($end)) {
+				print_r($start);
+				$transactions = $transactions->whereDate('date', '>=', $start);
 			}
-	
-			if (!empty($end)) {
-				$transactions = $transactions->where('date', '<=', $end);
+
+			if (!empty($end) && empty($start)) {
+				$transactions = $transactions->whereDate('date', '<=', $end);
 			}
-	
+
+			if (!empty($end) && !empty($start)) {
+				$transactions = $transactions->whereBetween('date', [$start, $end]);
+			}
+
 			if ($transactions) {
 				$data['ledgerdata'] = $transactions->get();
 			}
