@@ -50,7 +50,8 @@ new Vue({
         this.countries = [];
         var self = this;
         this.xhr = $.ajax({
-          url: this.base_url + "product/query/" + query + "/" + invoice_id,
+          url: this.base_url + "product/query/" + invoice_id,
+          data: { query: query },
           beforeSend: function () {
             if (self.xhr != "ToCancelPrevReq" && self.xhr.readyState < 4) {
               self.xhr.abort();

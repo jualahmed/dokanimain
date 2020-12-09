@@ -24,8 +24,9 @@ class Product extends MY_Controller
 		}
 	}
 
-	public function query($product_name = '', $invoice_id = '')
+	public function query($invoice_id = '')
 	{
+		$product_name = $this->input->post('query');
 		$data = $this->product_model->search($product_name, $invoice_id);
 		echo json_encode($data);
 	}
