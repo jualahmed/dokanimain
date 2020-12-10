@@ -308,19 +308,19 @@ $tp_price_vat_purchase = $this->config->item('tp_price_vat_purchase');
 									<tr>
 										<td style="vertical-align: middle;">Unit Buy Price: </td>
 										<td>
-											<input type="text" class="form-control" id="u_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+											<input type="text" class="form-control" id="u_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" readonly="true" autocomplete="off">
 										</td>
 									</tr>
 									<tr>
 										<td style="vertical-align: middle;"> General Sale Price: </td>
 										<td>
-											<input type="text" class="form-control" id="g_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+											<input type="text" class="form-control" id="g_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" readonly="true" autocomplete="off">
 										</td>
 									</tr>
 									<tr>
 										<td style="vertical-align: middle;">Exclusive Sale Price: </td>
 										<td>
-											<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" required="on" autocomplete="off">
+											<input type="text" class="form-control" id="e_b_p" name="u_b_p" style="text-align: right;" placeholder="Ex: 10" readonly="true" autocomplete="off">
 										</td>
 									</tr>
 								</table>

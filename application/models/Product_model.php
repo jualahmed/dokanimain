@@ -1396,6 +1396,7 @@ class Product_model extends CI_model
 	public function removeProductFromPurchase_warranty($purchase_receipt_id, $ip_id, $unit_buy_price, $product_id)
 	{
 
+		$shop_id 		= $this->tank_auth->get_shop_id();
 		$this->db->where('ip_id', $ip_id)
 			->delete('warranty_product_list');
 

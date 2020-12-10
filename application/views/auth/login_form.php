@@ -116,6 +116,10 @@
 					is Powered by
 					<a target="blank" style="color:#0F4A80; text-decoration:none;" href="http://www.itlabsolutions.com">IT Lab Solutions Ltd.</a>
 				</p>
+				<p style="text-align: center;font-size: 12px; font-weight: bolder;">
+				<?php $appInfo = $this->db->select('*')->from('apps_info')->get()->row(); ?>
+				<?php echo $appInfo->version_name; ?>
+				</p>
 			</div>
 		</div>
 	</div>

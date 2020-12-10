@@ -234,7 +234,8 @@ const vm = new Vue({
             if (re == "exceed") {
               alert("Purchase Priced Exceed Not Allow");
             } else {
-              self.totalqty = parseInt(self.totalqty) + parseInt(self.total_unit);
+              self.totalqty =
+                parseInt(self.totalqty) + parseInt(self.total_unit);
               self.tunit_buy_price =
                 parseFloat(self.tunit_buy_price) +
                 parseFloat(self.total_tp_after_vat);
@@ -493,28 +494,30 @@ function calculate(value) {
 
 // old js will delete soon
 $(function () {
-  $("#pro_serial_input_for_edit").on("click", "[name='edit_warran']", function (
-    ev
-  ) {
-    ev.preventDefault();
-    var ip_id = $(this).attr("id");
-    var product_type_name = $("#product_type" + ip_id).val();
-    var submiturl = base_url + "purchase/update_product_warranty";
-    var methods = "POST";
-    var output = "";
-    var input_box = "";
-    var k = 1;
-    $.ajax({
-      url: submiturl,
-      type: methods,
-      dataType: "JSON",
-      data: { ip_id: ip_id, product_type_name: product_type_name },
-      success: function (result) {
-        swal("Updated!", "Product has been updated.", "success");
-        $("#product_type" + ip_id).val(result.sl_no);
-      },
-    });
-  });
+  $("#pro_serial_input_for_edit").on(
+    "click",
+    "[name='edit_warran']",
+    function (ev) {
+      ev.preventDefault();
+      var ip_id = $(this).attr("id");
+      var product_type_name = $("#product_type" + ip_id).val();
+      var submiturl = base_url + "purchase/update_product_warranty";
+      var methods = "POST";
+      var output = "";
+      var input_box = "";
+      var k = 1;
+      $.ajax({
+        url: submiturl,
+        type: methods,
+        dataType: "JSON",
+        data: { ip_id: ip_id, product_type_name: product_type_name },
+        success: function (result) {
+          swal("Updated!", "Product has been updated.", "success");
+          $("#product_type" + ip_id).val(result.sl_no);
+        },
+      });
+    }
+  );
 
   $("#pro_serial_input_for_edit").on(
     "click",
@@ -858,17 +861,7 @@ $(document).ready(function () {
     ev.preventDefault();
     var qty = $("#qty").val();
     var purchase_id = $("#purchase_id").val();
-    var unit_buy_price = $("#u_b_p").val();
-    var general_unit_sale_price = $("#g_b_p").val();
-    var bulk_unit_sale_price = $("#e_b_p").val();
-    if (
-      qty != "" &&
-      qty > 0 &&
-      !isNaN(qty) &&
-      unit_buy_price != "" &&
-      unit_buy_price > 0 &&
-      !isNaN(unit_buy_price)
-    ) {
+    if (qty != "" && qty > 0 && !isNaN(qty)) {
       swal({
         title: "Are you sure?",
         text: ":)",
@@ -886,22 +879,22 @@ $(document).ready(function () {
             data: {
               purchase_id: purchase_id,
               qty: qty,
-              u_b_p: unit_buy_price,
-              e_b_p: bulk_unit_sale_price,
-              g_b_p: general_unit_sale_price,
             },
             success: function (info) {
-              vm.updatepurchase_info();
-              console.log(info);
-              $("#edit_modal_form").trigger("reset");
-              $("#edit_modal").modal("hide");
-              var total_final = 0.0;
-              $(".total_purchase_price_final").each(function () {
-                total_final += parseFloat($(this).text());
-              });
-              $("#total_purchase_price_new_final").html(total_final);
+              if (info == "success") {
+                vm.updatepurchase_info();
+                $("#edit_modal_form").trigger("reset");
+                $("#edit_modal").modal("hide");
+                var total_final = 0.0;
+                $(".total_purchase_price_final").each(function () {
+                  total_final += parseFloat($(this).text());
+                });
+                $("#total_purchase_price_new_final").html(total_final);
 
-              swal("Edited!", "Data has been edited.", "success");
+                swal("Edited!", "Data has been edited.", "success");
+              } else {
+                swal("Oops!", info, "error");
+              }
             },
           });
         },
