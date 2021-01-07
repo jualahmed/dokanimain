@@ -138,7 +138,7 @@ class Report_model extends CI_model{
 		if($data['end_date'] != '') { 
 			$this->db->where('quotation_info.created_at <= "'. $data['end_date'] . ' 23:59:59"');
 		}
-		$this->db->order_by('quotation_info.quotation_id','asc'); 
+		$this->db->where('quotation_info.quotation_status', 1)->order_by('quotation_info.quotation_id','asc'); 
 		$query = $this->db->get('quotation_info')->result();
 		return $query;
 	}

@@ -34,19 +34,11 @@ class Sale_model extends CI_model{
         $data = array(
             'shop_id'     => $current_shop,
             'quotation_creator'     => $current_user,
-            'quotation_status'      => 0,
+			'quotation_status'      => 0,
+			'created_at' => date('Y-m-d H:i:s')
         );
-        $sql = $this->db
-            ->select('quotation_id')
-            ->where('quotation_creator', $current_user)
-            ->where('shop_id', $current_shop)
-            ->get('quotation_info');
-        if($sql->num_rows() < 14)
-        {
-            $this ->db->insert('quotation_info', $data);
-            return $this->db->insert_id();
-        }
-        else return false;
+        $this ->db->insert('quotation_info', $data);
+		return $this->db->insert_id();
 	}
 	
 	public function createNewSaleFromQuotation($current_user, $current_shop)
@@ -406,10 +398,7 @@ class Sale_model extends CI_model{
 	{
 		if($quotation_id != '') {
 			$this->db->where('quotation_id', $quotation_id);
-			$this->db->delete('quotation_details_info');
-
-			$this->db->where('quotation_id', $quotation_id);
-			return $this->db->delete('quotation_info');
+			return $this->db->update('quotation_info', array('quotation_status' => 0));
 		}
 	}
 

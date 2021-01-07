@@ -61,13 +61,13 @@ class Product_model extends CI_model
 	public function search($query = '', $invoice_id = '')
 	{
 		if (empty($invoice_id)) {
-			return $this->db->query("SELECT * FROM product_info 
-			LEFT JOIN (
-				SELECT bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.last_buy_price,bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.product_id as pid 
-				FROM bulk_stock_info
-				) bulk_stock_info 
-			ON bulk_stock_info.pid = product_info.product_id 
-			WHERE ((`product_name` RLIKE ' +$query') OR `product_name` LIKE '$query%') AND product_status = 1 LIMIT 30;")->result();
+			return $this->db->select('product_info.*, bulk_stock_info.bulk_unit_buy_price,bulk_stock_info.general_unit_sale_price,bulk_stock_info.bulk_unit_sale_price,bulk_stock_info.product_id as pid')
+				->from('product_info')
+				->join('bulk_stock_info', 'bulk_stock_info.product_id = product_info.product_id', 'left')
+				->where("`product_name` RLIKE ' +$query' OR `product_name` LIKE '$query%'")
+				->limit(45)
+				->get()
+				->result();
 		}
 		$products = $this->db->select('product_id')
 			->from('sale_details')

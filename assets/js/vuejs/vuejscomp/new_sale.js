@@ -432,15 +432,17 @@ jQuery(document).ready(function ($) {
           var total = tmp_amount + vat;
           $("#sub_total").val(tmp_amount);
           $("#vat").val(vat);
-          $("#total").val(total);
           $("#number_of_products").val();
 
           if (return_adjust != "" && !isNaN(return_adjust)) {
             return_adjust = parseFloat(return_adjust);
+            total -= return_adjust;
             var pybl = total - return_adjust;
             if (pybl > 0) $("#payable").val(pybl);
             else $("#payable").val(0);
           }
+
+          $("#total").val(total);
           $.ajax({
             url: base_url + "sale/addProductToSale",
             type: "POST",
@@ -567,6 +569,7 @@ $(function () {
 
     if (re_ajd != 0) {
       var pybl = tmp - re_ajd;
+      tmp -= re_ajd;
       pybl = parseFloat(pybl).toFixed(2);
 
       $("#return_adjust").val(re_ajd);
