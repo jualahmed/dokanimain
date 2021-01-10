@@ -12,11 +12,16 @@
 	<script>
 		window.print();
 	</script>
+	<style>
+		.full {
+			width: 100% !important;
+		}
+	</style>
 </head>
 
 <body>
 	<div id="main_container_body_main">
-		<div id="main_container_body_main2">
+		<div id="main_container_body_main2 <?php echo isset($shop_info->invoice_type) && $shop_info->invoice_type != 0 ? 'full' : ''?>">
 			<div id="main_container_body">
 				<div class="text-center">
 					<?php

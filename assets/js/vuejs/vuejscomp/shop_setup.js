@@ -11,6 +11,7 @@ jQuery(document).ready(function($) {
             success: function (res){
             	$("#shop_name").val(res.shop_name);
             	$("#shop_id").val(res.shop_id);
+            	$("#invoice_type").val(res.invoice_type);
             	$("#shop_contact").val(res.shop_contact);
             	$("#shop_address").val(res.shop_address);
             }

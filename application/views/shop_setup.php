@@ -67,6 +67,7 @@
 			<tr>
 				<th>Logo</th>
 				<th>Invoice logo</th>
+				<th>Invoice Type</th>
 				<th>Shop Name</th>
 				<th>Shop Address</th>
 				<th>Shop Contact</th>
@@ -88,6 +89,7 @@
 							<img src="<?php echo base_url().'assets/img/top_logo2.png' ?>" width="100px">
 						<?php endif ?>
 					</td>
+					<td><?php echo $var->invoice_type == 0 ? 'Pos' : ($var->invoice_type == 1 ? 'A5' : 'A4')  ?></td>
 					<td><?php echo $var->shop_name ?></td>
 					<td><?php echo $var->shop_address ?></td>
 					<td><?php echo $var->shop_contact ?></td>
@@ -145,6 +147,15 @@
 				<div class="form-group">
 					<label>Invoice logo</label>
 					<input type="file" placeholder="logo" id="invoicelogo" class="form-control" name="invoicelogo">
+				</div>
+				<div class="form-group">
+					<label>Invoice Type</label>
+					<select class="form-control" name="invoice_type" id="invoice_type">
+							<option value="">Select ...</option>
+							<option value="0">Pos</option>
+							<option value="1">A5</option>
+							<option value="2">A4</option>
+					</select>
 				</div>
 			</div>
 	      </div>

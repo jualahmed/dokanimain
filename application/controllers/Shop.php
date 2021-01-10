@@ -109,6 +109,7 @@ class Shop extends MY_Controller {
 	      $jsonData['check'] = true;
 	      $data = array(
 	        'shop_name' => $this->input->post('shop_name'),
+	        'invoice_type' => $this->input->post('invoice_type'),
 	        'shop_contact' => $this->input->post('shop_contact'),
 	        'shop_address' => $this->input->post('shop_address')
 	      );
