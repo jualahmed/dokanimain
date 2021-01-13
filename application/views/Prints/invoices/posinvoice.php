@@ -174,7 +174,7 @@
 				</div>
 				<div style="border-top: 1px solid gray; width: 100%; height: 1px; float:left;"> </div>
 
-				<div class="pos_top_header_fotter" style="background:;line-height:12px;margin-top:5px;">
+				<div class="pos_top_header_fotter" style="line-height:12px;margin-top:5px;">
 					Software Developed By:<br />
 					<b>IT Lab Solutions Ltd.</b> Call: +8801842485222
 				</div>

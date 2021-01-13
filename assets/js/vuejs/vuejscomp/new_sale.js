@@ -149,6 +149,7 @@ jQuery(document).ready(function ($) {
       $("#pro_name").val(item.label);
       $("#temp_pro_data").val(item.temp_pro_data);
       $("#temp_pro_id").val(item.id);
+      $("#search_by_product_name").val(item.label);
       $("#product_specification").val(item.product_specification);
       $("#temp_pro_qty").val(item.stock);
     }
@@ -199,6 +200,7 @@ jQuery(document).ready(function ($) {
       swal("Oops...!", "Please select a sale!", "info");
     }
     var value = $(this).val();
+    var barcode = $("#search_by_product_name").val();
     if (is_sale_active) {
       $("#search_by_warran_product_model").autocomplete({
         source: function (request, response) {

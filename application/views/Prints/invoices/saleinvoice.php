@@ -1,241 +1,285 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
 	<title> Dokani : IT Lab Solutions </title>
-	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" type="text/css"/>
-	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/printstyle.css" type="text/css"/>
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/printstyle.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/posinvoice.css" type="text/css" />
+	<style>
+		.CSSTableGenerator td {
+			font-size: 14px !important;
+		}
+
+		.CSSTableGenerator table tr:first-child {
+			border-bottom: 1px solid #ddd;
+		}
+
+		#pos_top_header_fourth {
+			font-size: 13px;
+		}
+
+		.table td,
+		.table th {
+			padding: 5px 8px !important;
+			line-height: 1.42857143;
+			font-size: 13px !important;
+			vertical-align: middle;
+		}
+
+		.header {
+			position: fixed;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		.header,
+		.header-space {
+			height: 267px;
+			width: 100%;
+		}
+
+		.footer,
+		.footer-space {
+			height: 75px;
+			width: 100%;
+		}
+
+		.footer {
+			position: fixed;
+			bottom: 30px;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		.footer-top {
+			display: flex;
+			justify-content: space-between;
+		}
+		.footer-top p{
+			margin: 0;
+		}
+
+		.bb-dashed {
+			border-bottom: 1px dashed;
+		}
+	</style>
 </head>
 </head>
-	<?php 
-		$this->load->config('custom_config'); 
-		$pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
-	?>
-	<body > 
-	 	<div id ="main_invoice">
-			<div id = "invoice">
-				<div class="text-center">			
-						<div> <b><?php echo $this->tank_auth->get_shopname(); ?></b>  </div>
-						<div> <?php echo $this->tank_auth->get_shopaddress(); ?></div>	
-						<div> <b>Contact: <?php echo $this->tank_auth->get_shopcontact(); ?></b> </div>
-						<?php
-							$shop_id=$this->tank_auth->get_shop_id();
-							$this->db->where('shop_id',$shop_id);
-							$shop_info=$this->db->get('shop_setup')->row();
-						?>
-						<?php if (isset($shop_info->invoicelogo)): ?>
-							<img style="width: 20%;" src="<?php echo base_url();?>assets/img/shop/<?php echo $shop_info->invoicelogo ?>">
-						<?php else: ?>
-							<img style="width: 50%;height: 100px" src="<?php echo base_url();?>assets/img/top_logo2.png">
-						<?php endif ?> 
-						<div> Invoice # <?php echo $invoice_id; ?></div>
-				</div> <!--end of shop_title_box-->
-				<?php $row_data = $sale_info->row(); ?>
-				<table class="table table-bordered margin-b-0">	
+<?php
+$this->load->config('custom_config');
+$pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
+?>
+<?php $row_data = $sale_info->row(); ?>
+
+<body>
+	<div id="main_invoice" style="width: 100%;">
+		<div id="invoice">
+			<table style="width: 100%;">
+				<thead>
 					<tr>
-						<td >Customer Name: <?php echo $row_data->customer_name; ?></td>
-						<td >Customer ID: <?php echo $row_data->customer_id; ?></td>	
+						<td class="header-space">
+
+						</td>
 					</tr>
+				</thead>
+				<tbody>
 					<tr>
-						
-						<td >Address: <?php echo $row_data->customer_address; ?></td>
-						<td >Contact: <?php echo $row_data->customer_contact_no; ?></td>
-					</tr>			
-					<tr>
-						<td >Date: <?php echo $row_data->invoice_doc; ?> </td>
-						<td >Creator: <?php echo $row_data->username;?> </td>
-					</tr>
-				</table>	
-				<?php
-					if($sale_info -> num_rows() > 0) 
-					{
-				?>
-					<table class="table table-bordered margin-b-0">	
-						<tr>
-							<th >SL</th>
-							<th >Product Name</th>
-							<th style="text-align:center;" >Qty </th>
-							<th style="text-align:right;">MRP</th>
-	                        <th style="text-align:right;">Ex-Price</th>
-							<th style="text-align:right;">Total</th>
-						</tr>
-						<?php
-							$i = 1;
-							$j = 1;
-							$save1 = 0;
-							
-							foreach ($sale_info -> result() as $field):
-						?>
-						<tr>
-							<td style="width:4%;">
-								<?php 
-									echo $i;
-								?>
-							</td>
-							<td style="text-align:left;">
+						<td>
+							<div id="pos_top_header_thired" style="margin-bottom: 20px;">
 								<?php
-									
-									if(isset($sale_warranty_info[$j]) && $field->product_specification == 2)
-									{
-										echo '<p style="font-family:arial;font-size:12px;font-weight:normal;">'.$field->product_name.'<span> (Warranty: '.$field->product_warranty.' Month)<span></p>';
-										foreach($sale_warranty_info[$j]  as $filed2)
-										{
-											echo '<span style="font-family:arial;font-size:12px;font-weight:normal;">'.$filed2->sl_no .'</span>  '.',  ';
-										}
-										$j++;
-									}
-									else
-									{
-										echo '<p style="font-family:arial;font-size:12px;font-weight:normal;">'.$field->product_name.'</p>';
-									}
+								if ($sale_info->num_rows() > 0) {
 								?>
-							</td>
-							<td style="width:12%;text-align:center;">
-								<?php 
-									echo $field->sale_quantity;
-								?>
-							</td>
-							<td style="width:15%;text-align:right;">
-								<?php 
-									echo sprintf('%0.2f',$field->unit_sale_price);
-											
-								?> 
-							</td>
-	                        <td style="width:15%;text-align:right;">
-								<?php 
-									echo sprintf('%0.2f',$field->actual_sale_price);
-									
-									$save1 = $save1 + (round($field->unit_sale_price, 2)*$field ->sale_quantity - 
-											round($field->actual_sale_price, 2)*$field ->sale_quantity );
-											
-								?> 
-							</td>
-							
-							<td style="width:15%;text-align:right;border-right:0px solid black;">
-								<?php 
-									echo sprintf('%0.2f',$field->sale_quantity * $field->actual_sale_price);
-								?> 
-							</td>
-						</tr>
-						<?php
-							$i++;
-							endforeach;
-						?>	
-						
-					</table>	
-				<?php  
-					}
-				?>
-				<div id = "transaction_details">
-					<div class="rows">
-						<div class="text-center w-50">
-							<br><br>
-							<div> <b>Receiver Signature</b>	</div>
-							<hr class="p-0 m-1">
-						</div>
-						<div class="w-50">
-							<div class="mr-0">
-								<table class="table table-bordered">
-									<tr>
-										<td>Total MRP :</td>
-										<td><?php if($save1 > 0){echo sprintf('%0.2f',$final_total = $save1+$row_data->total_price);}else{ echo sprintf('%0.2f',$final_total = $row_data->total_price); } ?></td>
-									</tr>
-									<?php if($row_data->sale_return_amount > 0){ ?>
-										<tr>
-											<td> Sale Return </td>
-											<td> <?php echo sprintf('%0.2f', $row_data->sale_return_amount);?></td>
-										</tr>
-									<?php } ?>
-									<tr>
-										<td> Exclusive Discount </td>
-										<td class ="pos_top_header_fourth_right"> 
-											<?php 
-											if($save1 > 0)
-											{
-												echo sprintf('%0.2f',$save1);
-											}
-											else{
-												echo '0.00';
-											}
-										?>
-										</td>
-									</tr>
-									<tr>
-										<td> Special Discount </td>
-										<td> <?php echo sprintf('%0.2f',$row_data->discount_amount); ?></td>
-									</tr>
-									<tr>
-										<td> Delivery Charge </td>
-										<td> <?php echo sprintf('%0.2f',$row_data->delivery_charge); ?></td>
-									</tr>
-									<?php 
-										$sale_return = $row_data->sale_return_amount;
-										$total_price = $row_data->total_price;
-										$delivery_charge = $row_data->delivery_charge;
-									?>
-									<?php 
-									if($sale_return > 0)
-									{ 
-									?>
-									<tr>
-										<td> Grand Total </td>
-										<td> <?php echo sprintf('%0.2f',$row_data->total_price - $sale_return - $row_data->discount_amount + $delivery_charge);?></td>
-									</tr>
-									<tr>
-										<td> Paid </td>
-										<?php $total_paid = $row_data->total_price - $sale_return; ?>
-										<td> <?php echo sprintf('%0.2f',$row_data->total_paid); ?></td>
-									</tr>
-									<?php 
-									} 
-									else 
-									{
-									?>
-									<tr>
-										<td> Grand Total </td>
-										<td> <?php echo sprintf('%0.2f',$row_data->grand_total + $delivery_charge); ?></td>
-									</tr>
-									<tr>
-										<td> Paid </td>
-										<?php $total_paid = $row_data->total_paid; ?>
-										<td> <?php echo sprintf('%0.2f',$total_paid); ?></td>
-									</tr>
-									<?php 
-									} 
-									?>
-									<tr>
-										<td> Return </td>
-										<td>
-											<?php 
-												if($row_data->return_money!=0)
-												{
-													echo $row_data->return_money - $delivery_charge; 
-												}
-												else{
-													echo $row_data->return_money; 
-												}
+									<div class="CSSTableGenerator" style="width:100%;margin:0px auto;float:left">
+										<table>
+											<tr>
+												<td>SN</td>
+												<td style="text-align: left;">Product Name</td>
+												<td>Qty </td>
+												<td style="text-align: right;">Price</td>
+												<td style="text-align: right;">Total</td>
+											</tr>
+											<?php
+											$save1 = 0;
+											$totalMrp = 0;
+											$totalUnitSalePrice = 0;
+											$totalActualSalePrice = 0;
+											foreach ($sale_info->result() as $key => $field) :
+												$general_sale_price = $field->general_sale_price;
+												$sale_quantity = $field->sale_quantity;
+												$unit_sale_price = $field->unit_sale_price;
+												$actual_sale_price = $field->actual_sale_price;
+
+												$totalMrp += ($general_sale_price * $sale_quantity);
+												$totalUnitSalePrice += ($unit_sale_price * $sale_quantity);
+												$totalActualSalePrice += ($actual_sale_price * $sale_quantity);
 											?>
-										</td>
-									</tr>
-									<tr>
-										<?php if($row_data->grand_total > $row_data->total_paid){ ?>
-										<td> Due </td>
-										<td> <?php echo sprintf('%0.2f', $row_data->grand_total + $delivery_charge - $row_data->total_paid); ?></td>
-										<?php } ?>
-									</tr>
-								</table>
+												<tr>
+													<td style="width:2%"> #<?php echo $key + 1; ?> </td>
+													<td style="text-align:left;">
+
+														<?php
+
+														if ($sale_warranty_info != '') {
+															echo '<p style="min-height:13px;font-size:15px;font-weight:bold;margin:0px;">' . $field->product_name . '</p>';
+															//echo 'SN ';
+															foreach ($sale_warranty_info->result() as $filed2) {
+																if ($field->product_id == $filed2->product_id) {
+																	echo $filed2->sl_no . '  ' . '  ';
+																}
+															}
+														} else {
+															echo '<p style="min-height:13px;font-size:15px;font-weight:bold;margin:0px;">' . $field->product_name . '</p>';
+														}
+														?>
+													</td>
+													<td style="width:10%;">
+														<?php
+														echo $sale_quantity;
+														?>
+													</td>
+													<td style="width:10%;text-align:right;">
+														<?php
+														echo number_format($field->unit_sale_price, 2);
+														?>
+													</td>
+
+													<td style="width:12%;text-align:right;border-right:0px solid black;">
+														<?php
+														echo number_format(($field->sale_quantity * $field->unit_sale_price), 2);
+														?>
+													</td>
+												</tr>
+											<?php
+											endforeach;
+											?>
+										</table>
+									</div>
+								<?php
+								}
+								?>
 							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 text-center">
-							<p><b><?php echo $in_word; ?> Taka Only.</b></b></p>
-							<div> Thank You For Being With Us.</div>
-							<hr class="p-0 m-1">
-							<div>Software Developed By: <b>IT Lab Solutions Ltd.</b> Call: +8801842485222</div>
-						</div>
-					</div>
-				</div> <!--end of invoice-->
-			</div>
+							<div id="pos_top_header_fourth" style="width: 100%; float: right;">
+								<div class="pos_top_header_fourth_left"> Total Price </div>
+								<div class="pos_top_header_fourth_right">
+									<?php
+									echo number_format($totalUnitSalePrice, 2);
+									?>
+								</div>
+								<?php if ($row_data->sale_return_amount > 0) { ?>
+									<div class="pos_top_header_fourth_left"> Sale Return</div>
+									<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->sale_return_amount, 2); ?></div>
+								<?php } ?>
+								<!-- <div class ="pos_top_header_fourth_left"> Shop Discount</div>
+							<div class ="pos_top_header_fourth_right"> <?php echo number_format($totalMrp - $totalUnitSalePrice, 2); ?></div> -->
+								<?php
+								if ($row_data->discount_amount > 0) { ?>
+									<div class="pos_top_header_fourth_left"> Discount </div>
+									<div class="pos_top_header_fourth_right"> <?php echo number_format(($totalUnitSalePrice - $totalActualSalePrice), 2); ?></div>
+								<?php }
+								?>
+
+								<?php
+								$sale_return = $row_data->sale_return_amount;
+								$total_price = $row_data->total_price;
+								?>
+								<?php
+								if ($sale_return > 0) {
+								?>
+									<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 16px;"> Grand Total</div>
+									<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 16px;"> <?php echo number_format($row_data->total_price - $sale_return - $row_data->discount_amount, 2); ?></div>
+									<div class="pos_top_header_fourth_left"> Paid </div>
+									<?php $total_paid = $row_data->total_price - $sale_return; ?>
+									<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_paid, 2); ?></div>
+								<?php
+								} else {
+								?>
+									<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 16px;"> Grand Total </div>
+									<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 16px;"> <?php echo number_format($row_data->grand_total, 2); ?></div>
+									<div class="pos_top_header_fourth_left"> Received </div>
+									<?php $total_paid = $row_data->total_paid; ?>
+									<div class="pos_top_header_fourth_right"> <?php echo number_format($total_paid, 2); ?></div>
+								<?php
+								}
+								?>
+
+								<div class="pos_top_header_fourth_left"> Returned </div>
+								<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->return_money, 2); ?></div>
+								<?php if ($row_data->grand_total > $row_data->total_paid) { ?>
+									<div class="pos_top_header_fourth_left"> Due </div>
+									<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->grand_total - $row_data->total_paid, 2); ?></div>
+								<?php } ?>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td class="footer-space">
+
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+
+
+
+
+			<header class="header">
+				<div class="text-center" style="margin-bottom: 20px;">
+					<?php
+					$shop_id = $this->tank_auth->get_shop_id();
+					$this->db->where('shop_id', $shop_id);
+					$shop_info = $this->db->get('shop_setup')->row();
+					?>
+
+
+					<p><img style="width: 50px;" src="<?php echo base_url(); ?>assets/img/shop/<?php echo $shop_info->logo; ?>" alt=""></p>
+					<h4 style="margin: 0;font-weight: bold"><?php echo $shop_info->shop_name; ?></h4>
+					<p style="margin: 0;font-size: 12px;"> <?php echo ($shop_info->shop_address) ?> </p>
+					<p style="font-size: 12px;font-weight: bold"> <?php echo ($shop_info->shop_contact) ?> </p>
+
+					<h4 style="margin: 0;font-weight: bold;">Invoice No. : <?php echo $invoice_id; ?></h4>
+					<p style="margin: 0px;font-size:11px;"><?php $newDate = date("d-m-Y", strtotime($row_data->date_time));
+															echo $newDate; ?> | <?php $newDate1 = date("h:i A", strtotime($row_data->date_time));
+																				echo $newDate1; ?> | <?php echo $row_data->user_full_name; ?></p>
+				</div>
+				<table class="table table-bordered" style="margin-bottom: 20px;">
+					<tr>
+						<td>Customer Name: <?php echo empty($row_data->customer_name) ? 'Walk In' : $row_data->customer_name; ?></td>
+						<td>Customer ID: <?php echo $row_data->customer_id; ?></td>
+					</tr>
+					<tr>
+
+						<td>Address: <?php echo $row_data->customer_address; ?></td>
+						<td>Contact: <?php echo $row_data->customer_contact_no; ?></td>
+					</tr>
+					<tr>
+						<td>Date: <?php echo date('d-m-Y', strtotime($row_data->invoice_doc)); ?> </td>
+						<td>Creator: <?php echo $row_data->username; ?> </td>
+					</tr>
+				</table>
+			</header>
+			<footer class="footer">
+				<div class="footer-top">
+					<p class="bb-dashed"><strong><?php echo empty($row_data->customer_name) ? 'Walk In' : $row_data->customer_name; ?></strong></p>
+					<p class="bb-dashed">On behalf of <strong><?php echo $shop_info->shop_name; ?></strong></p>
+				</div>
+				<div class="pos_top_header_fotter" style="font-size: 16px;margin-top:5px;">
+					<p style="margin: 0;font-size: 12px;text-transform: uppercase;"><i><b><?php echo $in_word; ?> Taka Only.</b></i></p>
+					Thank You For Shopping.
+				</div>
+				<div style="border-top: 1px solid gray; width: 100%; height: 1px; float:left;"> </div>
+
+				<div class="pos_top_header_fotter" style="line-height:16px;margin-top:5px;">
+					Software Developed By:<br />
+					<b>IT Lab Solutions Ltd.</b> Call: +8801842485222
+				</div>
+			</footer>
+			<!--end of invoice-->
 		</div>
-	</body>
-</html>	
+	</div>
+</body>
+
+</html>
