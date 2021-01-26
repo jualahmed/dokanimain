@@ -64,13 +64,13 @@ $product_sale_return = $this->config->item('product_sale_return');
 						<table width="100%">
 							<tr>
 								<td width="40%" style="padding: 0px 2px;">
-									<input type="text" class="form-control search" id="search_by_product_name" placeholder="Search Product" autofocus="on">
+									<input type="text" style="background-color: rgb(255, 247, 191);color: rgb(0, 0, 0);font-weight: bold;" class="form-control search" id="search_by_product_name" placeholder="Search Product" autofocus="on">
 								</td>
 								<td width="40%" style="padding: 0px 2px;">
-									<input type="text" class="form-control search" id="search_by_warran_product_model" placeholder="Search Product by serial">
+									<input type="text" class="form-control search" id="search_by_warran_product_model" style="background-color: rgb(255, 247, 191);color: rgb(0, 0, 0);font-weight: bold;" placeholder="Search Product by serial">
 								</td>
 								<td width="20%" style="padding: 0px 2px;">
-									<input type="text" class="form-control quantity" id="product_quantity" placeholder="Quantity">
+									<input type="text" class="form-control quantity" style="background-color: rgb(255, 247, 191);color: rgb(0, 0, 0);font-weight: bold;" id="product_quantity" placeholder="Quantity">
 								</td>
 							</tr>
 						</table>
@@ -95,10 +95,10 @@ $product_sale_return = $this->config->item('product_sale_return');
 									Discount:
 								</td>
 								<td>
-									<input type="text" class="form-control sale_input_custom_styl align_right" id="disc_in_p" style="text-align: right;" placeholder="%">
+									<input type="text" class="form-control sale_input_custom_styl align_right" id="disc_in_p" style="background-color: rgb(255, 247, 191);color: rgb(0, 0, 0);font-weight: bold;text-align: right;" placeholder="%">
 								</td>
 								<td>
-									<input type="text" class="form-control sale_input_custom_styl align_right" id="disc_in_f" style="text-align: right;" placeholder="Taka">
+									<input type="text" class="form-control sale_input_custom_styl align_right" id="disc_in_f" style="background-color: rgb(255, 247, 191);color: rgb(0, 0, 0);font-weight: bold;text-align: right;" placeholder="Taka">
 								</td>
 							</tr>
 							<tr>
@@ -106,11 +106,11 @@ $product_sale_return = $this->config->item('product_sale_return');
 								<td colspan="2">
 									<input type="text" class="form-control sale_input_custom_styl align_right" id="vat" placeholder="VAT in %" disabled="">
 								</td>
-								<td style="vertical-align: middle;">
+								<td style="vertical-align: middle;font-size: 15px !important;color: #000 !important;font-weight: bold;">
 									Received:
 								</td>
 								<td colspan="2">
-									<input type="text" class="form-control sale_input_custom_styl align_right" id="received" placeholder="Received">
+									<input type="text" class="form-control sale_input_custom_styl align_right"style="background-color: rgb(255, 247, 191);color: rgb(0, 0, 0);font-weight: bold;text-align: right;vertical-align: middle;font-size: 15px !important;color: #000 !important;font-weight: bold;" id="received" placeholder="Received">
 								</td>
 							</tr>
 							<tr>
@@ -130,13 +130,13 @@ $product_sale_return = $this->config->item('product_sale_return');
 								</td>
 								<td style="vertical-align: middle;">Delivery Charge: </td>
 								<td colspan="2">
-									<input type="text" class="form-control sale_input_custom_styl align_right" id="delivery_charge" placeholder="Delivery Charge">
+									<input type="text" class="form-control sale_input_custom_styl align_right" style="background-color: rgb(255, 247, 191);color: rgb(0, 0, 0);font-weight: bold;text-align: right;" id="delivery_charge" placeholder="Delivery Charge">
 								</td>
 							</tr>
 							<tr>
-								<td style="vertical-align: middle;">Total: </td>
+								<td style="vertical-align: middle;font-size: 15px !important;color: #000 !important;font-weight: bold;">Total: </td>
 								<td colspan="5">
-									<input type="text" class="form-control sale_input_custom_styl align_right" id="total" placeholder="Total" disabled="">
+									<input type="text" class="form-control sale_input_custom_styl align_right" style="font-size: 15px;color: #000; font-weight: bold;" id="total" placeholder="Total" disabled="">
 								</td>
 							</tr>
 							<tr>

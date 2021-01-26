@@ -196,15 +196,14 @@ const vm = new Vue({
       if (
         this.total_unit == "" ||
         isNaN(this.total_unit) ||
-        parseInt(this.total_unit) == 0
+        parseInt(this.total_unit) <= 0
       ) {
         flag = false;
         this.errors.total_unit = "required";
       }
       if (
         this.total_tp_after_vat == "" ||
-        isNaN(this.total_tp_after_vat) ||
-        parseInt(this.total_tp_after_vat) == 0
+        isNaN(this.total_tp_after_vat)
       ) {
         flag = false;
         this.errors.total_tp_after_vat = "required";

@@ -44,7 +44,7 @@ img {
     					<center style="margin:0px; padding:0px;">
     						<p style="font-size: 10pt; font-weight:bold; font-family:arial; line-height: 5px; margin:12px 0px 5px 0px"><?php echo $this->tank_auth->get_shop_name();?></p>
     						<img id="image1" src="<?php echo base_url().'barcode/'.$row ->barcode; ?>" style="    width:100%;height: 1cm;margin: 0px 0px 0px 0px;float: left;" />
-    						<p style="font-size: 7pt; margin:0px; font-family:arial;"><?php echo $row ->product_name; ?> </p>
+    						<p style="font-size: 5pt; margin:0px; font-family:arial;"><?php echo $row ->product_name; ?> </p>
     						<p style="font-size: 9pt; font-family:arial;"><b>MRP : <?php echo $row ->sale_price; ?> TK.</b></p>
     					</center>
     				</div>

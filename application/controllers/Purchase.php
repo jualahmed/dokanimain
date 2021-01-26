@@ -330,7 +330,7 @@ class Purchase extends MY_Controller
 
 		$this->db->select('*');
 		$this->db->from('purchase_return_warranty_product');
-		$this->db->where('purchase_return_warranty_product.status="'.$zero.'"');
+		$this->db->where('purchase_return_warranty_product.status="0"');
 		$query2 = $this->db->get();
 
 		if($query2->num_rows() > 0)

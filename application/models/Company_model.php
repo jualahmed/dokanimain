@@ -15,7 +15,8 @@ class Company_model extends CI_Model {
 	}
 
 	public function all()
-	{	$this->db->order_by('company_id', 'desc');
+	{	
+		$this->db->order_by('company_name', 'asc');
 		return $this->db->get('company_info')->result();
 	}
 

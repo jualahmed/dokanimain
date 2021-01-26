@@ -16,6 +16,7 @@ class Distributor_model extends CI_Model {
 
 	public function all()
 	{
+		$this->db->order_by('distributor_name', 'asc');
 		return $this->db->get('distributor_info')->result();
 	}
 

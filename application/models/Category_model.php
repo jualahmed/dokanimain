@@ -17,7 +17,7 @@ class Category_model extends CI_Model {
 
 	public function all()
 	{
-		$this->db->order_by('catagory_id', 'desc');
+		$this->db->order_by('catagory_name', 'asc');
 		return $this->db->get('catagory_info')->result();
 	}
 

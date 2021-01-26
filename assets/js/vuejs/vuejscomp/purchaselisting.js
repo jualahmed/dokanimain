@@ -90,16 +90,14 @@ const vm = new Vue({
       }
       if (
         this.total_buy_price == "" ||
-        isNaN(this.total_buy_price) ||
-        parseInt(this.total_buy_price) == 0
+        isNaN(this.total_buy_price)
       ) {
         flag = false;
         this.errors.total_buy_price = "required";
       }
       if (
         this.unit_buy_price_purchase == "" ||
-        isNaN(this.unit_buy_price_purchase) ||
-        parseInt(this.unit_buy_price_purchase) == 0
+        isNaN(this.unit_buy_price_purchase)
       ) {
         flag = false;
         this.errors.unit_buy_price_purchase = "required";
@@ -107,7 +105,7 @@ const vm = new Vue({
       if (
         this.exclusive_sale_price == "" ||
         isNaN(this.exclusive_sale_price) ||
-        parseInt(this.exclusive_sale_price) == 0
+        parseFloat(this.exclusive_sale_price) == 0
       ) {
         flag = false;
         this.errors.exclusive_sale_price = "required";
@@ -115,7 +113,7 @@ const vm = new Vue({
       if (
         this.general_sale_price == "" ||
         isNaN(this.general_sale_price) ||
-        parseInt(this.general_sale_price) == 0
+        parseFloat(this.general_sale_price) == 0
       ) {
         flag = false;
         this.errors.general_sale_price = "required";

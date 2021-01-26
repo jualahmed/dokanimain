@@ -16,6 +16,7 @@ class Employee_model extends CI_Model {
 
 	public function all()
 	{
+		$this->db->order_by('employee_name', 'asc');
 		return $this->db->get('employee_info')->result();
 	}
 

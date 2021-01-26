@@ -6,6 +6,9 @@
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" type="text/css" />
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/printstyle.css" type="text/css" />
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/posinvoice.css" type="text/css" />
+	<script>
+		window.print();
+	</script>
 	<style>
 		.CSSTableGenerator td {
 			font-size: 14px !important;
@@ -57,7 +60,8 @@
 			display: flex;
 			justify-content: space-between;
 		}
-		.footer-top p{
+
+		.footer-top p {
 			margin: 0;
 		}
 
@@ -160,56 +164,75 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 								}
 								?>
 							</div>
-							<div id="pos_top_header_fourth" style="width: 100%; float: right;">
-								<div class="pos_top_header_fourth_left"> Total Price </div>
-								<div class="pos_top_header_fourth_right">
-									<?php
-									echo number_format($totalUnitSalePrice, 2);
-									?>
-								</div>
-								<?php if ($row_data->sale_return_amount > 0) { ?>
-									<div class="pos_top_header_fourth_left"> Sale Return</div>
-									<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->sale_return_amount, 2); ?></div>
-								<?php } ?>
-								<!-- <div class ="pos_top_header_fourth_left"> Shop Discount</div>
-							<div class ="pos_top_header_fourth_right"> <?php echo number_format($totalMrp - $totalUnitSalePrice, 2); ?></div> -->
+							<div id="pos_top_header_fourth" style="width: 100%;">
 								<?php
-								if ($row_data->discount_amount > 0) { ?>
-									<div class="pos_top_header_fourth_left"> Discount </div>
-									<div class="pos_top_header_fourth_right"> <?php echo number_format(($totalUnitSalePrice - $totalActualSalePrice), 2); ?></div>
+								$total_price_amount = $total_price ? $total_price->total_amount_sale : 0;
+								$total_collection_amount = $total_collection ? $total_collection->total_amount_sale_collection : 0;
+								$total_return_amount = $total_return ? $total_return->total_amount_sale_return : 0;
+
+								$due = $total_price_amount - ($total_collection_amount + $total_return_amount);
+								if ($due != 0) { ?>
+									<div style="float: left;">
+										<h2>
+											Due:
+											<?php
+											echo number_format($due, 2);
+											?>
+										</h2>
+									</div>
 								<?php }
 								?>
+								<div style="float: right;">
+									<div class="pos_top_header_fourth_left"> Total Price </div>
+									<div class="pos_top_header_fourth_right">
+										<?php
+										echo number_format($totalUnitSalePrice, 2);
+										?>
+									</div>
+									<?php if ($row_data->sale_return_amount > 0) { ?>
+										<div class="pos_top_header_fourth_left"> Sale Return</div>
+										<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->sale_return_amount, 2); ?></div>
+									<?php } ?>
+									<!-- <div class ="pos_top_header_fourth_left"> Shop Discount</div>
+							<div class ="pos_top_header_fourth_right"> <?php echo number_format($totalMrp - $totalUnitSalePrice, 2); ?></div> -->
+									<?php
+									if ($row_data->discount_amount > 0) { ?>
+										<div class="pos_top_header_fourth_left"> Discount </div>
+										<div class="pos_top_header_fourth_right"> <?php echo number_format(($totalUnitSalePrice - $totalActualSalePrice), 2); ?></div>
+									<?php }
+									?>
 
-								<?php
-								$sale_return = $row_data->sale_return_amount;
-								$total_price = $row_data->total_price;
-								?>
-								<?php
-								if ($sale_return > 0) {
-								?>
-									<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 16px;"> Grand Total</div>
-									<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 16px;"> <?php echo number_format($row_data->total_price - $sale_return - $row_data->discount_amount, 2); ?></div>
-									<div class="pos_top_header_fourth_left"> Paid </div>
-									<?php $total_paid = $row_data->total_price - $sale_return; ?>
-									<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_paid, 2); ?></div>
-								<?php
-								} else {
-								?>
-									<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 16px;"> Grand Total </div>
-									<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 16px;"> <?php echo number_format($row_data->grand_total, 2); ?></div>
-									<div class="pos_top_header_fourth_left"> Received </div>
-									<?php $total_paid = $row_data->total_paid; ?>
-									<div class="pos_top_header_fourth_right"> <?php echo number_format($total_paid, 2); ?></div>
-								<?php
-								}
-								?>
+									<?php
+									$sale_return = $row_data->sale_return_amount;
+									$total_price = $row_data->total_price;
+									?>
+									<?php
+									if ($sale_return > 0) {
+									?>
+										<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 16px;"> Grand Total</div>
+										<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 16px;"> <?php echo number_format($row_data->total_price - $sale_return - $row_data->discount_amount, 2); ?></div>
+										<div class="pos_top_header_fourth_left"> Paid </div>
+										<?php $total_paid = $row_data->total_price - $sale_return; ?>
+										<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_paid, 2); ?></div>
+									<?php
+									} else {
+									?>
+										<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 16px;"> Grand Total </div>
+										<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 16px;"> <?php echo number_format($row_data->grand_total, 2); ?></div>
+										<div class="pos_top_header_fourth_left"> Received </div>
+										<?php $total_paid = $row_data->total_paid; ?>
+										<div class="pos_top_header_fourth_right"> <?php echo number_format($total_paid, 2); ?></div>
+									<?php
+									}
+									?>
 
-								<div class="pos_top_header_fourth_left"> Returned </div>
-								<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->return_money, 2); ?></div>
-								<?php if ($row_data->grand_total > $row_data->total_paid) { ?>
-									<div class="pos_top_header_fourth_left"> Due </div>
-									<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->grand_total - $row_data->total_paid, 2); ?></div>
-								<?php } ?>
+									<div class="pos_top_header_fourth_left"> Returned </div>
+									<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->return_money, 2); ?></div>
+									<?php if ($row_data->grand_total > $row_data->total_paid) { ?>
+										<div class="pos_top_header_fourth_left"> Due </div>
+										<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->grand_total - $row_data->total_paid, 2); ?></div>
+									<?php } ?>
+								</div>
 							</div>
 						</td>
 					</tr>

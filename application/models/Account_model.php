@@ -1918,7 +1918,8 @@ class Account_model extends CI_model{
 		$this->db->from('transaction_info');			
 		$this->db->where('(transaction_info.transaction_purpose = "sale" OR transaction_info.transaction_purpose = "sale_collection_deleted" OR transaction_info.transaction_purpose = "delivery_charge" OR transaction_info.transaction_purpose = "sale_return")');
 		if($customer_id!=''){$this->db->where('transaction_info.ledger_id',$customer_id);}
-		$this->db->where('transaction_info.date <',$start);
+		if($start != '') 
+			$this->db->where('transaction_info.date <',$start);
 		$query_data = $this->db->get();
 		return $query_data;
 	}
@@ -1928,7 +1929,8 @@ class Account_model extends CI_model{
 		$this->db->from('transaction_info');			
 		$this->db->where('((transaction_info.transaction_purpose="credit_collection" OR transaction_info.transaction_purpose="collection" OR transaction_info.transaction_purpose="cash_return"))');
 		if($customer_id!=''){$this->db->where('transaction_info.ledger_id',$customer_id);}
-		$this->db->where('transaction_info.date <',$start);
+		if($start != '') 
+			$this->db->where('transaction_info.date <',$start);
 		$query_data = $this->db->get();
 		return $query_data;
 	}
@@ -1938,7 +1940,8 @@ class Account_model extends CI_model{
 		$this->db->from('transaction_info');			
 		$this->db->where('transaction_info.transaction_purpose="sale_return"');
 		if($customer_id!=''){$this->db->where('transaction_info.ledger_id',$customer_id);}
-		$this->db->where('transaction_info.date <',$start);
+		if($start != '') 
+			$this->db->where('transaction_info.date <',$start);
 		$query_data = $this->db->get();
 		return $query_data;
 	}

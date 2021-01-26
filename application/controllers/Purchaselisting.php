@@ -52,7 +52,7 @@ class Purchaselisting extends MY_Controller
 	{
 		$purchase_receipt_id = $this->input->post('purchase_receipt_id');
 		$product_id = $this->input->post('product_id');
-		$expiredate = $this->input->post('expiredate');
+		$expire_date = $this->input->post('expiredate');
 		$tp_total = $this->input->post('tp_total');
 		$vat_total = $this->input->post('vat_total');
 		$quantity = $this->input->post('quantity');
@@ -60,20 +60,20 @@ class Purchaselisting extends MY_Controller
 		$unit_buy_price_purchase = $this->input->post('unit_buy_price_purchase');
 		$exclusive_sale_price = $this->input->post('exclusive_sale_price');
 		$general_sale_price = $this->input->post('general_sale_price');
-		$allworrantyproduct = $this->input->post('allworrantyproduct');
+		$all_warranty_product = $this->input->post('allworrantyproduct');
 		$creator = $this->tank_auth->get_user_id();
 
 
 		$purchase_id = -1;
 		$total_unit_buy_price = 0;
-		$purchaseinfoma = Purchaseinfom::where('purchase_receipt_id', $purchase_receipt_id)->get();
-		foreach ($purchaseinfoma as $key => $value) {
+		$purchase_receipt = Purchaseinfom::where('purchase_receipt_id', $purchase_receipt_id)->get();
+		foreach ($purchase_receipt as $key => $value) {
 			$total_unit_buy_price += ($value->purchase_quantity * $value->unit_buy_price);
 		}
-		$totalprice = Purchasereceiptinfom::find($purchase_receipt_id);
+		$total_price = Purchasereceiptinfom::find($purchase_receipt_id);
 		$this->load->config('custom_config');
 		$allow_purchase_exceed = $this->config->item('allow_purchase_exceed');
-		if ($allow_purchase_exceed == 0 && ($total_unit_buy_price + $total_buy_price) > $totalprice->purchase_amount) {
+		if ($allow_purchase_exceed == 0 && ($total_unit_buy_price + $total_buy_price) > $total_price->purchase_amount) {
 			echo "exceed";
 		} else {
 
@@ -116,7 +116,7 @@ class Purchaselisting extends MY_Controller
 					'unit_buy_price' => $unit_buy_price_purchase,
 					'bulk_unit_sale_price' => $exclusive_sale_price,
 					'general_unit_sale_price' => $general_sale_price,
-					'purchase_expire_date' => $expiredate,
+					'purchase_expire_date' => $expire_date,
 					'purchase_description' => "a test purchase_receipt_id",
 					'purchase_creator' => $creator,
 				);
@@ -128,8 +128,8 @@ class Purchaselisting extends MY_Controller
 			 * 
 			 * Add product serial no. if :product_id has warranty and serial_no
 			 */
-			if (!empty($allworrantyproduct)) {
-				foreach ($allworrantyproduct as $key => $value) {
+			if (!empty($all_warranty_product)) {
+				foreach ($all_warranty_product as $key => $value) {
 					$datass = array(
 						'product_id' => $product_id,
 						'purchase_receipt_id' => $purchase_receipt_id,
@@ -151,7 +151,7 @@ class Purchaselisting extends MY_Controller
 			 * Otherwise create new record
 			 */
 			$this->db->where('product_id', $product_id);
-			$alddata = $this->db->get('bulk_stock_info')->row();
+			$stock_data = $this->db->get('bulk_stock_info')->row();
 
 			/**
 			 * fetch selected product from product_info by product id
@@ -162,21 +162,21 @@ class Purchaselisting extends MY_Controller
 					->where('product_id', $product_id)
 					->get()->row();
 
-			if ($alddata) {
-				$oldquantity = $alddata->stock_amount;
-				$totalquantity = $quantity + $oldquantity;
-				$unit_buy_price_purchase1 = (($alddata->bulk_unit_buy_price * $oldquantity) +
-					($unit_buy_price_purchase * $quantity)) / $totalquantity;
+			if ($stock_data) {
+				$oldQuantity = $stock_data->stock_amount;
+				$totalQuantity = $quantity + $oldQuantity;
+				$new_unit_buy_price_purchase = (($stock_data->bulk_unit_buy_price * $oldQuantity) +
+					($unit_buy_price_purchase * $quantity)) / $totalQuantity;
 
 				$object = [
-					'stock_amount' => $totalquantity,
-					'bulk_unit_buy_price' => $unit_buy_price_purchase1,
+					'stock_amount' => $totalQuantity,
+					'bulk_unit_buy_price' => $new_unit_buy_price_purchase,
 					'bulk_unit_sale_price' => $exclusive_sale_price,
 					'general_unit_sale_price' => $general_sale_price,
 					'bulk_alarming_stock' => $selectedProduct->alarming_stock,
 					'last_buy_price' => $unit_buy_price_purchase
 				];
-				$this->db->where('bulk_id', $alddata->bulk_id);
+				$this->db->where('bulk_id', $stock_data->bulk_id);
 				$this->db->update('bulk_stock_info', $object);
 			} else {
 				$object = [
@@ -200,8 +200,8 @@ class Purchaselisting extends MY_Controller
 			$this->db->select('purchase_info.*,product_info.product_name');
 			$this->db->where('purchase_id', $purchase_id);
 			$this->db->join('product_info', 'product_info.product_id = purchase_info.product_id');
-			$alldata = $this->db->get('purchase_info')->result();
-			echo json_encode($alldata);
+			$purchase_data = $this->db->get('purchase_info')->result();
+			echo json_encode($purchase_data);
 		}
 	}
 

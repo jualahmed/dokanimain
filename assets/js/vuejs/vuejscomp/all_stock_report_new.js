@@ -30,6 +30,7 @@ new Vue({
         var self = this;
         this.xhr = $.ajax({
           url: this.base_url + "product/query",
+          type: 'POST',
           data: { query: query },
           beforeSend: function () {
             if (self.xhr != "ToCancelPrevReq" && self.xhr.readyState < 4) {

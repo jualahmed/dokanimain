@@ -558,7 +558,6 @@ class Sale_model extends CI_model{
 			else
 			{
 				$exact_sale_price = floatval($tmp -> unit_sale_price);
-				
 			}
             $data = array(
                 'sale_details_id'           => '',

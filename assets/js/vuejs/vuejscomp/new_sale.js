@@ -16,8 +16,9 @@ jQuery(document).ready(function ($) {
   $("#search_by_product_name").on("keyup", function (ev) {
     var is_sale_active = $("#is_sale_active").val();
     var allow_negative_stock = $("#allow_negative_stock").val();
+    var sale_selection = $(".sale_selection");
 
-    if (!is_sale_active && $(this).val().length > 2) {
+    if (!is_sale_active || sale_selection.length == 0) {
       $("#search_by_product_name").val("");
       swal("Oops...!", "Please select a sale!", "info");
     }
@@ -158,8 +159,9 @@ jQuery(document).ready(function ($) {
   $("#search_by_customer_name").on("keyup", function (ev) {
     var is_sale_active = $("#is_sale_active").val();
     var allow_negative_stock = $("#allow_negative_stock").val();
+    var sale_selection = $(".sale_selection");
 
-    if (!is_sale_active) {
+    if (!is_sale_active || sale_selection.length == 0) {
       $("#search_by_customer_name").val("");
       swal("Oops...!", "Please select a sale!", "info");
     }
@@ -195,7 +197,9 @@ jQuery(document).ready(function ($) {
 
   $("#search_by_warran_product_model").on("keyup", function (ev) {
     var is_sale_active = $("#is_sale_active").val();
-    if (!is_sale_active && $(this).val().length > 2) {
+    var sale_selection = $(".sale_selection");
+
+    if (!is_sale_active || sale_selection.length == 0) {
       $("#search_by_warran_product_model").val("");
       swal("Oops...!", "Please select a sale!", "info");
     }
@@ -1862,8 +1866,10 @@ document.onkeyup = function (e) {
     }
   } else if (e.altKey && e.which == 77) {
     var is_sale_active = $("#is_sale_active").val();
+    var sale_selection = $(".sale_selection");
+    console.log(sale_selection);
 
-    if (!is_sale_active) {
+    if (!is_sale_active || !sale_selection) {
       swal("Oops...!", "Please select a sale!", "info");
     } else {
       swal({

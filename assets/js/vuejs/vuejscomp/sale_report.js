@@ -24,7 +24,7 @@ new Vue({
 
     company_id: 0,
     category_id: 0,
-    saletype: 2,
+    saletype: 1,
     isinvoice: 0,
     quantity: 0,
     loding: false,
@@ -51,6 +51,7 @@ new Vue({
         var self = this;
         this.xhr = $.ajax({
           url: this.base_url + "product/query/" + invoice_id,
+          type: 'POST',
           data: { query: query },
           beforeSend: function () {
             if (self.xhr != "ToCancelPrevReq" && self.xhr.readyState < 4) {

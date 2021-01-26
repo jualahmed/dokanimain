@@ -16,6 +16,7 @@ class Customer_model extends CI_Model {
 
 	public function all()
 	{
+		$this->db->order_by('customer_name', 'asc');
 		return $this->db->get('customer_info')->result();
 	}
 

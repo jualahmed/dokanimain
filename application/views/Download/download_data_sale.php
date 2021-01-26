@@ -198,6 +198,7 @@
 							<tr class="tableRowBG">
 								<th colspan="3" style="text-align:center;">No</th>
 								<th colspan="6" style="text-align:center;">Product</th>
+								<th colspan="6" style="text-align:center;">Model</th>
 								<th colspan="4" style="text-align:center;">Company</th>
 								<th colspan="6" style="text-align:center;">Category</th>
 								<th colspan="6" style="text-align:center;">Quantity</th>
@@ -220,6 +221,7 @@
 							<tr>
 								<th colspan="3" style="text-align:center;"> <?php echo $index; ?>  </th>
 								<th colspan="6" style="text-align:left;"> <?php echo $field->product_name; ?>  </th>
+								<th colspan="6" style="text-align:left;"> <?php echo $field->product_model; ?>  </th>
 								<th colspan="4" style="text-align:left;"> <?php echo $field->company_name; ?> </th>
 								<th colspan="6" style="text-align:left;"> <?php echo $field->catagory_name; ?> </th>
 								<th colspan="6" style="text-align:center;"> <?php echo $field -> number_of_quantity; ?> </th>

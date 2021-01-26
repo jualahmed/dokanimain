@@ -20,7 +20,8 @@
 								<th>NO</th>
 								<th>Invoice ID</th>
 								<th>Date</th>
-								<th>Product Model</th>
+								<th>Product</th>
+								<th>Model</th>
 								<th>Company</th>
 								<th>Catagory</th>
 								<th>Customer Name</th>
@@ -38,6 +39,7 @@
 								<td align="center"><?php echo $var->sid ?></td>
 								<td></td>
 								<td><?php echo $var->product_name ?></td>
+								<td><?php echo $var->product_model ?></td>
 								<td><?php echo $var->company_name ?></td>
 								<td><?php echo $var->catagory_name ?></td>
 								<td><?php echo $var->customer_name ?></td>
@@ -49,10 +51,11 @@
 							</tr>
 							<?php endforeach ?>
 							<tr>
-								<td colspan="8"></td>
-								<td><b>Total BP: <?php echo $qty ?></b></td>
-								<td><b>Total BP: <?php echo $amount ?></b></td>
-								<td><b>Total SP: <?php echo $samount ?></b></td>
+								<td colspan="9"></td>
+								<td><b>Total BP: <?php echo number_format($qty, 2) ?></b></td>
+								<td><b>Total BP: <?php echo number_format($amount, 2) ?></b></td>
+								<td><b>Total SP: <?php echo number_format($samount, 2) ?></b></td>
+								<td></td>
 							</tr>
 						</tbody>
 					</table>

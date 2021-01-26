@@ -14,22 +14,33 @@
 				<div class="box">
 					<div class="box-header with-border">
 						<h3 class="box-title">Stock Report</h3>
-						<h3 class="box-title"> ( Total Stock Value: <?php echo sprintf("%.2f", $total_stock_price); ?> )</h3>
-						<h3 class="box-title"> ( Stock Quantity: <?php echo $total_stock_quantity; ?> )</h3>
+						<h3 class="box-title"> ( Total Stock Value: <?php echo number_format($total_stock_price, 2); ?> )</h3>
+						<h3 class="box-title"> ( Stock Quantity: <?php echo number_format($total_stock_quantity, 2); ?> )</h3>
 					</div>
 					<div class="box-body">
 						<form action="<?php echo base_url(); ?>Report/all_stock_report_find" class="form-horizontal" method="post" id="form_2" autocomplete="off">
 							<div class="form-group row" style="margin-bottom: 20px !important;">
 								<label for="inputEmail3" class="col-sm-1 control-label">Product</label>
-								<div class="col-sm-3">
+								<div class="col-sm-6">
 
-									<multiselect id="ajax" :searchable="true" v-model="selectproduct" :options="product" label="product_name" track-by="product_name" placeholder="Select a Product" @search-change="asyncFind" :loading="isLoading">
+									<multiselect 
+										id="ajax" 
+										:searchable="true" 
+										v-model="selectproduct" 
+										:options="product" 
+										label="product_name" 
+										track-by="product_name" 
+										placeholder="Select a Product" 
+										@search-change="asyncFind" 
+										@open="asyncFind"
+										:loading="isLoading"
+										:selectLabel="'Select'">
 									</multiselect>
 
 								</div>
 
 								<label for="inputEmail3" class="col-sm-1 control-label">Category</label>
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<select name="catagory_id" class="form-control" v-model="catagory_id">
 										<option value="0">Select a Category</option>
 										<?php foreach ($catagory as $key => $value) : ?>
@@ -37,19 +48,18 @@
 										<?php endforeach ?>
 									</select>
 								</div>
+							</div>
+
+							<div class="form-group row">
 								<label for="inputEmail3" class="col-sm-1 control-label">Company</label>
-								<div class="col-sm-3">
+								<div class="col-sm-2">
 									<select name="company_id" v-model="company_id" id="" class="form-control">
-										<option value="0">Select a Company</option>
+										<option value="0">Select Company</option>
 										<?php foreach ($company as $key => $var) : ?>
 											<option value="<?php echo $var->company_id ?>"><?php echo $var->company_name ?></option>
 										<?php endforeach ?>
 									</select>
 								</div>
-
-							</div>
-
-							<div class="form-group row">
 								<label for="inputEmail3" class="col-sm-1 control-label">Size</label>
 								<div class="col-sm-2">
 									<?php
@@ -74,7 +84,9 @@
 										<option value="alarming_stock">Alarming Stock</option>
 									</select>
 								</div>
-								<div class="col-sm-3 mt-2">
+							</div>
+							<div class="form-group" style="margin-top: 20px;">
+								<div style="float: right;">
 									<button type="submit" class="btn btn-success btn-sm" @click.prevent="stockreport" name="search_random"><i class="fa fa-fw fa-search"></i> Search</button>
 									<button type="reset" id="reset_btn" class="btn btn-warning btn-sm"><i class="fa fa-fw fa-refresh"></i> Reset</button>
 									<a @click.prevent="downloadLink" role="button" href="" id="down" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="fa fa-download"></i> Download</a>
@@ -93,7 +105,7 @@
 
 	<section class="content">
 		<div id="table-scroll" class="table-scroll table-responsive table-secondary" v-if="alldata.length">
-			<table id="main-table" class="main-table table table-secondary" v-if="alldata.length>0">
+			<table id="main-table" style="min-width: 1200px;" class="main-table table table-secondary" v-if="alldata.length>0">
 				<thead class="table-hf" style="line-height: 0px;">
 					<tr>
 						<th>No.</th>

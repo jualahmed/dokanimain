@@ -21,7 +21,7 @@
 
 <body>
 	<div id="main_container_body_main">
-		<div id="main_container_body_main2 <?php echo isset($shop_info->invoice_type) && $shop_info->invoice_type != 0 ? 'full' : ''?>">
+		<div id="main_container_body_main2">
 			<div id="main_container_body">
 				<div class="text-center">
 					<?php
@@ -37,8 +37,8 @@
 					<p style="font-size: 12px;font-weight: bold"> <?php echo ($shop_info->shop_contact) ?> </p>
 
 					<h4 style="margin: 0;font-weight: bold;">Invoice No. : <?php echo $invoice_id; ?></h4>
-					<p style="margin: 0px;font-size:11px;"><?php $newDate = date("d-m-Y", strtotime($row_data->invoice_doc));
-															echo $newDate; ?> | <?php $newDate1 = date("h:i A", strtotime($row_data->invoice_doc));
+					<p style="margin: 0px;font-size:11px;"><?php $newDate = date("d-m-Y", strtotime($row_data->date_time));
+															echo $newDate; ?> | <?php $newDate1 = date("h:i A", strtotime($row_data->date_time));
 																				echo $newDate1; ?> | <?php echo $row_data->user_full_name; ?></p>
 					<p style="margin: 0px;">Customer : <?php echo $row_data->customer_name; ?></p>
 				</div>

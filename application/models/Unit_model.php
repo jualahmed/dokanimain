@@ -15,7 +15,7 @@ class Unit_model extends CI_Model {
 	}
 
 	public function all()
-	{	$this->db->order_by('unit_id', 'desc');
+	{	$this->db->order_by('unit_name', 'asc');
 		return $this->db->get('unit_info')->result();
 	}
 

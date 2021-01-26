@@ -81,7 +81,7 @@ class Product_model extends CI_model
 			->from('product_info')
 			->join('bulk_stock_info', 'bulk_stock_info.product_id = product_info.product_id')
 			->where_in('product_info.product_id', $productIds)
-			->where("product_info.product_name LIKE '$query%'")
+			->where("product_info.`product_name` RLIKE ' +$query' OR product_info.product_name LIKE '$query%'")
 			->limit(30)
 			->get()
 			->result();
