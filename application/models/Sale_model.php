@@ -182,8 +182,8 @@ class Sale_model extends CI_model{
 				'discount'                  => 0,
 				'discount_type'             => $data['product_name'],
 				'unit_buy_price'            => $data['buy_price'],
-				'unit_sale_price'           => $data['sale_price'],
-				'general_unit_sale_price'   => $data['pro_mrp_price'],
+				'unit_sale_price'           => $data['sale_price'], // Shop Price 
+				'general_unit_sale_price'   => $data['pro_mrp_price'], // MRP
 				'actual_sale_price'         => $data['sale_price'],
 				'temp_sale_details_status'  => 1,
 				'item_name'                 => $data['product_name'],
@@ -553,11 +553,11 @@ class Sale_model extends CI_model{
 			if($cash_commision > 0)
 			{
 				$ratio = floatval($disc_amount/$inv->total_price);
-				$exact_sale_price = $tmp -> unit_sale_price - ( $tmp -> unit_sale_price * $ratio);
+				$exact_sale_price = $tmp -> actual_sale_price - ( $tmp -> actual_sale_price * $ratio);
 			}
 			else
 			{
-				$exact_sale_price = floatval($tmp -> unit_sale_price);
+				$exact_sale_price = floatval($tmp -> actual_sale_price);
 			}
             $data = array(
                 'sale_details_id'           => '',

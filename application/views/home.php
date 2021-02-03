@@ -144,12 +144,12 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-12">
 				<?php if ($statment->count()==0): ?>
 					<a href="<?php echo base_url().'admin/dailystatement' ?>" class="btn btn-success">Update Financial Statement</a>
 				<?php endif ?>
 			</div>
-		</div>
+		</div> -->
 	</section>
 </div>

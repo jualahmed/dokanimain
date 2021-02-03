@@ -1391,6 +1391,7 @@ class Account_model extends CI_model{
 		$query_data = $this->db->get();
 		return $query_data;
 	}
+	
 	public function do_collection_client($creator,$payment_mode,$customer_id,$card_id, $payment_amount,$my_bank,$to_bank,$cheque_no,$cheque_date,$balance_customer,$remarks)
 	{
 		/* $data = array(
@@ -1620,6 +1621,22 @@ class Account_model extends CI_model{
 		}
 		else if($payment_mode==2)
 		{
+			$payment_info = array
+			(
+			   'transaction_id'         			=> '',
+			   'transaction_purpose'                => 'expense_payment',
+			   'transaction_mode'                 	=> 'cheque',
+			   'ledger_id'         					=> $employee_id,
+			   'common_id'         					=> 0,
+			   'sub_id'         					=> $expense_type,
+			   'remarks'     						=> $remarks,
+			   'amount'     						=> $payment_amount,
+			   'date'                   			=> date('Y-m-d'),
+			   'status'        						=> 'active',
+			   'creator'        					=> $creator,
+			);
+			$this->db->insert('transaction_info', $payment_info);
+			$insert_id = $this->db->insert_id();
 			$bank_book = array(
 			   'bb_id'         						=> '',
 			   'transaction_id'                     => $insert_id,
@@ -1704,7 +1721,7 @@ class Account_model extends CI_model{
 		else if($receipt_type==1)
 		{
 			$data=  $this->db
-					->select('distributor_info.distributor_name, distributor_info.distributor_contact_no, distributor_info.distributor_address,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username,transaction_info.created_at')
+					->select('users.user_full_name,distributor_info.distributor_name,distributor_info.distributor_id, distributor_info.distributor_contact_no, distributor_info.distributor_address,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username,transaction_info.created_at')
 					->from('distributor_info,transaction_info,users')
 					->where('transaction_info.ledger_id = distributor_info.distributor_id')
 					->where('transaction_info.creator = users.id')
@@ -1719,7 +1736,7 @@ class Account_model extends CI_model{
 		else if($receipt_type==2)
 		{
 			$data=  $this->db
-					->select('employee_info.*,type_info.*,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username,transaction_info.created_at')
+					->select('users.user_full_name,employee_info.*,type_info.*,transaction_info.transaction_mode,transaction_info.amount,transaction_info.date, transaction_info.transaction_id,transaction_info.creator, users.username,transaction_info.created_at')
 					->from('type_info,transaction_info,users')
 					->where('transaction_info.sub_id = type_info.type_id')
 					->join('employee_info','transaction_info.ledger_id = employee_info.employee_id','left')

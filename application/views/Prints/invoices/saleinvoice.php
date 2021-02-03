@@ -145,13 +145,13 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 													</td>
 													<td style="width:10%;text-align:right;">
 														<?php
-														echo number_format($field->unit_sale_price, 2);
+														echo number_format($field->actual_sale_price, 2);
 														?>
 													</td>
 
 													<td style="width:12%;text-align:right;border-right:0px solid black;">
 														<?php
-														echo number_format(($field->sale_quantity * $field->unit_sale_price), 2);
+														echo number_format(($field->sale_quantity * $field->actual_sale_price), 2);
 														?>
 													</td>
 												</tr>
@@ -172,7 +172,7 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 
 								$due = $total_price_amount - ($total_collection_amount + $total_return_amount);
 								if ($due != 0) { ?>
-									<div style="float: left;">
+									<div style="float: left;width: 30%">
 										<h2>
 											Due:
 											<?php
@@ -182,11 +182,11 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 									</div>
 								<?php }
 								?>
-								<div style="float: right;">
+								<div style="float: right;width: 70%">
 									<div class="pos_top_header_fourth_left"> Total Price </div>
 									<div class="pos_top_header_fourth_right">
 										<?php
-										echo number_format($totalUnitSalePrice, 2);
+										echo number_format($totalActualSalePrice, 2);
 										?>
 									</div>
 									<?php if ($row_data->sale_return_amount > 0) { ?>
@@ -194,7 +194,7 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 										<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->sale_return_amount, 2); ?></div>
 									<?php } ?>
 									<!-- <div class ="pos_top_header_fourth_left"> Shop Discount</div>
-							<div class ="pos_top_header_fourth_right"> <?php echo number_format($totalMrp - $totalUnitSalePrice, 2); ?></div> -->
+							<div class ="pos_top_header_fourth_right"> <?php echo number_format($totalMrp - $totalActualSalePrice, 2); ?></div> -->
 									<?php
 									if ($row_data->discount_amount > 0) { ?>
 										<div class="pos_top_header_fourth_left"> Discount </div>

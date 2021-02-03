@@ -27,7 +27,7 @@ class invoice extends CI_controller
 			if ($data['sale_info'] != false) {
 				$number 			= $data['sale_info']->row();
 				$shop = $this->db->select('*')->from('shop_setup')->get()->row();
-				
+
 				$data['total_price'] = $this->account_model->sale_total_amount('', $number->customer_id)->row();
 				$data['total_collection'] = $this->account_model->sale_collection_total_amount('', $number->customer_id)->row();
 				$data['total_return'] = $this->account_model->sale_return_total_amount('', $number->customer_id)->row();
@@ -86,44 +86,93 @@ class invoice extends CI_controller
 		if (is_numeric($data['transaction_id'] = $this->uri->segment(3))) {
 			$data['transaction_id'] = abs($data['transaction_id']);
 			$data['receipt_type'] = $this->uri->segment(4);
-			$data['collection_payment_info'] 	= $this->account_model->collection_payment_invoice($data['transaction_id'], $data['receipt_type']);
-			if ($data['collection_payment_info'] != false) {
-				$customer_id = $data['collection_payment_info']->row()->customer_id;
-				$total_due = 0;
-				$receipt_sale_total_amount = $this->account_model->receipt_sale_total_amount($customer_id)->result();
-				foreach ($receipt_sale_total_amount as $total_amount) {
-					$total_due += $total_amount->total_sale_amount;
-				}
+			$data['purchase_payment_info'] 	= $this->account_model->collection_payment_invoice($data['transaction_id'], $data['receipt_type']);
+			if ($data['purchase_payment_info'] != false) {
+				if ($data['receipt_type'] == 1) {
+					/**
+					 * 3 = payment to distributor
+					 * show distributor payment receipt print 
+					 */
+					$distributor_id = $data['purchase_payment_info']->row()->distributor_id;
+					$total_payable = 0;
+					$receipt_purchase_total_amount = $this->account_model->receipt_purchase_total_amount($distributor_id)->result();
+					foreach ($receipt_purchase_total_amount as $total_amount) {
+						$total_payable += $total_amount->total_purchase_amount;
+					}
 
-				$receipt_collection_total_amount = $this->account_model->receipt_collection_total_amount($customer_id)->result();
-				foreach ($receipt_collection_total_amount as $collection_total_amount) {
-					$total_due -= $collection_total_amount->total_collection_amount;
-				}
+					$receipt_payment_total_amount = $this->account_model->receipt_payment_total_amount($distributor_id)->result();
+					foreach ($receipt_payment_total_amount as $payment_total_amount) {
+						$total_payable -= $payment_total_amount->total_payment_amount;
+					}
 
-				$receipt_delivery_total_amount = $this->account_model->receipt_delivery_total_amount($customer_id)->result();
-				foreach ($receipt_delivery_total_amount as $delivery_total_amount) {
-					$total_due += $delivery_total_amount->total_delivery_amount;
-				}
+					$receipt_purchase_return_total_amount = $this->account_model->receipt_purchase_return_total_amount($distributor_id)->result();
+					foreach ($receipt_purchase_return_total_amount as $total_purchase_return_amount) {
+						$total_payable -= $total_purchase_return_amount->total_purchase_return_amount;
+					}
 
-				$receipt_sale_return_total_amount = $this->account_model->receipt_sale_return_total_amount($customer_id)->result();
-				foreach ($receipt_sale_return_total_amount as $sale_return_total_amount) {
-					$total_due -= $sale_return_total_amount->total_sale_return_amount;
-				}
+					$receipt_payment_delete_total_amount = $this->account_model->receipt_payment_delete_total_amount($distributor_id)->result();
+					foreach ($receipt_payment_delete_total_amount as $total_purchase_payment_deleted) {
+						$total_payable -= $total_purchase_payment_deleted->total_delete_payment_amount;
+					}
 
-				$receipt_cash_return_total_amount = $this->account_model->receipt_cash_return_total_amount($customer_id)->result();
-				foreach ($receipt_cash_return_total_amount as $cash_return_total_amount) {
-					$total_due += $cash_return_total_amount->total_cash_return_amount;
-				}
+					$receipt_balance_total_amount_distributor = $this->account_model->receipt_balance_total_amount_distributor($distributor_id)->result();
+					foreach ($receipt_balance_total_amount_distributor as $total_balance_amount) {
+						$total_payable += $total_balance_amount->total_balance_amount;
+					}
 
-				$receipt_balance_total_amount_customer = $this->account_model->receipt_balance_total_amount_customer($customer_id)->result();
-				foreach ($receipt_balance_total_amount_customer as $receipt_balance_amount) {
-					$total_due += $receipt_balance_amount->total_balance_amount;
-				}
-				$data['due'] = $total_due;
-				$number 			= $data['collection_payment_info']->row();
-				$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->amount) . " (TK)";
+					$data['total_payable'] = $total_payable;
+					$number 			= $data['purchase_payment_info']->row();
+					$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->amount) . " (TK)";
 
-				$this->load->view('Prints/invoices/collection_payment_invoice', $data);
+					$this->load->view('Prints/invoices/purchase_payment_invoice', $data);
+
+				} elseif ($data['receipt_type'] == 2) {
+					/**
+					 * 2 = payment of expense
+					 * show expense payment receipt print 
+					 */
+				} elseif ($data['receipt_type'] == 3) {
+					/**
+					 * 3 = payment from customer
+					 * show customer payment receipt print 
+					 */
+					$customer_id = $data['collection_payment_info']->row()->customer_id;
+					$total_due = 0;
+					$receipt_sale_total_amount = $this->account_model->receipt_sale_total_amount($customer_id)->result();
+					foreach ($receipt_sale_total_amount as $total_amount) {
+						$total_due += $total_amount->total_sale_amount;
+					}
+
+					$receipt_collection_total_amount = $this->account_model->receipt_collection_total_amount($customer_id)->result();
+					foreach ($receipt_collection_total_amount as $collection_total_amount) {
+						$total_due -= $collection_total_amount->total_collection_amount;
+					}
+
+					$receipt_delivery_total_amount = $this->account_model->receipt_delivery_total_amount($customer_id)->result();
+					foreach ($receipt_delivery_total_amount as $delivery_total_amount) {
+						$total_due += $delivery_total_amount->total_delivery_amount;
+					}
+
+					$receipt_sale_return_total_amount = $this->account_model->receipt_sale_return_total_amount($customer_id)->result();
+					foreach ($receipt_sale_return_total_amount as $sale_return_total_amount) {
+						$total_due -= $sale_return_total_amount->total_sale_return_amount;
+					}
+
+					$receipt_cash_return_total_amount = $this->account_model->receipt_cash_return_total_amount($customer_id)->result();
+					foreach ($receipt_cash_return_total_amount as $cash_return_total_amount) {
+						$total_due += $cash_return_total_amount->total_cash_return_amount;
+					}
+
+					$receipt_balance_total_amount_customer = $this->account_model->receipt_balance_total_amount_customer($customer_id)->result();
+					foreach ($receipt_balance_total_amount_customer as $receipt_balance_amount) {
+						$total_due += $receipt_balance_amount->total_balance_amount;
+					}
+					$data['due'] = $total_due;
+					$number 			= $data['collection_payment_info']->row();
+					$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->amount) . " (TK)";
+
+					$this->load->view('Prints/invoices/collection_payment_invoice', $data);
+				}
 			} else {
 				echo 'NOTHING FOUND!!!';
 			}
