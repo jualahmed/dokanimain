@@ -136,7 +136,7 @@ $product_sale_return = $this->config->item('product_sale_return');
 							<tr>
 								<td style="vertical-align: middle;font-size: 15px !important;color: #000 !important;font-weight: bold;">Total: </td>
 								<td colspan="5">
-									<input type="text" class="form-control sale_input_custom_styl align_right" style="font-size: 15px;color: #000; font-weight: bold;" id="total" placeholder="Total" disabled="">
+									<input type="text" class="form-control sale_input_custom_styl align_right" style="font-size: 15px;color: #000; font-weight: bold;" id="total" placeholder="Total" readonly="">
 								</td>
 							</tr>
 							<tr>
@@ -321,6 +321,7 @@ $product_sale_return = $this->config->item('product_sale_return');
 						<?php
 							$i_num++;
 							$total_qnty += $qnty;
+							$total_buy_price     += ($qnty * $tmp->unit_buy_price);
 							$price_per_product     = $qnty * $actual_sale_price;
 							$sub_to += $price_per_product;
 							$vat        = 0;
@@ -328,12 +329,14 @@ $product_sale_return = $this->config->item('product_sale_return');
 						$vat     = $vat;
 						?>
 						<input type="hidden" value="<?php echo $total_qnty; 	?>" id="hid_qty">
+						<input type="hidden" value="<?php echo $total_buy_price;     	?>" id="hid_total_buy_price">
 						<input type="hidden" value="<?php echo $sub_to;     	?>" id="hid_sub_to">
 						<input type="hidden" value="<?php echo $vat;         	?>" id="hid_vat">
 					<?php
 					}
 					?>
 					<input type="hidden" value="<?php echo $return_adjust; ?>" id="hid_return_adjust">
+					<input type="hidden" value="<?php echo $return_buy_price; ?>" id="hid_return_buy_price">
 					<input type="hidden" value="<?php echo $return_id; ?>" id="hid_return_id">
 				</table>
 			</div>

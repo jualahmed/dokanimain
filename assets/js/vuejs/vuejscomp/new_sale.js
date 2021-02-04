@@ -555,22 +555,24 @@ $(document).ready(function () {
 });
 /* Start: Script for sale. */
 $(function () {
-  var i = $("#hid_qty").val();
-  var j = $("#hid_sub_to").val();
-  var k = $("#hid_vat").val();
+  var hid_qty = $("#hid_qty").val();
+  var hid_sub_to = $("#hid_sub_to").val();
+  var hid_total_buy_price = $("#hid_total_buy_price").val();
+  var hid_vat = $("#hid_vat").val();
 
-  i = parseFloat(i).toFixed(2);
-  j = parseFloat(j).toFixed(2);
-  k = parseFloat(k).toFixed(2);
+  hid_qty = parseFloat(hid_qty).toFixed(2);
+  hid_sub_to = parseFloat(hid_sub_to).toFixed(2);
+  hid_vat = parseFloat(hid_vat).toFixed(2);
 
-  if (i != "" && j != "" && k != "") {
-    $("#number_of_products").val(i);
-    $("#sub_total").val(j);
-    $("#vat").val(k);
+  if (hid_qty != "" && hid_sub_to != "" && hid_vat != "") {
+    $("#number_of_products").val(hid_qty);
+    $("#sub_total").val(hid_sub_to);
+    $("#vat").val(hid_vat);
     var re_ajd = $("#hid_return_adjust").val();
+    var return_adjust_buy_price = $("#hid_return_buy_price").val();
     re_ajd = parseFloat(re_ajd).toFixed(2);
 
-    var tmp = parseFloat(j) + parseFloat(k);
+    var tmp = parseFloat(hid_sub_to) + parseFloat(hid_vat);
     tmp = parseFloat(tmp).toFixed(2);
 
     if (re_ajd != 0) {
@@ -584,7 +586,9 @@ $(function () {
     }
 
     if (!isNaN(tmp)) {
+      var return_adjest_profit = hid_total_buy_price - return_adjust_buy_price;
       $("#total").val(tmp);
+      $("#total").attr("title", parseFloat(tmp - return_adjest_profit).toFixed(2));
       var txt = convert_number_to_words(tmp) + " (TK)";
       $("#inword").val(txt);
     }
@@ -1704,7 +1708,7 @@ $("#disc_in_p").on("keyup", function (e) {
     if (return_adjust != "") var tmp_re_ad = parseFloat(return_adjust);
     var payable = sub_total - disc_amount + vat - tmp_re_ad;
     var total = sub_total - disc_amount + vat;
-
+    // var profit = 
     if (!isNaN(total)) {
       $("#total").val(total);
       if (return_adjust != "") $("#payable").val(payable);

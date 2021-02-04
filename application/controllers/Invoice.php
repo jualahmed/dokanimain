@@ -86,14 +86,14 @@ class invoice extends CI_controller
 		if (is_numeric($data['transaction_id'] = $this->uri->segment(3))) {
 			$data['transaction_id'] = abs($data['transaction_id']);
 			$data['receipt_type'] = $this->uri->segment(4);
-			$data['purchase_payment_info'] 	= $this->account_model->collection_payment_invoice($data['transaction_id'], $data['receipt_type']);
-			if ($data['purchase_payment_info'] != false) {
+			$data['payment_info'] 	= $this->account_model->collection_payment_invoice($data['transaction_id'], $data['receipt_type']);
+			if ($data['payment_info'] != false) {
 				if ($data['receipt_type'] == 1) {
 					/**
 					 * 3 = payment to distributor
 					 * show distributor payment receipt print 
 					 */
-					$distributor_id = $data['purchase_payment_info']->row()->distributor_id;
+					$distributor_id = $data['payment_info']->row()->distributor_id;
 					$total_payable = 0;
 					$receipt_purchase_total_amount = $this->account_model->receipt_purchase_total_amount($distributor_id)->result();
 					foreach ($receipt_purchase_total_amount as $total_amount) {
@@ -121,7 +121,7 @@ class invoice extends CI_controller
 					}
 
 					$data['total_payable'] = $total_payable;
-					$number 			= $data['purchase_payment_info']->row();
+					$number 			= $data['payment_info']->row();
 					$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->amount) . " (TK)";
 
 					$this->load->view('Prints/invoices/purchase_payment_invoice', $data);
@@ -136,7 +136,7 @@ class invoice extends CI_controller
 					 * 3 = payment from customer
 					 * show customer payment receipt print 
 					 */
-					$customer_id = $data['collection_payment_info']->row()->customer_id;
+					$customer_id = $data['payment_info']->row()->customer_id;
 					$total_due = 0;
 					$receipt_sale_total_amount = $this->account_model->receipt_sale_total_amount($customer_id)->result();
 					foreach ($receipt_sale_total_amount as $total_amount) {
@@ -168,7 +168,7 @@ class invoice extends CI_controller
 						$total_due += $receipt_balance_amount->total_balance_amount;
 					}
 					$data['due'] = $total_due;
-					$number 			= $data['collection_payment_info']->row();
+					$number 			= $data['payment_info']->row();
 					$data['in_word'] 	= $this->numbertoword->convert_number_to_words($number->amount) . " (TK)";
 
 					$this->load->view('Prints/invoices/collection_payment_invoice', $data);

@@ -42,6 +42,9 @@ new Vue({
 
       return grand_total - total_paid;
     },
+    calculateGrossProfit (grand_total, total_paid) {
+      return 0;
+    },
     asyncFind(query) {
       var self = this;
       var invoice_id = self.invoice_id;

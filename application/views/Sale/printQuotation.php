@@ -40,57 +40,72 @@
 						<div class="CSSTableGenerator" style="width:100%;margin:0px auto;float:left">
 
 							<table class="table table-bordered table_2">
-								<tr style="background-color: #f0f3f5;/*#00c0ef*/; color: black;/*white/*;">
-									<td style="width: 50%;">Name</td>
-									<td style="text-align: center;">Quantity</td>
-									<td style="text-align: center;">Price</td>
-									<td style="text-align: center;">Total</td>
-								</tr>
-								<?php foreach ($quotationDetails->result() as $tmp) { ?>
+								<thead>
+									<tr style="background-color: #f0f3f5;/*#00c0ef*/; color: black;/*white/*;">
+										<td style="width: 50%;">Name</td>
+										<td style="text-align: center;">Quantity</td>
+										<td style="text-align: center;">Price</td>
+										<td style="text-align: center;">Total</td>
+									</tr>
+								</thead>
+								<?php
+								$totalQuantity = 0;
+								foreach ($quotationDetails->result() as $tmp) { 
+									$totalQuantity += $tmp->quotation_quantity; ?>
+									<tbody>
+										<?php if (1 % 2 == 0) { ?>
+											<tr style="background-color: #f0f3f5;">
+												<td>
+													<?php echo $tmp->product_name ?>
+												</td>
+												<td style="text-align: center;">
+													<?php echo  $tmp->quotation_quantity ?>
+												</td>
+												<td style="text-align: right;">
+													<?php echo  sprintf('%0.2f', $tmp->unit_sale_price) ?>
+												</td>
+												<td style="text-align: right;">
+													<?php
+													$total 		+= ($tmp->unit_sale_price * $tmp->quotation_quantity);
+													echo  sprintf('%0.2f', $tmp->unit_sale_price * $tmp->quotation_quantity);
 
-									<?php if (1 % 2 == 0) { ?>
-										<tr style="background-color: #f0f3f5;">
-											<td>
-												<?php echo $tmp->product_name ?>
-											</td>
-											<td style="text-align: center;">
-												<?php echo  $tmp->quotation_quantity ?>
-											</td>
-											<td style="text-align: right;">
-												<?php echo  sprintf('%0.2f', $tmp->unit_sale_price) ?>
-											</td>
-											<td style="text-align: right;">
-												<?php
-												$total 		+= ($tmp->unit_sale_price * $tmp->quotation_quantity);
-												echo  sprintf('%0.2f', $tmp->unit_sale_price * $tmp->quotation_quantity);
+													?>
+												</td>
+											</tr>
+										<?php } else { ?>
+											<tr>
+												<td>
+													<?php echo $tmp->product_name ?>
+												</td>
+												<td style="text-align: center;">
+													<?php echo  $tmp->quotation_quantity ?>
+												</td>
+												<td style="text-align: right;">
+													<?php echo  $tmp->unit_sale_price ?>
+												</td>
+												<td style="text-align: right;">
+													<?php
+													$total 		+= ($tmp->unit_sale_price * $tmp->quotation_quantity);
+													echo  $tmp->unit_sale_price * $tmp->quotation_quantity;
 
-												?>
-											</td>
-										</tr>
-									<?php } else { ?>
-										<tr>
-											<td>
-												<?php echo $tmp->product_name ?>
-											</td>
-											<td style="text-align: center;">
-												<?php echo  $tmp->quotation_quantity ?>
-											</td>
-											<td style="text-align: right;">
-												<?php echo  $tmp->unit_sale_price ?>
-											</td>
-											<td style="text-align: right;">
-												<?php
-												$total 		+= ($tmp->unit_sale_price * $tmp->quotation_quantity);
-												echo  $tmp->unit_sale_price * $tmp->quotation_quantity;
+													?>
+												</td>
+											</tr>
+										<?php }
+										$ind++; ?>
+									</tbody>
 
-												?>
-											</td>
-										</tr>
 								<?php }
-									$ind++;
-								}
 								$total = $total + $quotation->quotation_delivery_charge - $quotation->quotation_discount_amount + $quotation->quotation_vat;
 								?>
+								<tfoot>
+									<tr>
+										<td style="text-align: center;">Total</td>
+										<td style="text-align: center;"><?php echo $totalQuantity; ?></td>
+										<th></th>
+										<td style="text-align: right;"><?php echo number_format($total, 2); ?></td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</div>

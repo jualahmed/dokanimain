@@ -18,7 +18,7 @@
 					$shop_info = $this->db->get('shop_setup')->row();
 					?>
 
-					<?php $row_data = $collection_payment_info->row(); ?>
+					<?php $row_data = $payment_info->row(); ?>
 					<p><img style="width: 50px;" src="<?php echo base_url(); ?>assets/img/shop/<?php echo $shop_info->logo; ?>" alt=""></p>
 					<h4 style="margin: 0;font-weight: bold"><?php echo $shop_info->shop_name; ?></h4>
 					<p style="margin: 0;font-size: 12px;"> <?php echo ($shop_info->shop_address) ?> </p>
@@ -33,7 +33,7 @@
 
 				<div id="pos_top_header_thired">
 					<?php
-					if ($collection_payment_info->num_rows() > 0) {
+					if ($payment_info->num_rows() > 0) {
 					?>
 						<div class="CSSTableGenerator" style="width:100%;margin:0px auto;float:left">
 							<table>
@@ -42,7 +42,7 @@
 									<td style="text-align:right;">Amount </td>
 								</tr>
 								<?php
-								foreach ($collection_payment_info->result() as $field) :
+								foreach ($payment_info->result() as $field) :
 								?>
 									<tr>
 										<td style="text-align:left;">

@@ -233,12 +233,16 @@ class Salereturn extends MY_controller
 					$this->db->where('srl_id', $return_list_id);
 					$this->db->update('sale_return_list', $datareturn);
 
-					$this->db->select('*');
+					$this->db->select('sale_return_main_product.*, bulk_stock_info.bulk_unit_buy_price');
+					$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id=sale_return_main_product.produ_id', 'left');
 					$this->db->from('sale_return_main_product');
 					$this->db->where('sale_return_main_product.status="' . $zero . '"');
 					$query1 = $this->db->get();
+
+					$return_buy_price = 0;
 					$i = 1;
 					foreach ($query1->result() as $tmp1) {
+						$return_buy_price += ($tmp1->return_quantity * $tmp1->bulk_unit_buy_price);
 						$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
 						$this->db->where('product_id', $tmp1->produ_id);
 						$this->db->update('bulk_stock_info');
@@ -282,7 +286,7 @@ class Salereturn extends MY_controller
 							$ii++;
 						}
 					}
-					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount);
+					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount. '/' . $return_buy_price);
 				} else {
 					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
 				}
@@ -303,12 +307,15 @@ class Salereturn extends MY_controller
 					$this->db->where('srl_id', $return_list_id);
 					$this->db->update('sale_return_list', $datareturn);
 
-					$this->db->select('*');
+					$this->db->select('sale_return_main_product.*, bulk_stock_info.bulk_unit_buy_price');
+					$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id=sale_return_main_product.produ_id', 'left');
 					$this->db->from('sale_return_main_product');
 					$this->db->where('sale_return_main_product.status="' . $zero . '"');
 					$query1 = $this->db->get();
+					$return_buy_price = 0;
 					$i = 1;
 					foreach ($query1->result() as $tmp1) {
+						$return_buy_price += ($tmp1->return_quantity * $tmp1->bulk_unit_buy_price);
 						$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
 						$this->db->where('product_id', $tmp1->produ_id);
 						$this->db->update('bulk_stock_info');
@@ -353,7 +360,7 @@ class Salereturn extends MY_controller
 							$ii++;
 						}
 					}
-					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount);
+					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount . '/' . $return_buy_price);
 				} else {
 					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
 				}
@@ -536,12 +543,15 @@ class Salereturn extends MY_controller
 						);
 						$this->db->insert('transaction_info', $transaction_info);
 					}
-					$this->db->select('*');
+					$this->db->select('sale_return_main_product.*, bulk_stock_info.bulk_unit_buy_price');
+					$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id=sale_return_main_product.produ_id', 'left');
 					$this->db->from('sale_return_main_product');
 					$this->db->where('sale_return_main_product.status="' . $zero . '"');
 					$query1 = $this->db->get();
+					$return_buy_price = 0;
 					$i = 1;
 					foreach ($query1->result() as $tmp1) {
+						$return_buy_price += ($tmp1->return_quantity * $tmp1->bulk_unit_buy_price);
 						$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
 						$this->db->where('product_id', $tmp1->produ_id);
 						$this->db->update('bulk_stock_info');
@@ -585,7 +595,7 @@ class Salereturn extends MY_controller
 							$ii++;
 						}
 					}
-					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount);
+					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount . '/' . $return_buy_price);
 				} else {
 					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
 				}

@@ -266,6 +266,7 @@ class Sale extends MY_Controller
 		$data['tmp_item']   		= $this->sale_model->getAllTmpProduct($this->tank_auth->get_current_temp_sale());
 		$data['return_id'] 			= $this->sale_model->getReturnId($this->tank_auth->get_current_temp_sale());
 		$data['return_adjust'] 		= $this->sale_model->getReturnAdjustAmount($this->tank_auth->get_current_temp_sale());
+		$data['return_buy_price'] 		= $this->sale_model->getReturnBuyPrice($this->tank_auth->get_current_temp_sale());
 		$number             		= 0;
 		$data['in_word']    		= "";
 		if ($data['tmp_item'] != FALSE) {
@@ -463,7 +464,8 @@ class Sale extends MY_Controller
 	public function new_active_sale_with_salereturn()
 	{
 		$return_amount = $this->uri->segment(3);
-		$d = $this->sale_model->new_active_sale_with_salereturn($return_amount);
+		$return_buy_price = $this->uri->segment(4);
+		$d = $this->sale_model->new_active_sale_with_salereturn($return_amount, $return_buy_price);
 		$this->tank_auth->set_current_temp_sale($d);
 		redirect('sale/new_sale');
 	}

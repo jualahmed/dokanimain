@@ -62,12 +62,14 @@
 								$totalMrp = 0;
 								$totalUnitSalePrice = 0;
 								$totalActualSalePrice = 0;
+								$totalQuantity = 0;
 								foreach ($sale_info->result() as $field) :
 									$general_sale_price = $field->general_sale_price;
 									$sale_quantity = $field->sale_quantity;
 									$unit_sale_price = $field->unit_sale_price;
 									$actual_sale_price = $field->actual_sale_price;
 
+									$totalQuantity += $sale_quantity;
 									$totalMrp += ($general_sale_price * $sale_quantity);
 									$totalUnitSalePrice += ($unit_sale_price * $sale_quantity);
 									$totalActualSalePrice += ($actual_sale_price * $sale_quantity);
@@ -111,6 +113,14 @@
 								<?php
 								endforeach;
 								?>
+								<tfoot>
+									<tr>
+										<td colspan="2" style="text-align: center;">Total</td>
+										<td style="text-align: center;"><?php echo $totalQuantity; ?></td>
+										<th></th>
+										<td style="text-align: right;"><?php echo number_format($totalActualSalePrice, 2); ?></td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					<?php

@@ -29,11 +29,16 @@
 								<th>Quantity</th>
 								<th>BP</th>
 								<th>SP</th>
+								<th style="text-align: right;">Profit</th> 
 								<th>Seller</th>
 							</tr>
 						</thead>
 						<tbody>
-							<?php $qty=0;$amount=0;$samount=0; foreach ($data as $key => $var): $qty=$qty+$var->sale_quantity; $amount=$amount+($var->unit_buy_price*$var->sale_quantity); $samount=$samount+($var->actual_sale_price*$var->sale_quantity); ?>
+							<?php 
+							$qty=0;
+							$amount=0;
+							$samount=0; 
+							foreach ($data as $key => $var): $qty=$qty+$var->sale_quantity; $amount=$amount+($var->unit_buy_price*$var->sale_quantity); $samount=$samount+($var->actual_sale_price*$var->sale_quantity); ?>
 							<tr>
 								<td><?php echo $key+1 ?></td>
 								<td align="center"><?php echo $var->sid ?></td>
@@ -44,17 +49,19 @@
 								<td><?php echo $var->catagory_name ?></td>
 								<td><?php echo $var->customer_name ?></td>
 								<th ><?php echo $var->customer_contact_no ?></th>
-								<th ><?php echo $var->sale_quantity ?></th>
-								<td><?php echo $var->unit_buy_price ?></td>
-								<th ><?php echo $var->actual_sale_price ?></th>
+								<th style="text-align: center;"><?php echo number_format($var->sale_quantity, 2) ?></th>
+								<td style="text-align: right;"><?php echo number_format($var->unit_buy_price, 2); ?></td>
+								<th style="text-align: right;"><?php echo number_format($var->actual_sale_price, 2); ?></th>
+								<th style="text-align: right;"><?php echo number_format($var->actual_sale_price - $var->unit_buy_price, 2); ?></th>
 								<td><?php echo $var->username ?></td>
 							</tr>
 							<?php endforeach ?>
 							<tr>
-								<td colspan="9"></td>
-								<td><b>Total BP: <?php echo number_format($qty, 2) ?></b></td>
-								<td><b>Total BP: <?php echo number_format($amount, 2) ?></b></td>
-								<td><b>Total SP: <?php echo number_format($samount, 2) ?></b></td>
+								<td colspan="9">Total</td>
+								<td style="text-align: center;"><b><?php echo number_format($qty, 2) ?></b></td>
+								<td style="text-align: center;"><b><?php echo number_format($amount, 2) ?></b></td>
+								<td style="text-align: center;"><b><?php echo number_format($samount, 2) ?></b></td>
+								<td style="text-align: center;"><b><?php echo number_format($samount - $amount, 2) ?></b></td>
 								<td></td>
 							</tr>
 						</tbody>
