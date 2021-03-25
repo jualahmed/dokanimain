@@ -1,18 +1,18 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-class admin extends MY_controller{
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+class admin extends MY_controller
+{
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->is_logged_in();
 		$this->load->model('admin_model');
-		$this->ci =& get_instance();
+		$this->ci = &get_instance();
 	}
 
 	public function is_logged_in()
 	{
-		if(!$this->tank_auth->is_logged_in())
-		{
+		if (!$this->tank_auth->is_logged_in()) {
 			redirect('auth/login');
 		}
 	}
@@ -20,24 +20,26 @@ class admin extends MY_controller{
 	public function index()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		$data['user_name'] = $this->tank_auth->get_username();	
+		$data['user_name'] = $this->tank_auth->get_username();
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		$start_date = date ('Y-m-d');
-		$end_date = date ('Y-m-d 23:59:59');
+		$start_date = date('Y-m-d');
+		$end_date = date('Y-m-d 23:59:59');
 		$data['previous_date'] = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") - 30, date("y")));
-		$data[ 'sale_price_info' ] = $this->report_model->specific_date_sale_price_calculation($start_date, $end_date);
-		$data[ 'running_sale' ] = $this->report_model->specific_date_running_sale_calculation();
-		$data[ 'invoice_info' ] = $this->report_model->specific_date_invoice_calculation($start_date, $end_date);
-		$data[ 'main_cash_info' ] = $this->report_model->specific_date_total_cash_calculation($start_date, $end_date);
-		$data[ 'purchase_info' ] = $this->report_model->specific_date_purchase_amount_calculation($start_date,$end_date);
-		$data['expense_info' ] = $this->report_model->specific_date_expense_amount_calculation($start_date, $end_date);
-		$data[ 'main_credit_receive_info' ] = $this->report_model->specific_date_total_credit_collection_calculation($start_date, $end_date);
-		$data[ 'grand_price_info' ] = $this->report_model->specific_date_grand_sale_price_calculation($start_date, $end_date);
-		$data[ 'total_price_info' ] = 0;
+		$data['sale_price_info'] = $this->report_model->specific_date_sale_price_calculation($start_date, $end_date);
+		$data['due_price_info'] = $this->report_model->specific_date_due_price($start_date, $end_date);
+		$data['running_sale'] = $this->report_model->specific_date_running_sale_calculation();
+		$data['invoice_info'] = $this->report_model->specific_date_invoice_calculation($start_date, $end_date);
+		$data['main_cash_info'] = $this->report_model->specific_date_total_cash_calculation($start_date, $end_date);
+		$data['purchase_info'] = $this->report_model->specific_date_purchase_amount_calculation($start_date, $end_date);
+		$data['expense_info'] = $this->report_model->specific_date_expense_amount_calculation($start_date, $end_date);
+		$data['today_credit_receive_info'] = $this->report_model->specific_date_total_credit_collection_calculation($start_date, $end_date);
+		$data['main_credit_receive_info'] = $this->report_model->specific_date_total_credit_collection_calculation();
+		$data['grand_price_info'] = $this->report_model->specific_date_grand_sale_price_calculation($start_date, $end_date);
+		$data['total_price_info'] = 0;
 		$data['total_stock_price'] = $this->site_model->total_stock_price();
 		$data['total_stock_quantity'] = $this->site_model->total_stock_quantity();
 		$prevdate = date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))));
-		$data['statment']=Dailystatementm::where('date',$prevdate)->get();
+		$data['statment'] = Dailystatementm::where('date', $prevdate)->get();
 		$this->__renderview('home', $data);
 	}
 
@@ -45,8 +47,7 @@ class admin extends MY_controller{
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
 		$data['user_name'] = $this->tank_auth->get_username();
-		if($data['user_type'] == 'superadmin' || $data['user_type'] == 'admin' || $data['user_type'] == 'manager' )
-		{
+		if ($data['user_type'] == 'superadmin' || $data['user_type'] == 'admin' || $data['user_type'] == 'manager') {
 			$data['sale_status'] = '';
 			$data['status'] = '';
 			$data['alarming_level'] = FALSE;
@@ -59,33 +60,29 @@ class admin extends MY_controller{
 	public function update_user()
 	{
 		$data['user_type'] = $this->tank_auth->get_usertype();
-		if($data['user_type'] == 'superadmin' || $data['user_type'] == 'admin' || $data['user_type'] == 'manager' )
-		{
+		if ($data['user_type'] == 'superadmin' || $data['user_type'] == 'admin' || $data['user_type'] == 'manager') {
 			$data['sale_status'] = '';
-			$this->form_validation->set_rules('user_address', 'User Address','required|xss_clean');
-			$this->form_validation->set_rules('email', 'Phone Number','numeric|required|xss_clean');
+			$this->form_validation->set_rules('user_address', 'User Address', 'required|xss_clean');
+			$this->form_validation->set_rules('email', 'Phone Number', 'numeric|required|xss_clean');
 			$data['alarming_level'] = FALSE;
 			$data['errors'] = array();
-			$data['status']='';
-			
-			if ($this->form_validation->run(TRUE)) 
-			{
+			$data['status'] = '';
+
+			if ($this->form_validation->run(TRUE)) {
 				$new_password 	= $this->input->post('new_password');
 				$hasher = new PasswordHash(
 					$this->ci->config->item('phpass_hash_strength', 'tank_auth'),
-					$this->ci->config->item('phpass_hash_portable', 'tank_auth'));
+					$this->ci->config->item('phpass_hash_portable', 'tank_auth')
+				);
 				$hashed_password = $hasher->HashPassword($new_password);
-				$this->admin_model->update_user($hashed_password,$new_password);
+				$this->admin_model->update_user($hashed_password, $new_password);
 				$data['status'] = 'success';
 				$data['user_type'] = $this->tank_auth->get_usertype();
 				$data['user_name'] = $this->tank_auth->get_username();
 				$data['user_info'] = $this->admin_model->all_user();
 				$data['change_mood'] = $this->admin_model->specific_user();
 				$this->__renderview('user_modification_form_view', $data);
-				
-			}
-			else
-			{
+			} else {
 				$errors = $this->tank_auth->get_error_message();
 				foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
 				$data['status'] = 'error';
@@ -98,36 +95,59 @@ class admin extends MY_controller{
 		}
 	}
 
-	public function dailystatement()
+	public function alreadyExist($date)
 	{
-		$date = date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))));
-		$dailystatementm = new Dailystatementm();
-		$dailystatementm->date = $date;
-		$dailystatementm->purchase =Transactionm::where('transaction_purpose','purchase')->where('date',$date)->sum('amount');
-		$dailystatementm->expense =Transactionm::where('transaction_purpose','expense')->where('date',$date)->sum('amount');
-		$dailystatementm->sale =Transactionm::where('transaction_purpose','sale')->where('date',$date)->sum('amount');
-		$dailystatementm->sale_discount =Invoicem::where('invoice_doc',$date)->sum('discount_amount');
-		$dailystatementm->receivable_gift =Purchasereceiptinfom::where('receipt_date',$date)->sum('transport_cost');
-		$dailystatementm->transport_cost =Purchasereceiptinfom::where('receipt_date',$date)->sum('gift_on_purchase');
-		$cstock = Bulkstockinfom::selectRaw('SUM(bulk_unit_buy_price * stock_amount) as total')->pluck('total')[0];
-		$totalsale = Invoicem::where('invoice_doc',$date)->sum('total_price');
-		$totalpurchase = Purchaseinfom::selectRaw('SUM(unit_buy_price * purchase_quantity) as total')->where('purchase_doc',$date)->pluck('total')[0];
-		$dailystatementm->stock_current =$cstock;
-		$dailystatementm->stock_opening =($cstock+$totalsale)-$totalpurchase;
-		$cahsin = Cashbook::where('transaction_type','in')->sum('amount');
-		$cahsout = Cashbook::where('transaction_type','out')->sum('amount');
-		$dailystatementm->cash_in_hand =$cahsin-$cahsout;
-		$bankin = Bankbook::where('transaction_type','in')->sum('amount');
-		$bankout = Bankbook::where('transaction_type','out')->sum('amount');
-		$dailystatementm->cash_in_bank =$bankin-$bankout;
-		$buyprice = Saledetails::selectRaw('SUM(unit_buy_price * sale_quantity) as total')->where('created_at',$date)->pluck('total')[0];
-		$saleprice = Saledetails::selectRaw('SUM(actual_sale_price * sale_quantity) as total')->where('created_at',$date)->pluck('total')[0];
-		$dailystatementm->gross_profit = $saleprice-$buyprice;
-		$dailystatementm->save();
-		redirect('/admin','refresh');
+		$dailystatementm = Dailystatementm::where('date', $date)->first();
+
+		return $dailystatementm ? true : false;
 	}
 
-	public function download_database(){
+	public function dailystatement()
+	{
+		$last_date = '2020-01-01';
+		$date = date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))));
+		$dateList = array();
+		while (!$this->alreadyExist($date) && $date >= $last_date) {
+			array_push($dateList, $date);
+			$date = date('Y-m-d', strtotime('-1 day', strtotime($date)));
+		}
+
+
+		foreach ($dateList as $date) {
+			$dailystatementm = new Dailystatementm();
+			$dailystatementm->date = $date;
+			$dailystatementm->purchase = Transactionm::where('transaction_purpose', 'purchase')->where('date', $date)->sum('amount');
+			$dailystatementm->expense = Transactionm::where('transaction_purpose', 'expense')->where('date', $date)->sum('amount');
+			$dailystatementm->sale = Transactionm::where('transaction_purpose', 'sale')->where('date', $date)->sum('amount');
+			$dailystatementm->sale_discount = Invoicem::where('invoice_doc', $date)->sum('discount_amount');
+			$dailystatementm->receivable_gift = Purchasereceiptinfom::where('receipt_date', $date)->sum('transport_cost');
+			$dailystatementm->transport_cost = Purchasereceiptinfom::where('receipt_date', $date)->sum('gift_on_purchase');
+			$cstock = Bulkstockinfom::selectRaw('SUM(bulk_unit_buy_price * stock_amount) as total')->pluck('total')[0];
+			$totalsale = Invoicem::where('invoice_doc', $date)->sum('total_price');
+			$totalpurchase = Purchaseinfom::selectRaw('SUM(unit_buy_price * purchase_quantity) as total')->where('purchase_doc', $date)->pluck('total')[0];
+			$dailystatementm->stock_current = $cstock;
+			$dailystatementm->stock_opening = ($cstock + $totalsale) - $totalpurchase;
+			$cashIn = Cashbook::where('transaction_type', 'in')->sum('amount');
+			$cashOut = Cashbook::where('transaction_type', 'out')->sum('amount');
+			$dailystatementm->cash_in_hand = $cashIn - $cashOut;
+			$bankIn = Bankbook::where('transaction_type', 'in')->sum('amount');
+			$bankOut = Bankbook::where('transaction_type', 'out')->sum('amount');
+			$dailystatementm->cash_in_bank = $bankIn - $bankOut;
+			$price = $this->db->select('SUM(unit_buy_price * sale_quantity) as total_buy_price, SUM(actual_sale_price * sale_quantity) as total_sale_price')
+				->from('sale_details')
+				->join('invoice_info', 'invoice_info.invoice_id=sale_details.invoice_id', 'left')
+				->where("invoice_doc='$date'")
+				->get()->row();
+			$buyPrice = $price->total_buy_price;
+			$salePrice = $price->total_sale_price;
+			$dailystatementm->gross_profit = $salePrice - $buyPrice;
+			$dailystatementm->save();
+		}
+		redirect('/admin', 'refresh');
+	}
+
+	public function download_database()
+	{
 		$temp = $this->admin_model->backup_database();
 		echo json_encode($temp);
 	}

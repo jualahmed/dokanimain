@@ -88,10 +88,7 @@ const vm = new Vue({
         flag = false;
         this.errors.quantity = "required";
       }
-      if (
-        this.total_buy_price == "" ||
-        isNaN(this.total_buy_price)
-      ) {
+      if (this.total_buy_price == "" || isNaN(this.total_buy_price)) {
         flag = false;
         this.errors.total_buy_price = "required";
       }
@@ -275,65 +272,55 @@ const vm = new Vue({
         });
     },
     changeQuantity: function () {
-      if (!isNaN(this.quantity) && this.quantity != "" && this.quantity != 0) {
-        if (
-          this.total_buy_price !== "" &&
-          !isNaN(parseFloat(this.total_buy_price)) &&
-          this.total_buy_price !== 0
-        ) {
-          let unit_buy_price_purchase =
-            parseFloat(this.total_buy_price) / parseFloat(this.quantity);
-          this.unit_buy_price_purchase = parseFloat(
-            unit_buy_price_purchase
-          ).toFixed(2);
-        } else if (
-          this.unit_buy_price_purchase !== "" &&
-          !isNaN(parseFloat(this.unit_buy_price_purchase)) &&
-          this.unit_buy_price_purchase !== 0
-        ) {
-          let total_buy_price =
-            parseFloat(this.unit_buy_price_purchase) *
-            parseFloat(this.quantity);
-          this.total_buy_price = parseFloat(total_buy_price).toFixed(2);
-        }
+      var quantity = isNaN(parseFloat(this.quantity))
+        ? 0
+        : parseFloat(this.quantity);
+      var total_buy_price = isNaN(parseFloat(this.total_buy_price))
+        ? 0
+        : parseFloat(this.total_buy_price);
+      var unit_buy_price_purchase = isNaN(
+        parseFloat(this.unit_buy_price_purchase)
+      )
+        ? 0
+        : parseFloat(this.unit_buy_price_purchase);
+
+      console.log({ quantity, total_buy_price, unit_buy_price_purchase });
+      if (total_buy_price !== 0) {
+        let unit_buy_price_purchase = total_buy_price / quantity;
+        this.unit_buy_price_purchase = parseFloat(
+          unit_buy_price_purchase
+        ).toFixed(2);
+      } else if (unit_buy_price_purchase !== 0) {
+        let total_buy_price = unit_buy_price_purchase * quantity;
+        this.total_buy_price = parseFloat(total_buy_price).toFixed(2);
       }
     },
     changeTotalBuyPrice: function () {
-      if (
-        this.total_buy_price !== "" &&
-        !isNaN(parseFloat(this.total_buy_price)) &&
-        this.total_buy_price !== 0
-      ) {
-        if (
-          !isNaN(parseFloat(this.quantity)) &&
-          this.quantity !== "" &&
-          this.quantity !== 0
-        ) {
-          let unit_buy_price_purchase =
-            parseFloat(this.total_buy_price) / parseFloat(this.quantity);
-          this.unit_buy_price_purchase = parseFloat(
-            unit_buy_price_purchase
-          ).toFixed(2);
-        }
-      }
+      var quantity = isNaN(parseFloat(this.quantity))
+        ? 0
+        : parseFloat(this.quantity);
+      var total_buy_price = isNaN(parseFloat(this.total_buy_price))
+        ? 0
+        : parseFloat(this.total_buy_price);
+
+      let unit_buy_price_purchase = total_buy_price / quantity;
+      this.unit_buy_price_purchase = parseFloat(
+        unit_buy_price_purchase
+      ).toFixed(2);
     },
     changeUnitBuyPricePurchase: function () {
-      if (
-        this.unit_buy_price_purchase !== "" &&
-        !isNaN(parseFloat(this.unit_buy_price_purchase)) &&
-        this.unit_buy_price_purchase !== 0
-      ) {
-        if (
-          !isNaN(parseFloat(this.quantity)) &&
-          this.quantity !== "" &&
-          this.quantity !== 0
-        ) {
-          let total_buy_price =
-            parseFloat(this.unit_buy_price_purchase) *
-            parseFloat(this.quantity);
-          this.total_buy_price = parseFloat(total_buy_price).toFixed(2);
-        }
-      }
+      var unit_buy_price_purchase = isNaN(
+        parseFloat(this.unit_buy_price_purchase)
+      )
+        ? 0
+        : parseFloat(this.unit_buy_price_purchase);
+        console.log(unit_buy_price_purchase)
+      var quantity = isNaN(parseFloat(this.quantity))
+        ? 0
+        : parseFloat(this.quantity);
+      let total_buy_price =
+        parseFloat(unit_buy_price_purchase) * parseFloat(quantity);
+      this.total_buy_price = parseFloat(total_buy_price).toFixed(2);
     },
   },
   watch: {
@@ -410,28 +397,30 @@ function calculate(value) {
 
 // old js will delete soon
 $(function () {
-  $("#pro_serial_input_for_edit").on("click", "[name='edit_warran']", function (
-    ev
-  ) {
-    ev.preventDefault();
-    var ip_id = $(this).attr("id");
-    var product_type_name = $("#product_type" + ip_id).val();
-    var submiturl = base_url + "purchase/update_product_warranty";
-    var methods = "POST";
-    var output = "";
-    var input_box = "";
-    var k = 1;
-    $.ajax({
-      url: submiturl,
-      type: methods,
-      dataType: "JSON",
-      data: { ip_id: ip_id, product_type_name: product_type_name },
-      success: function (result) {
-        swal("Updated!", "Product has been updated.", "success");
-        $("#product_type" + ip_id).val(result.sl_no);
-      },
-    });
-  });
+  $("#pro_serial_input_for_edit").on(
+    "click",
+    "[name='edit_warran']",
+    function (ev) {
+      ev.preventDefault();
+      var ip_id = $(this).attr("id");
+      var product_type_name = $("#product_type" + ip_id).val();
+      var submiturl = base_url + "purchase/update_product_warranty";
+      var methods = "POST";
+      var output = "";
+      var input_box = "";
+      var k = 1;
+      $.ajax({
+        url: submiturl,
+        type: methods,
+        dataType: "JSON",
+        data: { ip_id: ip_id, product_type_name: product_type_name },
+        success: function (result) {
+          swal("Updated!", "Product has been updated.", "success");
+          $("#product_type" + ip_id).val(result.sl_no);
+        },
+      });
+    }
+  );
 
   $("#pro_serial_input_for_edit").on(
     "click",
@@ -764,7 +753,6 @@ $(document).ready(function () {
         console.log("error");
       });
   });
-
 
   $("#edit_modal_form").on("submit", function (ev) {
     var serial_nos = $("input[name='serial_no[]']")

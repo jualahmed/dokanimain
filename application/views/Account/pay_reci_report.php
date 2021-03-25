@@ -45,10 +45,10 @@
 					<div class="box-body">
 						<div class="wrap">
 							
-							<div class="inner_table new_data_2" id="search_data">
+							<div class="inner_table table-responsive new_data_2" id="search_data">
 								
 							</div>
-							<table class="table">
+							<table class="table table-responsive">
 								<tr>
 									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>
 									<td style="font-family:Helvetica Neue,Helvetica,Arial,sans-serif;text-align:left;"></td>

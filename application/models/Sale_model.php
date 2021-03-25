@@ -79,15 +79,16 @@ class Sale_model extends CI_model
 		$data = $this->db
 			->select('product_name, company_info.company_name, catagory_info.catagory_name,product_size,product_model, product_info.product_id, bulk_unit_sale_price, general_unit_sale_price, bulk_unit_buy_price, stock_amount, barcode, group_name, product_info.product_specification')
 			->where("product_info.product_name RLIKE ' +$query' OR product_info.product_name LIKE '$query%'")
-			->order_by('product_name', 'asc')
-			->limit(50)
 			->from('product_info')
 			->join('company_info', 'product_info.company_id = company_info.company_id', 'left')
 			->join('catagory_info', 'product_info.catagory_id = catagory_info.catagory_id', 'left')
 			->join('bulk_stock_info', 'product_info.product_id = bulk_stock_info.product_id', 'left')
+			->order_by('product_name', 'asc')
+			->limit(50)
 			->get();
 
-		if ($data->num_rows() > 0) return $data->result();
+		if ($data->num_rows() > 0) 
+			return $data->result();
 		return false;
 	}
 
@@ -259,8 +260,7 @@ class Sale_model extends CI_model
 		$this->db->from('customer_info,temp_sale_info');
 		$this->db->where('customer_info.customer_id=temp_sale_info.temp_customer_id');
 		$this->db->where('temp_sale_info.temp_sale_id', $current_sale);
-		$data = $this->db->get();
-		return $data;
+		return $this->db->get();
 	}
 
 	public function getAllTmpProduct($currrent_temp_sale_id)
@@ -1393,12 +1393,13 @@ class Sale_model extends CI_model
 		}
 	}
 
-	public function new_active_sale_with_salereturn($return_amount, $return_buy_price)
+	public function new_active_sale_with_salereturn($return_amount, $return_buy_price, $customer_id)
 	{
 		$current_user = $this->tank_auth->get_user_id();
 		$current_shop = $this->tank_auth->get_shop_id();
 		$data = array(
 			'temp_sale_id'          => '',
+			'temp_customer_id'      => $customer_id,
 			'temp_sale_shop_id'     => $current_shop,
 			'temp_sale_creator'     => $current_user,
 			'return_adjust_amount'  => $return_amount,
@@ -1464,5 +1465,15 @@ class Sale_model extends CI_model
 		$this->db->query("DELETE  FROM temp_sale_info
 							  WHERE temp_sale_id = " . $currrent_temp_sale_id . "");
 		return true;
+	}
+
+	public function getReturnCustomer($sale_return_id)
+	{
+		return $this->db->select("customer_info.*")
+			->from('customer_info')
+			->join("temp_sale_info", "temp_sale_info.temp_customer_id=customer_info.customer_id", "left")
+			->where("temp_sale_info.return_id", $sale_return_id)
+			->get()
+			->row();
 	}
 }

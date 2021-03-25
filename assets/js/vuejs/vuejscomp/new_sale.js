@@ -555,9 +555,28 @@ $(document).ready(function () {
 });
 /* Start: Script for sale. */
 $(function () {
+  $("#total").hover(function () {
+    var sub_total = $("#sub_total").val();
+    sub_total = isNaN(parseFloat(sub_total)) ? 0 : sub_total;
+
+    var disc_amount = $("#disc_amount").val();
+    disc_amount = isNaN(parseFloat(disc_amount)) ? 0 : disc_amount;
+    var hid_vat = $("#hid_vat").val();
+    hid_vat = hid_vat ? 0 : hid_vat;
+    var hid_total_buy_price = $("#hid_total_buy_price").val();
+    hid_total_buy_price = isNaN(parseFloat(hid_total_buy_price))
+      ? 0
+      : hid_total_buy_price;
+    var profit =
+      parseFloat(sub_total) -
+      parseFloat(hid_total_buy_price) -
+      parseFloat(disc_amount) +
+      parseFloat(hid_vat);
+    profit = isNaN(parseFloat(profit)) ? 0 : profit;
+    $("#total").attr("title", parseFloat(profit).toFixed(2));
+  });
   var hid_qty = $("#hid_qty").val();
   var hid_sub_to = $("#hid_sub_to").val();
-  var hid_total_buy_price = $("#hid_total_buy_price").val();
   var hid_vat = $("#hid_vat").val();
 
   hid_qty = parseFloat(hid_qty).toFixed(2);
@@ -568,30 +587,31 @@ $(function () {
     $("#number_of_products").val(hid_qty);
     $("#sub_total").val(hid_sub_to);
     $("#vat").val(hid_vat);
-    var re_ajd = $("#hid_return_adjust").val();
-    var return_adjust_buy_price = $("#hid_return_buy_price").val();
-    re_ajd = parseFloat(re_ajd).toFixed(2);
+  }
 
-    var tmp = parseFloat(hid_sub_to) + parseFloat(hid_vat);
-    tmp = parseFloat(tmp).toFixed(2);
+  var re_ajd = $("#hid_return_adjust").val();
+  re_ajd = parseFloat(re_ajd).toFixed(2);
 
-    if (re_ajd != 0) {
-      var pybl = tmp - re_ajd;
-      tmp -= re_ajd;
-      pybl = parseFloat(pybl).toFixed(2);
+  var tmp = parseFloat(hid_sub_to) + parseFloat(hid_vat);
+  tmp = parseFloat(tmp).toFixed(2);
+  if (re_ajd > 0) {
+    tmp -= re_ajd;
+    var pybl = tmp - re_ajd;
+    pybl = parseFloat(pybl).toFixed(2);
 
-      $("#return_adjust").val(re_ajd);
-      if (pybl > 0) $("#payable").val(pybl);
-      else $("#payable").val(0);
-    }
+    $("#return_adjust").val(re_ajd);
+    if (pybl > 0) $("#payable").val(pybl);
+    else $("#payable").val(0);
+  } else $("#payable").val(tmp);
 
-    if (!isNaN(tmp)) {
-      var return_adjest_profit = hid_total_buy_price - return_adjust_buy_price;
-      $("#total").val(tmp);
-      $("#total").attr("title", parseFloat(tmp - return_adjest_profit).toFixed(2));
-      var txt = convert_number_to_words(tmp) + " (TK)";
-      $("#inword").val(txt);
-    }
+  if (!isNaN(tmp)) {
+    $("#total").val(tmp);
+    var str_received = $("#received").val();
+    var dif = str_received + re_ajd - hid_sub_to;
+    dif = dif >= 0 ? dif : 0;
+    $("#change").val(parseFloat(dif).toFixed(2));
+    var txt = convert_number_to_words(tmp) + " (TK)";
+    $("#inword").val(txt);
   }
 });
 
@@ -934,15 +954,20 @@ $("#received").on("keyup", function (efs) {
 });
 // quick_sale or cash sale start
 $("#quick_sale").on("click", function (e) {
+  var grand_total = $("#total").val();
   var change = $("#change").val();
-  if (change !== "" && parseFloat(change) >= 0) {
-    quick(e);
+  if (grand_total > 0) {
+    if (change !== "" && parseFloat(change) >= 0) {
+      quick(e);
+    } else {
+      swal(
+        "Oops...!",
+        "Received amount must be greater then or equal to total price!",
+        "info"
+      );
+    }
   } else {
-    swal(
-      "Oops...!",
-      "Received amount must be greater then or equal to total price!",
-      "info"
-    );
+    swal("Oops...!", "Grand total must be greater then zero!", "info");
   }
 });
 
@@ -966,6 +991,7 @@ function quick(e) {
       var sub_total = parseFloat($("#sub_total").val());
       var vat = parseFloat($("#vat").val());
       var total = parseFloat($("#total").val());
+      console.log(total);
       var received = parseFloat($("#received").val());
       var customer_id = $("#selected_customer_id").val();
       var disc_in_p = parseFloat($("#disc_in_p").val());
@@ -996,7 +1022,7 @@ function quick(e) {
         message =
           "Received amount must be greater then or equal to total price";
       }
-      if (total == "") {
+      if (total === "") {
         is_valid = false;
         message = "Total price should not be empty";
       }
@@ -1688,144 +1714,87 @@ $(document).on("keydown", function (e) {
 
 /* Start: Discount in %. */
 $("#disc_in_p").on("keyup", function (e) {
-  var str_disc = $(this).val();
-  var disc_val = parseFloat(str_disc);
+  var disc_in_p = $(this).val();
+  var disc_val = isNaN(parseFloat(disc_in_p)) ? 0 : parseFloat(disc_in_p);
+  var received = $("#received").val();
+  received = isNaN(parseFloat(received)) ? 0 : parseFloat(received);
   var return_adjust = $("#return_adjust").val();
   var tmp_re_ad = 0;
   var payable = 0;
 
-  if (str_disc != "" && !isNaN(disc_val) && disc_val > 0) {
-    var str_sub_total = $("#sub_total").val();
-    var sub_total = parseFloat(str_sub_total);
-    var str_vat = $("#vat").val();
-    var vat = parseFloat(str_vat);
-    var disc_amount = (disc_val * sub_total) / 100;
+  var str_sub_total = $("#sub_total").val();
+  var sub_total = parseFloat(str_sub_total);
 
-    $("#disc_in_f").val("");
+  var disc_val = (disc_val * sub_total) / 100;
 
-    $("#disc_amount").val(disc_amount);
+  var str_vat = $("#vat").val();
+  var vat = isNaN(parseFloat(str_vat)) ? 0 : parseFloat(str_vat);
 
-    if (return_adjust != "") var tmp_re_ad = parseFloat(return_adjust);
-    var payable = sub_total - disc_amount + vat - tmp_re_ad;
-    var total = sub_total - disc_amount + vat;
-    // var profit = 
-    if (!isNaN(total)) {
-      $("#total").val(total);
-      if (return_adjust != "") $("#payable").val(payable);
-      var txt = convert_number_to_words(total) + " (TK)";
-      $("#inword").val(txt);
-    }
-    $("#received").val("");
-    $("#change").val("");
-  } else if (str_disc == "" && e.keyCode != 113) {
-    $("#disc_amount").val("");
-    var str_sub_total = $("#sub_total").val();
-    var sub_total = parseFloat(str_sub_total);
-    var str_vat = $("#vat").val();
-    var vat = parseFloat(str_vat);
+  if (return_adjust != "") var tmp_re_ad = parseFloat(return_adjust);
 
-    if (return_adjust != "") var tmp_re_ad = parseFloat(return_adjust);
-    var payable = sub_total + vat - tmp_re_ad;
-    var total = sub_total + vat;
+  $("#disc_in_f").val("");
+  $("#disc_amount").val(disc_val);
 
-    if (!isNaN(total)) {
-      $("#total").val(total);
-      if (return_adjust != "") $("#payable").val(payable);
-      var txt = convert_number_to_words(total) + " (TK)";
-      $("#inword").val(txt);
-    }
-    $("#received").val("");
-    $("#change").val("");
+  var total = sub_total - tmp_re_ad - disc_val + vat;
+
+  if (!isNaN(total)) {
+    payable = total;
+    $("#total").val(payable);
+    $("#payable").val(payable);
+
+    var txt = convert_number_to_words(total) + " (TK)";
+    $("#inword").val(txt);
   }
+  var change = received - total;
+  $("#change").val(change >= 0 ? parseFloat(change).toFixed(2) : 0);
 });
 
 $("#disc_in_f").on("keyup", function () {
   var str_disc_f = $(this).val();
-  var disc_val = parseFloat(str_disc_f);
-  var str_disc_p = $("#disc_in_p").val();
+  var disc_val = isNaN(parseFloat(str_disc_f)) ? 0 : parseFloat(str_disc_f);
+  var received = $("#received").val();
+  received = isNaN(parseFloat(received)) ? 0 : parseFloat(received);
   var return_adjust = $("#return_adjust").val();
   var tmp_re_ad = 0;
   var payable = 0;
 
-  if (str_disc_f != "" && !isNaN(disc_val) && disc_val > 0) {
-    var str_sub_total = $("#sub_total").val();
-    var sub_total = parseFloat(str_sub_total);
-    var str_vat = $("#vat").val();
-    var vat = parseFloat(str_vat);
+  var str_sub_total = $("#sub_total").val();
+  var sub_total = parseFloat(str_sub_total);
 
-    if (return_adjust != "") var tmp_re_ad = parseFloat(return_adjust);
+  var str_vat = $("#vat").val();
+  var vat = isNaN(parseFloat(str_vat)) ? 0 : parseFloat(str_vat);
 
-    $("#disc_in_p").val("");
-    $("#disc_amount").val(disc_val);
-    var total = sub_total - disc_val + vat;
+  if (return_adjust != "") var tmp_re_ad = parseFloat(return_adjust);
 
-    if (!isNaN(total)) {
-      payable = total - tmp_re_ad;
-      $("#total").val(total);
-      if (return_adjust != "") $("#payable").val(payable);
+  $("#disc_in_p").val("");
+  $("#disc_amount").val(disc_val);
 
-      var txt = convert_number_to_words(total) + " (TK)";
-      $("#inword").val(txt);
-    }
-    $("#received").val("");
-    $("#change").val("");
-  } else if (str_disc_f == "" && str_disc_p == "") {
-    $("#disc_amount").val("");
-    var str_sub_total = $("#sub_total").val();
-    var sub_total = parseFloat(str_sub_total);
-    var str_vat = $("#vat").val();
-    var vat = parseFloat(str_vat);
+  var total = sub_total - tmp_re_ad - disc_val + vat;
 
-    if (return_adjust != "") var tmp_re_ad = parseFloat(return_adjust);
-    total = sub_total + vat;
-    var payable = total - tmp_re_ad;
+  if (!isNaN(total)) {
+    payable = total;
+    $("#total").val(payable);
+    $("#payable").val(payable);
 
-    if (!isNaN(total)) {
-      payable = payable;
-      $("#total").val(total);
-      if (return_adjust != "") $("#payable").val(payable);
-
-      var txt = convert_number_to_words(total) + " (TK)";
-      $("#inword").val(txt);
-    }
-    // $('#received').val("");
-    // $('#change').val("");
+    var txt = convert_number_to_words(total) + " (TK)";
+    $("#inword").val(txt);
   }
+  var change = received - total;
+  $("#change").val(change >= 0 ? parseFloat(change).toFixed(2) : 0);
 });
 
 $("#received").on("keyup", function () {
-  var str_received = $("#received").val();
-  var int_received = parseFloat(str_received);
-  var str_total = $("#total").val();
-  var int_total = parseFloat(str_total);
-  var str_payable = $("#payable").val();
-  var payable = parseFloat(str_payable);
-  var str_payment = $("#payment").val();
-  var payment = parseFloat(str_payment);
+  var received = $("#received").val();
+  received = isNaN(parseFloat(received)) ? 0 : parseFloat(received);
 
-  if (str_payable != "" && !isNaN(str_payable)) {
-    if (
-      str_received != "" &&
-      str_total != "" &&
-      !isNaN(str_received) &&
-      int_received > 0
-    ) {
-      var dif = int_received - payable;
-      $("#change").val(parseFloat(dif).toFixed(2));
-    }
-    if (str_received == "") $("#change").val("");
-  } else {
-    if (
-      str_received != "" &&
-      str_total != "" &&
-      !isNaN(str_received) &&
-      int_received > 0
-    ) {
-      var dif = int_received - int_total;
-      $("#change").val(parseFloat(dif).toFixed(2));
-    }
-    if (str_received == "") $("#change").val("");
-  }
+  var total = $("#total").val();
+  total = isNaN(parseFloat(total)) ? 0 : parseFloat(total);
+
+  var change = received - total;
+  var payable = total - received;
+
+  $("#change").val(change >= 0 ? parseFloat(change).toFixed(2) : 0);
+  $("#payable").val(payable >= 0 ? parseFloat(payable).toFixed(2) : 0);
 });
 
 // code js

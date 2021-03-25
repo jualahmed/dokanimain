@@ -74,14 +74,14 @@ foreach ($allstatment as $key => $value): ?>
 								<tr>
 									<th>Purchase</th>
 									<th>&#2547; <?php 
-											echo number_format((float)$purchase,2, '.', '');
+											echo number_format($purchase, 2, '.', '');
 										?></th>
 								</tr>
 								<tr>
 									<th>Opening Stock</th>
 									<td>&#2547;
 										<?php 
-											echo $opening_stock; 
+											echo number_format($opening_stock, 2, '.', ''); 
 										?> 
 									</td>
 								</tr>
@@ -89,7 +89,7 @@ foreach ($allstatment as $key => $value): ?>
 									<th>(-) Closing Stock.</th>
 									<td>&#2547;
 										<?php 
-											echo $closing_stock;
+											echo number_format($closing_stock, 2, '.', '');
 										?>
 									</td>
 								</tr>
@@ -97,7 +97,7 @@ foreach ($allstatment as $key => $value): ?>
 									<th>Cash in hand</th>
 									<td>&#2547;
 										<?php
-											echo number_format((float)$cash_in_hand, 2, '.', '');
+											echo number_format($cash_in_hand, 2, '.', '');
 										?>
 									</td>
 								</tr>
@@ -105,7 +105,7 @@ foreach ($allstatment as $key => $value): ?>
 									<th>Cash in bank</th>
 									<td>&#2547;
 										<?php
-											echo number_format((float)$cash_in_bank, 2, '.', '');
+											echo number_format($cash_in_bank, 2, '.', '');
 										?>
 									</td>
 								</tr>
@@ -113,7 +113,7 @@ foreach ($allstatment as $key => $value): ?>
 									<th>Profit</th>
 									<td>&#2547;
 										<?php
-											echo number_format((float)$gross_profit, 2, '.', '');
+											echo number_format($gross_profit, 2, '.', '');
 										?>
 									</td>
 								</tr>

@@ -32,17 +32,52 @@ new Vue({
     xhr: "ToCancelPrevReq",
   },
   methods: {
-    calculateDue(grand_total, total_paid) {
-      grand_total = isNaN(parseFloat(grand_total))
+    calculateGrandTotal(total_price, discount_amount, delivery_charge) {
+      total_price = isNaN(parseFloat(total_price))
         ? 0
-        : parseFloat(grand_total).toFixed(2);
+        : parseFloat(total_price).toFixed(2);
+      discount_amount = isNaN(parseFloat(discount_amount))
+        ? 0
+        : parseFloat(discount_amount).toFixed(2);
+      delivery_charge = isNaN(parseFloat(delivery_charge))
+        ? 0
+        : parseFloat(delivery_charge).toFixed(2);
+
+      return parseFloat(
+        total_price - discount_amount - delivery_charge
+      ).toFixed(2);
+    },
+    calculateDue(
+      total_price,
+      discount_amount,
+      sale_return_amount,
+      delivery_charge,
+      total_paid
+    ) {
+      total_price = isNaN(parseFloat(total_price))
+        ? 0
+        : parseFloat(total_price).toFixed(2);
+      discount_amount = isNaN(parseFloat(discount_amount))
+        ? 0
+        : parseFloat(discount_amount).toFixed(2);
+      sale_return_amount = isNaN(parseFloat(sale_return_amount))
+        ? 0
+        : parseFloat(sale_return_amount).toFixed(2);
+      delivery_charge = isNaN(parseFloat(delivery_charge))
+        ? 0
+        : parseFloat(delivery_charge).toFixed(2);
       total_paid = isNaN(parseFloat(total_paid))
         ? 0
         : parseFloat(total_paid).toFixed(2);
-
-      return grand_total - total_paid;
+      return parseFloat(
+        total_price -
+          discount_amount -
+          sale_return_amount -
+          delivery_charge -
+          total_paid
+      ).toFixed(2);
     },
-    calculateGrossProfit (grand_total, total_paid) {
+    calculateGrossProfit(grand_total, total_paid) {
       return 0;
     },
     asyncFind(query) {
@@ -54,7 +89,7 @@ new Vue({
         var self = this;
         this.xhr = $.ajax({
           url: this.base_url + "product/query/" + invoice_id,
-          type: 'POST',
+          type: "POST",
           data: { query: query },
           beforeSend: function () {
             if (self.xhr != "ToCancelPrevReq" && self.xhr.readyState < 4) {

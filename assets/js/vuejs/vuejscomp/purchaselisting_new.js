@@ -201,10 +201,7 @@ const vm = new Vue({
         flag = false;
         this.errors.total_unit = "required";
       }
-      if (
-        this.total_tp_after_vat == "" ||
-        isNaN(this.total_tp_after_vat)
-      ) {
+      if (this.total_tp_after_vat == "" || isNaN(this.total_tp_after_vat)) {
         flag = false;
         this.errors.total_tp_after_vat = "required";
       }
@@ -382,22 +379,20 @@ const vm = new Vue({
         });
     },
     changeTotalBuyPrice: function () {
-      if (
-        this.total_buy_price !== "" &&
-        !isNaN(parseFloat(this.total_buy_price)) &&
-        this.total_buy_price !== 0
-      ) {
-        if (
-          !isNaN(parseFloat(this.total_unit)) &&
-          this.total_unit !== "" &&
-          this.total_unit !== 0
-        ) {
-          let unit_buy_price_purchase =
-            parseFloat(this.total_buy_price) / parseFloat(this.total_unit);
-          this.unit_buy_price_purchase = parseFloat(
-            unit_buy_price_purchase
-          ).toFixed(2);
-        }
+      var total_unit = isNaN(parseFloat(this.total_unit))
+        ? 0
+        : parseFloat(this.total_unit);
+      var unit_buy_price_purchase = isNaN(
+        parseFloat(this.unit_buy_price_purchase)
+      )
+        ? 0
+        : parseFloat(this.unit_buy_price_purchase);
+
+      if (total_unit != 0 && unit_buy_price_purchase != 0) {
+        var total_tp_after_vat = total_unit * unit_buy_price_purchase;
+        this.total_tp_after_vat = parseFloat(total_tp_after_vat).toFixed(2);
+        var total_tp = total_unit * unit_buy_price_purchase;
+        this.total_tp = parseFloat(total_tp).toFixed(2);
       }
     },
     changeUnitBuyPricePurchase: function () {

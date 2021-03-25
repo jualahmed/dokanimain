@@ -110,7 +110,7 @@ $product_sale_return = $this->config->item('product_sale_return');
 									Received:
 								</td>
 								<td colspan="2">
-									<input type="text" class="form-control sale_input_custom_styl align_right"style="background-color: rgb(255, 247, 191);color: rgb(0, 0, 0);font-weight: bold;text-align: right;vertical-align: middle;font-size: 15px !important;color: #000 !important;font-weight: bold;" id="received" placeholder="Received">
+									<input type="text" class="form-control sale_input_custom_styl align_right" style="background-color: rgb(255, 247, 191);color: rgb(0, 0, 0);font-weight: bold;text-align: right;vertical-align: middle;font-size: 15px !important;color: #000 !important;font-weight: bold;" id="received" placeholder="Received">
 								</td>
 							</tr>
 							<tr>
@@ -161,17 +161,18 @@ $product_sale_return = $this->config->item('product_sale_return');
 								<td colspan="5">
 									<div class="input-group" style="width: 100%">
 										<?php
-										if ($current_sale_customer->num_rows > 0) {
+										if ($current_sale_customer->num_rows() > 0) {
+											$query = $current_sale_customer->row();
 											$customer_id = $query->customer_id;
 											$customer_name = $query->customer_name;
 										?>
 											<input type="hidden" id="selected_customer_id" value="<?php echo $customer_id; ?>">
-											<input type="text" class="form-control search" value="<?php echo $customer_name; ?>" id="search_by_customer_name" placeholder="Search Product" autofocus="on">
+											<input type="text" class="form-control search" autocomplete="off" value="<?php echo $customer_name; ?>" id="search_by_customer_name" placeholder="Search Product" autofocus="on">
 										<?php
 										} else {
 										?>
 											<input type="hidden" id="selected_customer_id">
-											<input type="text" class="form-control search" value="" id="search_by_customer_name" placeholder="Search Customer" autofocus="on">
+											<input type="text" class="form-control search" autocomplete="off" value="" id="search_by_customer_name" placeholder="Search Customer" autofocus="on">
 
 										<?php
 										}
@@ -333,7 +334,12 @@ $product_sale_return = $this->config->item('product_sale_return');
 						<input type="hidden" value="<?php echo $sub_to;     	?>" id="hid_sub_to">
 						<input type="hidden" value="<?php echo $vat;         	?>" id="hid_vat">
 					<?php
-					}
+					} else { ?>
+						<input type="hidden" value="0" id="hid_qty">
+						<input type="hidden" value="0" id="hid_total_buy_price">
+						<input type="hidden" value="0" id="hid_sub_to">
+						<input type="hidden" value="0" id="hid_vat">
+					<?php }
 					?>
 					<input type="hidden" value="<?php echo $return_adjust; ?>" id="hid_return_adjust">
 					<input type="hidden" value="<?php echo $return_buy_price; ?>" id="hid_return_buy_price">

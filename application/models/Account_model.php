@@ -280,6 +280,25 @@ class Account_model extends CI_model{
 			return $query;	
 			
 		} 
+		function all_today_transaction_purchase_return()
+		{
+			$start_date=$this->input->post('start_date');
+			$end_date=$this->input->post('end_date');
+
+			$this->db->select('transaction_info.transaction_id,transaction_info.transaction_purpose,transaction_info.amount,transaction_info.date,transaction_info.remarks,distributor_info.distributor_name');
+			$this->db->from('transaction_info,distributor_info');
+			$this->db->where('transaction_info.ledger_id=distributor_info.distributor_id');
+			$this->db->where('transaction_info.transaction_purpose="purchase_return"');
+
+			if($start_date!=''){$this -> db -> where('transaction_info.date >= "'.$start_date.'"');}
+			if($end_date!=''){$this -> db -> where('transaction_info.date <= "'.$end_date.'"');}
+			else if($start_date!=''){$this -> db -> where('transaction_info.date <= "'.$start_date.'"');}
+			 
+			$query = $this->db->get();
+			
+			return $query;	
+			
+		} 
 		function all_today_transaction_purchase_payment()
 		{
 			$start_date='2019-01-01';$this->input->post('start_date');

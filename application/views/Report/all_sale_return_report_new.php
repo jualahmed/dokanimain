@@ -13,8 +13,8 @@
 								<div class="col-sm-2">
 									<select class="form-control select2" name="type" id="type">
 										<option value="">Select Type</option>
-										<option value="direct">Cash Return</option>
-										<option value="indirect">Product Return</option>
+										<option value="cashreturn">Cash Return</option>
+										<option value="productreturn">Product Return</option>
 									</select>
 								</div>
 								<label for="inputEmail3" class="col-sm-1 control-label">Product</label>

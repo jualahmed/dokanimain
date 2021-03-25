@@ -8,7 +8,31 @@
 	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-2.2.3.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/posinvoice.css" type="text/css" />
-
+	<style>
+		.table tbody tr td,
+		.table tbody tr th {
+			border-bottom: 1px solid #aaa !important;
+		}
+		.table {
+			border-collapse: collapse;
+			font-size: 10px;
+			border: 1px solid #aaa;
+			margin-bottom: 5px;
+		}
+		.table thead th,
+		.table thead td,
+		.table tfoot th,
+		.table tfoot td {
+			background-color: #f0f3f5;
+			color: black;
+		}
+		@media print { 
+			body 
+			{ 
+				-webkit-print-color-adjust: exact; 
+			} 
+		}
+	</style>
 </head>
 
 <body>
@@ -37,24 +61,23 @@
 					</div>
 					<div id="pos_top_header_thired">
 
-						<div class="CSSTableGenerator" style="width:100%;margin:0px auto;float:left">
+						<div class="" style="width:100%;margin:0px auto;float:left">
 
-							<table class="table table-bordered table_2">
+							<table class="table">
 								<thead>
-									<tr style="background-color: #f0f3f5;/*#00c0ef*/; color: black;/*white/*;">
+									<tr>
 										<td style="width: 50%;">Name</td>
 										<td style="text-align: center;">Quantity</td>
 										<td style="text-align: center;">Price</td>
 										<td style="text-align: center;">Total</td>
 									</tr>
 								</thead>
-								<?php
-								$totalQuantity = 0;
-								foreach ($quotationDetails->result() as $tmp) { 
-									$totalQuantity += $tmp->quotation_quantity; ?>
-									<tbody>
-										<?php if (1 % 2 == 0) { ?>
-											<tr style="background-color: #f0f3f5;">
+								<tbody>
+									<?php
+									$totalQuantity = 0;
+									foreach ($quotationDetails->result() as $tmp) {
+										$totalQuantity += $tmp->quotation_quantity; ?>
+											<tr>
 												<td>
 													<?php echo $tmp->product_name ?>
 												</td>
@@ -68,36 +91,15 @@
 													<?php
 													$total 		+= ($tmp->unit_sale_price * $tmp->quotation_quantity);
 													echo  sprintf('%0.2f', $tmp->unit_sale_price * $tmp->quotation_quantity);
-
 													?>
 												</td>
 											</tr>
-										<?php } else { ?>
-											<tr>
-												<td>
-													<?php echo $tmp->product_name ?>
-												</td>
-												<td style="text-align: center;">
-													<?php echo  $tmp->quotation_quantity ?>
-												</td>
-												<td style="text-align: right;">
-													<?php echo  $tmp->unit_sale_price ?>
-												</td>
-												<td style="text-align: right;">
-													<?php
-													$total 		+= ($tmp->unit_sale_price * $tmp->quotation_quantity);
-													echo  $tmp->unit_sale_price * $tmp->quotation_quantity;
+										<?php $ind++; ?>
 
-													?>
-												</td>
-											</tr>
-										<?php }
-										$ind++; ?>
-									</tbody>
-
-								<?php }
-								$total = $total + $quotation->quotation_delivery_charge - $quotation->quotation_discount_amount + $quotation->quotation_vat;
-								?>
+									<?php }
+									$total = $total + $quotation->quotation_delivery_charge - $quotation->quotation_discount_amount + $quotation->quotation_vat;
+									?>
+								</tbody>
 								<tfoot>
 									<tr>
 										<td style="text-align: center;">Total</td>

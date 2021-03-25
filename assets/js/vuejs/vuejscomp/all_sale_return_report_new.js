@@ -79,22 +79,22 @@
         $(".modal").hide();
         for(i=0; i<result.length; i++)
         { 
-          if(type_id=='direct')
+          if(type_id=='cashreturn')
           {
             var status_name='Cash Return';
-            var unit_sale_price  =parseFloat(Math.round(result[i].unit_sale_price)).toFixed(2);
-            var total_sale_return1  =result[i].return_quantity * result[i].unit_sale_price;
+            var exact_price  =parseFloat(Math.round(result[i].exact_price)).toFixed(2);
+            var total_sale_return1  =result[i].return_quantity * result[i].exact_price;
             var total_sale_return  =parseFloat(Math.round(total_sale_return1)).toFixed(2);
-            output2+='<table class="new_data_2"><tr><td>'+k+'</td><td>'+result[i].return_doc+'</td><td>'+result[i].sale_return_id+'</td><td>'+result[i].product_id+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].product_name+'">'+result[i].product_name+'</td><td style="text-align:center;">'+result[i].return_quantity+'</td><td style="text-align:right;">'+unit_sale_price+'</td><td style="text-align:right;">'+total_sale_return+'</td><td style="text-align:center;">'+status_name+'</td></tr></table>';
+            output2+='<table class="new_data_2"><tr><td>'+k+'</td><td>'+result[i].doc+'</td><td>'+result[i].return_list_id+'</td><td>'+result[i].product_id+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].product_name+'">'+result[i].product_name+'</td><td style="text-align:center;">'+result[i].return_quantity+'</td><td style="text-align:right;">'+exact_price+'</td><td style="text-align:right;">'+total_sale_return+'</td><td style="text-align:center;">'+status_name+'</td></tr></table>';
             k++;
           }
-          else if(type_id=='indirect')
+          else if(type_id=='productreturn')
           {
             var status_name2='Product Return';
-            var unit_sale_price  =parseFloat(Math.round(result[i].unit_sale_price)).toFixed(2);
-            var total_sale_return1  =result[i].return_quantity * result[i].unit_sale_price;
+            var exact_price  =parseFloat(Math.round(result[i].exact_price)).toFixed(2);
+            var total_sale_return1  =result[i].return_quantity * result[i].exact_price;
             var total_sale_return  =parseFloat(Math.round(total_sale_return1)).toFixed(2);
-            output2+='<table class="new_data_2"><tr><td>'+k+'</td><td>'+result[i].return_doc+'</td><td>'+result[i].sale_return_id+'</td><td>'+result[i].product_id+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].product_name+'">'+result[i].product_name+'</td><td style="text-align:center;">'+result[i].return_quantity+'</td><td style="text-align:right;">'+unit_sale_price+'</td><td style="text-align:right;">'+total_sale_return+'</td><td style="text-align:center;">'+status_name2+'</td></tr></table>';
+            output2+='<table class="new_data_2"><tr><td>'+k+'</td><td>'+result[i].doc+'</td><td>'+result[i].return_list_id+'</td><td>'+result[i].product_id+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].product_name+'">'+result[i].product_name+'</td><td style="text-align:center;">'+result[i].return_quantity+'</td><td style="text-align:right;">'+exact_price+'</td><td style="text-align:right;">'+total_sale_return+'</td><td style="text-align:center;">'+status_name2+'</td></tr></table>';
             k++;
           }
           else
@@ -107,10 +107,10 @@
             {
               var status_name='Product Return';
             }
-              var unit_sale_price  =parseFloat(Math.round(result[i].unit_sale_price)).toFixed(2);
-              var total_sale_return1  =result[i].return_quantity * result[i].unit_sale_price;
+              var exact_price  =parseFloat(Math.round(result[i].exact_price)).toFixed(2);
+              var total_sale_return1  =result[i].return_quantity * result[i].exact_price;
               var total_sale_return  =parseFloat(Math.round(total_sale_return1)).toFixed(2);
-              output2+='<table class="new_data_2"><tr><td>'+k+'</td><td>'+result[i].return_doc+'</td><td>'+result[i].sale_return_id+'</td><td>'+result[i].product_id+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].product_name+'">'+result[i].product_name+'</td><td style="text-align:center;">'+result[i].return_quantity+'</td><td style="text-align:right;">'+unit_sale_price+'</td><td style="text-align:right;">'+total_sale_return+'</td><td style="text-align:center;">'+status_name+'</td></tr></table>';
+              output2+='<table class="new_data_2"><tr><td>'+k+'</td><td>'+result[i].doc+'</td><td>'+result[i].return_list_id+'</td><td>'+result[i].product_id+'</td><td style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap;" title="'+result[i].product_name+'">'+result[i].product_name+'</td><td style="text-align:center;">'+result[i].return_quantity+'</td><td style="text-align:right;">'+exact_price+'</td><td style="text-align:right;">'+total_sale_return+'</td><td style="text-align:center;">'+status_name+'</td></tr></table>';
               k++;
           }
         }

@@ -41,7 +41,6 @@
 						<h4><i class="icon fa fa-check"></i> Failed</h4>
 					</div>';
 		} else {
-
 			echo validation_errors();
 		}
 	}
@@ -62,7 +61,7 @@
 								<label class="col-sm-2 control-label">Receipt</label>
 								<div class="col-sm-2">
 									<select name="" id="" class="form-control" onchange="document.location.href=this.options[this.selectedIndex].value;">
-										<option value="">Select a Receipt</option>
+										<option value="0">Select a Receipt</option>
 										<?php foreach ($purchases as $key => $var) : ?>
 											<option value="<?php echo base_url() . 'product/searchBarcode/' . $var->receipt_id ?>" <?php echo $var->receipt_id == $receipt_id ? 'selected' : '' ?>><?php echo $var->distributor_name ?>( <?php echo $var->receipt_id ?> )</option>
 										<?php endforeach ?>
@@ -71,7 +70,7 @@
 
 								<label for="inputPassword3" class="col-sm-1 control-label">Product</label>
 								<div class="col-sm-3">
-									<select name="" id="" class="form-control" onchange="document.location.href=this.options[this.selectedIndex].value;">
+									<select name="" id="product_id" class="form-control" onchange="document.location.href=this.options[this.selectedIndex].value;">
 										<option value="">Select Product</option>
 										<?php foreach ($product_info as $key => $var) : ?>
 											<option value="<?php echo base_url() . 'product/searchBarcode/' . $receipt_id . '/' . $var->product_id ?>" <?php echo $var->product_id == $product_id ? 'selected' : '' ?>><?php echo $var->product_name ?></option>
@@ -188,8 +187,12 @@
 							<tr>
 								<td colspan="1" style="text-align:left;text-indent:5px;font-size:15px;width:35px;color:#444;font-weight:bold;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;"> Delete</td>
 								<td colspan="2" style="text-align:left;text-indent:5px;font-size:15px;width:35px;color:#444;font-weight:bold;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;"><a href="<?php echo base_url(); ?>product/delete_all_barcode_print_product" class="btn-primary" title="Delete All" id="print" style="text-decoration:none;"><i class="fa fa-fw fa-close"></i> Delete All</a></td>
-								<td colspan="1" style="text-align:left;text-indent:5px;font-size:15px;width:35px;color:#444;font-weight:bold;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;"> Print</td>
-								<td colspan="2" style="text-align:left;text-indent:5px;font-size:15px;width:35px;color:#444;font-weight:bold;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;"><a href="<?php echo base_url(); ?>product/print_barcode_by_search" target="_blank" class="btn-primary" id="print" style="text-decoration:none;"><i class="fa fa-print"></i> Print</a></td>
+								<td colspan="1" style="text-align:left;text-indent:5px;font-size:15px;width:35px;color:#444;font-weight:bold;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;"></td>
+								<td colspan="2" style="text-align:left;text-indent:5px;font-size:15px;width:35px;color:#444;font-weight:bold;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">
+									<button data-url="<?php echo base_url() . 'product/print_barcode_by_search'; ?>" type="button" id="printBarcode" class="btn-primary btn btn-sm" style="text-decoration:none;">
+										<i class="fa fa-print"></i> Print
+									</button>
+								</td>
 							</tr>
 							<tr>
 								<td>S/N</td>
@@ -208,7 +211,8 @@
 										<td style="width:350%;"> <?php echo $field->product_name; ?></td>
 										<td> <?php echo $field->quantity ?></td>
 										<td> <?php echo $field->sale_price ?></td>
-										<td> <a href="<?php echo base_url(); ?>product/delete_barcode_print_product/<?php echo $field->print_id; ?>" class="edit_link" title="delete"><i class="fa fa-fw fa-close"></i></a>
+										<td>
+											<a href="<?php echo base_url(); ?>product/delete_barcode_print_product/<?php echo $field->print_id; ?>" class="edit_link" title="delete"><i class="fa fa-fw fa-close"></i></a>
 										</td>
 									</tr>
 								<?php
@@ -229,4 +233,34 @@
 			</div>
 		</div>
 	</section>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="typeModal" tabindex="-1" role="dialog" aria-labelledby="EditModelLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-6 col-sm-12">
+							<label>
+								<input type="radio" checked name="type" id="typeSingle" value="0">
+								<span>Single</span>
+							</label>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<label>
+								<input type="radio" name="type" id="typeA4" value="1">
+								<span>A4</span>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-success" id="submit_btn"><i class="fa fa-fw fa-save"></i> Print</button>
+			</div>
+		</div>
+	</div>
 </div>

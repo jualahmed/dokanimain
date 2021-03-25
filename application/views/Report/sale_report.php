@@ -101,7 +101,7 @@
 			<table id="main-table" class="main-table table table-secondary" style="width: 100%;">
 				<thead class="table-hf" style="line-height: 0px;">
 					<tr>
-					<!--
+						<!--
 						[1 => Invoice wise]
 						[2 => Product wise]
 					-->
@@ -116,12 +116,12 @@
 						<th v-if="isinvoice==1">Delivery</th>
 						<th v-if="isinvoice==1">Grand</th>
 						<th v-if="isinvoice==1">Paid</th>
-						<th style="text-align: right;" v-if="isinvoice==1">Gross Profit</th> 
 						<th v-if="isinvoice==1">Due/Return</th>
 
 						<th style="text-align: center;" v-if="isinvoice!=1">Quantity</th>
 						<th style="text-align: right;" v-if="isinvoice!=1">Buy Price</th>
 						<th style="text-align: right;" v-if="isinvoice!=1">Sale Price</th>
+						<th style="text-align: right;" v-if="isinvoice!=1">Gross Profit</th>
 						<!-- <th style="text-align: right;" v-if="isinvoice!=1">Gross Profit</th> -->
 
 						<th v-if="isinvoice!=1">Model</th>
@@ -144,12 +144,22 @@
 						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.total_price)) ? '0.00' : parseFloat(i.total_price).toFixed(2) }}</td>
 						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.discount_amount)) ? '0.00' : parseFloat(i.discount_amount).toFixed(2) }}</td>
 						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.sale_return_amount)) ? '0.00' : parseFloat(i.sale_return_amount).toFixed(2) }}</td>
-						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.delivery_charge)) ? '0.00' : parseFloat(i.sale_return_amount).toFixed(2) }}</td>
-						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.grand_total)) ? '0.00' : parseFloat(i.grand_total).toFixed(2) }}</td>
+						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.delivery_charge)) ? '0.00' : parseFloat(i.delivery_charge).toFixed(2) }}</td>
+						<td style="text-align: right;" v-if="isinvoice==1">{{ calculateGrandTotal(i.total_price, i.discount_amount, i.delivery_charge) }}</td>
 						<td style="text-align: right;" v-if="isinvoice==1">{{ isNaN(parseFloat(i.total_paid)) ? '0.00' : parseFloat(i.total_paid).toFixed(2) }}</td>
 						<!-- <td style="text-align: right;" v-if="isinvoice==1">{{ calculateGrossProfit(i.grand_total, i.total_paid) }}</td> -->
-						<td style="text-align: right;" v-if="isinvoice==1">{{ calculateDue(i.grand_total, i.total_paid) }}</td>
-						
+						<td style="text-align: right;" v-if="isinvoice==1">
+							{{
+								calculateDue(
+									i.total_price, 
+									i.discount_amount, 
+									i.sale_return_amount, 
+									i.delivery_charge, 
+									i.total_paid
+								) 
+							}}
+						</td>
+
 						<th style="text-align: center;" v-if="isinvoice!=1">{{ i.sale_quantity }}</th>
 						<td style="text-align: right;" v-if="isinvoice!=1">{{ isNaN(parseFloat(i.unit_buy_price)) ? '0.00' : parseFloat(i.unit_buy_price).toFixed(2) }}</td>
 						<td style="text-align: right;" v-if="isinvoice!=1">{{ isNaN(parseFloat(i.actual_sale_price)) ? '0.00' : parseFloat(i.actual_sale_price).toFixed(2) }}</td>

@@ -169,9 +169,9 @@ class Purchase_model extends CI_model
 		return $ref_id;
 	}
 	
-	public function all()
+	public function all($order_by = 'asc')
 	{	
-		$this->db->order_by('receipt_id', 'asc');
+		$this->db->order_by('receipt_id', $order_by);
         $this->db->join('distributor_info', 'distributor_info.distributor_id = purchase_receipt_info.distributor_id');
 		return $this->db->get('purchase_receipt_info')->result();
 	}

@@ -453,7 +453,7 @@ class Product extends MY_Controller
 		$data['sale_status'] = '';
 		$data['status'] = '';
 		$data['alarming_level'] = FALSE;
-		$data['purchases']  = $this->purchase_model->all();
+		$data['purchases']  = $this->purchase_model->all('desc');
 		$data['product_type'] = 'nil';
 		$data['receipt_id'] = 'null';
 
@@ -510,6 +510,10 @@ class Product extends MY_Controller
 			$g_price = $this->input->post('general_sale_price');
 			$PRODUCT_NAME = $this->input->post('PRODUCT_NAME');
 			$this->product_model->makeBarcode($product_ID, $PRODUCT_NAME, $data['product_type'], $SALE_price, $g_price, $data['find_all_stock_id']);
+			if ($receipt_id == 'null') {
+				$receipt_id = '';
+			}
+			redirect(base_url() . 'product/searchBarcode/' . $receipt_id);
 		}
 		$data['listed_product'] = $this->product_model->get_barcode_all_listed_product();
 		$data['vuejscomp'] = 'searchBarcodeview.js';

@@ -16,6 +16,18 @@
 		.full {
 			width: 100% !important;
 		}
+
+		.CSSTableGenerator thead th,
+		.CSSTableGenerator thead td,
+		.CSSTableGenerator tfoot th,
+		.CSSTableGenerator tfoot td {
+			background: #a6a6a6 !important;
+		}
+
+		.CSSTableGenerator tbody th,
+		.CSSTableGenerator tbody td {
+			border-bottom: 1px solid #aaa !important;
+		}
 	</style>
 </head>
 
@@ -51,7 +63,6 @@
 						<div class="CSSTableGenerator" style="width:100%;margin:0px auto;float:left">
 							<table>
 								<tr>
-									<!--<td >ID</td> -->
 									<td>Product Name</td>
 									<td>Qty </td>
 									<td>Price</td>
@@ -74,51 +85,53 @@
 									$totalUnitSalePrice += ($unit_sale_price * $sale_quantity);
 									$totalActualSalePrice += ($actual_sale_price * $sale_quantity);
 								?>
-									<tr>
-										<!--<td style="width:2%"> <?php echo $field->product_id; ?> </td> -->
-										<td style="text-align:left;">
+									<tbody>
+										<tr>
+											<!--<td style="width:2%"> <?php echo $field->product_id; ?> </td> -->
+											<td style="text-align:left;">
 
-											<?php
+												<?php
 
-											if ($sale_warranty_info != '') {
-												echo '<p style="min-height:13px;font-size:10px;font-weight:bold;margin:0px;">' . $field->product_name . '</p>';
-												//echo 'SN ';
-												foreach ($sale_warranty_info->result() as $filed2) {
-													if ($field->product_id == $filed2->product_id) {
-														echo $filed2->sl_no . '  ' . '  ';
+												if ($sale_warranty_info != '') {
+													echo '<p style="min-height:13px;font-size:10px;font-weight:bold;margin:0px;">' . $field->product_name . '</p>';
+													//echo 'SN ';
+													foreach ($sale_warranty_info->result() as $filed2) {
+														if ($field->product_id == $filed2->product_id) {
+															echo $filed2->sl_no . '  ' . '  ';
+														}
 													}
+												} else {
+													echo '<p style="min-height:13px;font-size:10px;font-weight:bold;margin:0px;">' . $field->product_name . '</p>';
 												}
-											} else {
-												echo '<p style="min-height:13px;font-size:10px;font-weight:bold;margin:0px;">' . $field->product_name . '</p>';
-											}
-											?>
-										</td>
-										<td style="width:10%;">
-											<?php
-											echo $sale_quantity;
-											?>
-										</td>
-										<td style="width:10%;text-align:right;">
-											<?php
-											echo number_format($field->unit_sale_price, 2);
-											?>
-										</td>
+												?>
+											</td>
+											<td style="width:10%;">
+												<?php
+												echo $sale_quantity;
+												?>
+											</td>
+											<td style="width:10%;text-align:right;">
+												<?php
+												echo number_format($field->unit_sale_price, 2);
+												?>
+											</td>
 
-										<td style="width:12%;text-align:right;border-right:0px solid black;">
-											<?php
-											echo number_format(($field->sale_quantity * $field->unit_sale_price), 2);
-											?>
-										</td>
-									</tr>
+											<td style="width:12%;text-align:right;border-right:0px solid black;">
+												<?php
+												echo number_format(($field->sale_quantity * $field->unit_sale_price), 2);
+												?>
+											</td>
+										</tr>
+									</tbody>
 								<?php
 								endforeach;
 								?>
 								<tfoot>
 									<tr>
-										<td colspan="2" style="text-align: center;">Total</td>
+										<td style="text-align: center;">Total</td>
 										<td style="text-align: center;"><?php echo $totalQuantity; ?></td>
 										<th></th>
-										<td style="text-align: right;"><?php echo number_format($totalActualSalePrice, 2); ?></td>
+										<td style="text-align: right;"><?php echo number_format($totalUnitSalePrice, 2); ?></td>
 									</tr>
 								</tfoot>
 							</table>
@@ -128,25 +141,20 @@
 					?>
 				</div>
 				<div id="pos_top_header_fourth" style="width: 100%; float: right;">
-					<div class="pos_top_header_fourth_left"> Total Price </div>
-					<div class="pos_top_header_fourth_right">
-						<?php
-						echo number_format($totalUnitSalePrice, 2);
-						?>
-					</div>
 					<?php if ($row_data->sale_return_amount > 0) { ?>
 						<div class="pos_top_header_fourth_left"> Sale Return</div>
 						<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->sale_return_amount, 2); ?></div>
 					<?php } ?>
-					<!-- <div class ="pos_top_header_fourth_left"> Shop Discount</div>
-							<div class ="pos_top_header_fourth_right"> <?php echo number_format($totalMrp - $totalUnitSalePrice, 2); ?></div> -->
+
 					<?php
 					if ($row_data->discount_amount > 0) { ?>
 						<div class="pos_top_header_fourth_left"> Discount </div>
-						<div class="pos_top_header_fourth_right"> <?php echo number_format(($totalUnitSalePrice - $totalActualSalePrice), 2); ?></div>
+						<div class="pos_top_header_fourth_right"> <?php echo number_format(($row_data->discount_amount), 2); ?></div>
 					<?php }
 					?>
 
+					<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 12px;"> Grand Total</div>
+					<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 12px;"> <?php echo number_format($row_data->total_price - $row_data->discount_amount, 2); ?></div>
 					<?php
 					$sale_return = $row_data->sale_return_amount;
 					$total_price = $row_data->total_price;
@@ -154,28 +162,22 @@
 					<?php
 					if ($sale_return > 0) {
 					?>
-						<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 12px;"> Grand Total</div>
-						<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 12px;"> <?php echo number_format($row_data->total_price - $sale_return - $row_data->discount_amount, 2); ?></div>
 						<div class="pos_top_header_fourth_left"> Paid </div>
-						<?php $total_paid = $row_data->total_price - $sale_return; ?>
 						<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_paid, 2); ?></div>
 					<?php
 					} else {
 					?>
-						<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 12px;"> Grand Total </div>
-						<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 12px;"> <?php echo number_format($row_data->grand_total, 2); ?></div>
 						<div class="pos_top_header_fourth_left"> Received </div>
-						<?php $total_paid = $row_data->total_paid; ?>
-						<div class="pos_top_header_fourth_right"> <?php echo number_format($total_paid, 2); ?></div>
+						<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_paid, 2); ?></div>
 					<?php
 					}
 					?>
 
 					<div class="pos_top_header_fourth_left"> Returned </div>
 					<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->return_money, 2); ?></div>
-					<?php if ($row_data->grand_total > $row_data->total_paid) { ?>
+					<?php if ($total_price - $row_data->sale_return_amount - $row_data->discount_amount > $row_data->total_paid) { ?>
 						<div class="pos_top_header_fourth_left"> Due </div>
-						<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->grand_total - $row_data->total_paid, 2); ?></div>
+						<div class="pos_top_header_fourth_right"> <?php echo number_format($total_price - $row_data->sale_return_amount - $row_data->discount_amount - $row_data->total_paid, 2); ?></div>
 					<?php } ?>
 				</div>
 				<div class="pos_top_header_fotter" style="font-size: 12px;margin-top:5px;">

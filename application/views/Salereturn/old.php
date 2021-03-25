@@ -273,9 +273,7 @@
 				<div class="col-md-6">
 					<div class="box">
 						<div class="box-header with-border" style="background: #0f77ab;">
-							<h3 class="box-title" style="color:white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">
-								<?php echo $return_type == "cash" ? "Cash Return" : "Sale Return List" ?>
-							</h3>
+							<h3 class="box-title" style="color:white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">Sale Return List</h3>
 						</div>
 						<!-- /.box-header -->
 						<!-- form start -->
@@ -337,22 +335,27 @@
 										<input type="hidden" name="in_id" value="<?php echo $this->uri->segment(5); ?>">
 										<input type="hidden" name="in_type" value="<?php echo $this->uri->segment(4); ?>">
 										<input type="hidden" name="re_type" value="<?php echo $this->uri->segment(3); ?>">
-										<input type="hidden" name="total_amount_return" value="<?php echo $total_amount; ?>">
+										<tr>
+											<td style="vertical-align: middle;">Customer <span>*</span></td>
+											<td colspan="5">
+												<select name="customer_id" id="customer_id" class="form-control select2" style="width:100%;" required="on">
+													<option value="">Select Customer</option>
+													<?php
+													foreach ($customer_info as $tmp) {
+													?>
+														<option value="<?php echo $tmp->customer_id; ?>"><?php echo $tmp->customer_name; ?> (<?php echo $tmp->customer_contact_no; ?>)</option>
+													<?php
+													}
+
+													?>
+												</select>
+											</td>
+										</tr>
 
 								</table>
-								<div id="all_sa_col">
+								<div id="all_sa_col" style="display:none;">
 									<table class="table table-bordered remove_thead_space remove_tbody_space" id="sale_return_tbl">
 										<thead>
-											<?php
-											$balance = $customer['balance'];
-											$sale = $customer['sale'];
-											$sale_return = $customer['sale_return'];
-											$due_amount = $sale['sale_amount'] - $balance['balance_amount'] + $sale_return['sale_retrun_amount'];
-											?>
-											<tr>
-												<th colspan="4" class="text-center"><?php echo $balance['customer_name']; ?></th>
-												<input type="hidden" name="customer_id" value="<?php echo $balance['customer_id']; ?>">
-											</tr>
 											<tr class="bg-aqua color-palette">
 												<td style="width: 16%;text-align: right;color:black;color: black;background: lightgray;">Sale</td>
 												<td style="width: 14%;text-align: right;color:black;color: black;background: lightgray;">Collection</td>
@@ -362,10 +365,10 @@
 										</thead>
 										<tbody>
 											<tr>
-												<td style="text-align: right;"><span id="ledger_amount_sale"><?php echo number_format($sale['sale_amount'], 2); ?></span></td>
-												<td style="text-align: right;"><span id="ledger_amount_collection"><?php echo number_format($balance['balance_amount'], 2); ?></span></td>
-												<td style="text-align: right;"><span id="ledger_amount_sale_return"><?php echo number_format($sale_return['sale_retrun_amount'], 2); ?></span></td>
-												<td style="text-align: right;"><span id="ledger_amount_balance"><?php echo number_format($due_amount, 2); ?></span></td>
+												<td style="text-align: right;"><span id="ledger_amount_sale"></span></td>
+												<td style="text-align: right;"><span id="ledger_amount_collection"></span></td>
+												<td style="text-align: right;"><span id="ledger_amount_sale_return"></span></td>
+												<td style="text-align: right;"><span id="ledger_amount_balance"></span></td>
 											</tr>
 											</thead>
 									</table>
@@ -374,15 +377,7 @@
 									<thead>
 										<tr>
 											<td style="width: 50%;color:black;">Total Return Adjustment</td>
-											<?php
-											$return_adjustment_amount = 0;
-											if ($total_amount > $due_amount) {
-												$return_adjustment_amount = $total_amount - $due_amount;
-											}
-											?>
-											<td style="text-align: center;color:black;">
-												<input type="text" class="form-control" value="<?php echo number_format($return_adjustment_amount, 2); ?>" name="return_adjustment_amount" style="width: 100%; border-radius: 0px;" placeholder="Total Return Adjustment" autocomplete="off" readonly>
-											</td>
+											<td style="text-align: center;color:black;"><input type="text" class="form-control" id="return_adjustment_amount" name="return_adjustment_amount" style="width: 100%; border-radius: 0px;" placeholder="Total Return Adjustment" autocomplete="off" readonly></td>
 										</tr>
 									</thead>
 								</table>

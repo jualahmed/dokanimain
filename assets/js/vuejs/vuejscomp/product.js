@@ -413,7 +413,7 @@ function edValueKeyPress() {
   var proid = $(".barcode_id1").val();
   var name = $("#edValue").val();
   var length = name.length;
-  var max = 894767687;
+  var max = 9999;
   var number = Math.random() * (+max - +length) + +length;
   $(".barcode_id").val(proid + parseInt(number));
 }
@@ -422,7 +422,7 @@ function barcodeValueKeyPress() {
   var proid = $(".barcode_id1").val();
   var name = $("#oldProductName").val();
   var length = name.length;
-  var max = 894767687;
+  var max = 9999;
   var number = Math.random() * (+max - +length) + +length;
   $(".barcode").val(proid + parseInt(number));
 }

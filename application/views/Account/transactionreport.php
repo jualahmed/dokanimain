@@ -131,6 +131,26 @@
 							</table>
 						</div>
 						<div class="wrap">
+							<div class="box-header with-border" style="background: #0f77ab;"><center><h3 class="box-title" style="color:white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">Purchase Return</h3></center></div>
+							<table class="head">
+								<tr>
+								  <td style="width:4%;">SL No</td>
+								  <td style="width:4%;">Date</td>
+								  <td style="width:4%;">Ledger Name</td>
+								  <td style="width:4%;">Particular</td>
+								  <td style="width:4%;">Remarks</td>
+								  <td style="width: 4%;text-align:right;">Amount</td>
+								</tr>
+								
+							</table>
+							<div class="inner_table">
+								<table id="output_purchase_return">
+								</table>
+							</div>
+							<table class="head" id="output_purchase_return_sum">
+							</table>
+						</div>
+						<div class="wrap">
 							<div class="box-header with-border" style="background: #0f77ab;"><center><h3 class="box-title" style="color:white;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;">Purchase Payment</h3></center></div>
 							<table class="head">
 								<tr>

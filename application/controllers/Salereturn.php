@@ -22,12 +22,14 @@ class Salereturn extends MY_controller
 	{
 		$data['user_type'] 	= $this->tank_auth->get_usertype();
 		$data['user_name'] 	= $this->tank_auth->get_username();
-		$data['customer_info'] 	= $this->customer_model->all();
 		$data['product_info_warranty_details'] 	= '';
 		$data['product_info_details'] 	= '';
 		$data['return_main_product'] 	= $this->salereturn_model->sale_return_main_product();
+
 		$i = 1;
 		foreach ($data['return_main_product']->result() as $tmp) {
+			$invoice = $this->db->from('invoice_info')->where('invoice_id', $tmp->inv_id)->get()->row();
+			$data['customer'] 	= $this->get_customer_transaction($invoice->customer_id);
 			$data['return_warranty_product'][$i] = $this->salereturn_model->return_warranty_product($tmp->produ_id);
 			$i++;
 		}
@@ -183,28 +185,32 @@ class Salereturn extends MY_controller
 		echo json_encode(true);
 	}
 
-	public function get_customer_transaction()
+	public function get_customer_transaction($customer_id)
 	{
-		$customer_id = $this->input->post('customer_id');
 		$invoice_ledgers_balance = array();
 		$invoice_ledgers_sale = array();
 		$invoice_ledgers_balance = $this->sale_model->get_invoice_ledger_balance_amount($customer_id);
-		$invoice_ledgers_balance = $invoice_ledgers_balance->result_array();
+		$invoice_ledgers_balance = $invoice_ledgers_balance->row_array();
 		$invoice_ledgers_sale = $this->sale_model->get_invoice_ledger_sale_amount($customer_id);
-		$invoice_ledgers_sale = $invoice_ledgers_sale->result_array();
+		$invoice_ledgers_sale = $invoice_ledgers_sale->row_array();
 		$invoice_ledgers_sale_return = $this->sale_model->get_invoice_ledger_sale_return_amount($customer_id);
-		$invoice_ledgers_sale_return = $invoice_ledgers_sale_return->result_array();
-		echo json_encode(array("balance" => $invoice_ledgers_balance, "sale" => $invoice_ledgers_sale, "sale_return" => $invoice_ledgers_sale_return));
+		$invoice_ledgers_sale_return = $invoice_ledgers_sale_return->row_array();
+		return array(
+			"balance" => $invoice_ledgers_balance,
+			"sale" => $invoice_ledgers_sale,
+			"sale_return" => $invoice_ledgers_sale_return
+		);
 	}
 
 	public function final_sale_return()
 	{
 		$bd_date = date('Y-m-d');
 		$creator = $this->tank_auth->get_user_id();
-		$customer_new = $this->input->post('customer_id');
 		$in_type = $this->input->post('in_type');
 		$in_id = $this->input->post('in_id');
 		$re_type = $this->input->post('re_type');
+		$customer_id = $this->input->post('customer_id');
+		$total_amount_return = $this->input->post('total_amount_return');
 		$return_adjustment_amount = $this->input->post('return_adjustment_amount');
 		if ($re_type == 'productsale') {
 			if ($in_type == 'yes') {
@@ -213,157 +219,149 @@ class Salereturn extends MY_controller
 				$this->db->where('invoice_info.invoice_id', $in_id);
 				$query = $this->db->get();
 				$field = $query->row();
-				$customer_id = $field->customer_id;
 				$total_paid = $field->total_paid;
 
-				if (($customer_new != '' || $customer_new != '0') && ($customer_id == $customer_new)) {
-					$zero = 0;
-					$this->db->select('sale_return_main_product.*,SUM(return_quantity*exact_price) as total_return');
-					$this->db->from('sale_return_main_product');
-					$this->db->where('sale_return_main_product.status="' . $zero . '"');
-					$query3 = $this->db->get();
-					$tmp3 = $query3->row();
-					$return_list_id = $tmp3->return_list_id;
-					$total_return = $tmp3->total_return;
+				$zero = 0;
+				$this->db->select('sale_return_main_product.*,SUM(return_quantity*exact_price) as total_return');
+				$this->db->from('sale_return_main_product');
+				$this->db->where('sale_return_main_product.status="' . $zero . '"');
+				$query3 = $this->db->get();
+				$tmp3 = $query3->row();
+				$return_list_id = $tmp3->return_list_id;
+				$total_return = $tmp3->total_return;
 
-					$datareturn = array(
-						'total_amount' => $total_return,
-						'return_adjustment' => $return_adjustment_amount
+				$datareturn = array(
+					'total_amount' => $total_return,
+					'return_adjustment' => $return_adjustment_amount,
+					'type' => 'productreturn'
+				);
+				$this->db->where('srl_id', $return_list_id);
+				$this->db->update('sale_return_list', $datareturn);
+
+				$this->db->select('sale_return_main_product.*, bulk_stock_info.bulk_unit_buy_price');
+				$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id=sale_return_main_product.produ_id', 'left');
+				$this->db->from('sale_return_main_product');
+				$this->db->where('sale_return_main_product.status="' . $zero . '"');
+				$query1 = $this->db->get();
+
+				$return_buy_price = 0;
+				$i = 1;
+				foreach ($query1->result() as $tmp1) {
+					$return_buy_price += ($tmp1->return_quantity * $tmp1->bulk_unit_buy_price);
+					$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
+					$this->db->where('product_id', $tmp1->produ_id);
+					$this->db->update('bulk_stock_info');
+
+					$data1 = array(
+						'customer' => $customer_id,
+						'status' => 1
 					);
-					$this->db->where('srl_id', $return_list_id);
-					$this->db->update('sale_return_list', $datareturn);
+					$this->db->where('status="' . $zero . '"');
+					$this->db->where('srmp_id', $tmp1->srmp_id);
+					$this->db->where('produ_id', $tmp1->produ_id);
+					$this->db->update('sale_return_main_product', $data1);
+					$i++;
+				}
 
-					$this->db->select('sale_return_main_product.*, bulk_stock_info.bulk_unit_buy_price');
-					$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id=sale_return_main_product.produ_id', 'left');
-					$this->db->from('sale_return_main_product');
-					$this->db->where('sale_return_main_product.status="' . $zero . '"');
-					$query1 = $this->db->get();
+				$this->db->select('*');
+				$this->db->from('sale_return_warranty_product');
+				$this->db->where('sale_return_warranty_product.status="' . $zero . '"');
+				$query2 = $this->db->get();
 
-					$return_buy_price = 0;
-					$i = 1;
-					foreach ($query1->result() as $tmp1) {
-						$return_buy_price += ($tmp1->return_quantity * $tmp1->bulk_unit_buy_price);
-						$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
-						$this->db->where('product_id', $tmp1->produ_id);
-						$this->db->update('bulk_stock_info');
-
-						$data1 = array(
-							'customer' => $customer_id,
+				if ($query2->num_rows > 0) {
+					$ii = 1;
+					foreach ($query2->result() as $tmp2) {
+						$data = array(
+							'invoice_id' => 0,
+							'sale_price' => 0,
+							'sale_date' => 0000 - 00 - 00,
 							'status' => 1
 						);
+						$this->db->where('warranty_product_list.ip_id', $tmp2->ip_id);
+						$this->db->where('warranty_product_list.product_id', $tmp2->product_id);
+						$this->db->update('warranty_product_list', $data);
+
+						$this->db->set('status', 'status+' . 1, FALSE);
 						$this->db->where('status="' . $zero . '"');
-						$this->db->where('srmp_id', $tmp1->srmp_id);
-						$this->db->where('produ_id', $tmp1->produ_id);
-						$this->db->update('sale_return_main_product', $data1);
-						$i++;
+						$this->db->where('srwp_id', $tmp2->srwp_id);
+						$this->db->where('srmp_id', $tmp2->srmp_id);
+						$this->db->where('ip_id', $tmp2->ip_id);
+						$this->db->where('product_id', $tmp2->product_id);
+						$this->db->update('sale_return_warranty_product');
+						$ii++;
 					}
-
-					$this->db->select('*');
-					$this->db->from('sale_return_warranty_product');
-					$this->db->where('sale_return_warranty_product.status="' . $zero . '"');
-					$query2 = $this->db->get();
-
-					if ($query2->num_rows > 0) {
-						$ii = 1;
-						foreach ($query2->result() as $tmp2) {
-							$data = array(
-								'invoice_id' => 0,
-								'sale_price' => 0,
-								'sale_date' => 0000 - 00 - 00,
-								'status' => 1
-							);
-							$this->db->where('warranty_product_list.ip_id', $tmp2->ip_id);
-							$this->db->where('warranty_product_list.product_id', $tmp2->product_id);
-							$this->db->update('warranty_product_list', $data);
-
-							$this->db->set('status', 'status+' . 1, FALSE);
-							$this->db->where('status="' . $zero . '"');
-							$this->db->where('srwp_id', $tmp2->srwp_id);
-							$this->db->where('srmp_id', $tmp2->srmp_id);
-							$this->db->where('ip_id', $tmp2->ip_id);
-							$this->db->where('product_id', $tmp2->product_id);
-							$this->db->update('sale_return_warranty_product');
-							$ii++;
-						}
-					}
-					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount. '/' . $return_buy_price);
-				} else {
-					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
 				}
+				redirect('sale/new_active_sale_with_salereturn/' . $total_amount_return . '/' . $return_buy_price . '/' . $customer_id);
 			} else {
-				if ($customer_new != '' || $customer_new != '0') {
-					$zero = 0;
-					$this->db->select('sale_return_main_product.*,SUM(return_quantity*exact_price) as total_return');
-					$this->db->from('sale_return_main_product');
-					$this->db->where('sale_return_main_product.status="' . $zero . '"');
-					$query3 = $this->db->get();
-					$tmp3 = $query3->row();
-					$return_list_id = $tmp3->return_list_id;
-					$total_return = $tmp3->total_return;
-					$datareturn = array(
-						'total_amount' => $total_return,
-						'return_adjustment' => $return_adjustment_amount
+				$zero = 0;
+				$this->db->select('sale_return_main_product.*,SUM(return_quantity*exact_price) as total_return');
+				$this->db->from('sale_return_main_product');
+				$this->db->where('sale_return_main_product.status="' . $zero . '"');
+				$query3 = $this->db->get();
+				$tmp3 = $query3->row();
+				$return_list_id = $tmp3->return_list_id;
+				$total_return = $tmp3->total_return;
+				$datareturn = array(
+					'total_amount' => $total_return,
+					'return_adjustment' => $return_adjustment_amount
+				);
+				$this->db->where('srl_id', $return_list_id);
+				$this->db->update('sale_return_list', $datareturn);
+
+				$this->db->select('sale_return_main_product.*, bulk_stock_info.bulk_unit_buy_price');
+				$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id=sale_return_main_product.produ_id', 'left');
+				$this->db->from('sale_return_main_product');
+				$this->db->where('sale_return_main_product.status="' . $zero . '"');
+				$query1 = $this->db->get();
+				$return_buy_price = 0;
+				$i = 1;
+				foreach ($query1->result() as $tmp1) {
+					$return_buy_price += ($tmp1->return_quantity * $tmp1->bulk_unit_buy_price);
+					$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
+					$this->db->where('product_id', $tmp1->produ_id);
+					$this->db->update('bulk_stock_info');
+
+					$data1 = array(
+						'customer' => $customer_id,
+						'status' => 1
 					);
-					$this->db->where('srl_id', $return_list_id);
-					$this->db->update('sale_return_list', $datareturn);
+					$this->db->where('status="' . $zero . '"');
+					$this->db->where('srmp_id', $tmp1->srmp_id);
+					$this->db->where('produ_id', $tmp1->produ_id);
+					$this->db->update('sale_return_main_product', $data1);
+					$i++;
+				}
 
-					$this->db->select('sale_return_main_product.*, bulk_stock_info.bulk_unit_buy_price');
-					$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id=sale_return_main_product.produ_id', 'left');
-					$this->db->from('sale_return_main_product');
-					$this->db->where('sale_return_main_product.status="' . $zero . '"');
-					$query1 = $this->db->get();
-					$return_buy_price = 0;
-					$i = 1;
-					foreach ($query1->result() as $tmp1) {
-						$return_buy_price += ($tmp1->return_quantity * $tmp1->bulk_unit_buy_price);
-						$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
-						$this->db->where('product_id', $tmp1->produ_id);
-						$this->db->update('bulk_stock_info');
+				$this->db->select('*');
+				$this->db->from('sale_return_warranty_product');
+				$this->db->where('sale_return_warranty_product.status="' . $zero . '"');
+				$query2 = $this->db->get();
 
-						$data1 = array(
-							'customer' => $customer_new,
+
+				if ($query2->num_rows > 0) {
+					$ii = 1;
+					foreach ($query2->result() as $tmp2) {
+						$data = array(
+							'invoice_id' => 0,
+							'sale_price' => 0,
+							'sale_date' => 0000 - 00 - 00,
 							'status' => 1
 						);
+						$this->db->where('warranty_product_list.ip_id', $tmp2->ip_id);
+						$this->db->where('warranty_product_list.product_id', $tmp2->product_id);
+						$this->db->update('warranty_product_list', $data);
+
+						$this->db->set('status', 'status+' . 1, FALSE);
 						$this->db->where('status="' . $zero . '"');
-						$this->db->where('srmp_id', $tmp1->srmp_id);
-						$this->db->where('produ_id', $tmp1->produ_id);
-						$this->db->update('sale_return_main_product', $data1);
-						$i++;
+						$this->db->where('srwp_id', $tmp2->srwp_id);
+						$this->db->where('srmp_id', $tmp2->srmp_id);
+						$this->db->where('ip_id', $tmp2->ip_id);
+						$this->db->where('product_id', $tmp2->product_id);
+						$this->db->update('sale_return_warranty_product');
+						$ii++;
 					}
-
-					$this->db->select('*');
-					$this->db->from('sale_return_warranty_product');
-					$this->db->where('sale_return_warranty_product.status="' . $zero . '"');
-					$query2 = $this->db->get();
-
-
-					if ($query2->num_rows > 0) {
-						$ii = 1;
-						foreach ($query2->result() as $tmp2) {
-							$data = array(
-								'invoice_id' => 0,
-								'sale_price' => 0,
-								'sale_date' => 0000 - 00 - 00,
-								'status' => 1
-							);
-							$this->db->where('warranty_product_list.ip_id', $tmp2->ip_id);
-							$this->db->where('warranty_product_list.product_id', $tmp2->product_id);
-							$this->db->update('warranty_product_list', $data);
-
-							$this->db->set('status', 'status+' . 1, FALSE);
-							$this->db->where('status="' . $zero . '"');
-							$this->db->where('srwp_id', $tmp2->srwp_id);
-							$this->db->where('srmp_id', $tmp2->srmp_id);
-							$this->db->where('ip_id', $tmp2->ip_id);
-							$this->db->where('product_id', $tmp2->product_id);
-							$this->db->update('sale_return_warranty_product');
-							$ii++;
-						}
-					}
-					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount . '/' . $return_buy_price);
-				} else {
-					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
 				}
+				redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount . '/' . $return_buy_price . '/' . $customer_id);
 			}
 		} else if ($re_type == 'cash') {
 			if ($in_type == 'yes') {
@@ -372,233 +370,210 @@ class Salereturn extends MY_controller
 				$this->db->where('invoice_info.invoice_id', $in_id);
 				$query = $this->db->get();
 				$field = $query->row();
-				$customer_id = $field->customer_id;
 				$total_paid = $field->total_paid;
-				if (($customer_new != '' || $customer_new != '0') && ($customer_id == $customer_new)) {
+				$zero = 0;
+				$this->db->select('sale_return_main_product.*,SUM(return_quantity*exact_price) as total_return');
+				$this->db->from('sale_return_main_product');
+				$this->db->where('sale_return_main_product.status="' . $zero . '"');
+				$query3 = $this->db->get();
+				$tmp3 = $query3->row();
+				$return_list_id = $tmp3->return_list_id;
+				$total_return = $tmp3->total_return;
 
-					$zero = 0;
-					$this->db->select('sale_return_main_product.*,SUM(return_quantity*exact_price) as total_return');
-					$this->db->from('sale_return_main_product');
-					$this->db->where('sale_return_main_product.status="' . $zero . '"');
-					$query3 = $this->db->get();
-					$tmp3 = $query3->row();
-					$return_list_id = $tmp3->return_list_id;
-					$total_return = $tmp3->total_return;
+				$datareturn = array(
+					'total_amount' => $total_return,
+					'return_adjustment' => $return_adjustment_amount
+				);
+				$this->db->where('srl_id', $return_list_id);
+				$this->db->update('sale_return_list', $datareturn);
 
-					$datareturn = array(
-						'total_amount' => $total_return,
-						'return_adjustment' => $return_adjustment_amount
+				$transaction_info = array(
+					'transaction_id'         			=> '',
+					'transaction_purpose'               => 'sale_return',
+					'transaction_mode'                 	=> 'cash',
+					'ledger_id'         				=> $customer_id,
+					'common_id'         				=> '',
+					'sub_id'         					=> $return_list_id,
+					'amount'     						=> $tmp3->total_return,
+					'date'                   			=> date('Y-m-d'),
+					'status'        					=> 'active',
+					'creator'        					=> $creator
+				);
+				$this->db->insert('transaction_info', $transaction_info);
+				$insert_id = $this->db->insert_id();
+				$cash_book = array(
+					'cb_id'         					=> '',
+					'transaction_id'                    => $insert_id,
+					'transaction_type'                	=> 'out',
+					'amount'                 			=> $tmp3->total_return,
+					'date'         						=> $bd_date,
+					'status'    	 					=> 'active',
+					'creator'                   		=> $creator
+				);
+
+				$this->db->insert('cash_book', $cash_book);
+
+				$this->db->select('*');
+				$this->db->from('sale_return_main_product');
+				$this->db->where('sale_return_main_product.status="' . $zero . '"');
+				$query1 = $this->db->get();
+				$i = 1;
+				foreach ($query1->result() as $tmp1) {
+					$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
+					$this->db->where('product_id', $tmp1->produ_id);
+					$this->db->update('bulk_stock_info');
+
+					$data1 = array(
+						'customer' => $customer_id,
+						'status'   => 1
 					);
-					$this->db->where('srl_id', $return_list_id);
-					$this->db->update('sale_return_list', $datareturn);
-					if ($total_paid != 0) {
-						$transaction_info = array(
-							'transaction_id'         			=> '',
-							'transaction_purpose'                => 'sale_return',
-							'transaction_mode'                 	=> 'cash',
-							'ledger_id'         					=> $customer_id,
-							'common_id'         					=> '',
-							'sub_id'         					=> $return_list_id,
-							'amount'     						=> $tmp3->total_return,
-							'date'                   			=> date('Y-m-d'),
-							'status'        						=> 'active',
-							'creator'        					=> $creator
-						);
-						$this->db->insert('transaction_info', $transaction_info);
-						$insert_id = $this->db->insert_id();
-						$cash_book = array(
-							'cb_id'         						=> '',
-							'transaction_id'                     => $insert_id,
-							'transaction_type'                	=> 'out',
-							'amount'                 			=> $tmp3->total_return,
-							'date'         						=> $bd_date,
-							'status'    	 						=> 'active',
-							'creator'                   			=> $creator
-						);
-						$this->db->insert('cash_book', $cash_book);
-					} else {
-						$transaction_info = array(
-							'transaction_id'         			=> '',
-							'transaction_purpose'                => 'sale_return',
-							'transaction_mode'                 	=> 'cash',
-							'ledger_id'         					=> $customer_id,
-							'common_id'         					=> '',
-							'sub_id'         					=> $return_list_id,
-							'amount'     						=> $tmp3->total_return,
-							'date'                   			=> date('Y-m-d'),
-							'status'        						=> 'active',
-							'creator'        					=> $creator
-						);
-						$this->db->insert('transaction_info', $transaction_info);
-					}
-					$this->db->select('*');
-					$this->db->from('sale_return_main_product');
-					$this->db->where('sale_return_main_product.status="' . $zero . '"');
-					$query1 = $this->db->get();
-					$i = 1;
-					foreach ($query1->result() as $tmp1) {
-						$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
-						$this->db->where('product_id', $tmp1->produ_id);
-						$this->db->update('bulk_stock_info');
-
-						$data1 = array(
-							'customer' => $customer_id,
-							'status' => 1
-						);
-						$this->db->where('status="' . $zero . '"');
-						$this->db->where('srmp_id', $tmp1->srmp_id);
-						$this->db->where('produ_id', $tmp1->produ_id);
-						$this->db->update('sale_return_main_product', $data1);
-						$i++;
-					}
-
-					$this->db->select('*');
-					$this->db->from('sale_return_warranty_product');
-					$this->db->where('sale_return_warranty_product.status="' . $zero . '"');
-					$query2 = $this->db->get();
-
-
-					if ($query2->num_rows > 0) {
-						$ii = 1;
-						foreach ($query2->result() as $tmp2) {
-							$data = array(
-								'invoice_id' => 0,
-								'sale_price' => 0,
-								'sale_date' => 0000 - 00 - 00,
-								'status' => 1
-							);
-							$this->db->where('warranty_product_list.ip_id', $tmp2->ip_id);
-							$this->db->where('warranty_product_list.product_id', $tmp2->product_id);
-							$this->db->update('warranty_product_list', $data);
-
-							$this->db->set('status', 'status+' . 1, FALSE);
-							$this->db->where('status="' . $zero . '"');
-							$this->db->where('srwp_id', $tmp2->srwp_id);
-							$this->db->where('srmp_id', $tmp2->srmp_id);
-							$this->db->where('ip_id', $tmp2->ip_id);
-							$this->db->where('product_id', $tmp2->product_id);
-							$this->db->update('sale_return_warranty_product');
-							$ii++;
-						}
-					}
-					redirect('salereturn/cash_salereturn/null/null/null/null/success');
-				} else {
-					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
+					$this->db->where('status="' . $zero . '"');
+					$this->db->where('srmp_id', $tmp1->srmp_id);
+					$this->db->where('produ_id', $tmp1->produ_id);
+					$this->db->update('sale_return_main_product', $data1);
+					$i++;
 				}
+
+				$this->db->select('*');
+				$this->db->from('sale_return_warranty_product');
+				$this->db->where('sale_return_warranty_product.status="' . $zero . '"');
+				$query2 = $this->db->get();
+
+
+				if ($query2->num_rows > 0) {
+					$ii = 1;
+					foreach ($query2->result() as $tmp2) {
+						$data = array(
+							'invoice_id' => 0,
+							'sale_price' => 0,
+							'sale_date'  => 0000 - 00 - 00,
+							'status'     => 1
+						);
+						$this->db->where('warranty_product_list.ip_id', $tmp2->ip_id);
+						$this->db->where('warranty_product_list.product_id', $tmp2->product_id);
+						$this->db->update('warranty_product_list', $data);
+
+						$this->db->set('status', 'status+' . 1, FALSE);
+						$this->db->where('status="' . $zero . '"');
+						$this->db->where('srwp_id', $tmp2->srwp_id);
+						$this->db->where('srmp_id', $tmp2->srmp_id);
+						$this->db->where('ip_id', $tmp2->ip_id);
+						$this->db->where('product_id', $tmp2->product_id);
+						$this->db->update('sale_return_warranty_product');
+						$ii++;
+					}
+				}
+				redirect('salereturn/cash_salereturn/null/null/null/null/success');
 			} else {
-				if ($customer_new != '' || $customer_new != '0') {
-					$zero = 0;
-					$this->db->select('sale_return_main_product.*,SUM(return_quantity*exact_price) as total_return');
-					$this->db->from('sale_return_main_product');
-					$this->db->where('sale_return_main_product.status="' . $zero . '"');
-					$query3 = $this->db->get();
-					$tmp3 = $query3->row();
-					$return_list_id = $tmp3->return_list_id;
-					$total_return = $tmp3->total_return;
-					$total_paid = $tmp3->total_paid;
+				$zero = 0;
+				$this->db->select('sale_return_main_product.*,SUM(return_quantity*exact_price) as total_return');
+				$this->db->from('sale_return_main_product');
+				$this->db->where('sale_return_main_product.status="' . $zero . '"');
+				$query3 = $this->db->get();
+				$tmp3 = $query3->row();
+				$return_list_id = $tmp3->return_list_id;
+				$total_return = $tmp3->total_return;
+				$total_paid = $tmp3->total_paid;
 
-					$datareturn = array(
-						'total_amount' => $total_return,
-						'return_adjustment' => $return_adjustment_amount
+				$datareturn = array(
+					'total_amount' => $total_return,
+					'return_adjustment' => $return_adjustment_amount
+				);
+				$this->db->where('srl_id', $return_list_id);
+				$this->db->update('sale_return_list', $datareturn);
+				if ($total_paid != 0) {
+					$transaction_info = array(
+						'transaction_id'         			=> '',
+						'transaction_purpose'               => 'sale_return',
+						'transaction_mode'                 	=> 'cash',
+						'ledger_id'         				=> $customer_id,
+						'common_id'         				=> '',
+						'sub_id'         					=> $return_list_id,
+						'amount'     						=> $tmp3->total_return,
+						'date'                   			=> date('Y-m-d'),
+						'status'        					=> 'active',
+						'creator'        					=> $creator
 					);
-					$this->db->where('srl_id', $return_list_id);
-					$this->db->update('sale_return_list', $datareturn);
-					if ($total_paid != 0) {
-						$transaction_info = array(
-							'transaction_id'         			=> '',
-							'transaction_purpose'                => 'sale_return',
-							'transaction_mode'                 	=> 'cash',
-							'ledger_id'         					=> $customer_new,
-							'common_id'         					=> '',
-							'sub_id'         					=> $return_list_id,
-							'amount'     						=> $tmp3->total_return,
-							'date'                   			=> date('Y-m-d'),
-							'status'        						=> 'active',
-							'creator'        					=> $creator
-						);
-						$this->db->insert('transaction_info', $transaction_info);
-						$insert_id = $this->db->insert_id();
-						$cash_book = array(
-							'cb_id'         						=> '',
-							'transaction_id'                     => $insert_id,
-							'transaction_type'                	=> 'out',
-							'amount'                 			=> $tmp3->total_return,
-							'date'         						=> $bd_date,
-							'status'    	 						=> 'active',
-							'creator'                   			=> $creator
-						);
-						$this->db->insert('cash_book', $cash_book);
-					} else {
-						$transaction_info = array(
-							'transaction_id'         			=> '',
-							'transaction_purpose'                => 'sale_return',
-							'transaction_mode'                 	=> 'cash',
-							'ledger_id'         					=> $customer_new,
-							'common_id'         					=> '',
-							'sub_id'         					=> $return_list_id,
-							'amount'     						=> $tmp3->total_return,
-							'date'                   			=> date('Y-m-d'),
-							'status'        						=> 'active',
-							'creator'        					=> $creator
-						);
-						$this->db->insert('transaction_info', $transaction_info);
-					}
-					$this->db->select('sale_return_main_product.*, bulk_stock_info.bulk_unit_buy_price');
-					$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id=sale_return_main_product.produ_id', 'left');
-					$this->db->from('sale_return_main_product');
-					$this->db->where('sale_return_main_product.status="' . $zero . '"');
-					$query1 = $this->db->get();
-					$return_buy_price = 0;
-					$i = 1;
-					foreach ($query1->result() as $tmp1) {
-						$return_buy_price += ($tmp1->return_quantity * $tmp1->bulk_unit_buy_price);
-						$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
-						$this->db->where('product_id', $tmp1->produ_id);
-						$this->db->update('bulk_stock_info');
-
-						$data1 = array(
-							'customer' => $customer_new,
-							'status' => 1
-						);
-						$this->db->where('status="' . $zero . '"');
-						$this->db->where('srmp_id', $tmp1->srmp_id);
-						$this->db->where('produ_id', $tmp1->produ_id);
-						$this->db->update('sale_return_main_product', $data1);
-						$i++;
-					}
-
-					$this->db->select('*');
-					$this->db->from('sale_return_warranty_product');
-					$this->db->where('sale_return_warranty_product.status="' . $zero . '"');
-					$query2 = $this->db->get();
-
-					if ($query2->num_rows > 0) {
-						$ii = 1;
-						foreach ($query2->result() as $tmp2) {
-							$data = array(
-								'invoice_id' => 0,
-								'sale_price' => 0,
-								'sale_date' => 0000 - 00 - 00,
-								'status' => 1
-							);
-							$this->db->where('warranty_product_list.ip_id', $tmp2->ip_id);
-							$this->db->where('warranty_product_list.product_id', $tmp2->product_id);
-							$this->db->update('warranty_product_list', $data);
-
-							$this->db->set('status', 'status+' . 1, FALSE);
-							$this->db->where('status="' . $zero . '"');
-							$this->db->where('srwp_id', $tmp2->srwp_id);
-							$this->db->where('srmp_id', $tmp2->srmp_id);
-							$this->db->where('ip_id', $tmp2->ip_id);
-							$this->db->where('product_id', $tmp2->product_id);
-							$this->db->update('sale_return_warranty_product');
-							$ii++;
-						}
-					}
-					redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount . '/' . $return_buy_price);
+					$this->db->insert('transaction_info', $transaction_info);
+					$insert_id = $this->db->insert_id();
+					$cash_book = array(
+						'cb_id'         					=> '',
+						'transaction_id'                    => $insert_id,
+						'transaction_type'                	=> 'out',
+						'amount'                 			=> $tmp3->total_return,
+						'date'         						=> $bd_date,
+						'status'    	 					=> 'active',
+						'creator'                   		=> $creator
+					);
+					$this->db->insert('cash_book', $cash_book);
 				} else {
-					redirect('salereturn/cash_salereturn/' . $re_type . '/' . $in_type . '/' . $in_id . '/null/customer');
+					$transaction_info = array(
+						'transaction_id'         			=> '',
+						'transaction_purpose'               => 'sale_return',
+						'transaction_mode'                 	=> 'cash',
+						'ledger_id'         				=> $customer_id,
+						'common_id'         				=> '',
+						'sub_id'         					=> $return_list_id,
+						'amount'     						=> $tmp3->total_return,
+						'date'                   			=> date('Y-m-d'),
+						'status'        					=> 'active',
+						'creator'        					=> $creator
+					);
+					$this->db->insert('transaction_info', $transaction_info);
 				}
+				$this->db->select('sale_return_main_product.*, bulk_stock_info.bulk_unit_buy_price');
+				$this->db->join('bulk_stock_info', 'bulk_stock_info.product_id=sale_return_main_product.produ_id', 'left');
+				$this->db->from('sale_return_main_product');
+				$this->db->where('sale_return_main_product.status="' . $zero . '"');
+				$query1 = $this->db->get();
+				$return_buy_price = 0;
+				$i = 1;
+				foreach ($query1->result() as $tmp1) {
+					$return_buy_price += ($tmp1->return_quantity * $tmp1->bulk_unit_buy_price);
+					$this->db->set('stock_amount', 'stock_amount+' . $tmp1->return_quantity, FALSE);
+					$this->db->where('product_id', $tmp1->produ_id);
+					$this->db->update('bulk_stock_info');
+
+					$data1 = array(
+						'customer' => $customer_id,
+						'status'   => 1
+					);
+					$this->db->where('status="' . $zero . '"');
+					$this->db->where('srmp_id', $tmp1->srmp_id);
+					$this->db->where('produ_id', $tmp1->produ_id);
+					$this->db->update('sale_return_main_product', $data1);
+					$i++;
+				}
+
+				$this->db->select('*');
+				$this->db->from('sale_return_warranty_product');
+				$this->db->where('sale_return_warranty_product.status="' . $zero . '"');
+				$query2 = $this->db->get();
+
+				if ($query2->num_rows > 0) {
+					$ii = 1;
+					foreach ($query2->result() as $tmp2) {
+						$data = array(
+							'invoice_id' => 0,
+							'sale_price' => 0,
+							'sale_date'  => 0000 - 00 - 00,
+							'status'     => 1
+						);
+						$this->db->where('warranty_product_list.ip_id', $tmp2->ip_id);
+						$this->db->where('warranty_product_list.product_id', $tmp2->product_id);
+						$this->db->update('warranty_product_list', $data);
+
+						$this->db->set('status', 'status+' . 1, FALSE);
+						$this->db->where('status="' . $zero . '"');
+						$this->db->where('srwp_id', $tmp2->srwp_id);
+						$this->db->where('srmp_id', $tmp2->srmp_id);
+						$this->db->where('ip_id', $tmp2->ip_id);
+						$this->db->where('product_id', $tmp2->product_id);
+						$this->db->update('sale_return_warranty_product');
+						$ii++;
+					}
+				}
+				redirect('sale/new_active_sale_with_salereturn/' . $return_adjustment_amount . '/' . $return_buy_price . '/' . $customer_id);
 			}
 		}
 	}

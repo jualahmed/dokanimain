@@ -40,8 +40,7 @@
 						<div class="inner">
 						<h3>
 						<?php
-							$due = $sale_price_info - $main_cash_info-$main_credit_receive_info;
-							echo number_format((float)$due, 2, '.', '');
+							echo number_format((float)$due_price_info, 2, '.', '');
 						?>
 						</h3>
 
@@ -59,15 +58,35 @@
 						<div class="inner">
 							<h3>
 							<?php
-								echo number_format((float)$main_credit_receive_info, 2, '.', '');
+								echo number_format((float)$today_credit_receive_info, 2, '.', '');
 							?>
 							</h3>
 
-							<p>Credit Collection</p>
+							<p>Today's Credit Collection</p>
 						</div>
 						<div class="icon">
 							<i class="fa fa-money"></i>
 						</div>
+						<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+					</div>
+				  </div>
+
+
+				  <div class="col-md-3">
+				  	<div class="small-box bg-aqua">
+						<div class="inner">
+							<div class="icon">
+								<i class="fa fa-money"></i>
+							</div>
+							<h3>
+							<?php
+								echo number_format((float)$purchase_info, 2, '.', '');
+							?>
+							</h3>
+
+							<p>Today's Purchase</p>
+						</div>
+						
 						<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 					</div>
 				  </div>
@@ -90,23 +109,24 @@
 				  </div>
 
 				  <div class="col-md-3">
-				  	<div class="small-box bg-aqua">
+				  	<div class="small-box bg-green">
 						<div class="inner">
-							<div class="icon">
-								<i class="fa fa-money"></i>
-							</div>
 							<h3>
 							<?php
-								echo number_format((float)$purchase_info, 2, '.', '');
+								echo number_format((float)$main_credit_receive_info, 2, '.', '');
 							?>
 							</h3>
 
-							<p>Today's Purchase</p>
+							<p>Total Credit Collection</p>
 						</div>
-						
+						<div class="icon">
+							<i class="fa fa-money"></i>
+						</div>
 						<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 					</div>
 				  </div>
+
+				  
 
 				  <div class="col-md-3">
 				  	<div class="small-box bg-primary">
@@ -144,12 +164,13 @@
 			</div>
 		</div>
 
-		<!-- <div class="row">
+		<div class="row">
 			<div class="col-md-12">
 				<?php if ($statment->count()==0): ?>
 					<a href="<?php echo base_url().'admin/dailystatement' ?>" class="btn btn-success">Update Financial Statement</a>
 				<?php endif ?>
+				<a href="<?php echo base_url().'admin/download_database' ?>" class="btn btn-info">Database Backup</a>
 			</div>
-		</div> -->
+		</div>
 	</section>
 </div>

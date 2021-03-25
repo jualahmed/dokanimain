@@ -146,7 +146,7 @@ class Purchase extends MY_Controller
 	      $id = $this->purchase_model->create($data,$receiptDate);
 	      $output = '';
 	      if ($id != -1) {
-	        $jsonData['data'] = $this->purchase_model->all($data);
+	        $jsonData['data'] = $this->purchase_model->all();
 	        $jsonData['success'] = true;
 	      }
 	    }else {
@@ -295,7 +295,7 @@ class Purchase extends MY_Controller
 			$this->db->query("UPDATE purchase_info 
 				JOIN purchase_receipt_info 
 				ON purchase_receipt_info.receipt_id=purchase_info.purchase_receipt_id 
-				SET purchase_info.purchase_quantity = purchase_info.purchase_quantity-5 
+				SET purchase_info.purchase_quantity = purchase_info.purchase_quantity-$return_amount 
 				WHERE `purchase_info`.`product_id` = $pro_id 
 				AND `purchase_receipt_info`.`distributor_id` = $dis_id");
 

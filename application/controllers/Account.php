@@ -33,6 +33,7 @@ class Account extends MY_controller
 		$transaction2 = array();
 		$transaction3 = array();
 		$transaction4 = array();
+		$t_purchase_return = array();
 		$transaction5 = array();
 		$transaction6 = array();
 		$transaction7 = array();
@@ -56,6 +57,9 @@ class Account extends MY_controller
 			} else if ($purpose == 'purchase') {
 				$transaction4 = $this->account_model->all_today_transaction_purchase();
 				$transaction4 = $transaction4->result_array();
+			} else if ($purpose == 'purchase_return') {
+				$t_purchase_return = $this->account_model->all_today_transaction_purchase_return();
+				$t_purchase_return = $t_purchase_return->result_array();
 			} else if ($purpose == 'payment') {
 				$transaction5 = $this->account_model->all_today_transaction_purchase_payment();
 				$transaction5 = $transaction5->result_array();
@@ -67,7 +71,21 @@ class Account extends MY_controller
 				$transaction7 = $transaction7->result_array();
 			}
 		}
-		echo json_encode(array('transaction' => $transaction, 'transaction2' => $transaction2, 'transaction3' => $transaction3, 'transaction4' => $transaction4, 'transaction5' => $transaction5, 'transaction6' => $transaction6, 'transaction7' => $transaction7, 'transaction_sum' => $transaction_sum, 'transaction8' => $transaction8, 'transaction9' => $transaction9));
+		echo json_encode(
+				array(
+				'transaction' => $transaction, 
+				'transaction2' => $transaction2, 
+				'transaction3' => $transaction3, 
+				'transaction4' => $transaction4, 
+				't_purchase_return' => $t_purchase_return, 
+				'transaction5' => $transaction5, 
+				'transaction6' => $transaction6, 
+				'transaction7' => $transaction7, 
+				'transaction_sum' => $transaction_sum, 
+				'transaction8' => $transaction8, 
+				'transaction9' => $transaction9
+			)
+		);
 	}
 
 	public function download_todays_transaction()
@@ -237,6 +255,7 @@ class Account extends MY_controller
 			if ($purpose_id == 1) {
 				$transactions = Transactionm::where(function ($query) {
 					$query->where('transaction_purpose', '=', 'sale')
+						->orWhere('transaction_purpose', '=', 'sale_return')
 						->orWhere('transaction_purpose', '=', 'collection')
 						->orWhere('transaction_purpose', '=', 'credit_collection');
 				});

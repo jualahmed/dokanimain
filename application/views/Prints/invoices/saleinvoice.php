@@ -18,6 +18,13 @@
 			border-bottom: 1px solid #ddd;
 		}
 
+		.CSSTableGenerator thead th,
+		.CSSTableGenerator thead td,
+		.CSSTableGenerator tfoot th,
+		.CSSTableGenerator tfoot td {
+			background: #a6a6a6 !important;
+		}
+
 		#pos_top_header_fourth {
 			font-size: 13px;
 		}
@@ -39,7 +46,7 @@
 
 		.header,
 		.header-space {
-			height: 267px;
+			height: 170px;
 			width: 100%;
 		}
 
@@ -74,6 +81,11 @@
 				-webkit-print-color-adjust: exact !important;
 			}
 		}
+
+		.customer-table th,
+		.customer-table td {
+			line-height: 1 !important;
+		}
 	</style>
 </head>
 </head>
@@ -104,7 +116,7 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 									<div class="CSSTableGenerator" style="width:100%;margin:0px auto;float:left">
 										<table>
 											<tr>
-												<td>SN</td>
+												<td>SL</td>
 												<td style="text-align: left;">Product Name</td>
 												<td>Qty </td>
 												<td style="text-align: right;">Price</td>
@@ -153,13 +165,13 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 													</td>
 													<td style="width:10%;text-align:right;">
 														<?php
-														echo number_format($field->actual_sale_price, 2);
+														echo number_format($field->unit_sale_price, 2);
 														?>
 													</td>
 
 													<td style="width:12%;text-align:right;border-right:0px solid black;">
 														<?php
-														echo number_format(($field->sale_quantity * $field->actual_sale_price), 2);
+														echo number_format(($field->sale_quantity * $field->unit_sale_price), 2);
 														?>
 													</td>
 												</tr>
@@ -171,7 +183,7 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 													<td colspan="2" style="text-align: center;">Total</td>
 													<td style="text-align: center;"><?php echo $totalQuantity; ?></td>
 													<th></th>
-													<td style="text-align: right;"><?php echo number_format($totalActualSalePrice, 2); ?></td>
+													<td style="text-align: right;"><?php echo number_format($totalUnitSalePrice, 2); ?></td>
 												</tr>
 											</tfoot>
 										</table>
@@ -199,24 +211,20 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 								<?php }
 								?>
 								<div style="float: right;width: 70%">
-									<div class="pos_top_header_fourth_left"> Total Price </div>
-									<div class="pos_top_header_fourth_right">
-										<?php
-										echo number_format($totalActualSalePrice, 2);
-										?>
-									</div>
 									<?php if ($row_data->sale_return_amount > 0) { ?>
 										<div class="pos_top_header_fourth_left"> Sale Return</div>
 										<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->sale_return_amount, 2); ?></div>
 									<?php } ?>
-									<!-- <div class ="pos_top_header_fourth_left"> Shop Discount</div>
-							<div class ="pos_top_header_fourth_right"> <?php echo number_format($totalMrp - $totalActualSalePrice, 2); ?></div> -->
+
 									<?php
 									if ($row_data->discount_amount > 0) { ?>
 										<div class="pos_top_header_fourth_left"> Discount </div>
-										<div class="pos_top_header_fourth_right"> <?php echo number_format(($totalUnitSalePrice - $totalActualSalePrice), 2); ?></div>
+										<div class="pos_top_header_fourth_right"> <?php echo number_format(($row_data->discount_amount), 2); ?></div>
 									<?php }
 									?>
+
+									<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 16px;"> Grand Total </div>
+									<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 16px;"> <?php echo number_format($row_data->total_price - $row_data->discount_amount, 2); ?></div>
 
 									<?php
 									$sale_return = $row_data->sale_return_amount;
@@ -225,28 +233,22 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 									<?php
 									if ($sale_return > 0) {
 									?>
-										<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 16px;"> Grand Total</div>
-										<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 16px;"> <?php echo number_format($row_data->total_price - $sale_return - $row_data->discount_amount, 2); ?></div>
 										<div class="pos_top_header_fourth_left"> Paid </div>
-										<?php $total_paid = $row_data->total_price - $sale_return; ?>
 										<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_paid, 2); ?></div>
 									<?php
 									} else {
 									?>
-										<div class="pos_top_header_fourth_left" style="font-weight: bolder;font-size: 16px;"> Grand Total </div>
-										<div class="pos_top_header_fourth_right" style="font-weight: bolder;font-size: 16px;"> <?php echo number_format($row_data->grand_total, 2); ?></div>
 										<div class="pos_top_header_fourth_left"> Received </div>
-										<?php $total_paid = $row_data->total_paid; ?>
-										<div class="pos_top_header_fourth_right"> <?php echo number_format($total_paid, 2); ?></div>
+										<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_paid, 2); ?></div>
 									<?php
 									}
 									?>
 
 									<div class="pos_top_header_fourth_left"> Returned </div>
 									<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->return_money, 2); ?></div>
-									<?php if ($row_data->grand_total > $row_data->total_paid) { ?>
+									<?php if ($row_data->total_price - $row_data->sale_return_amount - $row_data->discount_amount > $row_data->total_paid) { ?>
 										<div class="pos_top_header_fourth_left"> Due </div>
-										<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->grand_total - $row_data->total_paid, 2); ?></div>
+										<div class="pos_top_header_fourth_right"> <?php echo number_format($row_data->total_price - $row_data->sale_return_amount - $row_data->discount_amount - $row_data->total_paid, 2); ?></div>
 									<?php } ?>
 								</div>
 							</div>
@@ -274,17 +276,26 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 					?>
 
 
-					<p><img style="width: 50px;" src="<?php echo base_url(); ?>assets/img/shop/<?php echo $shop_info->logo; ?>" alt=""></p>
-					<h4 style="margin: 0;font-weight: bold"><?php echo $shop_info->shop_name; ?></h4>
-					<p style="margin: 0;font-size: 12px;"> <?php echo ($shop_info->shop_address) ?> </p>
-					<p style="font-size: 12px;font-weight: bold"> <?php echo ($shop_info->shop_contact) ?> </p>
+					<div style="display: flex;justify-content: space-between;align-items: center;">
+						<div style="display: flex;justify-content: space-between;">
+							<p style="width: 50px;"><img style="width: 100%;" src="<?php echo base_url(); ?>assets/img/shop/<?php echo $shop_info->logo; ?>" alt=""></p>
+							<div style="text-align: left;padding-left: 15px;">
+								<h4 style="margin: 0;font-weight: bold"><?php echo $shop_info->shop_name; ?></h4>
+								<p style="margin: 0;font-size: 12px;"> <?php echo ($shop_info->shop_address) ?> </p>
+								<p style="font-size: 12px;font-weight: bold"> <?php echo ($shop_info->shop_contact) ?> </p>
+							</div>
+						</div>
+						<div class="div" style="text-align: right;">
+							<h4 style="margin: 0;font-weight: bold;">Invoice No. : <?php echo $invoice_id; ?></h4>
+							<p style="margin: 0px;font-size:11px;"><?php $newDate = date("d-m-Y", strtotime($row_data->date_time));
+																	echo $newDate; ?> | <?php $newDate1 = date("h:i A", strtotime($row_data->date_time));
+																						echo $newDate1; ?> | <?php echo $row_data->user_full_name; ?></p>
+						</div>
+					</div>
 
-					<h4 style="margin: 0;font-weight: bold;">Invoice No. : <?php echo $invoice_id; ?></h4>
-					<p style="margin: 0px;font-size:11px;"><?php $newDate = date("d-m-Y", strtotime($row_data->date_time));
-															echo $newDate; ?> | <?php $newDate1 = date("h:i A", strtotime($row_data->date_time));
-																				echo $newDate1; ?> | <?php echo $row_data->user_full_name; ?></p>
+
 				</div>
-				<table class="table table-bordered" style="margin-bottom: 20px;">
+				<table class="table customer-table table-bordered" style="margin-bottom: 20px;">
 					<tr>
 						<td>Customer Name: <?php echo empty($row_data->customer_name) ? 'Walk In' : $row_data->customer_name; ?></td>
 						<td>Customer ID: <?php echo $row_data->customer_id; ?></td>
@@ -293,10 +304,6 @@ $pre_blance_show_invoice = $this->config->item('pre_blance_show_invoice');
 
 						<td>Address: <?php echo $row_data->customer_address; ?></td>
 						<td>Contact: <?php echo $row_data->customer_contact_no; ?></td>
-					</tr>
-					<tr>
-						<td>Date: <?php echo date('d-m-Y', strtotime($row_data->invoice_doc)); ?> </td>
-						<td>Creator: <?php echo $row_data->username; ?> </td>
 					</tr>
 				</table>
 			</header>

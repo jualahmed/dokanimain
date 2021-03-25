@@ -83,68 +83,25 @@ class Sale extends MY_Controller
 		$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
 		if ($data['current_sale'] != '') {
 			$key = $this->input->post('term');
-			$data 	= $this->sale_model->search_product($key);
-			$info = [];
-			if (count($data) > 0) {
-				foreach ($data as $tmp) {
-					if ($tmp->stock_amount == '') $stock = 0;
-					else $stock = $tmp->stock_amount;
-					$info[] = array(
-						'id' 						=> $tmp->product_id,
-						'product_name' 				=> $tmp->product_name,
-						'company_name' 				=> $tmp->company_name,
-						'catagory_name' 			=> $tmp->catagory_name,
-						'product_size' 				=> $tmp->product_size,
-						'product_model' 			=> $tmp->product_model,
-						'mrp_price' 				=> $tmp->general_unit_sale_price,
-						'sale_price' 				=> $tmp->bulk_unit_sale_price,
-						'buy_price' 				=> $tmp->bulk_unit_buy_price,
-						'stock' 					=> $stock,
-						'generic_name' 				=> $tmp->group_name,
-						'barcode' 					=> $tmp->barcode,
-						'product_specification' 	=> $tmp->product_specification,
-						'temp_pro_data' 			=> 	$tmp->product_id . '<>' .
-							$tmp->product_name . '<>' .
-							$tmp->stock_amount . '<>' .
-							$tmp->general_unit_sale_price . '<>' .
-							$tmp->bulk_unit_buy_price . '<>' .
-							$tmp->product_specification
-					);
-				}
-			} else {
-				$info[] = array(
-					'id' 						=> '',
-					'product_name' 				=> 'Nothing Found',
-					'company_name' 				=> '',
-					'catagory_name' 			=> '',
-					'product_size' 				=> '',
-					'product_model' 			=> '',
-					'mrp_price' 				=> '',
-					'sale_price' 				=> '',
-					'buy_price' 				=> '',
-					'stock' 					=> '',
-					'generic_name' 				=> '',
-					'barcode' 					=> '',
-					'product_specification' 	=> '',
-					'temp_pro_data' 			=> ''
-				);
-			}
-			echo json_encode($info);
+			$this->searchProduct($key);
 		}
 	}
 
-	public function search_product_by_barcode()
+	public function searchProductForQuotation()
 	{
-		$data['current_sale'] 	= '';
-		$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
-		if ($data['current_sale'] != '') {
-			$barcode = $this->input->post('barcode');
-			$tmp 	= $this->sale_model->search_product_by_barcode($barcode);
-			$info = array();
-			if ($tmp) {
+		$key = $this->input->post('term');
+		$this->searchProduct($key);
+	}
+
+	public function searchProduct($key)
+	{
+		$data 	= $this->sale_model->search_product($key);
+		$info = [];
+		if (count($data) > 0) {
+			foreach ($data as $tmp) {
 				if ($tmp->stock_amount == '') $stock = 0;
 				else $stock = $tmp->stock_amount;
-				$info = array(
+				$info[] = array(
 					'id' 						=> $tmp->product_id,
 					'product_name' 				=> $tmp->product_name,
 					'company_name' 				=> $tmp->company_name,
@@ -165,25 +122,90 @@ class Sale extends MY_Controller
 						$tmp->bulk_unit_buy_price . '<>' .
 						$tmp->product_specification
 				);
-			} else {
-				$info = array(
-					'id' 						=> '',
-					'product_name' 				=> 'Nothing Found',
-					'company_name' 				=> '',
-					'catagory_name' 			=> '',
-					'product_size' 				=> '',
-					'product_model' 			=> '',
-					'mrp_price' 				=> '',
-					'sale_price' 				=> '',
-					'buy_price' 				=> '',
-					'stock' 					=> '',
-					'generic_name' 				=> '',
-					'barcode' 					=> '',
-					'product_specification' 	=> '',
-					'temp_pro_data' 			=> ''
-				);
 			}
-			echo json_encode($info);
+		} else {
+			$info[] = array(
+				'id' 						=> '',
+				'product_name' 				=> 'Nothing Found',
+				'company_name' 				=> '',
+				'catagory_name' 			=> '',
+				'product_size' 				=> '',
+				'product_model' 			=> '',
+				'mrp_price' 				=> '',
+				'sale_price' 				=> '',
+				'buy_price' 				=> '',
+				'stock' 					=> '',
+				'generic_name' 				=> '',
+				'barcode' 					=> '',
+				'product_specification' 	=> '',
+				'temp_pro_data' 			=> ''
+			);
+		}
+		echo json_encode($info);
+	}
+
+	public function searchProductByBarcode($barcode)
+	{
+		$tmp 	= $this->sale_model->search_product_by_barcode($barcode);
+		$info = array();
+		if ($tmp) {
+			if ($tmp->stock_amount == '') $stock = 0;
+			else $stock = $tmp->stock_amount;
+			$info = array(
+				'id' 						=> $tmp->product_id,
+				'product_name' 				=> $tmp->product_name,
+				'company_name' 				=> $tmp->company_name,
+				'catagory_name' 			=> $tmp->catagory_name,
+				'product_size' 				=> $tmp->product_size,
+				'product_model' 			=> $tmp->product_model,
+				'mrp_price' 				=> $tmp->general_unit_sale_price,
+				'sale_price' 				=> $tmp->bulk_unit_sale_price,
+				'buy_price' 				=> $tmp->bulk_unit_buy_price,
+				'stock' 					=> $stock,
+				'generic_name' 				=> $tmp->group_name,
+				'barcode' 					=> $tmp->barcode,
+				'product_specification' 	=> $tmp->product_specification,
+				'temp_pro_data' 			=> 	$tmp->product_id . '<>' .
+					$tmp->product_name . '<>' .
+					$tmp->stock_amount . '<>' .
+					$tmp->general_unit_sale_price . '<>' .
+					$tmp->bulk_unit_buy_price . '<>' .
+					$tmp->product_specification
+			);
+		} else {
+			$info = array(
+				'id' 						=> '',
+				'product_name' 				=> 'Nothing Found',
+				'company_name' 				=> '',
+				'catagory_name' 			=> '',
+				'product_size' 				=> '',
+				'product_model' 			=> '',
+				'mrp_price' 				=> '',
+				'sale_price' 				=> '',
+				'buy_price' 				=> '',
+				'stock' 					=> '',
+				'generic_name' 				=> '',
+				'barcode' 					=> '',
+				'product_specification' 	=> '',
+				'temp_pro_data' 			=> ''
+			);
+		}
+		echo json_encode($info);
+	}
+
+	public function searchProductByBarcodeForQuotation()
+	{
+		$barcode = $this->input->post('barcode');
+		$this->searchProductByBarcode($barcode);
+	}
+
+	public function search_product_by_barcode()
+	{
+		$data['current_sale'] 	= '';
+		$data['current_sale'] 	= $this->tank_auth->get_current_temp_sale();
+		if ($data['current_sale'] != '') {
+			$barcode = $this->input->post('barcode');
+			$this->searchProductByBarcode($barcode);
 		}
 	}
 
@@ -265,6 +287,11 @@ class Sale extends MY_Controller
 		$data['card_info'] 	= $this->bankcard_model->cardall();
 		$data['tmp_item']   		= $this->sale_model->getAllTmpProduct($this->tank_auth->get_current_temp_sale());
 		$data['return_id'] 			= $this->sale_model->getReturnId($this->tank_auth->get_current_temp_sale());
+
+		/**
+		 * In future need to show return customer name in sale
+		 */
+		$data['return_customer'] = $this->sale_model->getReturnCustomer($data['return_id']);
 		$data['return_adjust'] 		= $this->sale_model->getReturnAdjustAmount($this->tank_auth->get_current_temp_sale());
 		$data['return_buy_price'] 		= $this->sale_model->getReturnBuyPrice($this->tank_auth->get_current_temp_sale());
 		$number             		= 0;
@@ -374,6 +401,8 @@ class Sale extends MY_Controller
 			$return_money = 0;
 		}
 
+		$grand_total = $sub_total - $disc_amount;
+
 		$invoice_id = $this->sale_model->doInvoiceInfoTask($customer_id, $sub_total, $cash_commision, $disc_amount, $discount_type, $grand_total, $total_paid, $return_money, $return_adjust, $payable, $delivery_charge);
 
 		$products = $this->sale_model->getAllTmpProduct($this->tank_auth->get_current_temp_sale());
@@ -465,7 +494,8 @@ class Sale extends MY_Controller
 	{
 		$return_amount = $this->uri->segment(3);
 		$return_buy_price = $this->uri->segment(4);
-		$d = $this->sale_model->new_active_sale_with_salereturn($return_amount, $return_buy_price);
+		$customer_id = $this->uri->segment(4);
+		$d = $this->sale_model->new_active_sale_with_salereturn($return_amount, $return_buy_price, $customer_id);
 		$this->tank_auth->set_current_temp_sale($d);
 		redirect('sale/new_sale');
 	}
@@ -502,6 +532,9 @@ class Sale extends MY_Controller
 		$customer_phn   = (string)$this->input->post('customer_phn');
 		$return_adjust 	= (float)$this->input->post('return_adjust');
 		$return_id 		= $this->input->post('return_id');
+
+		$grand_total = $sub_total - $disc_amount;
+
 		if ($customer_name != '' && $customer_phn != '') {
 			$customer_id = $this->sale_model->insertNewCustomer($customer_name, $customer_phn);
 		}
@@ -839,6 +872,7 @@ class Sale extends MY_Controller
 				$result = true;
 				foreach ($quotationDetails->result() as $product) {
 					$product_id = $product->product_id;
+					$stock = $this->db->select('*')->from('bulk_stock_info')->where('product_id', $product_id)->get()->row();
 					$stock_amount = $product->stock_amount - $product->quotation_quantity;
 					$data = array(
 						'temp_sale_id'              => $currrent_temp_sale_id,
@@ -850,10 +884,12 @@ class Sale extends MY_Controller
 						'discount_info_id'          => 0,
 						'discount'                  => $product->discount,
 						'discount_type'             => $product->discount_type,
-						'unit_buy_price'            => $product->unit_buy_price,
+
+						'unit_buy_price'            => $stock->bulk_unit_buy_price,
 						'unit_sale_price'           => $product->unit_sale_price,
-						'general_unit_sale_price'   => $product->general_sale_price,
+						'general_unit_sale_price'   => $stock->general_unit_sale_price,
 						'actual_sale_price'         => $product->actual_sale_price,
+
 						'temp_sale_details_status'  => 1,
 						'item_name'                 => $product->product_name,
 						'stock'                     => $stock_amount
