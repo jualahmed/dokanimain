@@ -109,9 +109,14 @@ class Customer extends MY_Controller {
         else{
         	$rowno=0;
         }
+		$search = $this->input->get('search');
         $allcount = $this->db->count_all('customer_info');
         $this->db->limit($rowperpage, $rowno);
         $this->db->order_by('customer_id', 'desc');
+		if(isset($search) && $search  != '') {
+			$condition = "customer_name LIKE '%$search%' OR customer_contact_no LIKE '%$search%'";
+			$this->db->where($condition);
+		}
         $users_record = $this->db->get('customer_info')->result_array();
         $config['base_url'] = base_url().'customer';
         $config['use_page_numbers'] = TRUE;

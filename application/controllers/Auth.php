@@ -10,6 +10,7 @@ class Auth extends MY_Controller
 		$this->load->library('form_validation');
 		$this->load->helper('security');
 		$this->load->library('tank_auth');
+		$this->load->model('admin_model');
 		$this->lang->load('tank_auth');
 		$this->ci = &get_instance();
 	}
@@ -79,7 +80,7 @@ class Auth extends MY_Controller
 					$data['user_type'] = $this->tank_auth->get_usertype();
 
 					if ($data['user_type'] != 'customer') {
-						(new Admin)->dailystatement();
+						$this->admin_model->daily_statement();
 						redirect('admin');
 					} else {
 						redirect('auth/logout');

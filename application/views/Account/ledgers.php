@@ -148,7 +148,7 @@
 
 																if (
 																	$var->transaction_purpose == 'sale' ||
-																	$var->transaction_purpose == 'sale_return' ||
+																	// $var->transaction_purpose == 'sale_return' ||
 																	$var->transaction_purpose == 'collection' ||
 																	$var->transaction_purpose == 'credit_collection' ||
 																	$var->transaction_purpose == 'purchase' ||

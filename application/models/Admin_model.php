@@ -130,6 +130,57 @@ class Admin_model extends CI_Model
 
 		return false;
 	}
+
+
+	public function daily_statement()
+	{
+		$last_date = '2020-01-01';
+		$date = date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))));
+		$dateList = array();
+		while (!$this->alreadyExist($date) && $date >= $last_date) {
+			array_push($dateList, $date);
+			$date = date('Y-m-d', strtotime('-1 day', strtotime($date)));
+		}
+
+
+		foreach ($dateList as $date) {
+			$dailystatementm = new Dailystatementm();
+			$dailystatementm->date = $date;
+			$dailystatementm->purchase = Transactionm::where('transaction_purpose', 'purchase')->where('date', $date)->sum('amount');
+			$dailystatementm->expense = Transactionm::where('transaction_purpose', 'expense')->where('date', $date)->sum('amount');
+			$dailystatementm->sale = Transactionm::where('transaction_purpose', 'sale')->where('date', $date)->sum('amount');
+			$dailystatementm->sale_discount = Invoicem::where('invoice_doc', $date)->sum('discount_amount');
+			$dailystatementm->receivable_gift = Purchasereceiptinfom::where('receipt_date', $date)->sum('transport_cost');
+			$dailystatementm->transport_cost = Purchasereceiptinfom::where('receipt_date', $date)->sum('gift_on_purchase');
+			$cstock = Bulkstockinfom::selectRaw('SUM(bulk_unit_buy_price * stock_amount) as total')->pluck('total')[0];
+			$totalsale = Invoicem::where('invoice_doc', $date)->sum('total_price');
+			$totalpurchase = Purchaseinfom::selectRaw('SUM(unit_buy_price * purchase_quantity) as total')->where('purchase_doc', $date)->pluck('total')[0];
+			$dailystatementm->stock_current = $cstock;
+			$dailystatementm->stock_opening = ($cstock + $totalsale) - $totalpurchase;
+			$cashIn = Cashbook::where('transaction_type', 'in')->sum('amount');
+			$cashOut = Cashbook::where('transaction_type', 'out')->sum('amount');
+			$dailystatementm->cash_in_hand = $cashIn - $cashOut;
+			$bankIn = Bankbook::where('transaction_type', 'in')->sum('amount');
+			$bankOut = Bankbook::where('transaction_type', 'out')->sum('amount');
+			$dailystatementm->cash_in_bank = $bankIn - $bankOut;
+			$price = $this->db->select('SUM(unit_buy_price * sale_quantity) as total_buy_price, SUM(actual_sale_price * sale_quantity) as total_sale_price')
+				->from('sale_details')
+				->join('invoice_info', 'invoice_info.invoice_id=sale_details.invoice_id', 'left')
+				->where("invoice_doc='$date'")
+				->get()->row();
+			$buyPrice = $price->total_buy_price;
+			$salePrice = $price->total_sale_price;
+			$dailystatementm->gross_profit = $salePrice - $buyPrice;
+			$dailystatementm->save();
+		}
+	}
+
+	public function alreadyExist($date)
+	{
+		$dailystatementm = Dailystatementm::where('date', $date)->first();
+
+		return $dailystatementm ? true : false;
+	}
 }
 
 /* End of file Admin_model.php */

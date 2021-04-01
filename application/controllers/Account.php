@@ -72,17 +72,17 @@ class Account extends MY_controller
 			}
 		}
 		echo json_encode(
-				array(
-				'transaction' => $transaction, 
-				'transaction2' => $transaction2, 
-				'transaction3' => $transaction3, 
-				'transaction4' => $transaction4, 
-				't_purchase_return' => $t_purchase_return, 
-				'transaction5' => $transaction5, 
-				'transaction6' => $transaction6, 
-				'transaction7' => $transaction7, 
-				'transaction_sum' => $transaction_sum, 
-				'transaction8' => $transaction8, 
+			array(
+				'transaction' => $transaction,
+				'transaction2' => $transaction2,
+				'transaction3' => $transaction3,
+				'transaction4' => $transaction4,
+				't_purchase_return' => $t_purchase_return,
+				'transaction5' => $transaction5,
+				'transaction6' => $transaction6,
+				'transaction7' => $transaction7,
+				'transaction_sum' => $transaction_sum,
+				'transaction8' => $transaction8,
 				'transaction9' => $transaction9
 			)
 		);

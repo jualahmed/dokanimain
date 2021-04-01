@@ -7,7 +7,7 @@
 						<h3 class="box-title">Sale Return Report</h3>
 					</div>
 					<div class="box-body">
-						<form action ="<?php echo base_url();?>Report/all_sale_return_report_find" class="form-horizontal" method="post" autocomplete="off" enctype="multipart/form-data" id="form_6">
+						<form action ="<?php echo base_url();?>Report/all_sale_return_report_find" class="form-horizontal" method="post" autocomplete="off" id="form_6">
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-1 control-label">Type</label>
 								<div class="col-sm-2">

@@ -723,8 +723,7 @@ class Report_model extends CI_model
 
 	public function specific_date_due_price($start, $end)
 	{
-
-		$query = $this->db->select('SUM(total_price - discount_amount - total_paid - sale_return_amount) as total_due')
+		$query = $this->db->select('SUM(total_price + return_money - discount_amount - total_paid - sale_return_amount) as total_due')
 			->from('invoice_info')
 			->where('invoice_doc >= "' . $start . '"')
 			->where('invoice_doc <= "' . $end . '"')
@@ -866,9 +865,9 @@ class Report_model extends CI_model
 			->from('transaction_info')
 			->where('transaction_purpose = "credit_collection"');
 
-		if(!empty($start))
+		if (!empty($start))
 			$this->db->where('created_at >= "' . $start . '"')
-			->where('created_at <= "' . $end . '"');
+				->where('created_at <= "' . $end . '"');
 
 		$query = $this->db->get();
 		foreach ($query->result() as $result) :
@@ -972,73 +971,31 @@ class Report_model extends CI_model
 		$start_date = $this->input->post('start_date');
 		$end_date = $this->input->post('end_date');
 		$type = $this->input->post('type');
-		if ($type == 'direct') {
-			$this->db->select('product_info.product_name,sale_return_main_product.return_list_id,product_info.product_id,sale_return_main_product.return_quantity,sale_return_main_product.exact_price,sale_return_main_product.doc,sale_return_list.type');
-			$this->db->from('product_info,sale_return_main_product,sale_return_list');
-			$this->db->where('sale_return_main_product.return_list_id = sale_return_list.srl_id');
-			$this->db->where('sale_return_main_product.produ_id = product_info.product_id');
+
+		$this->db->select('product_info.product_name,sale_return_main_product.return_list_id,product_info.product_id,sale_return_main_product.return_quantity,sale_return_main_product.exact_price,sale_return_main_product.doc,sale_return_list.type');
+		$this->db->from('product_info,sale_return_main_product,sale_return_list');
+		$this->db->where('sale_return_main_product.return_list_id = sale_return_list.srl_id');
+		$this->db->where('sale_return_main_product.produ_id = product_info.product_id');
+		if ($type != '') {
 			$this->db->where('sale_return_list.type="' . $type . '"');
-
-			if ($pro_id != '') {
-				$this->db->where('product_info.product_id', $pro_id);
-			}
-			if ($start_date != '') {
-				$this->db->where('sale_return_main_product.doc >= "' . $start_date . '"');
-			}
-			if ($end_date != '') {
-				$this->db->where('sale_return_main_product.doc <= "' . $end_date . '"');
-			} else if ($start_date != '') {
-				$this->db->where('sale_return_main_product.doc <= "' . $start_date . '"');
-			}
-			$this->db->order_by('sale_return_main_product.srmp_id', 'asc');
-			$this->db->order_by('sale_return_main_product.doc', 'asc');
-			$query = $this->db->get();
-			return $query;
-		} else if ($type == 'indirect') {
-			$this->db->select('product_info.product_name,sale_return_main_product.return_list_id,product_info.product_id,sale_return_main_product.return_quantity,sale_return_main_product.exact_price,sale_return_main_product.doc,sale_return_list.type');
-			$this->db->from('product_info,sale_return_main_product,sale_return_list');
-			$this->db->where('sale_return_main_product.return_list_id = sale_return_list.srl_id');
-			$this->db->where('sale_return_main_product.produ_id = product_info.product_id');
-			$this->db->where('sale_return_list.type="' . $type . '"');
-
-			if ($pro_id != '') {
-				$this->db->where('product_info.product_id', $pro_id);
-			}
-			if ($start_date != '') {
-				$this->db->where('sale_return_main_product.doc >= "' . $start_date . '"');
-			}
-			if ($end_date != '') {
-				$this->db->where('sale_return_main_product.doc <= "' . $end_date . '"');
-			} else if ($start_date != '') {
-				$this->db->where('sale_return_main_product.doc <= "' . $start_date . '"');
-			}
-			$this->db->order_by('sale_return_main_product.srmp_id', 'asc');
-			$this->db->order_by('sale_return_main_product.doc', 'asc');
-			$query = $this->db->get();
-			return $query;
-		} else {
-			$this->db->select('product_info.product_name,sale_return_main_product.return_list_id,product_info.product_id,sale_return_main_product.return_quantity,sale_return_main_product.exact_price,sale_return_main_product.doc,sale_return_list.type');
-			$this->db->from('product_info,sale_return_main_product,sale_return_list');
-			$this->db->where('sale_return_main_product.return_list_id = sale_return_list.srl_id');
-			$this->db->where('sale_return_main_product.produ_id = product_info.product_id');
-
-			if ($pro_id != '') {
-				$this->db->where('product_info.product_id', $pro_id);
-			}
-			if ($start_date != '') {
-				$this->db->where('sale_return_main_product.doc >= "' . $start_date . '"');
-			}
-			if ($end_date != '') {
-				$this->db->where('sale_return_main_product.doc <= "' . $end_date . '"');
-			} else if ($start_date != '') {
-				$this->db->where('sale_return_main_product.doc <= "' . $start_date . '"');
-			}
-			$this->db->group_by('sale_return_main_product.srmp_id');
-			$this->db->order_by('sale_return_main_product.srmp_id', 'asc');
-			$this->db->order_by('sale_return_main_product.doc', 'asc');
-			$query = $this->db->get();
-			return $query;
 		}
+
+		if ($pro_id != '') {
+			$this->db->where('product_info.product_id', $pro_id);
+		}
+		if ($start_date != '') {
+			$this->db->where('sale_return_main_product.doc >= "' . $start_date . '"');
+		}
+		if ($end_date != '') {
+			$this->db->where('sale_return_main_product.doc <= "' . $end_date . '"');
+		} else if ($start_date != '') {
+			$this->db->where('sale_return_main_product.doc <= "' . $start_date . '"');
+		}
+		$this->db->group_by('sale_return_main_product.srmp_id');
+		$this->db->order_by('sale_return_main_product.srmp_id', 'asc');
+		$this->db->order_by('sale_return_main_product.doc', 'asc');
+		$query = $this->db->get();
+		return $query;
 	}
 
 	public function get_purchase_return_info_by_multi($distributor_id, $start_date, $end_date)
