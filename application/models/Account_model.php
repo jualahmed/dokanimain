@@ -2314,7 +2314,8 @@ class Account_model extends CI_model{
 	{
 		$this->db->select('SUM(transaction_info.amount) as total_amount_sale');
 		$this->db->from('transaction_info');			
-		$this->db->where('(transaction_info.transaction_purpose = "sale" OR transaction_info.transaction_purpose = "sale_collection_deleted" OR transaction_info.transaction_purpose = "delivery_charge" OR transaction_info.transaction_purpose = "sale_return")');
+		$this->db->where('(transaction_info.transaction_purpose = "sale" OR transaction_info.transaction_purpose = "sale_collection_deleted" OR transaction_info.transaction_purpose = "delivery_charge")');
+		// $this->db->where('(transaction_info.transaction_purpose = "sale" OR transaction_info.transaction_purpose = "sale_collection_deleted" OR transaction_info.transaction_purpose = "delivery_charge" OR transaction_info.transaction_purpose = "sale_return")');
 		$this->db->where('transaction_info.ledger_id',$customer_id);
 		$this->db->where('transaction_info.date <',$start);
 		$query_data = $this->db->get();
